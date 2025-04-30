@@ -63,18 +63,18 @@ const MaintenanceForm = () => {
       const resData = response.data;
       console.log("resData", resData);
       if (resData.status === "success") {
-        toast.success("তথ্য সফলভাবে সংরক্ষণ হয়েছে!", {
+        toast.success("Info saved successfully!", {
           position: "top-right",
         });
         reset();
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server issue: " + (resData.message || "Unknown error"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server issue: " + errorMessage);
     }
   };
 
@@ -82,14 +82,14 @@ const MaintenanceForm = () => {
     <div className="mt-10">
       <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        মেইনটেনেন্স ফর্ম
+        Maintenance Form
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                মেইনটেনেন্স তারিখ
+                Maintenance Date
               </label>
               <div className="relative">
                 <input
@@ -102,7 +102,9 @@ const MaintenanceForm = () => {
                   className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
                 />
                 {errors.date && (
-                  <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                  <span className="text-red-600 text-sm">
+                    This field is required
+                  </span>
                 )}
                 <span className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r">
                   <FiCalendar
@@ -114,18 +116,20 @@ const MaintenanceForm = () => {
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                সার্ভিসের ধরন
+                Service Type
               </label>
               <select
                 {...register("service_type", { required: true })}
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
-                <option value="">সার্ভিসের ধরন</option>
+                <option value="">Service Type</option>
                 <option value="Maintenance">Maintenance</option>
                 <option value="General">General</option>
               </select>
               {errors.service_type && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
@@ -133,39 +137,43 @@ const MaintenanceForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                পার্টস এন্ড স্পায়ারস
+                Parts and Spares
               </label>
               <select
                 {...register("parts_and_spairs", { require: true })}
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
-                <option value="">পার্টস এন্ড স্পায়ারস</option>
+                <option value="">Parts and Spares</option>
                 <option value="EngineOil">Engine Oil</option>
                 <option value="Pistons">Pistons</option>
                 <option value="ABS_Sensors">ABS Sensors</option>
                 <option value="BrakeDrum">Brake Drum</option>
               </select>
               {errors.parts_and_spairs && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                মেইনটেনেসের ধরন
+                Maintenance Type
               </label>
               <select
                 {...register("maintenance_type", { required: true })}
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
-                <option value="">মেইনটেনেসের ধরন</option>
+                <option value="">Maintenance Type</option>
                 <option value="EngineOil">Engine Oil</option>
                 <option value="Pistons">Pistons</option>
                 <option value="ABS_Sensors">ABS Sensors</option>
                 <option value="BrakeDrum">Brake Drum</option>
               </select>
               {errors.maintenance_type && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
@@ -173,20 +181,22 @@ const MaintenanceForm = () => {
 
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">খরচ</label>
+              <label className="text-primary text-sm font-semibold">Cost</label>
               <input
                 {...register("cost", { required: true })}
                 type="number"
-                placeholder="খরচ ..."
+                placeholder="Cost ..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.cost && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                গাড়ির নম্বার
+                Vehicle Number
               </label>
               <Controller
                 name="vehicle_no"
@@ -200,7 +210,7 @@ const MaintenanceForm = () => {
                     }
                     onChange={(val) => onChange(val ? val.value : "")}
                     options={vehicleOptions}
-                    placeholder="গাড়ির নম্বর নির্বাচন করুন..."
+                    placeholder="Select Vehicle Number..."
                     className="mt-1 text-sm"
                     classNamePrefix="react-select"
                     isClearable
@@ -208,11 +218,15 @@ const MaintenanceForm = () => {
                 )}
               />
               {errors.vehicle_number && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
 
               {errors.vehicle_no && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
           </div>
@@ -220,30 +234,34 @@ const MaintenanceForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                চার্জ বাই
+                Charged By
               </label>
               <input
                 {...register("cost_by", { required: true })}
                 type="text"
-                placeholder="চার্জ বাই..."
+                placeholder="Charged By..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.cost_by && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                সর্বমোট খরচ
+                Total Cost
               </label>
               <input
                 {...register("total_cost", { required: true })}
                 type="number"
-                placeholder="সর্বমোট খরচ..."
+                placeholder="Total Cost..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.total_cost && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
           </div>
@@ -251,25 +269,27 @@ const MaintenanceForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                প্রিয়োরিটি
+                Priority
               </label>
               <select
                 {...register("dignifies", { required: true })}
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
-                <option value="">মর্যাদা...</option>
+                <option value="">Priority...</option>
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>
               </select>
               {errors.dignifies && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                সার্ভিস ফর
+                Service For
               </label>
               <Controller
                 name="service_for"
@@ -281,7 +301,7 @@ const MaintenanceForm = () => {
                     value={driverOptions.find((c) => c.value === value) || null}
                     onChange={(val) => onChange(val ? val.value : "")}
                     options={driverOptions}
-                    placeholder="ড্রাইভারের নাম নির্বাচন করুন..."
+                    placeholder="Select Driver's Name..."
                     className="mt-1 text-sm"
                     classNamePrefix="react-select"
                     isClearable
@@ -289,18 +309,20 @@ const MaintenanceForm = () => {
                 )}
               />
               {errors.service_for && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                ক্যাশ মেমো / কাগজের ছবি
+                Cash Memo / Receipt Image
               </label>
               <div className="relative mt-1">
                 <Controller
                   name="receipt"
                   control={control}
-                  rules={{ required: "পূরণ করতে হবে" }}
+                  rules={{ required: "This field is required" }}
                   render={({
                     field: { onChange, ref },
                     fieldState: { error },
@@ -310,9 +332,7 @@ const MaintenanceForm = () => {
                         htmlFor="receipt"
                         className="border p-2 rounded w-full block bg-white text-gray-500 text-sm cursor-pointer"
                       >
-                        {previewImage
-                          ? "ছবি নির্বাচিত হয়েছে"
-                          : "ছবি বাছাই করুন"}
+                        {previewImage ? "Image Selected" : "Choose Image"}
                       </label>
                       <input
                         id="receipt"
@@ -357,7 +377,7 @@ const MaintenanceForm = () => {
                   </button>
                   <img
                     src={previewImage}
-                    alt="License Preview"
+                    alt="Receipt Preview"
                     className="max-w-xs h-auto rounded border border-gray-300"
                   />
                 </div>
@@ -366,7 +386,7 @@ const MaintenanceForm = () => {
           </div>
 
           <div className="mt-6">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

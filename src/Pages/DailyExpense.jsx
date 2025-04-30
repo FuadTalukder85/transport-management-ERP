@@ -169,14 +169,14 @@ const DailyExpense = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaTruck className="text-[#11375B] text-2xl" />
-            ব্যয়ের তালিকা
+            Expense List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <button
               onClick={() => setShowFilter((prev) => !prev)} // Toggle filter
               className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
-              <FaFilter /> ফিল্টার
+              <FaFilter /> Filter
             </button>
           </div>
         </div>
@@ -208,7 +208,7 @@ const DailyExpense = () => {
                 onClick={() => setCurrentPage(1)}
                 className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
-                <FaFilter /> ফিল্টার
+                <FaFilter /> Filter
               </button>
             </div>
           </div>
@@ -252,7 +252,7 @@ const DailyExpense = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="সার্চ করুন..."
+              placeholder="Search..."
               className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
             />
           </div>
@@ -264,13 +264,13 @@ const DailyExpense = () => {
             <thead className="bg-[#11375B] text-white uppercase text-sm">
               <tr>
                 <th className="px-4 py-3">#</th>
-                <th className="px-4 py-3">তারিখ</th>
-                <th className="px-4 py-3">গাড়িনা.</th>
-                <th className="px-4 py-3">ড্রাইভারের নাম</th>
-                <th className="px-4 py-3">ট্রিপ খরচ</th>
-                <th className="px-4 py-3">অন্যান্য খরচ</th>
-                <th className="px-4 py-3">টোটাল খরচ</th>
-                <th className="px-4 py-3 action_column">অ্যাকশন</th>
+                <th className="px-4 py-3">Date</th>
+                <th className="px-4 py-3">Vehicle No.</th>
+                <th className="px-4 py-3">Driver's Name</th>
+                <th className="px-4 py-3">Trip Cost</th>
+                <th className="px-4 py-3">Other Expenses</th>
+                <th className="px-4 py-3">Total Cost</th>
+                <th className="px-4 py-3 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">

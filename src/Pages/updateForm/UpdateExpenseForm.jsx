@@ -68,39 +68,39 @@ const UpdateExpenseForm = () => {
       console.log("resData", resData);
 
       if (resData.status === "success") {
-        toast.success("দৈনিক ব্যয় সফলভাবে আপডেট হয়েছে!", {
+        toast.success("Daily expense updated successfully!", {
           position: "top-right",
         });
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server issue: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server issue: " + errorMessage);
     }
   };
 
   return (
     <div className="mt-10">
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        দৈনিক ব্যয় আপডেট করুন
+        Update Daily Expense
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Toaster position="top-center" reverseOrder={false} />
-          {/*  */}
+          {/* Trip and Destination Section */}
           <div className="border border-gray-300 p-3 md:p-5 rounded-md">
             <h5 className="text-primary font-semibold text-center md:pb-5">
               <span className="py-2 border-b-2 border-primary">
-                ট্রিপ এবং গন্তব্য সেকশন
+                Trip and Destination Section
               </span>
             </h5>
             <div className="mt-5 md:mt-0 md:flex justify-between gap-3">
               <div className="w-full">
                 <label className="text-primary text-sm font-semibold">
-                  তারিখ *
+                  Date *
                 </label>
                 <div className="relative">
                   <input
@@ -123,7 +123,7 @@ const UpdateExpenseForm = () => {
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  গাড়ির নম্বর
+                  Vehicle Number
                 </label>
                 <select
                   {...register("vehicle_number")}
@@ -137,33 +137,35 @@ const UpdateExpenseForm = () => {
               </div>
             </div>
           </div>
-          {/*  */}
+          {/* Ongoing Expenses */}
           <div className="mt-3 border border-gray-300 p-5 rounded-md">
             <h5 className="text-primary font-semibold text-center pb-5">
-              <span className="py-2 border-b-2 border-primary">চলমান খরচ</span>
+              <span className="py-2 border-b-2 border-primary">
+                Ongoing Expenses
+              </span>
             </h5>
             <div className="md:flex justify-between gap-3">
               <div className="w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  তেলের মূল্য
+                  Fuel Cost
                 </label>
                 <input
                   {...register("fuel_price")}
                   defaultValue={fuel_price}
                   type="text"
-                  placeholder="তেলের মূল্য..."
+                  placeholder="Fuel cost..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  গ্যাসের মূল্য
+                  Gas Cost
                 </label>
                 <input
                   {...register("gas_price")}
                   defaultValue={gas_price}
                   type="text"
-                  placeholder="গ্যাসের মূল্য..."
+                  placeholder="Gas cost..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
@@ -171,37 +173,37 @@ const UpdateExpenseForm = () => {
             <div className="md:flex justify-between gap-3">
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  অন্যান্য খরচ
+                  Other Expenses
                 </label>
                 <input
                   {...register("other_expenses")}
                   defaultValue={other_expenses}
                   type="text"
-                  placeholder="অন্যান্য খরচ..."
+                  placeholder="Other expenses..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
 
               <div className="w-full">
                 <label className="text-primary text-sm font-semibold">
-                  ট্রিপের খরচ
+                  Total Trip Cost
                 </label>
                 <input
                   readOnly
                   value={total}
-                  placeholder="ট্রিপের খরচ..."
+                  placeholder="Total trip cost..."
                   className="cursor-not-allowed mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  ট্রিপের ভাড়া
+                  Trip Fare
                 </label>
                 <input
                   {...register("trip_price")}
                   defaultValue={trip_price}
                   type="text"
-                  placeholder="ট্রিপের ভাড়া..."
+                  placeholder="Trip fare..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
@@ -209,7 +211,7 @@ const UpdateExpenseForm = () => {
           </div>
           {/* Submit Button */}
           <div className="text-left">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

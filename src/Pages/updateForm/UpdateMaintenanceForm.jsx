@@ -90,18 +90,18 @@ const UpdateMaintenanceForm = () => {
 
       const resData = response.data;
       if (resData.status === "success") {
-        toast.success("তথ্য সফলভাবে সংরক্ষণ হয়েছে!", {
+        toast.success("Info updated successfully!", {
           position: "top-right",
         });
         setPreviewImage(null);
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server issue: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
-        error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+        error.response?.data?.message || error.message || "Unknown issue";
+      toast.error("Server issue: " + errorMessage);
     }
   };
 
@@ -118,14 +118,14 @@ const UpdateMaintenanceForm = () => {
     <div className="mt-10">
       <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        মেইনটেনেন্স ফর্ম
+        Maintenance Form
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                মেইনটেনেন্স তারিখ
+                Maintenance Date
               </label>
               <div className="relative">
                 <input
@@ -148,7 +148,7 @@ const UpdateMaintenanceForm = () => {
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                সার্ভিসের ধরন
+                Service Type
               </label>
               <select
                 {...register("service_type")}
@@ -165,7 +165,7 @@ const UpdateMaintenanceForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                পার্টস এন্ড স্পায়ারস
+                Parts & Spares
               </label>
               <select
                 {...register("parts_and_spairs")}
@@ -181,7 +181,7 @@ const UpdateMaintenanceForm = () => {
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                মেইনটেনেসের ধরন
+                Maintenance Category
               </label>
               <select
                 {...register("maintenance_type")}
@@ -199,18 +199,18 @@ const UpdateMaintenanceForm = () => {
 
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">খরচ</label>
+              <label className="text-primary text-sm font-semibold">Cost</label>
               <input
                 {...register("cost")}
                 type="number"
                 defaultValue={cost}
-                placeholder="খরচ ..."
+                placeholder="Cost..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                গাড়ির নম্বর
+                Vehicle Number
               </label>
               <Controller
                 name="vehicle_no"
@@ -236,23 +236,23 @@ const UpdateMaintenanceForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                চার্জ বাই
+                Charged By
               </label>
               <input
                 {...register("cost_by")}
                 defaultValue={cost_by}
-                placeholder="চার্জ বাই..."
+                placeholder="Charged by..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                সর্বমোট খরচ
+                Total Cost
               </label>
               <input
                 {...register("total_cost")}
                 defaultValue={total_cost}
-                placeholder="সর্বমোট খরচ..."
+                placeholder="Total cost..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
@@ -261,7 +261,7 @@ const UpdateMaintenanceForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                প্রিয়োরিটি
+                Priority
               </label>
               <select
                 {...register("dignifies")}
@@ -276,7 +276,7 @@ const UpdateMaintenanceForm = () => {
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                সার্ভিস ফর
+                Service For
               </label>
               <Controller
                 name="service_for"
@@ -287,7 +287,7 @@ const UpdateMaintenanceForm = () => {
                     value={driverOptions.find((c) => c.value === value) || null}
                     onChange={(val) => onChange(val ? val.value : "")}
                     options={driverOptions}
-                    placeholder="ড্রাইভারের নাম নির্বাচন করুন..."
+                    placeholder="Select driver's name..."
                     className="mt-1 text-sm"
                     classNamePrefix="react-select"
                     isClearable
@@ -297,14 +297,14 @@ const UpdateMaintenanceForm = () => {
             </div>
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                ক্যাশ মেমো / কাগজের ছবি
+                Cash Memo / Document Image
               </label>
               <div className="relative mt-1">
                 <label
                   htmlFor="receipt"
                   className="border p-2 rounded w-full block bg-white text-gray-500 text-sm cursor-pointer"
                 >
-                  {previewImage ? "ছবি নির্বাচিত হয়েছে" : "ছবি বাচাই করুন"}
+                  {previewImage ? "Image Selected" : "Choose Image"}
                 </label>
                 <input
                   id="receipt"
@@ -343,7 +343,7 @@ const UpdateMaintenanceForm = () => {
           </div>
 
           <div className="mt-6">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

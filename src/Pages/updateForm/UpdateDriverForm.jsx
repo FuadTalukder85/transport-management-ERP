@@ -60,19 +60,19 @@ const UpdateDriverForm = () => {
 
       const resData = response.data;
       if (resData.status === "success") {
-        toast.success("তথ্য সফলভাবে সংরক্ষণ হয়েছে!", {
+        toast.success("Driver updated successfully!", {
           position: "top-right",
         });
         reset();
         setPreviewImage(null);
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server issue: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server issue: " + errorMessage);
     }
   };
 
@@ -80,7 +80,7 @@ const UpdateDriverForm = () => {
     <div className="mt-10">
       <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        ড্রাইভার তৈরি করুন
+        Create Driver
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -88,25 +88,25 @@ const UpdateDriverForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                ড্রাইভারের নাম
+                Driver Name
               </label>
               <input
                 {...register("name")}
                 defaultValue={name}
                 type="text"
-                placeholder="ড্রাইভারের নাম..."
+                placeholder="Enter driver name..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
             <div className="mt-2 md:mt-0 w-full">
               <label className="text-primary text-sm font-semibold">
-                ড্রাইভারের মোবাইল
+                Driver Mobile
               </label>
               <input
                 {...register("contact")}
                 defaultValue={contact}
                 type="number"
-                placeholder="ড্রাইভারের মোবাইল..."
+                placeholder="Enter driver mobile..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
@@ -116,25 +116,25 @@ const UpdateDriverForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                এন.আই.ডি নাম্বার
+                NID Number
               </label>
               <input
                 {...register("nid")}
                 defaultValue={nid}
                 type="number"
-                placeholder="এন.আই.ডি নাম্বার..."
+                placeholder="Enter NID number..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
             <div className="mt-2 md:mt-0 w-full">
               <label className="text-primary text-sm font-semibold">
-                জরুরী যোগাযোগ
+                Emergency Contact
               </label>
               <input
                 {...register("emergency_contact")}
                 defaultValue={emergency_contact}
                 type="number"
-                placeholder="জরুরী যোগাযোগ নাম্বার..."
+                placeholder="Enter emergency contact..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
@@ -144,25 +144,23 @@ const UpdateDriverForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                ঠিকানা
+                Address
               </label>
               <input
                 {...register("address")}
                 defaultValue={address}
                 type="text"
-                placeholder="ঠিকানা..."
+                placeholder="Enter address..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
             <div className="mt-2 md:mt-0 w-full">
-              <label className="text-primary text-sm font-semibold">
-                বিঃদ্রঃ
-              </label>
+              <label className="text-primary text-sm font-semibold">Note</label>
               <input
                 {...register("note")}
                 defaultValue={note}
                 type="text"
-                placeholder="বিঃদ্রঃ..."
+                placeholder="Any note..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
@@ -172,19 +170,19 @@ const UpdateDriverForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                লাইসেন্স না.
+                License No.
               </label>
               <input
                 {...register("license")}
                 defaultValue={license}
                 type="text"
-                placeholder="লাইসেন্স না. ..."
+                placeholder="Enter license number..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
             <div className="mt-2 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                মেয়াদোত্তীর্ণ তারিখ
+                Expiry Date
               </label>
               <div className="relative">
                 <input
@@ -211,7 +209,7 @@ const UpdateDriverForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                স্ট্যাটাস
+                Status
               </label>
               <select
                 {...register("status")}
@@ -226,14 +224,14 @@ const UpdateDriverForm = () => {
 
             <div className="mt-3 md:mt-0 w-full">
               <label className="text-primary text-sm font-semibold">
-                লাইসেন্সের ছবি যুক্ত করুন
+                Upload License Image
               </label>
               <div className="relative mt-1">
                 <label
                   htmlFor="license_image"
                   className="border p-2 rounded w-full block bg-white text-gray-500 text-sm cursor-pointer"
                 >
-                  {previewImage ? "ছবি নির্বাচিত হয়েছে" : "ছবি বাচাই করুন"}
+                  {previewImage ? "Image Selected" : "Choose Image"}
                 </label>
                 <input
                   {...register("license_image")}
@@ -271,16 +269,11 @@ const UpdateDriverForm = () => {
                 alt="License Preview"
                 className="max-w-xs h-auto rounded border border-gray-300"
               />
-              {/* <img
-                src={previewImage}
-                alt="License Preview"
-                className="max-w-xs h-auto rounded border border-gray-300"
-              /> */}
             </div>
           )}
 
           <div className="mt-6 text-left">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

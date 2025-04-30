@@ -81,24 +81,24 @@ const UpdateFuelForm = () => {
       console.log("resData", resData);
 
       if (resData.status === "success") {
-        toast.success("ফুয়েল সফলভাবে আপডেট হয়েছে!", {
+        toast.success("Fuel updated successfully!", {
           position: "top-right",
         });
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server issue: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
-        error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+        error.response?.data?.message || error.message || "Unknown issue";
+      toast.error("Server issue: " + errorMessage);
     }
   };
 
   return (
     <div className="mt-10">
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        ফুয়েলের তথ্য আপডেট ফর্ম
+        Fuel Information Update Form
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -106,9 +106,7 @@ const UpdateFuelForm = () => {
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
-                তারিখ
-              </label>
+              <label className="text-primary text-sm font-semibold">Date</label>
               <div className="relative">
                 <input
                   type="date"
@@ -130,7 +128,7 @@ const UpdateFuelForm = () => {
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                গাড়ির নম্বর
+                Vehicle Number
               </label>
               <Controller
                 name="vehicle_number"
@@ -157,7 +155,7 @@ const UpdateFuelForm = () => {
           <div className="mt-1 md:flex justify-between gap-3">
             <div className="mt-3 md:mt-1 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                ড্রাইভারের নাম
+                Driver Name
               </label>
               <Controller
                 name="driver_name"
@@ -178,13 +176,13 @@ const UpdateFuelForm = () => {
             </div>
             <div className="mt-3 md:mt-1 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                ট্রিপ আইডি / ইনভয়েস নাম্বার
+                Trip ID / Invoice Number
               </label>
               <input
                 {...register("trip_id_invoice_no")}
                 defaultValue={trip_id_invoice_no}
                 type="text"
-                placeholder="ট্রিপ আইডি / ইনভয়েস নাম্বার..."
+                placeholder="Trip ID / Invoice Number..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
@@ -193,25 +191,25 @@ const UpdateFuelForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="mt-3 md:mt-1 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                পাম্পের নাম ও ঠিকানা
+                Pump Name & Address
               </label>
               <input
                 {...register("pump_name_address")}
                 defaultValue={pump_name_address}
                 type="text"
-                placeholder="পাম্পের নাম ও ঠিকানা..."
+                placeholder="Pump Name & Address..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
             <div className="mt-1 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                ফুয়েল ক্যাপাসিটি
+                Fuel Capacity
               </label>
               <input
                 {...register("capacity")}
                 defaultValue={capacity}
                 type="number"
-                placeholder="ফুয়েল ক্যাপাসিটি..."
+                placeholder="Fuel Capacity..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
@@ -220,7 +218,7 @@ const UpdateFuelForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="mt-3 md:mt-1 w-full">
               <label className="text-primary text-sm font-semibold">
-                তেলের ধরন
+                Fuel Type
               </label>
               <select
                 {...register("type")}
@@ -236,14 +234,14 @@ const UpdateFuelForm = () => {
             </div>
             <div className="mt-1 w-full">
               <label className="text-primary text-sm font-semibold">
-                তেলের পরিমাণ
+                Fuel Quantity
               </label>
               <div className="relative">
                 <input
                   {...register("quantity")}
                   defaultValue={quantity}
                   type="number"
-                  placeholder="তেলের পরিমাণ..."
+                  placeholder="Fuel Quantity..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
@@ -253,19 +251,19 @@ const UpdateFuelForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="mt-3 md:mt-1 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                প্রতি লিটারের দাম
+                Price per Liter
               </label>
               <input
                 {...register("price")}
                 defaultValue={price}
                 type="number"
-                placeholder="প্রতি লিটারের দাম..."
+                placeholder="Price per Liter..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
             <div className="mt-1 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                মোট টাকা
+                Total Price
               </label>
               <input
                 readOnly
@@ -273,14 +271,14 @@ const UpdateFuelForm = () => {
                 defaultValue={total_price}
                 value={total}
                 type="text"
-                placeholder="মোট টাকা..."
+                placeholder="Total Price..."
                 className="cursor-not-allowed mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-gray-200 outline-none"
               />
             </div>
           </div>
           {/* Submit Button */}
           <div className="text-left">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

@@ -172,17 +172,17 @@ const AllUsers = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaTruck className="text-[#11375B] text-2xl" />
-            সকল ইউজারের তালিকা
+            All Users List
           </h1>
           <div className="mt-3 md:mt-0">
             <Link to="/AddUserForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
-                <FaPlus /> ইউজার
+                <FaPlus /> User
               </button>
             </Link>
           </div>
         </div>
-        {/* export */}
+        {/* Export */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
             <CSVLink
@@ -221,7 +221,7 @@ const AllUsers = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="ইউজার খুঁজুন..."
+              placeholder="Search User..."
               className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
             />
           </div>
@@ -232,12 +232,12 @@ const AllUsers = () => {
             <thead className="bg-[#11375B] text-white uppercase text-sm">
               <tr>
                 <th className="px-4 py-3">#</th>
-                <th className="px-4 py-3">নাম</th>
-                <th className="px-4 py-3">মোবাইল</th>
-                <th className="px-4 py-3">ইমেইল</th>
-                <th className="px-4 py-3">ধরন</th>
-                <th className="px-4 py-3">স্ট্যাটাস</th>
-                <th className="px-4 py-3 action_column">অ্যাকশন</th>
+                <th className="px-4 py-3">Name</th>
+                <th className="px-4 py-3">Mobile</th>
+                <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3">Role</th>
+                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -275,7 +275,7 @@ const AllUsers = () => {
           </table>
         </div>
       </div>
-      {/* pagination */}
+      {/* Pagination */}
       <div className="mt-10 flex justify-center">
         <div className="space-x-2 flex items-center">
           <button
@@ -313,7 +313,7 @@ const AllUsers = () => {
           </button>
         </div>
       </div>
-      {/* Delete modal */}
+      {/* Delete Modal */}
       <div className="flex justify-center items-center">
         {isOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-[#000000ad] z-50">
@@ -328,20 +328,20 @@ const AllUsers = () => {
                 <FaTrashAlt />
               </div>
               <p className="text-center text-gray-700 font-medium mb-6">
-                আপনি কি ইউজারটি ডিলিট করতে চান?
+                Do you want to delete this user?
               </p>
               <div className="flex justify-center space-x-4">
                 <button
                   onClick={toggleModal}
                   className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-primary hover:text-white cursor-pointer"
                 >
-                  না
+                  No
                 </button>
                 <button
                   onClick={() => handleDelete(selectedUserId)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 cursor-pointer"
                 >
-                  হ্যাঁ
+                  Yes
                 </button>
               </div>
             </div>

@@ -208,17 +208,18 @@ const CarList = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaTruck className="text-[#11375B] text-2xl" />
-            ড্রাইভারের তালিকা
+            Driver List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/AddDriverForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
-                <FaPlus /> ড্রাইভার
+                <FaPlus /> Add Driver
               </button>
             </Link>
           </div>
         </div>
-        {/* export */}
+
+        {/* Export */}
         <div className="md:flex justify-between mb-4">
           <div className="flex gap-1 md:gap-3 flex-wrap">
             <CSVLink
@@ -260,7 +261,7 @@ const CarList = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="সার্চ করুন..."
+              placeholder="Search..."
               className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
             />
           </div>
@@ -272,14 +273,14 @@ const CarList = () => {
             <thead className="bg-[#11375B] text-white uppercase text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">নাম</th>
-                <th className="px-2 py-3">মোবাইল</th>
-                <th className="px-2 py-3">ঠিকানা</th>
-                <th className="px-2 py-3">জরুরি যোগাযোগ</th>
-                <th className="px-2 py-3">লাইসেন্স</th>
-                <th className="px-2 py-3">লা.মেয়াদোত্তীর্ণ</th>
-                <th className="px-2 py-3">স্ট্যাটাস</th>
-                <th className="px-2 py-3 action_column">অ্যাকশন</th>
+                <th className="px-2 py-3">Name</th>
+                <th className="px-2 py-3">Mobile</th>
+                <th className="px-2 py-3">Address</th>
+                <th className="px-2 py-3">Emergency</th>
+                <th className="px-2 py-3">License</th>
+                <th className="px-2 py-3">Expired</th>
+                <th className="px-2 py-3">Status</th>
+                <th className="px-2 py-3 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -329,7 +330,8 @@ const CarList = () => {
           </table>
         </div>
       </div>
-      {/* pagination */}
+
+      {/* Pagination */}
       <div className="mt-10 flex justify-center">
         <div className="space-x-2 flex items-center">
           <button
@@ -367,7 +369,8 @@ const CarList = () => {
           </button>
         </div>
       </div>
-      {/* Delete modal */}
+
+      {/* Delete Modal */}
       <div className="flex justify-center items-center">
         {isOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-[#000000ad] z-50">
@@ -382,48 +385,49 @@ const CarList = () => {
                 <FaTrashAlt />
               </div>
               <p className="text-center text-gray-700 font-medium mb-6">
-                আপনি কি ড্রাইভারটি ডিলিট করতে চান?
+                Are you sure you want to delete this driver?
               </p>
               <div className="flex justify-center space-x-4">
                 <button
                   onClick={toggleModal}
                   className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-primary hover:text-white cursor-pointer"
                 >
-                  না
+                  No
                 </button>
                 <button
                   onClick={() => handleDelete(selectedDriverId)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 cursor-pointer"
                 >
-                  হ্যাঁ
+                  Yes
                 </button>
               </div>
             </div>
           </div>
         )}
       </div>
-      {/* get driver information by id */}
+
+      {/* View Driver Info Modal */}
       {viewModalOpen && selectedDriver && (
         <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-[#000000ad] z-50">
           <div className="w-4xl p-5 bg-gray-100 rounded-xl mt-10">
-            <h3 className="text-primary font-semibold">ড্রাইভারের তথ্য</h3>
+            <h3 className="text-primary font-semibold">Driver Information</h3>
             <div className="mt-5">
               <ul className="flex border border-gray-300">
                 <li className="w-[428px] flex text-primary font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">নামঃ</p> <p>{selectedDriver.name}</p>
+                  <p className="w-48">Name:</p> <p>{selectedDriver.name}</p>
                 </li>
                 <li className="w-[428px] flex text-primary font-semibold px-3 py-2">
-                  <p className="w-48">মোবাইলঃ</p>{" "}
+                  <p className="w-48">Mobile:</p>{" "}
                   <p>{selectedDriver.contact}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">জরুরি নাম্বারঃ</p>{" "}
+                  <p className="w-48">Emergency Contact:</p>{" "}
                   <p>{selectedDriver.emergency_contact}</p>
                 </li>
                 <li className="w-[428px] flex text-primary font-semibold px-3 py-2">
-                  <p className="w-48">ঠিকানাঃ</p>{" "}
+                  <p className="w-48">Address:</p>{" "}
                   <p>{selectedDriver.address}</p>
                 </li>
               </ul>
@@ -432,24 +436,23 @@ const CarList = () => {
                   <p className="w-48">NID:</p> <p>{selectedDriver.nid}</p>
                 </li>
                 <li className="w-[428px] flex text-primary font-semibold px-3 py-2">
-                  <p className="w-48">লাইসেন্সঃ</p>{" "}
+                  <p className="w-48">License:</p>{" "}
                   <p>{selectedDriver.license}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">লাইসেন্স মেয়াদোত্তীর্ণঃ</p>{" "}
+                  <p className="w-48">License Expiry:</p>{" "}
                   <p>{selectedDriver.expire_date}</p>
                 </li>
                 <li className="w-[428px] flex text-primary font-semibold px-3 py-2">
-                  <p className="w-48">নোটঃ</p>{" "}
+                  <p className="w-48">Note:</p>{" "}
                   <p>{selectedDriver.note || "N/A"}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">স্ট্যাটাসঃ</p>{" "}
-                  <p>{selectedDriver.status}</p>
+                  <p className="w-48">Status:</p> <p>{selectedDriver.status}</p>
                 </li>
               </ul>
               <div className="flex justify-end mt-10">
@@ -457,7 +460,7 @@ const CarList = () => {
                   onClick={() => setViewModalOpen(false)}
                   className="text-white bg-primary py-1 px-2 rounded-md cursor-pointer hover:bg-secondary"
                 >
-                  বন্ধ করুন
+                  Close
                 </button>
               </div>
             </div>

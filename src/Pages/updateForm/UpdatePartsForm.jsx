@@ -12,6 +12,7 @@ const UpdatePartsForm = () => {
   const updatePartsLoaderData = useLoaderData();
   const { id, name, date } = updatePartsLoaderData.data;
   console.log("updatePartsLoaderData", updatePartsLoaderData.data);
+
   const onSubmit = async (data) => {
     try {
       const response = await axios.put(
@@ -28,36 +29,37 @@ const UpdatePartsForm = () => {
       console.log("resData", resData);
 
       if (resData.status === "success") {
-        toast.success("পার্টস সফলভাবে আপডেট হয়েছে!", { position: "top-right" });
+        toast.success("Parts updated successfully!", { position: "top-right" });
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server error: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server error: " + errorMessage);
     }
   };
+
   return (
     <div className="bg-gray-100 py-20">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="flex justify-center items-center z-50">
         <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-lg relative">
           <h2 className="text-xl font-semibold text-[#11375B] mb-4">
-            পার্টস আপডেট করুন
+            Update Parts
           </h2>
-          <form action="" onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <div className="w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  পার্টসের নাম
+                  Part Name
                 </label>
                 <input
                   {...register("name")}
                   defaultValue={name}
                   type="text"
-                  placeholder="পার্টসের নাম..."
+                  placeholder="Enter part name..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
@@ -66,7 +68,7 @@ const UpdatePartsForm = () => {
             <div className="mb-4">
               <div className="w-full">
                 <label className="text-primary text-sm font-semibold">
-                  পার্টসের ভ্যালিডিটি
+                  Part Validity Date
                 </label>
                 <div className="relative">
                   <input
@@ -88,9 +90,9 @@ const UpdatePartsForm = () => {
                 </div>
               </div>
             </div>
-            {/* Submit Button */}
+
             <div className="text-right">
-              <BtnSubmit>সাবমিট করুন</BtnSubmit>
+              <BtnSubmit>Submit</BtnSubmit>
             </div>
           </form>
         </div>

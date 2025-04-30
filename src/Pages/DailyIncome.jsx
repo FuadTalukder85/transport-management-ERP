@@ -171,14 +171,14 @@ const DailyIncome = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaTruck className="text-[#11375B] text-2xl" />
-            আয়ের তালিকা
+            Income List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <button
               onClick={() => setShowFilter((prev) => !prev)}
               className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
-              <FaFilter /> ফিল্টার
+              <FaFilter /> Filter
             </button>
           </div>
         </div>
@@ -210,7 +210,7 @@ const DailyIncome = () => {
                 onClick={() => setCurrentPage(1)}
                 className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
-                <FaFilter /> ফিল্টার
+                <FaFilter /> Filter
               </button>
             </div>
           </div>
@@ -255,7 +255,7 @@ const DailyIncome = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="সার্চ করুন..."
+              placeholder="Search..."
               className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
             />
           </div>
@@ -266,16 +266,16 @@ const DailyIncome = () => {
             <thead className="bg-[#11375B] text-white uppercase text-sm">
               <tr>
                 <th className="px-4 py-3">#</th>
-                <th className="px-4 py-3">তারিখ</th>
-                <th className="px-4 py-3">গাড়ি</th>
-                <th className="px-4 py-3">লোড</th>
-                <th className="px-4 py-3">আনলোড</th>
-                {/* <th className="px-4 py-3">কাস্টমার</th> */}
-                <th className="px-4 py-3">ট্রিপের ভাড়া</th>
-                {/* <th className="px-4 py-3">জরিমানা</th> */}
-                <th className="px-4 py-3">চলমানখরচ</th>
-                <th className="px-4 py-3">লাভ</th>
-                <th className="px-4 py-3 action_column">অ্যাকশন</th>
+                <th className="px-4 py-3">Date</th>
+                <th className="px-4 py-3">Vehicle</th>
+                <th className="px-4 py-3">Load</th>
+                <th className="px-4 py-3">Unload</th>
+                {/* <th className="px-4 py-3">Customer</th> */}
+                <th className="px-4 py-3">Trip Price</th>
+                {/* <th className="px-4 py-3">Fine</th> */}
+                <th className="px-4 py-3">Ongoing Expense</th>
+                <th className="px-4 py-3">Profit</th>
+                <th className="px-4 py-3 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">

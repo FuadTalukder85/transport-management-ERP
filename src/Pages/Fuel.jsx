@@ -210,19 +210,19 @@ const Fuel = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaTruck className="text-[#11375B] text-2xl" />
-            ফুয়েল হিসাব
+            Fuel Account
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/FuelForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
-                <FaPlus /> ফুয়েল
+                <FaPlus /> Add Fuel
               </button>
             </Link>
             <button
               onClick={() => setShowFilter((prev) => !prev)} // Toggle filter
               className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
-              <FaFilter /> ফিল্টার
+              <FaFilter /> Filter
             </button>
           </div>
         </div>
@@ -266,7 +266,7 @@ const Fuel = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="সার্চ করুন..."
+              placeholder="Search..."
               className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
             />
           </div>
@@ -299,7 +299,7 @@ const Fuel = () => {
                 onClick={() => setCurrentPage(1)}
                 className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
-                <FaFilter /> ফিল্টার
+                <FaFilter /> Filter
               </button>
             </div>
           </div>
@@ -309,15 +309,15 @@ const Fuel = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white uppercase text-sm">
               <tr>
-                <th className="px-2 md:px-4 py-3">#</th>
-                <th className="px-2 md:px-4 py-3">ড্রাইভারের নাম</th>
-                <th className="px-2 md:px-4 py-3">গাড়ির নাঃ</th>
-                <th className="px-2 md:px-4 py-3">ফুয়েলের ধরন</th>
-                <th className="px-2 md:px-4 py-3">ফুয়েলিং তারিখ</th>
-                <th className="px-2 md:px-4 py-3">গ্যালন/লিটার</th>
-                <th className="px-2 md:px-4 py-3">লিটার প্রতি খরচ</th>
-                <th className="px-2 md:px-4 py-3">সকল খরচ</th>
-                <th className="px-2 md:px-4 py-3 action_column">অ্যাকশন</th>
+                <th className="px-2 py-3">#</th>
+                <th className="px-2 py-3">Driver's Name</th>
+                <th className="px-2 py-3">Vehicle No.</th>
+                <th className="px-2 py-3">Fuel Type</th>
+                <th className="px-2 py-3">Fueling Date</th>
+                <th className="px-2 py-3">Gallon/Liter</th>
+                <th className="px-2 py-3">Cost per Liter</th>
+                <th className="px-2 py-3">Total Cost</th>
+                <th className="px-2 py-3 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -326,14 +326,14 @@ const Fuel = () => {
                   <td className="px-4 py-4 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-4 py-4">{dt.driver_name}</td>
-                  <td className="px-4 py-4">{dt.vehicle_number}</td>
-                  <td className="px-4 py-4">{dt.type}</td>
-                  <td className="px-4 py-4">{dt.date_time}</td>
-                  <td className="px-4 py-4">{dt.quantity}</td>
-                  <td className="px-4 py-4">{dt.price}</td>
-                  <td className="px-4 py-4">{dt.quantity * dt.price}.00</td>
-                  <td className="px-4 py-4 action_column">
+                  <td className="px-2 py-4">{dt.driver_name}</td>
+                  <td className="px-2 py-4">{dt.vehicle_number}</td>
+                  <td className="px-2 py-4">{dt.type}</td>
+                  <td className="px-2 py-4">{dt.date_time}</td>
+                  <td className="px-2 py-4">{dt.quantity}</td>
+                  <td className="px-2 py-4">{dt.price}</td>
+                  <td className="px-2 py-4">{dt.quantity * dt.price}.00</td>
+                  <td className="px-2 py-4 action_column">
                     <div className="flex gap-2">
                       <Link to={`/UpdateFuelForm/${dt.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
@@ -411,20 +411,20 @@ const Fuel = () => {
                 <FaTrashAlt />
               </div>
               <p className="text-center text-gray-700 font-medium mb-6">
-                আপনি কি ফুয়েলটি ডিলিট করতে চান?
+                Are you sure you want to delete this fuel entry?
               </p>
               <div className="flex justify-center space-x-4">
                 <button
                   onClick={toggleModal}
                   className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-primary hover:text-white cursor-pointer"
                 >
-                  না
+                  No
                 </button>
                 <button
                   onClick={() => handleDelete(selectedFuelId)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 cursor-pointer"
                 >
-                  হ্যাঁ
+                  Yes
                 </button>
               </div>
             </div>

@@ -30,16 +30,16 @@ const AddUserForm = () => {
       const resData = response.data;
       console.log("resData", resData);
       if (resData.status === "success") {
-        toast.success("ইউজার সফলভাবে যোগ হয়েছে!", { position: "top-right" });
+        toast.success("User successfully added!", { position: "top-right" });
         reset();
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server error: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server error: " + errorMessage);
     }
   };
 
@@ -47,7 +47,7 @@ const AddUserForm = () => {
     <div className="mt-10">
       <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        ইউজার যোগ করুন
+        Add User
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -55,30 +55,34 @@ const AddUserForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                নাম *
+                Name *
               </label>
               <input
                 {...register("name", { required: true })}
                 type="text"
-                placeholder="নাম..."
+                placeholder="Name..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.name && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                মোবাইল *
+                Phone *
               </label>
               <input
                 {...register("phone", { required: true })}
                 type="number"
-                placeholder="মোবাইল..."
+                placeholder="Phone..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.phone && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
           </div>
@@ -87,48 +91,54 @@ const AddUserForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                ইমেইল *
+                Email *
               </label>
               <input
                 {...register("email", { required: true })}
                 type="email"
-                placeholder="ইমেইল..."
+                placeholder="Email..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.email && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
             <div className="mt-3 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                পাসওয়ার্ড
+                Password
               </label>
               <input
-                {...register("password", { required: "পাসওয়ার্ড আবশ্যক" })}
+                {...register("password", { required: "Password is required" })}
                 type="password"
-                placeholder="পাসওয়ার্ড..."
+                placeholder="Password..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.password && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
             <div className="mt-3 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                কনফার্ম পাসওয়ার্ড
+                Confirm Password
               </label>
               <input
                 type="password"
-                placeholder="কনফার্ম পাসওয়ার্ড..."
+                placeholder="Confirm Password..."
                 {...register("confirmPassword", {
-                  required: "কনফার্ম পাসওয়ার্ড আবশ্যক",
+                  required: "Confirm Password is required",
                   validate: (value) =>
-                    value === password || "পাসওয়ার্ড মেলেনি",
+                    value === password || "Passwords do not match",
                 })}
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.password && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
           </div>
@@ -137,35 +147,39 @@ const AddUserForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                ইউজারের ধরন
+                User Type
               </label>
               <select
                 {...register("role", { required: true })}
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
-                <option value="">ইউজারের ধরন...</option>
+                <option value="">Select User Type...</option>
                 <option value="User">User</option>
                 <option value="Admin">Admin</option>
               </select>
               {errors.role && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="mt-3 md:mt-0 relative w-full">
               <label className="text-primary text-sm font-semibold">
-                স্ট্যাটাস
+                Status
               </label>
               <select
                 {...register("status", { required: true })}
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
-                <option value="">স্ট্যাটাস...</option>
+                <option value="">Select Status...</option>
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
               </select>
               {errors.status && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
@@ -173,7 +187,7 @@ const AddUserForm = () => {
 
           {/* Submit Button */}
           <div className="mt-6">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

@@ -232,23 +232,23 @@ const TripList = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaTruck className="text-[#11375B] text-2xl" />
-            ট্রিপের হিসাব
+            Trip Records
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/AddTripForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
-                <FaPlus /> ট্রিপ
+                <FaPlus /> Trip
               </button>
             </Link>
             <button
-              onClick={() => setShowFilter((prev) => !prev)} // Toggle filter
+              onClick={() => setShowFilter((prev) => !prev)}
               className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
-              <FaFilter /> ফিল্টার
+              <FaFilter /> Filter
             </button>
           </div>
         </div>
-        {/* export and search*/}
+        {/* export and search */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
             <CSVLink
@@ -288,7 +288,7 @@ const TripList = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="সার্চ করুন..."
+              placeholder="Search..."
               className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
             />
           </div>
@@ -321,7 +321,7 @@ const TripList = () => {
                 onClick={() => setCurrentPage(1)}
                 className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
-                <FaFilter /> ফিল্টার
+                <FaFilter /> Filter
               </button>
             </div>
           </div>
@@ -333,13 +333,13 @@ const TripList = () => {
             <thead className="bg-[#11375B] text-white uppercase text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">তারিখ</th>
-                <th className="px-2 py-3">ড্রাইভার ইনফো</th>
-                <th className="px-2 py-3">ট্রিপ এবং গন্তব্য</th>
-                <th className="px-2 py-3">ট্রিপের খরচ</th>
-                <th className="px-2 py-3">ট্রিপের ভাড়া</th>
-                <th className="px-2 py-3">টোটাল আয়</th>
-                <th className="px-2 py-3 action_column">অ্যাকশন</th>
+                <th className="px-2 py-3">Date</th>
+                <th className="px-2 py-3">Driver Info</th>
+                <th className="px-2 py-3">Trip & Destination</th>
+                <th className="px-2 py-3">Trip Cost</th>
+                <th className="px-2 py-3">Trip Fare</th>
+                <th className="px-2 py-3">Total Profit</th>
+                <th className="px-2 py-3 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -367,15 +367,15 @@ const TripList = () => {
                     </td>
                     <td className="px-2 py-3">{dt.trip_date}</td>
                     <td className="px-2 py-3">
-                      <p>নামঃ {dt.driver_name}</p>
-                      <p>মোবাইলঃ {dt.driver_contact}</p>
-                      <p>কমিশনঃ {dt.driver_percentage}</p>
+                      <p>Name: {dt.driver_name}</p>
+                      <p>Mobile: {dt.driver_contact}</p>
+                      <p>Commission: {dt.driver_percentage}</p>
                     </td>
                     <td className="px-2 py-4">
-                      <p>তারিখঃ {dt.trip_date}</p>
-                      <p>লোড পয়েন্টঃ {dt.load_point}</p>
-                      <p>আনলোড পয়েন্টঃ {dt.unload_point}</p>
-                      <p>ট্রিপের সময়ঃ {dt.trip_time}</p>
+                      <p>Date: {dt.trip_date}</p>
+                      <p>Load Point: {dt.load_point}</p>
+                      <p>Unload Point: {dt.unload_point}</p>
+                      <p>Trip Time: {dt.trip_time}</p>
                     </td>
                     <td className="px-2 py-3">{totalCost}</td>
                     <td className="px-2 py-3">{dt.trip_price}</td>
@@ -413,7 +413,8 @@ const TripList = () => {
           </table>
         </div>
       </div>
-      {/* pagination */}
+
+      {/* Pagination */}
       <div className="mt-10 flex justify-center">
         <div className="space-x-2 flex items-center">
           <button
@@ -451,7 +452,8 @@ const TripList = () => {
           </button>
         </div>
       </div>
-      {/* Delete modal */}
+
+      {/* Delete Modal */}
       <div className="flex justify-center items-center">
         {isOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-[#000000ad] z-50">
@@ -467,102 +469,103 @@ const TripList = () => {
                 <FaTrashAlt />
               </div>
               <p className="text-center text-gray-700 font-medium mb-6">
-                আপনি কি ট্রিপটি ডিলিট করতে চান?
+                Do you want to delete this trip?
               </p>
               <div className="flex justify-center space-x-4">
                 <button
                   onClick={toggleModal}
                   className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-primary hover:text-white cursor-pointer"
                 >
-                  না
+                  No
                 </button>
                 <button
                   onClick={() => handleDelete(selectedTripId)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 cursor-pointer"
                 >
-                  হ্যাঁ
+                  Yes
                 </button>
               </div>
             </div>
           </div>
         )}
       </div>
-      {/* get trip information by id */}
+
+      {/* View Trip Info */}
       {viewModalOpen && selectedTrip && (
         <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-[#000000ad] z-50">
           <div className="w-4xl p-5 bg-gray-100 rounded-xl mt-10">
-            <h3 className="text-primary font-semibold">ট্রিপের তথ্য</h3>
+            <h3 className="text-primary font-semibold">Trip Information</h3>
             <div className="mt-5">
               <ul className="flex border border-gray-300">
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">ট্রিপের সময়</p>{" "}
+                  <p className="w-48">Trip Time</p>{" "}
                   <p>{selectedTrip.trip_time}</p>
                 </li>
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2">
-                  <p className="w-48">ট্রিপের তারিখ</p>{" "}
+                  <p className="w-48">Trip Date</p>{" "}
                   <p>{selectedTrip.trip_date}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">লোড পয়েন্ট</p>{" "}
+                  <p className="w-48">Load Point</p>{" "}
                   <p>{selectedTrip.load_point}</p>
                 </li>
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2">
-                  <p className="w-48">আনলোড পয়েন্ট</p>{" "}
+                  <p className="w-48">Unload Point</p>{" "}
                   <p>{selectedTrip.unload_point}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">ড্রাইভারের নাম</p>{" "}
+                  <p className="w-48">Driver Name</p>{" "}
                   <p>{selectedTrip.driver_name}</p>
                 </li>
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2">
-                  <p className="w-48">ড্রাইভারের মোবাইল</p>{" "}
+                  <p className="w-48">Driver Mobile</p>{" "}
                   <p>{selectedTrip.driver_contact}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">ড্রাইভারের কমিশন</p>{" "}
+                  <p className="w-48">Driver Commission</p>{" "}
                   <p>{selectedTrip.driver_percentage}</p>
                 </li>
                 <li className="w-[428px] flex text-primary font-semibold px-3 py-2">
-                  <p className="w-48">তেলের মূল্য</p>{" "}
+                  <p className="w-48">Fuel Price</p>{" "}
                   <p>{selectedTrip.trip_price}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">গ্যাসের মূল্য</p>{" "}
+                  <p className="w-48">Gas Price</p>{" "}
                   <p>{selectedTrip.gas_price}</p>
                 </li>
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">গাড়ির নম্বর</p>{" "}
+                  <p className="w-48">Vehicle Number</p>{" "}
                   <p>{selectedTrip.vehicle_number}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">অন্যান্য খরচ</p>{" "}
+                  <p className="w-48">Other Expenses</p>{" "}
                   <p>{selectedTrip.other_expenses}</p>
                 </li>
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">ট্রিপের খরচ</p>{" "}
+                  <p className="w-48">Total Cost</p>
                   <p>
                     {(
                       Number(selectedTrip.trip_price) +
                       Number(selectedTrip.gas_price) +
                       Number(selectedTrip.other_expenses) +
                       Number(selectedTrip.driver_percentage)
-                    ).toFixed(2)}{" "}
+                    ).toFixed(2)}
                   </p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">ট্রিপের ভাড়া</p>{" "}
+                  <p className="w-48">Trip Fare</p>{" "}
                   <p>{selectedTrip.trip_price}</p>
                 </li>
               </ul>
@@ -571,7 +574,7 @@ const TripList = () => {
                   onClick={() => setViewModalOpen(false)}
                   className="text-white bg-primary py-1 px-2 rounded-md cursor-pointer hover:bg-secondary"
                 >
-                  বন্ধ করুন
+                  Close
                 </button>
               </div>
             </div>

@@ -68,39 +68,39 @@ const UpdateDailyIncomeForm = () => {
       console.log("resData", resData);
 
       if (resData.status === "success") {
-        toast.success("দৈনিক আয় সফলভাবে আপডেট হয়েছে!", {
+        toast.success("Daily income updated successfully!", {
           position: "top-right",
         });
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server issue: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server issue: " + errorMessage);
     }
   };
 
   return (
     <div className="mt-10">
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        দৈনিক আয় আপডেট করুন
+        Update Daily Income
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Toaster position="top-center" reverseOrder={false} />
-          {/*  */}
+          {/* Trip & Destination Section */}
           <div className="border border-gray-300 p-3 md:p-5 rounded-md">
             <h5 className="text-primary font-semibold text-center md:pb-5">
               <span className="py-2 border-b-2 border-primary">
-                ট্রিপ এবং গন্তব্য সেকশন
+                Trip and Destination Section
               </span>
             </h5>
             <div className="mt-5 md:mt-0 md:flex justify-between gap-3">
               <div className="w-full">
                 <label className="text-primary text-sm font-semibold">
-                  তারিখ *
+                  Date *
                 </label>
                 <div className="relative">
                   <input
@@ -123,7 +123,7 @@ const UpdateDailyIncomeForm = () => {
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  গাড়ির নম্বর
+                  Vehicle Number
                 </label>
                 <select
                   {...register("vehicle_number")}
@@ -136,61 +136,64 @@ const UpdateDailyIncomeForm = () => {
                 <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
               </div>
             </div>
-            {/*  */}
+            {/* Load/Unload Points */}
             <div className="md:flex justify-between gap-3">
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  লোড পয়েন্ট
+                  Load Point
                 </label>
                 <input
                   {...register("load_point")}
                   defaultValue={load_point}
                   type="text"
-                  placeholder="লোড পয়েন্ট..."
+                  placeholder="Load point..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  আনলোড পয়েন্ট
+                  Unload Point
                 </label>
                 <input
                   {...register("unload_point")}
                   defaultValue={unload_point}
                   type="text"
-                  placeholder="আনলোড পয়েন্ট..."
+                  placeholder="Unload point..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
             </div>
           </div>
-          {/*  */}
+
+          {/* Expense Section */}
           <div className="mt-3 border border-gray-300 p-5 rounded-md">
             <h5 className="text-primary font-semibold text-center pb-5">
-              <span className="py-2 border-b-2 border-primary">চলমান খরচ</span>
+              <span className="py-2 border-b-2 border-primary">
+                Current Expenses
+              </span>
             </h5>
             <div className="md:flex justify-between gap-3">
               <div className="w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  তেলের মূল্য
+                  Fuel Price
                 </label>
                 <input
                   {...register("fuel_price")}
                   defaultValue={fuel_price}
                   type="text"
-                  placeholder="তেলের মূল্য..."
+                  placeholder="Fuel price..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  গ্যাসের মূল্য
+                  Gas Price
                 </label>
                 <input
                   {...register("gas_price")}
                   defaultValue={gas_price}
                   type="text"
-                  placeholder="গ্যাসের মূল্য..."
+                  placeholder="Gas price..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
@@ -198,45 +201,46 @@ const UpdateDailyIncomeForm = () => {
             <div className="md:flex justify-between gap-3">
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  অন্যান্য খরচ
+                  Other Expenses
                 </label>
                 <input
                   {...register("other_expenses")}
                   defaultValue={other_expenses}
                   type="text"
-                  placeholder="অন্যান্য খরচ..."
+                  placeholder="Other expenses..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
 
               <div className="w-full">
                 <label className="text-primary text-sm font-semibold">
-                  ট্রিপের খরচ
+                  Trip Cost
                 </label>
                 <input
                   readOnly
                   value={total}
-                  placeholder="ট্রিপের খরচ..."
+                  placeholder="Trip cost..."
                   className="cursor-not-allowed mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  ট্রিপের ভাড়া
+                  Trip Fare
                 </label>
                 <input
                   {...register("trip_price")}
                   defaultValue={trip_price}
                   type="text"
-                  placeholder="ট্রিপের ভাড়া..."
+                  placeholder="Trip fare..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
             </div>
           </div>
+
           {/* Submit Button */}
           <div className="text-left">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

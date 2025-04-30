@@ -6,6 +6,7 @@ import { FiCalendar } from "react-icons/fi";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import Select from "react-select";
 import BtnSubmit from "../components/Button/BtnSubmit";
+
 const FuelForm = () => {
   const fuelDateRef = useRef(null);
   const {
@@ -19,10 +20,10 @@ const FuelForm = () => {
   const quantity = parseFloat(watch("quantity") || 0);
   const price = parseFloat(watch("price") || 0);
   const total = quantity * price;
-  // driver name
+
   const [drivers, setDrivers] = useState([]);
-  // car name / registration number
   const [vehicles, setVehicles] = useState([]);
+
   useEffect(() => {
     fetch("https://api.dropshep.com/api/vehicle")
       .then((response) => response.json())
@@ -34,7 +35,7 @@ const FuelForm = () => {
     value: vehicle.registration_number,
     label: vehicle.registration_number,
   }));
-  // driver name
+
   useEffect(() => {
     fetch("https://api.dropshep.com/api/driver")
       .then((response) => response.json())
@@ -46,6 +47,7 @@ const FuelForm = () => {
     value: driver.name,
     label: driver.name,
   }));
+
   const onSubmit = async (data) => {
     console.log("add fuel data", data);
     data.total_price = total;
@@ -61,25 +63,25 @@ const FuelForm = () => {
       const resData = response.data;
       console.log("resData", resData);
       if (resData.status === "Success") {
-        toast.success("ফুয়েল সফলভাবে সংরক্ষণ হয়েছে!", {
+        toast.success("Fuel saved successfully!", {
           position: "top-right",
         });
         reset();
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server Error: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server Error: " + errorMessage);
     }
   };
 
   return (
     <div className="mt-10">
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        ফুয়েল ফর্ম
+        Fuel Form
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -87,9 +89,7 @@ const FuelForm = () => {
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
-                তারিখ
-              </label>
+              <label className="text-primary text-sm font-semibold">Date</label>
               <div className="relative">
                 <input
                   type="date"
@@ -101,7 +101,7 @@ const FuelForm = () => {
                   className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
                 />
                 {errors.date_time && (
-                  <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                  <span className="text-red-600 text-sm">Required</span>
                 )}
                 <span className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r">
                   <FiCalendar
@@ -113,7 +113,7 @@ const FuelForm = () => {
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                গাড়ির নম্বর
+                Vehicle Number
               </label>
               <Controller
                 name="vehicle_number"
@@ -127,7 +127,7 @@ const FuelForm = () => {
                     }
                     onChange={(val) => onChange(val ? val.value : "")}
                     options={vehicleOptions}
-                    placeholder="গাড়ির নম্বর নির্বাচন করুন..."
+                    placeholder="Select vehicle number..."
                     className="mt-1 text-sm"
                     classNamePrefix="react-select"
                     isClearable
@@ -135,7 +135,7 @@ const FuelForm = () => {
                 )}
               />
               {errors.vehicle_number && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">Required</span>
               )}
             </div>
           </div>
@@ -143,7 +143,7 @@ const FuelForm = () => {
           <div className="mt-1 md:flex justify-between gap-3">
             <div className="mt-3 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                ড্রাইভারের নাম
+                Driver Name
               </label>
               <Controller
                 name="driver_name"
@@ -155,7 +155,7 @@ const FuelForm = () => {
                     value={driverOptions.find((c) => c.value === value) || null}
                     onChange={(val) => onChange(val ? val.value : "")}
                     options={driverOptions}
-                    placeholder="ড্রাইভারের নাম নির্বাচন করুন..."
+                    placeholder="Select driver name..."
                     className="mt-1 text-sm"
                     classNamePrefix="react-select"
                     isClearable
@@ -163,17 +163,17 @@ const FuelForm = () => {
                 )}
               />
               {errors.driver_name && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">Required</span>
               )}
             </div>
             <div className="mt-3 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                ট্রিপ আইডি / ইনভয়েস নাম্বার
+                Trip ID / Invoice Number
               </label>
               <input
                 {...register("trip_id_invoice_no")}
                 type="text"
-                placeholder="ট্রিপ আইডি / ইনভয়েস নাম্বার..."
+                placeholder="Trip ID / Invoice Number..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
@@ -182,26 +182,26 @@ const FuelForm = () => {
           <div className="mt-1 md:flex justify-between gap-3">
             <div className="mt-3 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                পাম্পের নাম ও ঠিকানা
+                Pump Name & Address
               </label>
               <input
                 {...register("pump_name_address", { required: true })}
                 type="text"
-                placeholder="পাম্পের নাম ও ঠিকানা..."
+                placeholder="Pump name and address..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.pump_name_address && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">Required</span>
               )}
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                ফুয়েল ক্যাপাসিটি
+                Fuel Capacity
               </label>
               <input
                 {...register("capacity")}
                 type="number"
-                placeholder="ফুয়েল ক্যাপাসিটি..."
+                placeholder="Fuel capacity..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
@@ -210,36 +210,36 @@ const FuelForm = () => {
           <div className="mt-1 md:flex justify-between gap-3">
             <div className="relative mt-3 md:mt-0 w-full">
               <label className="text-primary text-sm font-semibold">
-                তেলের ধরন
+                Fuel Type
               </label>
               <select
                 {...register("type", { required: true })}
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
-                <option value="">তেলের ধরন</option>
+                <option value="">Select fuel type</option>
                 <option value="Octen">Octen</option>
                 <option value="Gas">Gas</option>
                 <option value="Petroll">Petroll</option>
                 <option value="Diesel">Diesel</option>
               </select>
               {errors.type && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">Required</span>
               )}
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                তেলের পরিমাণ
+                Quantity
               </label>
               <div className="relative">
                 <input
                   {...register("quantity", { required: true })}
                   type="number"
-                  placeholder="তেলের পরিমাণ..."
+                  placeholder="Fuel quantity..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
                 {errors.quantity && (
-                  <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                  <span className="text-red-600 text-sm">Required</span>
                 )}
               </div>
             </div>
@@ -248,21 +248,21 @@ const FuelForm = () => {
           <div className="mt-1 md:flex justify-between gap-3">
             <div className="mt-3 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                প্রতি লিটারের দাম
+                Price per Liter
               </label>
               <input
                 {...register("price", { required: true })}
                 type="number"
-                placeholder="প্রতি লিটারের দাম..."
+                placeholder="Price per liter..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.price && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">Required</span>
               )}
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                মোট টাকা
+                Total Amount
               </label>
               <input
                 readOnly
@@ -270,14 +270,14 @@ const FuelForm = () => {
                 type="number"
                 defaultValue={total}
                 value={total}
-                placeholder="মোট টাকা..."
+                placeholder="Total amount..."
                 className="cursor-not-allowed mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-gray-200 outline-none"
               />
             </div>
           </div>
           {/* Submit Button */}
           <div className="text-left">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

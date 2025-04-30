@@ -36,18 +36,18 @@ const AddDriverForm = () => {
       const resData = response.data;
       console.log("resData", resData);
       if (resData.status === "success") {
-        toast.success("তথ্য সফলভাবে সংরক্ষণ হয়েছে!", {
+        toast.success("Driver saved successfully", {
           position: "top-right",
         });
         reset();
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server issue: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server issue: " + errorMessage);
     }
   };
 
@@ -55,7 +55,7 @@ const AddDriverForm = () => {
     <div className="mt-10">
       <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        ড্রাইভার তৈরি করুন
+        Create Driver
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -63,30 +63,34 @@ const AddDriverForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                ড্রাইভারের নাম *
+                Driver Name *
               </label>
               <input
                 {...register("name", { required: true })}
                 type="text"
-                placeholder="ড্রাইভারের নাম..."
+                placeholder="Enter driver name..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.name && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
             <div className="mt-2 md:mt-0 w-full">
               <label className="text-primary text-sm font-semibold">
-                ড্রাইভারের মোবাইল *
+                Driver Mobile *
               </label>
               <input
                 {...register("contact", { required: true })}
                 type="number"
-                placeholder="ড্রাইভারের মোবাইল..."
+                placeholder="Enter mobile number..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />{" "}
+              />
               {errors.contact && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
           </div>
@@ -95,30 +99,34 @@ const AddDriverForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                এন.আই.ডি নাম্বার *
+                NID Number *
               </label>
               <input
                 {...register("nid", { required: true })}
                 type="number"
-                placeholder="এন.আই.ডি নাম্বার..."
+                placeholder="Enter NID number..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.nid && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
             <div className="mt-2 md:mt-0 w-full">
               <label className="text-primary text-sm font-semibold">
-                জরুরী যোগাযোগ
+                Emergency Contact
               </label>
               <input
                 {...register("emergency_contact")}
                 type="number"
-                placeholder="জরুরী যোগাযোগ নাম্বার..."
+                placeholder="Enter emergency contact..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.emergency_contact && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
           </div>
@@ -127,26 +135,26 @@ const AddDriverForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                ঠিকানা *
+                Address *
               </label>
               <input
                 {...register("address", { required: true })}
                 type="text"
-                placeholder="ঠিকানা..."
+                placeholder="Enter address..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.address && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
             <div className="mt-2 md:mt-0 w-full">
-              <label className="text-primary text-sm font-semibold">
-                বিঃদ্রঃ
-              </label>
+              <label className="text-primary text-sm font-semibold">Note</label>
               <input
                 {...register("note")}
                 type="text"
-                placeholder="বিঃদ্রঃ..."
+                placeholder="Enter note..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
@@ -156,21 +164,23 @@ const AddDriverForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                লাইসেন্স না. *
+                License No. *
               </label>
               <input
                 {...register("license", { required: true })}
                 type="text"
-                placeholder="লাইসেন্স না. ..."
+                placeholder="Enter license number..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.license && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
             </div>
             <div className="mt-2 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                মেয়াদোত্তীর্ণ তারিখ *
+                Expiry Date *
               </label>
               <div className="relative">
                 <input
@@ -183,7 +193,9 @@ const AddDriverForm = () => {
                   className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
                 />
                 {errors.expire_date && (
-                  <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                  <span className="text-red-600 text-sm">
+                    This field is required
+                  </span>
                 )}
                 <span className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r">
                   <FiCalendar
@@ -199,31 +211,33 @@ const AddDriverForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                স্ট্যাটাস *
+                Status *
               </label>
               <select
                 {...register("status", { required: true })}
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
-                <option value="">স্ট্যাটাস নির্বাচন করুন</option>
+                <option value="">Select status</option>
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
               </select>
               {errors.status && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
 
             <div className="mt-3 md:mt-0 w-full">
               <label className="text-primary text-sm font-semibold">
-                লাইসেন্সের ছবি যুক্ত করুন
+                Upload License Image
               </label>
               <div className="relative mt-1">
                 <Controller
                   name="license_image"
                   control={control}
-                  rules={{ required: "পূরণ করতে হবে" }}
+                  rules={{ required: "This field is required" }}
                   render={({
                     field: { onChange, ref },
                     fieldState: { error },
@@ -233,9 +247,7 @@ const AddDriverForm = () => {
                         htmlFor="license_image"
                         className="border p-2 rounded w-full block bg-white text-gray-500 text-sm cursor-pointer"
                       >
-                        {previewImage
-                          ? "ছবি নির্বাচিত হয়েছে"
-                          : "ছবি বাছাই করুন"}
+                        {previewImage ? "Image selected" : "Choose image"}
                       </label>
                       <input
                         id="license_image"
@@ -248,7 +260,7 @@ const AddDriverForm = () => {
                           if (file) {
                             const url = URL.createObjectURL(file);
                             setPreviewImage(url);
-                            onChange(file); // ✅ Very important: update form field
+                            onChange(file);
                           } else {
                             setPreviewImage(null);
                             onChange(null);
@@ -290,7 +302,7 @@ const AddDriverForm = () => {
           )}
 
           <div className="mt-6 text-left">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

@@ -67,15 +67,17 @@ const UpdateCarForm = () => {
       console.log("resData", resData);
 
       if (resData.status === "Vehicle updated successfully") {
-        toast.success("গাড়ি সফলভাবে আপডেট হয়েছে!", { position: "top-right" });
+        toast.success("Vehicle updated successfully!", {
+          position: "top-right",
+        });
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server issue: " + (resData.message || "Unknown error"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server issue: " + errorMessage);
     }
   };
 
@@ -83,14 +85,14 @@ const UpdateCarForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
       <Toaster position="top-center" reverseOrder={false} />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        গাড়ির তথ্য আপডেট করুন
+        Update Vehicle Information
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow space-y-4">
         {/* Vehicle & Driver Name */}
         <div className="md:flex justify-between gap-3">
           <div className="w-full">
             <label className="text-primary text-sm font-semibold">
-              গাড়ির নাম
+              Vehicle Name
             </label>
             <input
               {...register("vehicle_name")}
@@ -101,7 +103,7 @@ const UpdateCarForm = () => {
           </div>
           <div className="relative mt-2 md:mt-0 w-full">
             <label className="text-primary text-sm font-semibold">
-              ড্রাইভারের নাম
+              Driver's Name
             </label>
             <Controller
               name="driver_name"
@@ -112,7 +114,7 @@ const UpdateCarForm = () => {
                   value={driverOptions.find((c) => c.value === value) || null}
                   onChange={(val) => onChange(val ? val.value : "")}
                   options={driverOptions}
-                  placeholder="ড্রাইভারের নাম নির্বাচন করুন..."
+                  placeholder="Select Driver's Name..."
                   className="mt-1 text-sm"
                   classNamePrefix="react-select"
                   isClearable
@@ -126,25 +128,25 @@ const UpdateCarForm = () => {
         <div className="md:flex justify-between gap-3">
           <div className="relative w-full">
             <label className="text-primary text-sm font-semibold">
-              গাড়ির ধরন
+              Vehicle Type
             </label>
             <select
               {...register("category")}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
               <option value={category}>{category}</option>
-              <option value="Truck">ট্রাক</option>
-              <option value="Pickup">পিকআপ</option>
-              <option value="Covered Van">কভার্ড ভ্যান</option>
-              <option value="Trailer">ট্রেইলর</option>
-              <option value="Fridge Van">ফ্রিজার ভ্যান</option>
-              <option value="Car">কার</option>
+              <option value="Truck">Truck</option>
+              <option value="Pickup">Pickup</option>
+              <option value="Covered Van">Covered Van</option>
+              <option value="Trailer">Trailer</option>
+              <option value="Fridge Van">Fridge Van</option>
+              <option value="Car">Car</option>
             </select>
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
           </div>
           <div className="relative mt-2 md:mt-0 w-full">
             <label className="text-primary text-sm font-semibold">
-              গাড়ির সাইজ
+              Vehicle Size
             </label>
             <select
               {...register("size")}
@@ -168,32 +170,32 @@ const UpdateCarForm = () => {
         <div className="md:flex justify-between gap-3">
           <div className="w-full">
             <label className="text-primary text-sm font-semibold">
-              রেজিস্ট্রেশন নাম্বার
+              Registration Number
             </label>
             <input
               {...register("registration_number")}
               defaultValue={registration_number}
               type="text"
-              placeholder=" রেজিস্ট্রেশন নাম্বার..."
+              placeholder="Registration Number..."
               className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
             />
           </div>
           <div className="relative mt-2 md:mt-0 w-full">
             <label className="text-primary text-sm font-semibold">
-              রেজিস্ট্রেশন সিরিয়াল
+              Registration Serial
             </label>
             <select
               {...register("registration_serial")}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
               <option value={registration_serial}>{registration_serial}</option>
-              <option value="Ta">ট</option>
-              <option value="Tha">ঠ</option>
-              <option value="Da">ড</option>
-              <option value="Dha">ঢ</option>
-              <option value="Na">ন</option>
-              <option value="M">ম</option>
-              <option value="Sh">শ</option>
+              <option value="Ta">T</option>
+              <option value="Tha">Th</option>
+              <option value="Da">D</option>
+              <option value="Dha">Dh</option>
+              <option value="Na">N</option>
+              <option value="M">M</option>
+              <option value="Sh">Sh</option>
             </select>
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
           </div>
@@ -203,7 +205,7 @@ const UpdateCarForm = () => {
         <div className="md:flex justify-between gap-3">
           <div className="relative w-full">
             <label className="text-primary text-sm font-semibold">
-              রেজিস্ট্রেশন এলাকা
+              Registration Zone
             </label>
             <select
               {...register("registration_zone")}
@@ -211,92 +213,92 @@ const UpdateCarForm = () => {
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
               <option value={registration_zone}>{registration_zone}</option>
-              <option value="Dhaka Metro">ঢাকা মেট্রো</option>
-              <option value="Chatto Metro">চট্ট মেট্রো</option>
-              <option value="Sylhet Metro">সিলেট মেট্রো</option>
-              <option value="Rajshahi Metro">রাজশাহী মেট্রো</option>
-              <option value="Khulna Metro">খুলনা মেট্রো</option>
-              <option value="Rangpur Metro">রংপুর মেট্রো</option>
-              <option value="Barisal Metro">বরিশাল মেট্রো</option>
+              <option value="Dhaka Metro">Dhaka Metro</option>
+              <option value="Chatto Metro">Chattogram Metro</option>
+              <option value="Sylhet Metro">Sylhet Metro</option>
+              <option value="Rajshahi Metro">Rajshahi Metro</option>
+              <option value="Khulna Metro">Khulna Metro</option>
+              <option value="Rangpur Metro">Rangpur Metro</option>
+              <option value="Barisal Metro">Barisal Metro</option>
 
-              <option value="Dhaka">ঢাকা</option>
-              <option value="Narayanganj">নারায়ণগঞ্জ</option>
-              <option value="Gazipur">গাজীপুর</option>
-              <option value="Tangail">টাঙ্গাইল</option>
-              <option value="Manikgonj">মানিকগঞ্জ</option>
-              <option value="Munshigonj">মুন্সিগঞ্জ</option>
-              <option value="Faridpur">ফরিদপুর</option>
-              <option value="Rajbari">রাজবাড়ী</option>
-              <option value="Narsingdi">নরসিংদী</option>
-              <option value="Kishorgonj">কিশোরগঞ্জ</option>
-              <option value="Shariatpur">শরীয়তপুর</option>
-              <option value="Gopalgonj">গোপালগঞ্জ</option>
-              <option value="Madaripur">মাদারীপুর</option>
+              <option value="Dhaka">Dhaka</option>
+              <option value="Narayanganj">Narayanganj</option>
+              <option value="Gazipur">Gazipur</option>
+              <option value="Tangail">Tangail</option>
+              <option value="Manikgonj">Manikganj</option>
+              <option value="Munshigonj">Munshiganj</option>
+              <option value="Faridpur">Faridpur</option>
+              <option value="Rajbari">Rajbari</option>
+              <option value="Narsingdi">Narsingdi</option>
+              <option value="Kishorgonj">Kishoreganj</option>
+              <option value="Shariatpur">Shariatpur</option>
+              <option value="Gopalgonj">Gopalganj</option>
+              <option value="Madaripur">Madaripur</option>
 
-              <option value="Chattogram">চট্টগ্রাম</option>
-              <option value="Cumilla">কুমিল্লা</option>
-              <option value="Feni">ফেনী</option>
-              <option value="Brahmanbaria">ব্রাহ্মণবাড়িয়া</option>
-              <option value="Noakhali">নোয়াখালী</option>
-              <option value="Chandpur">চাঁদপুর</option>
-              <option value="Lokkhipur">লক্ষ্মীপুর</option>
-              <option value="Bandarban">বান্দরবন</option>
-              <option value="Rangamati">রাঙ্গামাটি</option>
-              <option value="CoxsBazar">কক্সবাজার</option>
-              <option value="Khagrasori">খাগড়াছড়ি</option>
+              <option value="Chattogram">Chattogram</option>
+              <option value="Cumilla">Cumilla</option>
+              <option value="Feni">Feni</option>
+              <option value="Brahmanbaria">Brahmanbaria</option>
+              <option value="Noakhali">Noakhali</option>
+              <option value="Chandpur">Chandpur</option>
+              <option value="Lokkhipur">Lakshmipur</option>
+              <option value="Bandarban">Bandarban</option>
+              <option value="Rangamati">Rangamati</option>
+              <option value="CoxsBazar">Cox's Bazar</option>
+              <option value="Khagrasori">Khagrachari</option>
 
-              <option value="Barisal">বরিশাল</option>
-              <option value="Barguna">বরগুনা</option>
-              <option value="Bhola">ভোলা</option>
-              <option value="Patuakhali">পটুয়াখালী</option>
-              <option value="Pirojpur">পিরোজপুর</option>
-              <option value="Jhalokati">ঝালোকাঠি</option>
+              <option value="Barisal">Barisal</option>
+              <option value="Barguna">Barguna</option>
+              <option value="Bhola">Bhola</option>
+              <option value="Patuakhali">Patuakhali</option>
+              <option value="Pirojpur">Pirojpur</option>
+              <option value="Jhalokati">Jhalokati</option>
 
-              <option value="Khulna">খুলনা</option>
-              <option value="Kustia">কুষ্টিয়া</option>
-              <option value="Jashore">যশোর</option>
-              <option value="Chuadanga">চুয়াডাঙ্গা</option>
-              <option value="Satkhira">সাতক্ষীরা</option>
-              <option value="Bagerhat">বাগেরহ্যাঁট</option>
-              <option value="Meherpur">মেহেরপুর</option>
-              <option value="Jhenaidah">ঝিনাইদাহ</option>
-              <option value="Norail">নড়াইল</option>
-              <option value="Magura">মাগুরা</option>
+              <option value="Khulna">Khulna</option>
+              <option value="Kustia">Kushtia</option>
+              <option value="Jashore">Jessore</option>
+              <option value="Chuadanga">Chuadanga</option>
+              <option value="Satkhira">Satkhira</option>
+              <option value="Bagerhat">Bagerhat</option>
+              <option value="Meherpur">Meherpur</option>
+              <option value="Jhenaidah">Jhenaidah</option>
+              <option value="Norail">Narayal</option>
+              <option value="Magura">Magura</option>
 
-              <option value="Rangpur">রংপুর</option>
-              <option value="Ponchogor">পঞ্চগড়</option>
-              <option value="Thakurgaon">ঠাকুরগাও</option>
-              <option value="Kurigram">কুড়িগ্রাম</option>
-              <option value="Dinajpur">দিনাজপুর</option>
-              <option value="Nilfamari">নীলফামারী</option>
-              <option value="Lalmonirhat">লালমনিরহ্যাঁট</option>
-              <option value="Gaibandha">গাইবান্দা</option>
+              <option value="Rangpur">Rangpur</option>
+              <option value="Ponchogor">Panchagarh</option>
+              <option value="Thakurgaon">Thakurgaon</option>
+              <option value="Kurigram">Kurigram</option>
+              <option value="Dinajpur">Dinajpur</option>
+              <option value="Nilfamari">Nilphamari</option>
+              <option value="Lalmonirhat">Lalmonirhat</option>
+              <option value="Gaibandha">Gaibandha</option>
 
-              <option value="Rajshahi">রাজশাহী</option>
-              <option value="Pabna">পাবনা</option>
-              <option value="Bagura">বগুড়া</option>
-              <option value="Joypurhat">জয়পুরহ্যাঁট</option>
-              <option value="Nouga">নওগাঁ</option>
-              <option value="Natore">নাটোর</option>
-              <option value="Sirajgonj">সিরাজগঞ্জ</option>
-              <option value="Chapainawabganj">চাপাইনবাবগঞ্জ</option>
+              <option value="Rajshahi">Rajshahi</option>
+              <option value="Pabna">Pabna</option>
+              <option value="Bagura">Bogura</option>
+              <option value="Joypurhat">Joypurhat</option>
+              <option value="Nouga">Naogaon</option>
+              <option value="Natore">Natore</option>
+              <option value="Sirajgonj">Sirajganj</option>
+              <option value="Chapainawabganj">Chapainawabganj</option>
 
-              <option value="Sylhet">সিলেট</option>
-              <option value="Habiganj">হবিগঞ্জ</option>
-              <option value="Moulvibazar">মৌলভীবাজার</option>
-              <option value="Sunamgonj">সুনামগঞ্জ</option>
+              <option value="Sylhet">Sylhet</option>
+              <option value="Habiganj">Habiganj</option>
+              <option value="Moulvibazar">Moulvibazar</option>
+              <option value="Sunamgonj">Sunamganj</option>
 
-              <option value="Mymensingh">ময়মনসিংহ</option>
-              <option value="Netrokona">নেত্রকোনা</option>
-              <option value="Jamalpur">জামালপুর</option>
-              <option value="Sherpur">শেরপুর</option>
+              <option value="Mymensingh">Mymensingh</option>
+              <option value="Netrokona">Netrokona</option>
+              <option value="Jamalpur">Jamalpur</option>
+              <option value="Sherpur">Sherpur</option>
             </select>
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
           </div>
 
           <div className="relative w-full">
             <label className="text-primary text-sm font-semibold">
-              রেজিস্ট্রেশন তারিখ
+              Registration Date
             </label>
             <div className="relative">
               <input
@@ -320,7 +322,7 @@ const UpdateCarForm = () => {
 
           <div className="mt-2 md:mt-0 w-full">
             <label className="text-primary text-sm font-semibold">
-              ট্যাক্স মেয়াদোত্তীর্ণ তারিখ
+              Tax Expiry Date
             </label>
             <div className="relative">
               <input
@@ -347,7 +349,7 @@ const UpdateCarForm = () => {
         <div className="md:flex justify-between gap-3">
           <div className="w-full">
             <label className="text-primary text-sm font-semibold">
-              রোড পারমিট তারিখ
+              Road Permit Date
             </label>
             <div className="relative">
               <input
@@ -370,7 +372,7 @@ const UpdateCarForm = () => {
           </div>
           <div className="mt-2 md:mt-0 w-full">
             <label className="text-primary text-sm font-semibold">
-              ফিটনেস মেয়াদোত্তীর্ণ তারিখ
+              Fitness Expiry Date
             </label>
             <div className="relative">
               <input
@@ -391,26 +393,21 @@ const UpdateCarForm = () => {
               </span>
             </div>
           </div>
-          <div className="w-full relative">
-            <label className="text-primary text-sm font-semibold">
-              স্ট্যাটাস
-            </label>
+          <div className="mt-2 md:mt-0 w-full">
+            <label className="text-primary text-sm font-semibold">Status</label>
             <select
-              {...register("status", { required: true })}
+              {...register("status")}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
               <option value={status}>{status}</option>
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>
-
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
           </div>
         </div>
-
-        {/* Submit Button */}
         <div className="text-left">
-          <BtnSubmit>সাবমিট করুন</BtnSubmit>
+          <BtnSubmit>Submit</BtnSubmit>
         </div>
       </div>
     </form>

@@ -196,23 +196,23 @@ const Maintenance = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaTruck className="text-[#11375B] text-2xl" />
-            মেইনটেনেন্স
+            Maintenance
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/MaintenanceForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
-                <FaPlus /> মেইনটেনেন্স
+                <FaPlus /> Maintenance
               </button>
             </Link>
             <button
               onClick={() => setShowFilter((prev) => !prev)} // Toggle filter
               className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
-              <FaFilter /> ফিল্টার
+              <FaFilter /> Filter
             </button>
           </div>
         </div>
-        {/* export */}
+        {/* Export */}
         <div className="md:flex justify-between mb-4">
           <div className="flex gap-1 md:gap-3 flex-wrap">
             <CSVLink
@@ -251,7 +251,7 @@ const Maintenance = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="সার্চ করুন..."
+              placeholder="Search..."
               className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
             />
           </div>
@@ -285,7 +285,7 @@ const Maintenance = () => {
                 onClick={() => setCurrentPage(1)}
                 className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
-                <FaFilter /> ফিল্টার
+                <FaFilter /> Filter
               </button>
             </div>
           </div>
@@ -296,14 +296,14 @@ const Maintenance = () => {
             <thead className="bg-[#11375B] text-white uppercase text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">সার্ভিসের ধরন</th>
-                <th className="px-2 py-3">গাড়ির নাঃ</th>
-                <th className="px-2 py-3">মেইনটেনেন্সের ধরন</th>
-                <th className="px-2 py-3">পার্টস এন্ড স্পায়ারস</th>
-                <th className="px-2 py-3">মেইনটেনেন্সের তারিখ</th>
-                <th className="px-2 py-3">অগ্রাধিকার</th>
-                <th className="px-2 py-3">টোটাল খরচ</th>
-                <th className="px-2 py-3 action_column">অ্যাকশন</th>
+                <th className="px-2 py-3">Service Type</th>
+                <th className="px-2 py-3">Vehicle No</th>
+                <th className="px-2 py-3">Maintenance Type</th>
+                <th className="px-2 py-3">Parts and Spares</th>
+                <th className="px-2 py-3">Maintenance Date</th>
+                <th className="px-2 py-3">Priority</th>
+                <th className="px-2 py-3">Total Cost</th>
+                <th className="px-2 py-3 action_column">Actions</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -342,7 +342,7 @@ const Maintenance = () => {
             </tbody>
           </table>
         </div>
-        {/* pagination */}
+        {/* Pagination */}
         <div className="mt-10 flex justify-center">
           <div className="space-x-2 flex items-center">
             <button
@@ -397,20 +397,20 @@ const Maintenance = () => {
                 <FaTrashAlt />
               </div>
               <p className="text-center text-gray-700 font-medium mb-6">
-                আপনি কি ডিলিট করতে চান?
+                Do you want to delete?
               </p>
               <div className="flex justify-center space-x-4">
                 <button
                   onClick={toggleModal}
                   className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-primary hover:text-white cursor-pointer"
                 >
-                  না
+                  No
                 </button>
                 <button
                   onClick={() => handleDelete(selectedMaintenanceId)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 cursor-pointer"
                 >
-                  হ্যাঁ
+                  Yes
                 </button>
               </div>
             </div>

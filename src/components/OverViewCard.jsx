@@ -49,7 +49,7 @@ const OverViewCard = () => {
     fetchVehicles();
   }, []);
 
-  // আজকের ফুয়েল এবং গ্যাস খরচ
+  // আজকের ফুয়েল এবং গ্যাস Cost
   useEffect(() => {
     const fetchFuelData = async () => {
       try {
@@ -98,12 +98,12 @@ const OverViewCard = () => {
         {/* আয় কার্ড */}
         <li className="bg-white rounded-md p-3 w-full md:w-full mb-3">
           <div className="text-primary border-b pb-3 border-gray-300">
-            <h3 className="font-semibold">আজকের আয়</h3>
+            <h3 className="font-semibold">Today Income</h3>
           </div>
           <div className="p-3 text-primary font-semibold text-sm space-y-2">
             <div className="flex items-center gap-3">
               <p className="flex justify-between w-full border-t mt-3 pt-3">
-                <span>টোটাল আয়</span> - <span>1595</span>
+                <span>Total Profit</span> - <span>1595</span>
                 {/* চাইলে ডাইনামিক করতে পারো */}
               </p>
             </div>
@@ -113,39 +113,39 @@ const OverViewCard = () => {
         {/* ব্যয় কার্ড */}
         <li className="bg-white rounded-md p-3 w-full md:w-full mb-3">
           <div className="text-primary border-b pb-3 border-gray-300">
-            <h3 className="font-semibold">আজকের ব্যয়</h3>
+            <h3 className="font-semibold">Today Expense</h3>
           </div>
           <div className="p-3 text-primary font-semibold text-sm space-y-2">
             <div className="flex items-center gap-3">
               <div className="bg-primary w-[6px] h-[6px] rounded-full" />
               <p className="flex justify-between w-full">
-                <span>Octen খরচ</span> -{" "}
-                <span>{octenCost.toFixed(2)} টাকা</span>
+                <span>Octen Cost</span> - <span>{octenCost.toFixed(2)} TK</span>
               </p>
             </div>
             <div className="flex items-center gap-3">
               <div className="bg-primary w-[6px] h-[6px] rounded-full" />
               <p className="flex justify-between w-full">
-                <span>Diesel খরচ</span> -{" "}
-                <span>{dieselCost.toFixed(2)} টাকা</span>
+                <span>Diesel Cost</span> -{" "}
+                <span>{dieselCost.toFixed(2)} TK</span>
               </p>
             </div>
             <div className="flex items-center gap-3">
               <div className="bg-primary w-[6px] h-[6px] rounded-full" />
               <p className="flex justify-between w-full">
-                <span>Petrol খরচ</span> -{" "}
-                <span>{petrolCost.toFixed(2)} টাকা</span>
+                <span>Petrol Cost</span> -{" "}
+                <span>{petrolCost.toFixed(2)} TK</span>
               </p>
             </div>
             <div className="flex items-center gap-3">
               <div className="bg-primary w-[6px] h-[6px] rounded-full" />
               <p className="flex justify-between w-full">
-                <span>Gas খরচ</span> - <span>{gasCost.toFixed(2)} টাকা</span>
+                <span>Gas Cost</span> - <span>{gasCost.toFixed(2)} TK</span>
               </p>
             </div>
             <div className="flex items-center gap-3">
               <p className="flex justify-between w-full border-t mt-3 pt-3">
-                <span>মোট ব্যয়</span> - <span>{totalCost.toFixed(2)} টাকা</span>
+                <span>Total Expense</span> -{" "}
+                <span>{totalCost.toFixed(2)} TK</span>
               </p>
             </div>
           </div>
@@ -154,23 +154,21 @@ const OverViewCard = () => {
         {/* রিমাইন্ডার কার্ড */}
         <li className="bg-white rounded-md p-3 w-full md:w-full mb-3">
           <div className="text-primary border-b pb-3 border-gray-300">
-            <h3 className="font-semibold">রিমাইন্ডার</h3>
+            <h3 className="font-semibold">Remainder</h3>
           </div>
           <div className="py-3 text-primary font-semibold text-sm space-y-2">
             {expiringDocs.length > 0 ? (
               expiringDocs.map((item, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="w-full">
-                    <p>গাড়ির নং: {item.vehicle}</p>
-                    <p>ডকুমেন্টের নাম: {item.document}</p>
-                    <p>মেয়াদোত্তীর্ণ তারিখ: {item.expireDate}</p>
+                    <p>Vehicle No: {item.vehicle}</p>
+                    <p>Document's Name: {item.document}</p>
+                    <p>Expired Date: {item.expireDate}</p>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-sm text-gray-500">
-                কোনো মেয়াদোত্তীর্ণ ডেট নেই
-              </p>
+              <p className="text-sm text-gray-500">No expiration date.</p>
             )}
           </div>
         </li>

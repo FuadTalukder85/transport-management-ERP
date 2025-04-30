@@ -47,16 +47,16 @@ const AddCarForm = () => {
       const resData = response.data;
       console.log("resData", resData);
       if (resData.status === "Vehicle saved successfully") {
-        toast.success("গাড়ি সফলভাবে সংরক্ষণ হয়েছে!", { position: "top-right" });
+        toast.success("Vehicle saved successfully!", { position: "top-right" });
         reset();
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server error: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server error: " + errorMessage);
     }
   };
 
@@ -64,28 +64,31 @@ const AddCarForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
       <Toaster position="top-center" reverseOrder={false} />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        গাড়ির তথ্য যোগ করুন
+        Add Vehicle Information
       </h3>
+
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow space-y-4">
         {/* Vehicle & Driver Name */}
         <div className="md:flex justify-between gap-3">
           <div className="w-full">
             <label className="text-primary text-sm font-semibold">
-              গাড়ির নাম
+              Vehicle Name
             </label>
             <input
               {...register("vehicle_name", { required: true })}
               type="text"
-              placeholder="গাড়ির নাম..."
+              placeholder="Vehicle name..."
               className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
             />
             {errors.vehicle_name && (
-              <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+              <span className="text-red-600 text-sm">
+                This field is required
+              </span>
             )}
           </div>
           <div className="relative mt-2 md:mt-0 w-full">
             <label className="text-primary text-sm font-semibold">
-              ড্রাইভারের নাম
+              Driver Name
             </label>
             <Controller
               name="driver_name"
@@ -97,65 +100,76 @@ const AddCarForm = () => {
                   value={driverOptions.find((c) => c.value === value) || null}
                   onChange={(val) => onChange(val ? val.value : "")}
                   options={driverOptions}
-                  placeholder="ড্রাইভারের নাম নির্বাচন করুন..."
+                  placeholder="Select driver..."
                   className="mt-1 text-sm"
                   classNamePrefix="react-select"
                   isClearable
                 />
               )}
             />
-
             {errors.driver_name && (
-              <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+              <span className="text-red-600 text-sm">
+                This field is required
+              </span>
             )}
           </div>
         </div>
+
         {/* Category & Size */}
         <div className="md:flex justify-between gap-3">
           <div className="relative w-full">
             <label className="text-primary text-sm font-semibold">
-              গাড়ির ধরন
+              Vehicle Category
             </label>
             <select
               {...register("category", { required: true })}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
-              <option value="">গাড়ির ধরন...</option>
-              <option value="Truck">ট্রাক</option>
-              <option value="Pickup">পিকআপ</option>
-              <option value="Covered Van">কভার্ড ভ্যান</option>
-              <option value="Trailer">ট্রেইলর</option>
-              <option value="Fridge Van">ফ্রিজার ভ্যান</option>
-              <option value="Car">কার</option>
+              <option value="">Select vehicle category...</option>
+              <option value="Truck">Truck</option>
+              <option value="Pickup">Pickup</option>
+              <option value="Covered Van">Covered Van</option>
+              <option value="Trailer">Trailer</option>
+              <option value="Fridge Van">Fridge Van</option>
+              <option value="Car">Car</option>
             </select>
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             {errors.category && (
-              <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+              <span className="text-red-600 text-sm">
+                This field is required
+              </span>
             )}
           </div>
           <div className="relative mt-2 md:mt-0 w-full">
-            {/* todo garir size bad dite hobe */}
             <label className="text-primary text-sm font-semibold">
-              গাড়ির সাইজ
+              Vehicle Size
             </label>
             <select
               {...register("size", { required: true })}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
-              <option value="">গাড়ির সাইজ...</option>
-              <option value="7 Feet">7 Feet</option>
-              <option value="9 Feet">9 Feet</option>
-              <option value="12 Feet">12 Feet</option>
-              <option value="14 Feet">14 Feet</option>
-              <option value="16 Feet">16 Feet</option>
-              <option value="18 Feet">18 Feet</option>
-              <option value="20 Feet">20 Feet</option>
-              <option value="23 Feet">23 Feet</option>
+              <option value="">Select size...</option>
+              {[
+                "7 Feet",
+                "9 Feet",
+                "12 Feet",
+                "14 Feet",
+                "16 Feet",
+                "18 Feet",
+                "20 Feet",
+                "23 Feet",
+              ].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
             </select>
-            {errors.size && (
-              <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
-            )}
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
+            {errors.size && (
+              <span className="text-red-600 text-sm">
+                This field is required
+              </span>
+            )}
           </div>
         </div>
 
@@ -163,38 +177,40 @@ const AddCarForm = () => {
         <div className="md:flex justify-between gap-3">
           <div className="w-full">
             <label className="text-primary text-sm font-semibold">
-              রেজিস্ট্রেশন নাম্বার
+              Registration Number
             </label>
             <input
               {...register("registration_number", { required: true })}
               type="text"
-              placeholder=" রেজিস্ট্রেশন নাম্বার..."
+              placeholder="Registration number..."
               className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
             />
             {errors.registration_number && (
-              <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+              <span className="text-red-600 text-sm">
+                This field is required
+              </span>
             )}
           </div>
           <div className="relative mt-2 md:mt-0 w-full">
             <label className="text-primary text-sm font-semibold">
-              রেজিস্ট্রেশন সিরিয়াল
+              Registration Serial
             </label>
             <select
               {...register("registration_serial", { required: true })}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
-              <option value="">রেজিস্ট্রেশন সিরিয়াল...</option>
-              <option value="Ta">ট</option>
-              <option value="Tha">ঠ</option>
-              <option value="Da">ড</option>
-              <option value="Dha">ঢ</option>
-              <option value="Na">ন</option>
-              <option value="M">ম</option>
-              <option value="Sh">শ</option>
+              <option value="">Select serial...</option>
+              {["Ta", "Tha", "Da", "Dha", "Na", "M", "Sh"].map((serial) => (
+                <option key={serial} value={serial}>
+                  {serial}
+                </option>
+              ))}
             </select>
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             {errors.registration_serial && (
-              <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+              <span className="text-red-600 text-sm">
+                This field is required
+              </span>
             )}
           </div>
         </div>
@@ -203,102 +219,103 @@ const AddCarForm = () => {
         <div className="md:flex justify-between gap-3">
           <div className="relative w-full">
             <label className="text-primary text-sm font-semibold">
-              রেজিস্ট্রেশন এলাকা
+              Registration Zone
             </label>
             <select
               {...register("registration_zone", { required: true })}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
-              <option value="">রেজিস্ট্রেশন এলাকা...</option>
-              <option value="Dhaka Metro">ঢাকা মেট্রো</option>
-              <option value="Chatto Metro">চট্ট মেট্রো</option>
-              <option value="Sylhet Metro">সিলেট মেট্রো</option>
-              <option value="Rajshahi Metro">রাজশাহী মেট্রো</option>
-              <option value="Khulna Metro">খুলনা মেট্রো</option>
-              <option value="Rangpur Metro">রংপুর মেট্রো</option>
-              <option value="Barisal Metro">বরিশাল মেট্রো</option>
-
-              <option value="Dhaka">ঢাকা</option>
-              <option value="Narayanganj">নারায়ণগঞ্জ</option>
-              <option value="Gazipur">গাজীপুর</option>
-              <option value="Tangail">টাঙ্গাইল</option>
-              <option value="Manikgonj">মানিকগঞ্জ</option>
-              <option value="Munshigonj">মুন্সিগঞ্জ</option>
-              <option value="Faridpur">ফরিদপুর</option>
-              <option value="Rajbari">রাজবাড়ী</option>
-              <option value="Narsingdi">নরসিংদী</option>
-              <option value="Kishorgonj">কিশোরগঞ্জ</option>
-              <option value="Shariatpur">শরীয়তপুর</option>
-              <option value="Gopalgonj">গোপালগঞ্জ</option>
-              <option value="Madaripur">মাদারীপুর</option>
-
-              <option value="Chattogram">চট্টগ্রাম</option>
-              <option value="Cumilla">কুমিল্লা</option>
-              <option value="Feni">ফেনী</option>
-              <option value="Brahmanbaria">ব্রাহ্মণবাড়িয়া</option>
-              <option value="Noakhali">নোয়াখালী</option>
-              <option value="Chandpur">চাঁদপুর</option>
-              <option value="Lokkhipur">লক্ষ্মীপুর</option>
-              <option value="Bandarban">বান্দরবন</option>
-              <option value="Rangamati">রাঙ্গামাটি</option>
-              <option value="CoxsBazar">কক্সবাজার</option>
-              <option value="Khagrasori">খাগড়াছড়ি</option>
-
-              <option value="Barisal">বরিশাল</option>
-              <option value="Barguna">বরগুনা</option>
-              <option value="Bhola">ভোলা</option>
-              <option value="Patuakhali">পটুয়াখালী</option>
-              <option value="Pirojpur">পিরোজপুর</option>
-              <option value="Jhalokati">ঝালোকাঠি</option>
-
-              <option value="Khulna">খুলনা</option>
-              <option value="Kustia">কুষ্টিয়া</option>
-              <option value="Jashore">যশোর</option>
-              <option value="Chuadanga">চুয়াডাঙ্গা</option>
-              <option value="Satkhira">সাতক্ষীরা</option>
-              <option value="Bagerhat">বাগেরহ্যাঁট</option>
-              <option value="Meherpur">মেহেরপুর</option>
-              <option value="Jhenaidah">ঝিনাইদাহ</option>
-              <option value="Norail">নড়াইল</option>
-              <option value="Magura">মাগুরা</option>
-
-              <option value="Rangpur">রংপুর</option>
-              <option value="Ponchogor">পঞ্চগড়</option>
-              <option value="Thakurgaon">ঠাকুরগাও</option>
-              <option value="Kurigram">কুড়িগ্রাম</option>
-              <option value="Dinajpur">দিনাজপুর</option>
-              <option value="Nilfamari">নীলফামারী</option>
-              <option value="Lalmonirhat">লালমনিরহ্যাঁট</option>
-              <option value="Gaibandha">গাইবান্দা</option>
-
-              <option value="Rajshahi">রাজশাহী</option>
-              <option value="Pabna">পাবনা</option>
-              <option value="Bagura">বগুড়া</option>
-              <option value="Joypurhat">জয়পুরহ্যাঁট</option>
-              <option value="Nouga">নওগাঁ</option>
-              <option value="Natore">নাটোর</option>
-              <option value="Sirajgonj">সিরাজগঞ্জ</option>
-              <option value="Chapainawabganj">চাপাইনবাবগঞ্জ</option>
-
-              <option value="Sylhet">সিলেট</option>
-              <option value="Habiganj">হবিগঞ্জ</option>
-              <option value="Moulvibazar">মৌলভীবাজার</option>
-              <option value="Sunamgonj">সুনামগঞ্জ</option>
-
-              <option value="Mymensingh">ময়মনসিংহ</option>
-              <option value="Netrokona">নেত্রকোনা</option>
-              <option value="Jamalpur">জামালপুর</option>
-              <option value="Sherpur">শেরপুর</option>
+              <option value="">Select zone...</option>
+              {[
+                "Dhaka Metro",
+                "Chatto Metro",
+                "Sylhet Metro",
+                "Rajshahi Metro",
+                "Khulna Metro",
+                "Rangpur Metro",
+                "Barisal Metro",
+                "Dhaka",
+                "Narayanganj",
+                "Gazipur",
+                "Tangail",
+                "Manikgonj",
+                "Munshigonj",
+                "Faridpur",
+                "Rajbari",
+                "Narsingdi",
+                "Kishorgonj",
+                "Shariatpur",
+                "Gopalgonj",
+                "Madaripur",
+                "Chattogram",
+                "Cumilla",
+                "Feni",
+                "Brahmanbaria",
+                "Noakhali",
+                "Chandpur",
+                "Lokkhipur",
+                "Bandarban",
+                "Rangamati",
+                "CoxsBazar",
+                "Khagrasori",
+                "Barisal",
+                "Barguna",
+                "Bhola",
+                "Patuakhali",
+                "Pirojpur",
+                "Jhalokati",
+                "Khulna",
+                "Kustia",
+                "Jashore",
+                "Chuadanga",
+                "Satkhira",
+                "Bagerhat",
+                "Meherpur",
+                "Jhenaidah",
+                "Norail",
+                "Magura",
+                "Rangpur",
+                "Ponchogor",
+                "Thakurgaon",
+                "Kurigram",
+                "Dinajpur",
+                "Nilfamari",
+                "Lalmonirhat",
+                "Gaibandha",
+                "Rajshahi",
+                "Pabna",
+                "Bagura",
+                "Joypurhat",
+                "Nouga",
+                "Natore",
+                "Sirajgonj",
+                "Chapainawabganj",
+                "Sylhet",
+                "Habiganj",
+                "Moulvibazar",
+                "Sunamgonj",
+                "Mymensingh",
+                "Netrokona",
+                "Jamalpur",
+                "Sherpur",
+              ].map((zone) => (
+                <option key={zone} value={zone}>
+                  {zone}
+                </option>
+              ))}
             </select>
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             {errors.registration_zone && (
-              <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+              <span className="text-red-600 text-sm">
+                This field is required
+              </span>
             )}
           </div>
 
+          {/* Registration Date */}
           <div className="relative w-full">
             <label className="text-primary text-sm font-semibold">
-              রেজিস্ট্রেশন তারিখ
+              Registration Date
             </label>
             <div className="relative">
               <input
@@ -311,7 +328,9 @@ const AddCarForm = () => {
                 className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
               />
               {errors.registration_date && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <span className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r">
                 <FiCalendar
@@ -321,9 +340,11 @@ const AddCarForm = () => {
               </span>
             </div>
           </div>
+
+          {/* Tax Expiry Date */}
           <div className="mt-2 md:mt-0 w-full">
             <label className="text-primary text-sm font-semibold">
-              ট্যাক্স মেয়াদোত্তীর্ণ তারিখ
+              Tax Expiry Date
             </label>
             <div className="relative">
               <input
@@ -336,7 +357,9 @@ const AddCarForm = () => {
                 className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
               />
               {errors.text_date && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <span className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r">
                 <FiCalendar
@@ -348,11 +371,11 @@ const AddCarForm = () => {
           </div>
         </div>
 
-        {/* Date Fields */}
+        {/* Road Permit & Fitness Date & Status */}
         <div className="md:flex justify-between gap-3">
           <div className="w-full">
             <label className="text-primary text-sm font-semibold">
-              রোড পারমিট তারিখ
+              Road Permit Date
             </label>
             <div className="relative">
               <input
@@ -365,7 +388,9 @@ const AddCarForm = () => {
                 className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
               />
               {errors.road_permit_date && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <span className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r">
                 <FiCalendar
@@ -375,9 +400,10 @@ const AddCarForm = () => {
               </span>
             </div>
           </div>
+
           <div className="mt-2 md:mt-0 w-full">
             <label className="text-primary text-sm font-semibold">
-              ফিটনেস মেয়াদোত্তীর্ণ তারিখ
+              Fitness Expiry Date
             </label>
             <div className="relative">
               <input
@@ -390,7 +416,9 @@ const AddCarForm = () => {
                 className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
               />
               {errors.fitness_date && (
-                <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                <span className="text-red-600 text-sm">
+                  This field is required
+                </span>
               )}
               <span className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r">
                 <FiCalendar
@@ -400,28 +428,28 @@ const AddCarForm = () => {
               </span>
             </div>
           </div>
+
           <div className="w-full relative">
-            <label className="text-primary text-sm font-semibold">
-              স্ট্যাটাস
-            </label>
+            <label className="text-primary text-sm font-semibold">Status</label>
             <select
               {...register("status", { required: true })}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
-              <option value="">স্ট্যাটাস নির্বাচন করুন</option>
+              <option value="">Select status</option>
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>
-            {errors.status && (
-              <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
-            )}
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
+            {errors.status && (
+              <span className="text-red-600 text-sm">
+                This field is required
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Submit Button */}
         <div className="text-left">
-          <BtnSubmit>সাবমিট করুন</BtnSubmit>
+          <BtnSubmit>Submit</BtnSubmit>
         </div>
       </div>
     </form>

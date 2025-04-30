@@ -43,18 +43,18 @@ const Parts = () => {
       const resData = response.data;
       console.log("resData", resData);
       if (resData.status === "success") {
-        toast.success("পার্টস সফলভাবে সংরক্ষণ হয়েছে!", {
+        toast.success("Parts saved successfully!", {
           position: "top-right",
         });
         reset();
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server issue: " + (resData.message || "Unknown error"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server issue: " + errorMessage);
     }
   };
   // fetch all parts
@@ -88,7 +88,7 @@ const Parts = () => {
       }
       // Remove fuel from local list
       setParts((prev) => prev.filter((driver) => driver.id !== id));
-      toast.success("পার্টস সফলভাবে ডিলিট হয়েছে", {
+      toast.success("Parts deleted successfully", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -97,7 +97,7 @@ const Parts = () => {
       setselectedFuelId(null);
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("ডিলিট করতে সমস্যা হয়েছে!", {
+      toast.error("There was a problem deleting.!", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -135,14 +135,14 @@ const Parts = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaTruck className="text-[#11375B] text-2xl" />
-            পার্টসের তালিকা
+            Parts List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <button
               onClick={() => setShowFilter(true)}
               className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
-              <FaPlus /> পার্টস
+              <FaPlus /> Parts
             </button>
           </div>
         </div>
@@ -157,7 +157,7 @@ const Parts = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="সার্চ করুন..."
+              placeholder="Search here..."
               className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
             />
           </div>
@@ -168,8 +168,8 @@ const Parts = () => {
             <thead className="bg-[#11375B] text-white uppercase text-sm">
               <tr>
                 <th className="px-2 md:px-4 py-3">SL</th>
-                <th className="px-2 md:px-4 py-3">নাম</th>
-                <th className="px-2 md:px-4 py-3">অ্যাকশন</th>
+                <th className="px-2 md:px-4 py-3">Name</th>
+                <th className="px-2 md:px-4 py-3">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold">
@@ -262,20 +262,20 @@ const Parts = () => {
                 <FaTrashAlt />
               </div>
               <p className="text-center text-gray-700 font-medium mb-6">
-                আপনি কি পার্টস ডিলিট করতে চান?
+                Do you want to delete the part?
               </p>
               <div className="flex justify-center space-x-4">
                 <button
                   onClick={toggleModal}
                   className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-primary hover:text-white cursor-pointer"
                 >
-                  না
+                  No
                 </button>
                 <button
                   onClick={() => handleDelete(selectedFuelId)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 cursor-pointer"
                 >
-                  হ্যাঁ
+                  Yes
                 </button>
               </div>
             </div>
@@ -294,23 +294,25 @@ const Parts = () => {
               <IoMdClose />
             </button>
             <h2 className="text-xl font-semibold text-[#11375B] mb-4">
-              পার্টস যোগ করুন
+              Add Parts
             </h2>
 
             <form action="" onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">
                 <div className="w-full relative">
                   <label className="text-primary text-sm font-semibold">
-                    পার্টসের নাম
+                    Part Name
                   </label>
                   <input
                     {...register("name", { required: true })}
                     type="text"
-                    placeholder="পার্টসের নাম..."
+                    placeholder="Part Name..."
                     className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                   />
                   {errors.name && (
-                    <span className="text-red-600 text-sm">পূরণ করতে হবে</span>
+                    <span className="text-red-600 text-sm">
+                      This field is required
+                    </span>
                   )}
                 </div>
               </div>
@@ -318,7 +320,7 @@ const Parts = () => {
               <div className="mb-4">
                 <div className="w-full">
                   <label className="text-primary text-sm font-semibold">
-                    পার্টসের ভ্যালিডিটি
+                    Part Validity
                   </label>
                   <div className="relative">
                     <input
@@ -342,7 +344,7 @@ const Parts = () => {
               </div>
               {/* Submit Button */}
               <div className="text-right">
-                <BtnSubmit>সাবমিট করুন</BtnSubmit>
+                <BtnSubmit>Submit</BtnSubmit>
               </div>
             </form>
           </div>

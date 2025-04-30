@@ -48,14 +48,14 @@ const StatisticsCard = () => {
               <FaTruck className="text-white text-3xl" />
             </span>
             <div>
-              <h3 className="text-[#11375B] md:font-semibold">টোটাল ট্রিপ</h3>
+              <h3 className="text-[#11375B] md:font-semibold">Total Trip</h3>
               <span className="text-gray-500 font-semibold">
                 {trips.length}
               </span>
             </div>
           </div>
           <button className="w-full mt-3 md:mt-7 text-white font-semibold text-sm bg-[#11375B] md:px-3 py-1 rounded-md hover:bg-[#062238] transition-all duration-700 cursor-pointer hover:scale-105">
-            <span className="pr-1 md:pr-3">আরও তথ্য</span>
+            <span className="pr-1 md:pr-3">More info</span>
             <FaArrowUp className="inline-block" />
           </button>
         </li>
@@ -67,34 +67,39 @@ const StatisticsCard = () => {
               <FaChartPie className="text-white text-3xl" />
             </span>
             <div>
-              <h3 className="text-[#11375B] md:font-semibold">টোটাল গাড়ি</h3>
+              <h3 className="text-[#11375B] md:font-semibold">Total Vehicle</h3>
               <span className="text-gray-500 font-semibold">
                 {vehicle.length}
               </span>
             </div>
           </div>
           <button className="w-full mt-3 md:mt-7 text-white font-semibold text-sm bg-[#11375B] md:px-3 py-1 rounded-md hover:bg-[#062238] transition-all duration-700 cursor-pointer hover:scale-105">
-            <span className="pr-1 md:pr-3">আরও তথ্য</span>
+            <span className="pr-1 md:pr-3">More info</span>
             <FaArrowUp className="inline-block" />
           </button>
         </li>
 
         {/* Total Customers Card */}
         <li className="bg-white p-2 md:p-3 rounded-md drop-shadow-lg w-full">
-          <div className="bg-gray-100 rounded-r-md flex gap-2 md:gap-10 items-center md:pr-7 p-3 md:p-0">
+          <div className="bg-gray-100 rounded-r-md flex gap-2 md:gap-10 items-center md:pr-0 p-3 md:p-0">
             <span className="hidden md:flex bg-[#11375B] p-3 rounded-md">
               <FaUsers className="text-white text-3xl" />
             </span>
             <div>
               {/* todo */}
-              <h3 className="text-[#11375B] md:font-semibold">টোটাল গ্রাহক</h3>
+              <h3 className="text-[#11375B] md:font-semibold">
+                Total Customer
+              </h3>
               <span className="text-gray-500 font-semibold">
                 {users.length}
               </span>
             </div>
           </div>
           <button className="w-full mt-3 md:mt-7 text-white font-semibold text-sm bg-[#11375B] md:px-3 py-1 rounded-md hover:bg-[#062238] transition-all duration-700 cursor-pointer hover:scale-105">
-            <span className="pr-1 md:pr-3">আরও তথ্য</span>
+            <span className="pr-1 md:pr-3">
+              {" "}
+              <span className="pr-1 md:pr-3">More info</span>
+            </span>
             <FaArrowUp className="inline-block" />
           </button>
         </li>
@@ -106,14 +111,17 @@ const StatisticsCard = () => {
               <FaUserPlus className="text-white text-3xl" />
             </span>
             <div>
-              <h3 className="text-[#11375B] md:font-semibold">ড্রাইভার</h3>
+              <h3 className="text-[#11375B] md:font-semibold">Driver</h3>
               <span className="text-gray-500 font-semibold">
                 {driver.length}
               </span>
             </div>
           </div>
           <button className="w-full mt-3 md:mt-7 text-white font-semibold text-sm bg-[#11375B] md:px-3 py-1 rounded-md hover:bg-[#062238] transition-all duration-700 cursor-pointer hover:scale-105">
-            <span className="pr-1 md:pr-3">আরও তথ্য</span>
+            <span className="pr-1 md:pr-3">
+              {" "}
+              <span className="pr-1 md:pr-3">More info</span>
+            </span>
             <FaArrowUp className="inline-block" />
           </button>
         </li>

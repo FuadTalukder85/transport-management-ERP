@@ -230,12 +230,12 @@ const CarList = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaTruck className="text-[#11375B] text-2xl" />
-            গাড়ির তালিকা
+            Vehicle List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/AddCarForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
-                <FaPlus /> গাড়ি
+                <FaPlus /> Vehicle
               </button>
             </Link>
           </div>
@@ -292,16 +292,15 @@ const CarList = () => {
             <thead className="bg-[#11375B] text-white uppercase text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">নাম</th>
-                <th className="px-2 py-3">গাড়ি</th>
-                <th className="px-2 py-3">ধরন</th>
-                <th className="px-2 py-3">গাড়ির সাইজ</th>
-                <th className="px-2 py-3">এলাকা</th>
-
-                <th className="px-2 py-3">ট্রিপ</th>
-                <th className="px-2 py-3">রেজিস্ট্রেশন নাম্বার</th>
-                <th className="px-2 py-3">স্ট্যাটাস</th>
-                <th className="px-2 py-3 action_column">অ্যাকশন</th>
+                <th className="px-2 py-3">Driver Name</th>
+                <th className="px-2 py-3">Vehicle Name</th>
+                <th className="px-2 py-3">Vehicle Category</th>
+                <th className="px-2 py-3">Vehicle size</th>
+                <th className="px-2 py-3">Registration Zone</th>
+                <th className="px-2 py-3">Trip</th>
+                <th className="px-2 py-3">Registration No</th>
+                <th className="px-2 py-3">Status</th>
+                <th className="px-2 py-3 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">

@@ -44,15 +44,15 @@ const UpdateUsersForm = () => {
       console.log("resData", resData);
 
       if (resData.status === "success") {
-        toast.success("ইউজার সফলভাবে আপডেট হয়েছে!", { position: "top-right" });
+        toast.success("User updated successfully!", { position: "top-right" });
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server error: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
       console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server error: " + errorMessage);
     }
   };
 
@@ -60,7 +60,7 @@ const UpdateUsersForm = () => {
     <div className="mt-10">
       <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        ইউজার আপডেট করুন
+        Update User
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -68,25 +68,25 @@ const UpdateUsersForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <label className="text-primary text-sm font-semibold">
-                নাম *
+                Name *
               </label>
               <input
                 {...register("name")}
                 defaultValue={name}
                 type="text"
-                placeholder="নাম..."
+                placeholder="Name..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                মোবাইল *
+                Phone *
               </label>
               <input
                 {...register("phone")}
                 defaultValue={phone}
                 type="text"
-                placeholder="মোবাইল..."
+                placeholder="Phone..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
@@ -96,25 +96,25 @@ const UpdateUsersForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                ইমেইল *
+                Email *
               </label>
               <input
                 {...register("email")}
                 defaultValue={email}
                 type="email"
-                placeholder="ইমেইল..."
+                placeholder="Email..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
             <div className="mt-3 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                পাসওয়ার্ড
+                Password
               </label>
               <input
-                {...register("password", { required: "পাসওয়ার্ড আবশ্যক" })}
+                {...register("password", { required: "Password is required" })}
                 defaultValue={initialPassword}
                 type="password"
-                placeholder="পাসওয়ার্ড..."
+                placeholder="Password..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
               {errors.password && (
@@ -125,15 +125,15 @@ const UpdateUsersForm = () => {
             </div>
             <div className="mt-3 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                কনফার্ম পাসওয়ার্ড
+                Confirm Password
               </label>
               <input
                 type="password"
-                placeholder="কনফার্ম পাসওয়ার্ড..."
+                placeholder="Confirm Password..."
                 {...register("confirmPassword", {
-                  required: "কনফার্ম পাসওয়ার্ড আবশ্যক",
+                  required: "Confirm password is required",
                   validate: (value) =>
-                    value === password || "পাসওয়ার্ড মেলেনি",
+                    value === password || "Passwords do not match",
                 })}
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
@@ -149,7 +149,7 @@ const UpdateUsersForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
               <label className="text-primary text-sm font-semibold">
-                ইউজারের ধরন
+                User Role
               </label>
               <select
                 {...register("role")}
@@ -163,7 +163,7 @@ const UpdateUsersForm = () => {
             </div>
             <div className="mt-3 md:mt-0 relative w-full">
               <label className="text-primary text-sm font-semibold">
-                স্ট্যাটাস
+                Status
               </label>
               <select
                 {...register("status")}
@@ -179,7 +179,7 @@ const UpdateUsersForm = () => {
 
           {/* Submit Button */}
           <div className="mt-6">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

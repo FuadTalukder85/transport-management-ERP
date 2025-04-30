@@ -9,7 +9,6 @@ import Select from "react-select";
 import BtnSubmit from "../../components/Button/BtnSubmit";
 
 const UpdateTripForm = () => {
-  //   update loader data
   const updateTripLoaderData = useLoaderData();
   const {
     id,
@@ -29,34 +28,36 @@ const UpdateTripForm = () => {
     customer,
     advance,
   } = updateTripLoaderData.data;
+
   const { register, handleSubmit, control, watch } = useForm({
     defaultValues: {
       driver_name: driver_name || "",
       vehicle_number: vehicle_number || "",
     },
   });
+
   const tripDateRef = useRef(null);
-  // select driver
+
   const [drivers, setDrivers] = useState([]);
-  // car name / registration number
   const [vehicles, setVehicles] = useState([]);
+
   useEffect(() => {
     fetch("https://api.dropshep.com/api/vehicle")
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => setVehicles(data.data))
-      .catch((error) => console.error("Error fetching driver data:", error));
+      .catch((error) => console.error("Error fetching vehicles:", error));
   }, []);
 
   const vehicleOptions = vehicles.map((vehicle) => ({
     value: vehicle.registration_number,
     label: vehicle.registration_number,
   }));
-  // driver name
+
   useEffect(() => {
     fetch("https://api.dropshep.com/api/driver")
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => setDrivers(data.data))
-      .catch((error) => console.error("Error fetching driver data:", error));
+      .catch((error) => console.error("Error fetching drivers:", error));
   }, []);
 
   const driverOptions = drivers.map((driver) => ({
@@ -64,14 +65,13 @@ const UpdateTripForm = () => {
     label: driver.name,
   }));
 
-  const commision = parseFloat(watch("driver_percentage") || 0);
+  const commission = parseFloat(watch("driver_percentage") || 0);
   const fuel = parseFloat(watch("fuel_price") || 0);
   const gas = parseFloat(watch("gas_price") || 0);
-  const totalDamarage = parseFloat(watch("demarage") || 0);
+  const fine = parseFloat(watch("demarage") || 0);
   const other = parseFloat(watch("other_expenses") || 0);
-  const total = commision + fuel + gas + totalDamarage + other;
-  console.log("total", total);
-  console.log("updateTripLoaderData", updateTripLoaderData);
+  const total = commission + fuel + gas + fine + other;
+
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
@@ -85,40 +85,39 @@ const UpdateTripForm = () => {
       );
 
       const resData = response.data;
-      console.log("resData", resData);
 
       if (resData.status === "success") {
-        toast.success("ট্রিপ সফলভাবে আপডেট হয়েছে!", { position: "top-right" });
+        toast.success("Trip updated successfully!", { position: "top-right" });
       } else {
-        toast.error("সার্ভার ত্রুটি: " + (resData.message || "অজানা সমস্যা"));
+        toast.error("Server Error: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
-      console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
-      toast.error("সার্ভার ত্রুটি: " + errorMessage);
+      toast.error("Server Error: " + errorMessage);
     }
   };
 
   return (
     <div className="mt-10">
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        ট্রিপ আপডেট করুন
+        Update Trip
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Toaster position="top-center" reverseOrder={false} />
-          {/*  */}
+
+          {/* Trip and Destination Section */}
           <div className="border border-gray-300 p-3 md:p-5 rounded-md">
             <h5 className="text-primary font-semibold text-center md:pb-5">
               <span className="py-2 border-b-2 border-primary">
-                ট্রিপ এবং গন্তব্য সেকশন
+                Trip & Destination Info
               </span>
             </h5>
             <div className="mt-5 md:mt-0 md:flex justify-between gap-3">
               <div className="w-full">
                 <label className="text-primary text-sm font-semibold">
-                  তারিখ
+                  Trip Date
                 </label>
                 <div className="relative">
                   <input
@@ -141,56 +140,56 @@ const UpdateTripForm = () => {
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  ট্রিপের সময়
+                  Trip Time
                 </label>
                 <input
                   {...register("trip_time")}
                   defaultValue={trip_time}
                   type="text"
-                  placeholder="ট্রিপের সময়..."
+                  placeholder="Trip Time..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
             </div>
-            {/*  */}
             <div className="mt-1 md:flex justify-between gap-3">
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  লোড পয়েন্ট
+                  Load Point
                 </label>
                 <input
                   {...register("load_point")}
                   defaultValue={load_point}
                   type="text"
-                  placeholder="লোড পয়েন্ট..."
+                  placeholder="Load Point..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  আনলোড পয়েন্ট
+                  Unload Point
                 </label>
                 <input
                   {...register("unload_point")}
                   defaultValue={unload_point}
                   type="text"
-                  placeholder="আনলোড পয়েন্ট..."
+                  placeholder="Unload Point..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
             </div>
           </div>
-          {/*  */}
+
+          {/* Vehicle and Driver Info */}
           <div className="mt-3 border border-gray-300 p-5 rounded-md">
             <h5 className="text-primary font-semibold text-center pb-5">
               <span className="py-2 border-b-2 border-primary">
-                গাড়ি এবং ড্রাইভারের তথ্য
+                Vehicle & Driver Info
               </span>
             </h5>
             <div className="md:flex justify-between gap-3">
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  গাড়ির নম্বর
+                  Vehicle Number
                 </label>
                 <Controller
                   name="vehicle_number"
@@ -213,7 +212,7 @@ const UpdateTripForm = () => {
               </div>
               <div className="w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  ড্রাইভারের নাম
+                  Driver Name
                 </label>
                 <Controller
                   name="driver_name"
@@ -238,57 +237,60 @@ const UpdateTripForm = () => {
             <div className="mt-1 md:flex justify-between gap-3">
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  ড্রাইভারের মোবাইল
+                  Driver Contact
                 </label>
                 <input
                   {...register("driver_contact")}
                   defaultValue={driver_contact}
                   type="number"
-                  placeholder="ড্রাইভারের মোবাইল..."
+                  placeholder="Driver's phone..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  ড্রাইভারের কমিশন
+                  Driver Commission
                 </label>
                 <input
                   {...register("driver_percentage")}
                   defaultValue={driver_percentage}
                   type="number"
-                  placeholder="ড্রাইভারের কমিশন..."
+                  placeholder="Commission..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
             </div>
           </div>
-          {/*  */}
+
+          {/* Running Costs */}
           <div className="mt-3 border border-gray-300 p-5 rounded-md">
             <h5 className="text-primary font-semibold text-center pb-5">
-              <span className="py-2 border-b-2 border-primary">চলমান খরচ</span>
+              <span className="py-2 border-b-2 border-primary">
+                Running Costs
+              </span>
             </h5>
             <div className="md:flex justify-between gap-3">
               <div className="w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  তেলের মূল্য
+                  Fuel Price
                 </label>
                 <input
                   {...register("fuel_price")}
                   defaultValue={fuel_price}
                   type="number"
-                  placeholder="তেলের মূল্য..."
+                  placeholder="Fuel price..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  গ্যাসের মূল্য
+                  Gas Price
                 </label>
                 <input
                   {...register("gas_price")}
                   defaultValue={gas_price}
                   type="number"
-                  placeholder="গ্যাসের মূল্য..."
+                  placeholder="Gas price..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
@@ -296,90 +298,91 @@ const UpdateTripForm = () => {
             <div className="mt-1 md:flex justify-between gap-3">
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  অন্যান্য খরচ
+                  Other Expenses
                 </label>
                 <input
                   {...register("other_expenses")}
                   defaultValue={other_expenses}
                   type="number"
-                  placeholder="অন্যান্য খরচ..."
+                  placeholder="Other expenses..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-1 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  জরিমানা
+                  Fine
                 </label>
                 <input
                   {...register("demarage")}
                   defaultValue={demarage}
                   type="number"
-                  placeholder="জরিমানা..."
+                  placeholder="Fine..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
-
               <div className="w-full">
                 <label className="text-primary text-sm font-semibold">
-                  ট্রিপের খরচ
+                  Total Trip Cost
                 </label>
                 <input
                   readOnly
                   value={total}
-                  placeholder="ট্রিপের খরচ..."
+                  placeholder="Total cost..."
                   className="cursor-not-allowed mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-gray-200 outline-none"
                 />
               </div>
             </div>
           </div>
+
+          {/* Customer and Payment */}
           <div className="mt-3 border border-gray-300 p-5 rounded-md">
             <h5 className="text-primary font-semibold text-center pb-5">
               <span className="py-2 border-b-2 border-primary">
-                কাস্টমার এবং পেমেন্ট তথ্য
+                Customer & Payment Info
               </span>
             </h5>
             <div className="md:flex justify-between gap-3">
               <div className="mt-2 md:mt-1 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  কাস্টমারের নাম
+                  Customer Name
                 </label>
                 <input
                   {...register("customer")}
                   defaultValue={customer}
                   type="text"
-                  placeholder="কাস্টমারের নাম..."
+                  placeholder="Customer name..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-1 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  ট্রিপের ভাড়া
+                  Trip Price
                 </label>
                 <input
                   {...register("trip_price")}
                   defaultValue={trip_price}
                   type="text"
-                  placeholder={trip_price}
+                  placeholder="Trip price..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
               <div className="mt-2 md:mt-1 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  অগ্রিম পেমেন্ট
+                  Advance Payment
                 </label>
                 <input
                   {...register("advance")}
                   defaultValue={advance}
                   type="text"
-                  placeholder="অন্যান্য খরচ..."
+                  placeholder="Advance payment..."
                   className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                 />
               </div>
             </div>
           </div>
-          {/* Submit Button */}
+
           <div className="text-left">
-            <BtnSubmit>সাবমিট করুন</BtnSubmit>
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </div>

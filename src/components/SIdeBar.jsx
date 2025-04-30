@@ -49,7 +49,7 @@ const Sidebar = () => {
               alt="Admin Avatar"
               className="w-8 rounded-2xl drop-shadow"
             />
-            <h3 className="text-primary font-semibold">এডমিন</h3>
+            <h3 className="text-primary font-semibold">Admin</h3>
           </div>
         </div>
 
@@ -66,7 +66,7 @@ const Sidebar = () => {
             >
               <Link to="/" className="flex items-center gap-2 font-semibold">
                 <FaBars />
-                <span className="ps-2">ড্যাশবোর্ড</span>
+                <span className="ps-2">Dashboard</span>
               </Link>
             </li>
 
@@ -80,7 +80,7 @@ const Sidebar = () => {
                   >
                     <span className="flex items-center gap-2">
                       <FaCarRear />
-                      <span>ফ্লীট ম্যানেজমেন্ট</span>
+                      <span>Fleet Management</span>
                     </span>
                     {openMenu.fleet ? <FaChevronUp /> : <FaChevronDown />}
                   </div>
@@ -101,7 +101,7 @@ const Sidebar = () => {
                               isActive("/CarList") ? "bg-white" : "bg-primary"
                             }`}
                           ></div>
-                          <span>গাড়ি তালিকা</span>
+                          <span>Vehicle List</span>
                         </Link>
                       </li>
                       <li>
@@ -120,7 +120,7 @@ const Sidebar = () => {
                                 : "bg-primary"
                             }`}
                           ></div>
-                          <span>ড্রাইভার তালিকা</span>
+                          <span>Driver List</span>
                         </Link>
                       </li>
                       <li>
@@ -137,7 +137,7 @@ const Sidebar = () => {
                               isActive("/TripList") ? "bg-white" : "bg-primary"
                             }`}
                           ></div>
-                          <span>ট্রিপ হিসাব</span>
+                          <span>Trip List</span>
                         </Link>
                       </li>
                       <li>
@@ -154,7 +154,7 @@ const Sidebar = () => {
                               isActive("/Fuel") ? "bg-white" : "bg-primary"
                             }`}
                           ></div>
-                          <span>ফুয়েল হিসাব</span>
+                          <span>Fuel</span>
                         </Link>
                       </li>
                       <li>
@@ -171,7 +171,7 @@ const Sidebar = () => {
                               isActive("/Parts") ? "bg-white" : "bg-primary"
                             }`}
                           ></div>
-                          <span>পার্টস এন্ড স্পায়ারস</span>
+                          <span>Spare & Parts List</span>
                         </Link>
                       </li>
                       <li>
@@ -190,7 +190,7 @@ const Sidebar = () => {
                                 : "bg-primary"
                             }`}
                           ></div>
-                          <span>মেইনটেনেন্স</span>
+                          <span>Maintenance</span>
                         </Link>
                       </li>
                     </ul>
@@ -204,7 +204,7 @@ const Sidebar = () => {
                   >
                     <span className="flex items-center gap-2">
                       <FaBriefcase />
-                      <span>বিজনেসের বিবরণ</span>
+                      <span>Business Model</span>
                     </span>
                     {openMenu.business ? <FaChevronUp /> : <FaChevronDown />}
                   </div>
@@ -227,7 +227,7 @@ const Sidebar = () => {
                                 : "bg-primary"
                             }`}
                           ></div>
-                          <span>দৈনিক আয়</span>
+                          <span>Daily Income</span>
                         </Link>
                       </li>
                       <li>
@@ -246,7 +246,7 @@ const Sidebar = () => {
                                 : "bg-primary"
                             }`}
                           ></div>
-                          <span>দৈনিক ব্যয়</span>
+                          <span>Daily Expense</span>
                         </Link>
                       </li>
                     </ul>
@@ -260,7 +260,7 @@ const Sidebar = () => {
                   >
                     <span className="flex items-center gap-2">
                       <FaUser />
-                      <span>ইউজার কন্ট্রোল</span>
+                      <span>Users Control</span>
                     </span>
                     {openMenu.user ? <FaChevronUp /> : <FaChevronDown />}
                   </div>
@@ -281,7 +281,7 @@ const Sidebar = () => {
                               isActive("/AllUsers") ? "bg-white" : "bg-primary"
                             }`}
                           ></div>
-                          <span>সকল ইউজার</span>
+                          <span>All Users</span>
                         </Link>
                       </li>
                     </ul>
