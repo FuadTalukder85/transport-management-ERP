@@ -52,6 +52,12 @@ import AdvanceSalary from "../Pages/HR/Payroll/AdvanceSalary";
 import AdvanceSalaryForm from "../Pages/HR/Payroll/AdvanceSalaryForm";
 import Customer from "../Pages/Customer/Customer";
 import AddCustomer from "../Pages/Customer/AddCustomer";
+import ExployeeReport from "../Pages/Reports/ExployeeReport";
+import DriverReport from "../Pages/Reports/DriverReport";
+import FuelReport from "../Pages/Reports/FuelReport";
+import PurchaseReport from "../Pages/Reports/PurchaseReport";
+import InventoryReport from "../Pages/Reports/InventoryReport";
+import TripReport from "../Pages/Reports/TripReport";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -395,6 +401,31 @@ export const router = createBrowserRouter([
       {
         path: "/AddCustomer",
         element: <AddCustomer />,
+      },
+      // Reports
+      {
+        path: "/Reports/Employee-Report",
+        element: <ExployeeReport />,
+      },
+      {
+        path: "/Reports/Driver-Report",
+        element: <DriverReport />,
+      },
+      {
+        path: "/Reports/Fuel-Report",
+        element: <FuelReport />,
+      },
+      {
+        path: "/Reports/Purchase-Report",
+        element: <PurchaseReport />,
+      },
+      {
+        path: "/Reports/Inventory-Report",
+        element: <InventoryReport />,
+      },
+      {
+        path: "/Reports/Trip-Report",
+        element: <TripReport />,
       },
     ],
   },

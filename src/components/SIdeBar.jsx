@@ -686,7 +686,7 @@ const Sidebar = () => {
                     </ul>
                   </div>
                 </li>
-                {/* Purchase Reports */}
+                {/* Purchase */}
                 <li className="text-primary font-medium rounded-sm">
                   <div
                     onClick={() => toggleMenu("purchase")}
@@ -909,7 +909,7 @@ const Sidebar = () => {
                       openMenu.reports ? "max-h-[500px]" : "max-h-0"
                     }`}
                   >
-                    <ul className="space-y-3 px-2 text-sm">
+                    <ul className="mt-2 space-y-3 px-2 text-sm">
                       <li>
                         <Link
                           to="/Reports/Employee-Report"
