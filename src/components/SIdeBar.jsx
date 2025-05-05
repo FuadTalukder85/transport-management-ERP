@@ -446,9 +446,9 @@ const Sidebar = () => {
                           <ul className="pl-6 space-y-2 mt-1">
                             <li>
                               <Link
-                                to="/HRM/attendance"
+                                to="/HR/Attendance/AttendanceList"
                                 className={`block p-2 rounded-sm ${
-                                  isActive("/HRM/attendance")
+                                  isActive("/HR/Attendance/AttendanceList")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
@@ -458,7 +458,7 @@ const Sidebar = () => {
                             </li>
                             <li>
                               <Link
-                                to="/HRM/manage-attendance"
+                                to="/HR/Attendance/AttendanceList"
                                 className={`block p-2 rounded-sm ${
                                   isActive("/HRM/manage-attendance")
                                     ? "text-white bg-primary"
@@ -561,9 +561,9 @@ const Sidebar = () => {
                           <ul className="pl-6 space-y-2 mt-1">
                             <li>
                               <Link
-                                to="/HRM/payroll"
+                                to="/HRM/Payroll/Advance-Salary"
                                 className={`block p-2 rounded-sm ${
-                                  isActive("/HRM/attendance")
+                                  isActive("/HRM/Payroll/Advance-Salary")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
@@ -573,7 +573,7 @@ const Sidebar = () => {
                             </li>
                             <li>
                               <Link
-                                to="/HRM/advance-salary"
+                                to="/HRM/"
                                 className={`block p-2 rounded-sm ${
                                   isActive("/HRM/advance-salary")
                                     ? "text-white bg-primary"
@@ -622,7 +622,7 @@ const Sidebar = () => {
                   </div>
                   <div
                     className={`transition-all duration-900 ease-in-out overflow-hidden ${
-                      openMenu.inventory ? "max-h-[100px]" : "max-h-0"
+                      openMenu.inventory ? "max-h-[200px]" : "max-h-0"
                     }`}
                   >
                     <ul className="space-y-3 px-2 text-sm mt-2">
@@ -664,6 +664,25 @@ const Sidebar = () => {
                           <span>Stock Out</span>
                         </Link>
                       </li>
+                      <li>
+                        <Link
+                          to="/Inventory/Vendor"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/Inventory/Vendor")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/Inventory/Vendor")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Vendor</span>
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </li>
@@ -697,7 +716,7 @@ const Sidebar = () => {
                         <Link
                           to="/Purchase/PurchaseList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/Purchase")
+                            isActive("/Purchase/PurchaseList")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
@@ -714,16 +733,18 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/Supplier"
+                          to="/Purchase/SupplierList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/Supplier")
+                            isActive("/Purchase/SupplierList")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/Supplier") ? "bg-white" : "bg-primary"
+                              isActive("/Purchase/SupplierList")
+                                ? "bg-white"
+                                : "bg-primary"
                             }`}
                           ></div>
                           <span>Supplier List</span>

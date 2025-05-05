@@ -43,6 +43,15 @@ import Stockin from "../Pages/Inventory/Stockin";
 import AddStock from "../Pages/Inventory/AddStock";
 import StockOut from "../Pages/Inventory/StockOut";
 import StockOutForm from "../Pages/Inventory/StockOutForm";
+import Vendor from "../Pages/Inventory/Vendor";
+import InventoryVendorForm from "../Pages/Inventory/InventoryVendorForm";
+import SupplierList from "../Pages/Purchase/SupplierList";
+import AddSupply from "../Pages/Purchase/AddSupply";
+import AttendanceList from "../Pages/HR/HRM/AttendanceList";
+import AdvanceSalary from "../Pages/HR/Payroll/AdvanceSalary";
+import AdvanceSalaryForm from "../Pages/HR/Payroll/AdvanceSalaryForm";
+import Customer from "../Pages/Customer/Customer";
+import AddCustomer from "../Pages/Customer/AddCustomer";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -317,6 +326,19 @@ export const router = createBrowserRouter([
         element: <AddEmployee />,
       },
       {
+        path: "/HR/Attendance/AttendanceList",
+        element: <AttendanceList />,
+      },
+      // payroll
+      {
+        path: "/HRM/Payroll/Advance-Salary",
+        element: <AdvanceSalary />,
+      },
+      {
+        path: "/HRM/Payroll/Advance-Salary-Form",
+        element: <AdvanceSalaryForm />,
+      },
+      {
         path: "/HR/HRM/Leave",
         element: <Leave />,
       },
@@ -331,6 +353,14 @@ export const router = createBrowserRouter([
       {
         path: "/Purchase/PurchaseForm",
         element: <PurchaseForm />,
+      },
+      {
+        path: "/Purchase/SupplierList",
+        element: <SupplierList />,
+      },
+      {
+        path: "/Purchase/AddSupply",
+        element: <AddSupply />,
       },
       // Inventory
       {
@@ -348,6 +378,23 @@ export const router = createBrowserRouter([
       {
         path: "/Inventory/StockOutForm",
         element: <StockOutForm />,
+      },
+      {
+        path: "/Inventory/Vendor",
+        element: <Vendor />,
+      },
+      {
+        path: "/Inventory/AddVendor",
+        element: <InventoryVendorForm />,
+      },
+      // Customer
+      {
+        path: "/Customer",
+        element: <Customer />,
+      },
+      {
+        path: "/AddCustomer",
+        element: <AddCustomer />,
       },
     ],
   },
