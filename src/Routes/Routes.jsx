@@ -29,6 +29,20 @@ import UpdateDriverForm from "../Pages/updateForm/UpdateDriverForm";
 import UpdateDailyIncomeForm from "../Pages/updateForm/UpdateDailyIncomeForm";
 import UpdateExpenseForm from "../Pages/updateForm/UpdateExpenseForm";
 import AdminRoute from "./AdminRoute";
+import VendorList from "../Pages/VendorList";
+import AddVendorForm from "../Pages/AddVendorForm";
+import RentList from "../Pages/RentList";
+import AddRentVehicleForm from "../Pages/AddRentVehicleForm";
+import EmployeeList from "../Pages/HR/HRM/Employee-list";
+import AddEmployee from "../Pages/HR/HRM/AddEmployee";
+import Leave from "../Pages/HR/Leave";
+import LeaveForm from "../Pages/HR/LeaveForm";
+import PurchaseList from "../Pages/Purchase/PurchaseList";
+import PurchaseForm from "../Pages/Purchase/PurchaseForm";
+import Stockin from "../Pages/Inventory/Stockin";
+import AddStock from "../Pages/Inventory/AddStock";
+import StockOut from "../Pages/Inventory/StockOut";
+import StockOutForm from "../Pages/Inventory/StockOutForm";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -191,6 +205,38 @@ export const router = createBrowserRouter([
           fetch(`https://api.dropshep.com/api/maintenance/${params.id}`),
       },
       {
+        path: "VendorList",
+        element: (
+          // <AdminRoute>
+          <VendorList />
+          // </AdminRoute>
+        ),
+      },
+      {
+        path: "AddVendorForm",
+        element: (
+          // <AdminRoute>
+          <AddVendorForm />
+          // </AdminRoute>
+        ),
+      },
+      {
+        path: "RentList",
+        element: (
+          // <AdminRoute>
+          <RentList />
+          // </AdminRoute>
+        ),
+      },
+      {
+        path: "AddRentVehicleForm",
+        element: (
+          // <AdminRoute>
+          <AddRentVehicleForm />
+          // </AdminRoute>
+        ),
+      },
+      {
         path: "DailyIncome",
         element: (
           <AdminRoute>
@@ -259,6 +305,49 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`https://api.dropshep.com/api/trip/${params.id}`),
+      },
+
+      // HR
+      {
+        path: "/HR/HRM/employee-list",
+        element: <EmployeeList />,
+      },
+      {
+        path: "/HR/HRM/AddEmployee",
+        element: <AddEmployee />,
+      },
+      {
+        path: "/HR/HRM/Leave",
+        element: <Leave />,
+      },
+      {
+        path: "/HR/HRM/LeaveForm",
+        element: <LeaveForm />,
+      },
+      {
+        path: "/Purchase/PurchaseList",
+        element: <PurchaseList />,
+      },
+      {
+        path: "/Purchase/PurchaseForm",
+        element: <PurchaseForm />,
+      },
+      // Inventory
+      {
+        path: "/Inventory/Stockin",
+        element: <Stockin />,
+      },
+      {
+        path: "/Inventory/AddStock",
+        element: <AddStock />,
+      },
+      {
+        path: "/Inventory/StockOut",
+        element: <StockOut />,
+      },
+      {
+        path: "/Inventory/StockOutForm",
+        element: <StockOutForm />,
       },
     ],
   },
