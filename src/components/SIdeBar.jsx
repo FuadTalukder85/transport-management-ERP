@@ -18,6 +18,7 @@ import useAdmin from "../hooks/useAdmin";
 import { FaUsers } from "react-icons/fa";
 import { PiUsersFour } from "react-icons/pi";
 import { RiLuggageCartLine } from "react-icons/ri";
+import { HiCurrencyBangladeshi } from "react-icons/hi2";
 
 const Sidebar = () => {
   const [openMenu, setOpenMenu] = useState({
@@ -378,39 +379,26 @@ const Sidebar = () => {
                           <ul className="pl-6 space-y-2 mt-1">
                             <li>
                               <Link
-                                to="/tramessy/HRM/add-designation"
-                                className={`block p-2 rounded-sm ${
-                                  isActive("/tramessy/HRM/add-designation")
-                                    ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
-                                }`}
-                              >
-                                Add Designation
-                              </Link>
-                            </li>
-                            <li>
-                              <Link
-                                to="/tramessy/HRM/manage-designation"
-                                className={`block p-2 rounded-sm ${
-                                  isActive("/HRM/manage-designation")
-                                    ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
-                                }`}
-                              >
-                                Manage Designation
-                              </Link>
-                            </li>
-
-                            <li>
-                              <Link
                                 to="/tramessy/HR/HRM/employee-list"
                                 className={`block p-2 rounded-sm ${
-                                  isActive("/HRM/add-employee")
+                                  isActive("/tramessy/HR/HRM/employee-list")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
                                 Employee List
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                to="/tramessy/HR/HRM/Office"
+                                className={`block p-2 rounded-sm ${
+                                  isActive("/tramessy/HR/HRM/Office")
+                                    ? "text-white bg-primary"
+                                    : "text-gray-500 hover:text-primary"
+                                }`}
+                              >
+                                Office
                               </Link>
                             </li>
                           </ul>
@@ -575,18 +563,6 @@ const Sidebar = () => {
                             </li>
                             <li>
                               <Link
-                                to="/HRM"
-                                className={`block p-2 rounded-sm ${
-                                  isActive("/tramessy/HRM/advance-salary")
-                                    ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
-                                }`}
-                              >
-                                Salary
-                              </Link>
-                            </li>
-                            <li>
-                              <Link
                                 to="/tramessy/HRM/attendance-report"
                                 className={`block p-2 rounded-sm ${
                                   isActive("/HRM/attendance-report")
@@ -595,6 +571,20 @@ const Sidebar = () => {
                                 }`}
                               >
                                 Manage Employee salary
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                to="/tramessy/HRM/payroll/generate-salary"
+                                className={`block p-2 rounded-sm ${
+                                  isActive(
+                                    "/tramessy/HRM/payroll/generate-salary"
+                                  )
+                                    ? "text-white bg-primary"
+                                    : "text-gray-500 hover:text-primary"
+                                }`}
+                              >
+                                Generate Salary
                               </Link>
                             </li>
                           </ul>
@@ -1031,7 +1021,184 @@ const Sidebar = () => {
                     </ul>
                   </div>
                 </li>
+                {/* Accounts */}
+                <li className="text-primary font-medium rounded-sm">
+                  <div
+                    onClick={() => toggleMenu("accounts")}
+                    className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
+                  >
+                    <span className="flex items-center gap-2">
+                      <FaBriefcase />
+                      <span>Accounnt</span>
+                    </span>
+                    {openMenu.accounts ? <FaChevronUp /> : <FaChevronDown />}
+                  </div>
 
+                  {openMenu.accounts && (
+                    <ul className="space-y-3 px-2 text-sm mt-2">
+                      <li>
+                        <Link
+                          to="/tramessy/account/CashDispatch"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/account/CashDispatch")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/account/CashDispatch")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Cash Dispatch</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+                {/* Billing Control */}
+                <li className="text-primary font-medium rounded-sm">
+                  <div
+                    onClick={() => toggleMenu("billing")}
+                    className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
+                  >
+                    <span className="flex items-center gap-2">
+                      <HiCurrencyBangladeshi className="text-xl" />
+                      <span>Billing</span>
+                    </span>
+                    <span
+                      className={`transform transition-transform duration-900 ${
+                        openMenu.billing ? "rotate-180" : ""
+                      }`}
+                    >
+                      <FaChevronDown />
+                    </span>
+                  </div>
+                  <div
+                    className={`transition-all duration-900 ease-in-out overflow-hidden ${
+                      openMenu.billing ? "max-h-[300px]" : "max-h-0"
+                    }`}
+                  >
+                    <ul className="space-y-3 px-2 text-sm mt-2">
+                      <li>
+                        <Link
+                          to="/tramessy/billing/Yamaha"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/billing/Yamaha")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/billing/Yamaha")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Yamaha</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/billing/Hatim"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/billing/Hatim")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/billing/Hatim")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Hatim</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/billing/Suzuki"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/billing/Suzuki")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/billing/Suzuki")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Suzuki</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/billing/Sonalika"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/billing/Sonalika")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/billing/Sonalika")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Sonalika</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/billing/Honda"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/billing/Honda")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/billing/Honda")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Honda</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/billing/Meghdona"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/billing/Meghdona")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/billing/Meghdona")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Meghdona</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
                 {/* User Control */}
                 <li className="text-primary font-medium rounded-sm mb-10">
                   <div

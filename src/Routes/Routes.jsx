@@ -43,8 +43,6 @@ import Stockin from "../Pages/Inventory/Stockin";
 import AddStock from "../Pages/Inventory/AddStock";
 import StockOut from "../Pages/Inventory/StockOut";
 import StockOutForm from "../Pages/Inventory/StockOutForm";
-import Vendor from "../Pages/Inventory/InventorySupplier";
-import InventoryVendorForm from "../Pages/Inventory/InventorySupplierForm";
 import SupplierList from "../Pages/Purchase/SupplierList";
 import AddSupply from "../Pages/Purchase/AddSupply";
 import AttendanceList from "../Pages/HR/HRM/AttendanceList";
@@ -61,6 +59,14 @@ import TripReport from "../Pages/Reports/TripReport";
 import AttendanceForm from "../Pages/HR/HRM/AttendanceForm";
 import InventorySupplier from "../Pages/Inventory/InventorySupplier";
 import InventorySupplierForm from "../Pages/Inventory/InventorySupplierForm";
+import GenerateSalaryForm from "../Pages/HR/Payroll/GenerateSalaryForm";
+import GenerateSalary from "../Pages/HR/Payroll/GenerateSalary";
+import Yamaha from "../Pages/Billing/Yamaha";
+import Hatim from "../Pages/Billing/Hatim";
+import Suzuki from "../Pages/Billing/Suzuki";
+import Honda from "../Pages/Billing/Honda";
+import CashDispatch from "../Pages/Account/CashDispatch";
+import Office from "../Pages/HR/HRM/Office";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -331,6 +337,10 @@ export const router = createBrowserRouter([
         element: <EmployeeList />,
       },
       {
+        path: "/tramessy/HR/HRM/Office",
+        element: <Office />,
+      },
+      {
         path: "/tramessy/HR/HRM/AddEmployee",
         element: <AddEmployee />,
       },
@@ -338,6 +348,7 @@ export const router = createBrowserRouter([
         path: "/tramessy/HR/Attendance/AttendanceList",
         element: <AttendanceList />,
       },
+
       {
         path: "/tramessy/HR/HRM/Attendance/AttendanceForm",
         element: <AttendanceForm />,
@@ -350,6 +361,14 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/HRM/Payroll/Advance-Salary-Form",
         element: <AdvanceSalaryForm />,
+      },
+      {
+        path: "/tramessy/HRM/payroll/generate-salary",
+        element: <GenerateSalary />,
+      },
+      {
+        path: "/tramessy/HRM/payroll/generate-salary-form",
+        element: <GenerateSalaryForm />,
       },
       {
         path: "/tramessy/HR/HRM/Leave",
@@ -433,6 +452,28 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/Reports/Trip-Report",
         element: <TripReport />,
+      },
+      // billing
+      {
+        path: "/tramessy/billing/Yamaha",
+        element: <Yamaha />,
+      },
+      {
+        path: "/tramessy/billing/Hatim",
+        element: <Hatim />,
+      },
+      {
+        path: "/tramessy/billing/Suzuki",
+        element: <Suzuki />,
+      },
+      {
+        path: "/tramessy/billing/Honda",
+        element: <Honda />,
+      },
+      // Account
+      {
+        path: "/tramessy/account/CashDispatch",
+        element: <CashDispatch />,
       },
     ],
   },
