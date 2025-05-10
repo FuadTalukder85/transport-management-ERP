@@ -1,34 +1,30 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import "react-datepicker/dist/react-datepicker.css";
-import { MdOutlineArrowDropDown } from "react-icons/md";
+import { useForm, FormProvider } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import BtnSubmit from "../components/Button/BtnSubmit";
+import { MdOutlineArrowDropDown } from "react-icons/md";
+import { InputField, SelectField } from "../components/Form/FormFields";
 
 const AddUserForm = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm();
+  const methods = useForm();
+  const { handleSubmit, reset, watch } = methods;
+
   const password = watch("password");
-  //
+
   const onSubmit = async (data) => {
-    console.log("add car data", data);
     try {
       const formData = new FormData();
-      for (const key in data) {
-        formData.append(key, data[key]);
-      }
+      Object.entries(data).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
       const response = await axios.post(
         "https://api.dropshep.com/api/users",
         formData
       );
       const resData = response.data;
-      console.log("resData", resData);
+
       if (resData.status === "success") {
         toast.success("User successfully added!", { position: "top-right" });
         reset();
@@ -36,7 +32,6 @@ const AddUserForm = () => {
         toast.error("Server error: " + (resData.message || "Unknown issue"));
       }
     } catch (error) {
-      console.error(error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
       toast.error("Server error: " + errorMessage);
@@ -50,146 +45,80 @@ const AddUserForm = () => {
         Add User
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Row 1 */}
-          <div className="md:flex justify-between gap-3">
-            <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
-                Name *
-              </label>
-              <input
-                {...register("name", { required: true })}
-                type="text"
-                placeholder="Name..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-              {errors.name && (
-                <span className="text-red-600 text-sm">
-                  This field is required
-                </span>
-              )}
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {/* Row 1 */}
+            <div className="md:flex justify-between gap-3">
+              <div className="w-full">
+                <InputField name="name" label="Name" required />
+              </div>
+              <div className="w-full">
+                <InputField name="phone" label="Phone" type="number" required />
+              </div>
             </div>
-            <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
-                Phone *
-              </label>
-              <input
-                {...register("phone", { required: true })}
-                type="number"
-                placeholder="Phone..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-              {errors.phone && (
-                <span className="text-red-600 text-sm">
-                  This field is required
-                </span>
-              )}
-            </div>
-          </div>
 
-          {/* Row 2 */}
-          <div className="md:flex justify-between gap-3">
-            <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
-                Email *
-              </label>
-              <input
-                {...register("email", { required: true })}
-                type="email"
-                placeholder="Email..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-              {errors.email && (
-                <span className="text-red-600 text-sm">
-                  This field is required
-                </span>
-              )}
+            {/* Row 2 */}
+            <div className="md:flex justify-between gap-3">
+              <div className="w-full">
+                <InputField name="email" label="Email" type="email" required />
+              </div>
+              <div className="w-full">
+                <InputField
+                  name="password"
+                  label="Password"
+                  type="password"
+                  required
+                />
+              </div>
+              <div className="w-full">
+                <InputField
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  required
+                  validate={(value) =>
+                    value === password || "Passwords do not match"
+                  }
+                />
+              </div>
             </div>
-            <div className="mt-3 md:mt-0 w-full relative">
-              <label className="text-primary text-sm font-semibold">
-                Password
-              </label>
-              <input
-                {...register("password", { required: "Password is required" })}
-                type="password"
-                placeholder="Password..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-              {errors.password && (
-                <span className="text-red-600 text-sm">
-                  This field is required
-                </span>
-              )}
-            </div>
-            <div className="mt-3 md:mt-0 w-full relative">
-              <label className="text-primary text-sm font-semibold">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                placeholder="Confirm Password..."
-                {...register("confirmPassword", {
-                  required: "Confirm Password is required",
-                  validate: (value) =>
-                    value === password || "Passwords do not match",
-                })}
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-              {errors.password && (
-                <span className="text-red-600 text-sm">
-                  This field is required
-                </span>
-              )}
-            </div>
-          </div>
 
-          {/* Row 3 */}
-          <div className="md:flex justify-between gap-3">
-            <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
-                User Type
-              </label>
-              <select
-                {...register("role", { required: true })}
-                className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
-              >
-                <option value="">Select User Type...</option>
-                <option value="User">User</option>
-                <option value="Admin">Admin</option>
-              </select>
-              {errors.role && (
-                <span className="text-red-600 text-sm">
-                  This field is required
-                </span>
-              )}
-              <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
+            {/* Row 3 */}
+            <div className="md:flex justify-between gap-3">
+              <div className="w-full relative">
+                <SelectField
+                  name="role"
+                  label="User Type"
+                  required
+                  options={[
+                    { value: "", label: "Select User Type..." },
+                    { value: "User", label: "User" },
+                    { value: "Admin", label: "Admin" },
+                  ]}
+                />
+                <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
+              </div>
+              <div className="w-full relative">
+                <SelectField
+                  name="status"
+                  label="Status"
+                  required
+                  options={[
+                    { value: "", label: "Select Status..." },
+                    { value: "Active", label: "Active" },
+                    { value: "Inactive", label: "Inactive" },
+                  ]}
+                />
+                <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
+              </div>
             </div>
-            <div className="mt-3 md:mt-0 relative w-full">
-              <label className="text-primary text-sm font-semibold">
-                Status
-              </label>
-              <select
-                {...register("status", { required: true })}
-                className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
-              >
-                <option value="">Select Status...</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-              {errors.status && (
-                <span className="text-red-600 text-sm">
-                  This field is required
-                </span>
-              )}
-              <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
-            </div>
-          </div>
 
-          {/* Submit Button */}
-          <div className="mt-6">
-            <BtnSubmit>Submit</BtnSubmit>
-          </div>
-        </form>
+            {/* Submit */}
+            <div className="mt-6">
+              <BtnSubmit>Submit</BtnSubmit>
+            </div>
+          </form>
+        </FormProvider>
       </div>
     </div>
   );

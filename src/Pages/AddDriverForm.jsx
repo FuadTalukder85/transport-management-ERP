@@ -66,12 +66,12 @@ const AddDriverForm = () => {
                 Driver Name *
               </label>
               <input
-                {...register("name", { required: true })}
+                {...register("driver_name", { required: true })}
                 type="text"
                 placeholder="Enter driver name..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
-              {errors.name && (
+              {errors.driver_name && (
                 <span className="text-red-600 text-sm">
                   This field is required
                 </span>
@@ -82,12 +82,12 @@ const AddDriverForm = () => {
                 Driver Mobile *
               </label>
               <input
-                {...register("contact", { required: true })}
+                {...register("driver_mobile", { required: true })}
                 type="number"
                 placeholder="Enter mobile number..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
-              {errors.contact && (
+              {errors.driver_mobile && (
                 <span className="text-red-600 text-sm">
                   This field is required
                 </span>
@@ -180,12 +180,12 @@ const AddDriverForm = () => {
             </div>
             <div className="mt-2 md:mt-0 w-full relative">
               <label className="text-primary text-sm font-semibold">
-                Expiry Date *
+                License Expiry Date *
               </label>
               <div className="relative">
                 <input
                   type="date"
-                  {...register("expire_date", { required: true })}
+                  {...register("license_expire_date", { required: true })}
                   ref={(e) => {
                     register("expire_date").ref(e);
                     driverDateRef.current = e;

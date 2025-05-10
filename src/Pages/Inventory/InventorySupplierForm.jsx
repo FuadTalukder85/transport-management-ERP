@@ -4,7 +4,7 @@ import { MdOutlineArrowDropDown } from "react-icons/md";
 import { FormProvider, useForm } from "react-hook-form";
 import { InputField } from "../../components/Form/FormFields";
 
-const AddSupply = () => {
+const InventorySupplierForm = () => {
   const methods = useForm();
   const onSubmit = (data) => {
     console.log("Form Data:", data);
@@ -12,7 +12,7 @@ const AddSupply = () => {
   return (
     <div className="mt-10">
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        Add Supply Information
+        Add Inventory Supplier Information
       </h3>
       <FormProvider {...methods} className="">
         <form
@@ -40,7 +40,7 @@ const AddSupply = () => {
               <label className="text-primary text-sm font-semibold">
                 Status
               </label>
-              <select className="w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none">
+              <select className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none">
                 <option value="">Select status</option>
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
@@ -48,7 +48,6 @@ const AddSupply = () => {
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
           </div>
-
           <BtnSubmit>Submit</BtnSubmit>
         </form>
       </FormProvider>
@@ -56,4 +55,4 @@ const AddSupply = () => {
   );
 };
 
-export default AddSupply;
+export default InventorySupplierForm;

@@ -78,15 +78,12 @@ const AddVendorForm = () => {
                 Vendor Name
               </label>
               <input
-                {...register("pump_name_address", { required: true })}
+                {...register("vendor_name", { required: true })}
                 type="text"
                 placeholder="Vendor Name..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
-              {errors.pump_name_address && (
-                <span className="text-red-600 text-sm">Required</span>
-              )}
-              {errors.vehicle_number && (
+              {errors.vendor_name && (
                 <span className="text-red-600 text-sm">Required</span>
               )}
             </div>
@@ -98,12 +95,12 @@ const AddVendorForm = () => {
                 Mobile
               </label>
               <input
-                {...register("trip_id_invoice_no")}
+                {...register("mobile")}
                 type="text"
                 placeholder="Mobile..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
-              {errors.driver_name && (
+              {errors.mobile && (
                 <span className="text-red-600 text-sm">Required</span>
               )}
             </div>
@@ -112,7 +109,7 @@ const AddVendorForm = () => {
                 Email
               </label>
               <input
-                {...register("trip_id_invoice_no")}
+                {...register("email")}
                 type="text"
                 placeholder="Email..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
@@ -126,14 +123,14 @@ const AddVendorForm = () => {
                 Rent Category
               </label>
               <select
-                {...register("type", { required: true })}
+                {...register("rent_category", { required: true })}
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
                 <option value="">Select Transport Rent</option>
                 <option value="Pickup">Pickup</option>
                 <option value="Gas">Covered Van</option>
               </select>
-              {errors.type && (
+              {errors.rent_category && (
                 <span className="text-red-600 text-sm">Required</span>
               )}
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
@@ -143,7 +140,7 @@ const AddVendorForm = () => {
                 Work Area
               </label>
               <input
-                {...register("capacity")}
+                {...register("work_area")}
                 type="text"
                 placeholder="Work Area..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
@@ -157,14 +154,14 @@ const AddVendorForm = () => {
               <div className="relative">
                 <input
                   type="date"
-                  {...register("date_time", { required: true })}
+                  {...register("date", { required: true })}
                   ref={(e) => {
-                    register("date_time").ref(e);
+                    register("date").ref(e);
                     fuelDateRef.current = e;
                   }}
                   className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
                 />
-                {errors.date_time && (
+                {errors.date && (
                   <span className="text-red-600 text-sm">Required</span>
                 )}
                 <span className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r">

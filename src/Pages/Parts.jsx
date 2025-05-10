@@ -304,12 +304,12 @@ const Parts = () => {
                     Part Name
                   </label>
                   <input
-                    {...register("name", { required: true })}
+                    {...register("parts_name", { required: true })}
                     type="text"
                     placeholder="Part Name..."
                     className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
                   />
-                  {errors.name && (
+                  {errors.parts_name && (
                     <span className="text-red-600 text-sm">
                       This field is required
                     </span>
@@ -325,9 +325,9 @@ const Parts = () => {
                   <div className="relative">
                     <input
                       type="date"
-                      {...register("date")}
+                      {...register("parts_validity")}
                       ref={(e) => {
-                        register("date").ref(e);
+                        register("parts_validity").ref(e);
                         partsDateRef.current = e;
                       }}
                       className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"

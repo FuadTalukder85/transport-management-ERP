@@ -43,8 +43,8 @@ import Stockin from "../Pages/Inventory/Stockin";
 import AddStock from "../Pages/Inventory/AddStock";
 import StockOut from "../Pages/Inventory/StockOut";
 import StockOutForm from "../Pages/Inventory/StockOutForm";
-import Vendor from "../Pages/Inventory/Vendor";
-import InventoryVendorForm from "../Pages/Inventory/InventoryVendorForm";
+import Vendor from "../Pages/Inventory/InventorySupplier";
+import InventoryVendorForm from "../Pages/Inventory/InventorySupplierForm";
 import SupplierList from "../Pages/Purchase/SupplierList";
 import AddSupply from "../Pages/Purchase/AddSupply";
 import AttendanceList from "../Pages/HR/HRM/AttendanceList";
@@ -58,13 +58,16 @@ import FuelReport from "../Pages/Reports/FuelReport";
 import PurchaseReport from "../Pages/Reports/PurchaseReport";
 import InventoryReport from "../Pages/Reports/InventoryReport";
 import TripReport from "../Pages/Reports/TripReport";
+import AttendanceForm from "../Pages/HR/HRM/AttendanceForm";
+import InventorySupplier from "../Pages/Inventory/InventorySupplier";
+import InventorySupplierForm from "../Pages/Inventory/InventorySupplierForm";
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/tramessy",
     element: <Main />,
     children: [
       {
-        path: "/",
+        path: "/tramessy",
         element: (
           <PrivateRoute>
             <Home />
@@ -72,7 +75,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "CarList",
+        path: "/tramessy/CarList",
         element: (
           <PrivateRoute>
             <CarList />
@@ -80,7 +83,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "AddCarForm",
+        path: "/tramessy/AddCarForm",
         element: (
           <PrivateRoute>
             <AddCarForm />
@@ -88,7 +91,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "UpdateCarForm/:id",
+        path: "/tramessy/UpdateCarForm/:id",
         element: (
           <PrivateRoute>
             <UpdateCarForm />
@@ -98,7 +101,7 @@ export const router = createBrowserRouter([
           fetch(`https://api.dropshep.com/api/vehicle/${params.id}`),
       },
       {
-        path: "DriverList",
+        path: "/tramessy/DriverList",
         element: (
           <PrivateRoute>
             <DriverList />
@@ -106,7 +109,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "AddDriverForm",
+        path: "/tramessy/AddDriverForm",
         element: (
           <PrivateRoute>
             <AddDriverForm />
@@ -114,7 +117,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "UpdateDriverForm/:id",
+        path: "/tramessy/UpdateDriverForm/:id",
         element: (
           <PrivateRoute>
             <UpdateDriverForm />
@@ -124,7 +127,7 @@ export const router = createBrowserRouter([
           fetch(`https://api.dropshep.com/api/driver/${params.id}`),
       },
       {
-        path: "TripList",
+        path: "/tramessy/TripList",
         element: (
           <PrivateRoute>
             <TripList />
@@ -132,7 +135,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "AddTripForm",
+        path: "/tramessy/AddTripForm",
         element: (
           <PrivateRoute>
             <AddTripForm />
@@ -140,7 +143,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "UpdateTripForm/:id",
+        path: "/tramessy/UpdateTripForm/:id",
         element: (
           <PrivateRoute>
             <UpdateTripForm />
@@ -150,7 +153,7 @@ export const router = createBrowserRouter([
           fetch(`https://api.dropshep.com/api/trip/${params.id}`),
       },
       {
-        path: "Fuel",
+        path: "/tramessy/Fuel",
         element: (
           <PrivateRoute>
             <Fuel />
@@ -158,7 +161,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "FuelForm",
+        path: "/tramessy/FuelForm",
         element: (
           <PrivateRoute>
             <FuelForm />
@@ -166,7 +169,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "UpdateFuelForm/:id",
+        path: "/tramessy/UpdateFuelForm/:id",
         element: (
           <PrivateRoute>
             <UpdateFuelForm />
@@ -176,7 +179,7 @@ export const router = createBrowserRouter([
           fetch(`https://api.dropshep.com/api/fuel/${params.id}`),
       },
       {
-        path: "Parts",
+        path: "/tramessy/Parts",
         element: (
           <PrivateRoute>
             <Parts />
@@ -184,7 +187,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "UpdatePartsForm/:id",
+        path: "/tramessy/UpdatePartsForm/:id",
         element: (
           <PrivateRoute>
             <UpdatePartsForm />
@@ -194,7 +197,7 @@ export const router = createBrowserRouter([
           fetch(`https://api.dropshep.com/api/parts/${params.id}`),
       },
       {
-        path: "Maintenance",
+        path: "/tramessy/Maintenance",
         element: (
           <PrivateRoute>
             <Maintenance />
@@ -202,7 +205,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "MaintenanceForm",
+        path: "/tramessy/MaintenanceForm",
         element: (
           <PrivateRoute>
             <MaintenanceForm />
@@ -210,7 +213,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "UpdateMaintenanceForm/:id",
+        path: "/tramessy/UpdateMaintenanceForm/:id",
         element: (
           <PrivateRoute>
             <UpdateMaintenanceForm />
@@ -220,7 +223,7 @@ export const router = createBrowserRouter([
           fetch(`https://api.dropshep.com/api/maintenance/${params.id}`),
       },
       {
-        path: "VendorList",
+        path: "/tramessy/VendorList",
         element: (
           // <AdminRoute>
           <VendorList />
@@ -228,7 +231,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "AddVendorForm",
+        path: "/tramessy/AddVendorForm",
         element: (
           // <AdminRoute>
           <AddVendorForm />
@@ -236,7 +239,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "RentList",
+        path: "/tramessy/RentList",
         element: (
           // <AdminRoute>
           <RentList />
@@ -244,7 +247,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "AddRentVehicleForm",
+        path: "/tramessy/AddRentVehicleForm",
         element: (
           // <AdminRoute>
           <AddRentVehicleForm />
@@ -252,7 +255,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "DailyIncome",
+        path: "/tramessy/DailyIncome",
         element: (
           <AdminRoute>
             <DailyIncome />
@@ -260,7 +263,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "DailyExpense",
+        path: "/tramessy/DailyExpense",
         element: (
           <PrivateRoute>
             <DailyExpense />
@@ -268,7 +271,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "AllUsers",
+        path: "/tramessy/AllUsers",
         element: (
           <AdminRoute>
             <AllUsers />
@@ -276,7 +279,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "AddUserForm",
+        path: "/tramessy/AddUserForm",
         element: (
           <AdminRoute>
             <AddUserForm />
@@ -284,7 +287,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "UpdateUsersForm/:id",
+        path: "/tramessy/UpdateUsersForm/:id",
         element: (
           <PrivateRoute>
             <UpdateUsersForm />
@@ -294,15 +297,15 @@ export const router = createBrowserRouter([
           fetch(`https://api.dropshep.com/api/users/${params.id}`),
       },
       {
-        path: "Login",
+        path: "/tramessy/Login",
         element: <Login />,
       },
       {
-        path: "ResetPass",
+        path: "/tramessy/ResetPass",
         element: <ResetPass />,
       },
       {
-        path: "UpdateDailyIncomeForm/:id",
+        path: "/tramessy/UpdateDailyIncomeForm/:id",
         element: (
           <AdminRoute>
             <UpdateDailyIncomeForm />
@@ -312,7 +315,7 @@ export const router = createBrowserRouter([
           fetch(`https://api.dropshep.com/api/trip/${params.id}`),
       },
       {
-        path: "UpdateExpenseForm/:id",
+        path: "/tramessy/UpdateExpenseForm/:id",
         element: (
           <PrivateRoute>
             <UpdateExpenseForm />
@@ -324,107 +327,111 @@ export const router = createBrowserRouter([
 
       // HR
       {
-        path: "/HR/HRM/employee-list",
+        path: "/tramessy/HR/HRM/employee-list",
         element: <EmployeeList />,
       },
       {
-        path: "/HR/HRM/AddEmployee",
+        path: "/tramessy/HR/HRM/AddEmployee",
         element: <AddEmployee />,
       },
       {
-        path: "/HR/Attendance/AttendanceList",
+        path: "/tramessy/HR/Attendance/AttendanceList",
         element: <AttendanceList />,
+      },
+      {
+        path: "/tramessy/HR/HRM/Attendance/AttendanceForm",
+        element: <AttendanceForm />,
       },
       // payroll
       {
-        path: "/HRM/Payroll/Advance-Salary",
+        path: "/tramessy/HRM/Payroll/Advance-Salary",
         element: <AdvanceSalary />,
       },
       {
-        path: "/HRM/Payroll/Advance-Salary-Form",
+        path: "/tramessy/HRM/Payroll/Advance-Salary-Form",
         element: <AdvanceSalaryForm />,
       },
       {
-        path: "/HR/HRM/Leave",
+        path: "/tramessy/HR/HRM/Leave",
         element: <Leave />,
       },
       {
-        path: "/HR/HRM/LeaveForm",
+        path: "/tramessy/HR/HRM/LeaveForm",
         element: <LeaveForm />,
       },
       {
-        path: "/Purchase/PurchaseList",
+        path: "/tramessy/Purchase/PurchaseList",
         element: <PurchaseList />,
       },
       {
-        path: "/Purchase/PurchaseForm",
+        path: "/tramessy/Purchase/PurchaseForm",
         element: <PurchaseForm />,
       },
       {
-        path: "/Purchase/SupplierList",
+        path: "/tramessy/Purchase/SupplierList",
         element: <SupplierList />,
       },
       {
-        path: "/Purchase/AddSupply",
+        path: "/tramessy/Purchase/AddSupply",
         element: <AddSupply />,
       },
       // Inventory
       {
-        path: "/Inventory/Stockin",
+        path: "/tramessy/Inventory/Stockin",
         element: <Stockin />,
       },
       {
-        path: "/Inventory/AddStock",
+        path: "/tramessy/Inventory/AddStock",
         element: <AddStock />,
       },
       {
-        path: "/Inventory/StockOut",
+        path: "/tramessy/Inventory/StockOut",
         element: <StockOut />,
       },
       {
-        path: "/Inventory/StockOutForm",
+        path: "/tramessy/Inventory/StockOutForm",
         element: <StockOutForm />,
       },
       {
-        path: "/Inventory/Vendor",
-        element: <Vendor />,
+        path: "/tramessy/Inventory/Inventory-supplier",
+        element: <InventorySupplier />,
       },
       {
-        path: "/Inventory/AddVendor",
-        element: <InventoryVendorForm />,
+        path: "/tramessy/Inventory/InventorySupplierForm",
+        element: <InventorySupplierForm />,
       },
       // Customer
       {
-        path: "/Customer",
+        path: "/tramessy/Customer",
         element: <Customer />,
       },
       {
-        path: "/AddCustomer",
+        path: "/tramessy/AddCustomer",
         element: <AddCustomer />,
       },
       // Reports
       {
-        path: "/Reports/Employee-Report",
+        path: "/tramessy/Reports/Employee-Report",
         element: <ExployeeReport />,
       },
       {
-        path: "/Reports/Driver-Report",
+        path: "/tramessy/Reports/Driver-Report",
         element: <DriverReport />,
       },
       {
-        path: "/Reports/Fuel-Report",
+        path: "/tramessy/Reports/Fuel-Report",
         element: <FuelReport />,
       },
       {
-        path: "/Reports/Purchase-Report",
+        path: "/tramessy/Reports/Purchase-Report",
         element: <PurchaseReport />,
       },
       {
-        path: "/Reports/Inventory-Report",
+        path: "/tramessy/Reports/Inventory-Report",
         element: <InventoryReport />,
       },
       {
-        path: "/Reports/Trip-Report",
+        path: "/tramessy/Reports/Trip-Report",
         element: <TripReport />,
       },
     ],

@@ -235,7 +235,7 @@ const TripList = () => {
             Trip Records
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
-            <Link to="/AddTripForm">
+            <Link to="/tramessy/AddTripForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <FaPlus /> Trip
               </button>

@@ -89,18 +89,20 @@ const FuelForm = () => {
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">Date</label>
+              <label className="text-primary text-sm font-semibold">
+                Fueling Date
+              </label>
               <div className="relative">
                 <input
                   type="date"
-                  {...register("date_time", { required: true })}
+                  {...register("fueling_date", { required: true })}
                   ref={(e) => {
-                    register("date_time").ref(e);
+                    register("fueling_date").ref(e);
                     fuelDateRef.current = e;
                   }}
                   className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
                 />
-                {errors.date_time && (
+                {errors.fueling_date && (
                   <span className="text-red-600 text-sm">Required</span>
                 )}
                 <span className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r">
@@ -199,7 +201,7 @@ const FuelForm = () => {
                 Fuel Capacity
               </label>
               <input
-                {...register("capacity")}
+                {...register("fuel_capacity")}
                 type="number"
                 placeholder="Fuel capacity..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
@@ -213,7 +215,7 @@ const FuelForm = () => {
                 Fuel Type
               </label>
               <select
-                {...register("type", { required: true })}
+                {...register("fuel_type", { required: true })}
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
                 <option value="">Select fuel type</option>
@@ -251,7 +253,7 @@ const FuelForm = () => {
                 Price per Liter
               </label>
               <input
-                {...register("price", { required: true })}
+                {...register("price_per_liter", { required: true })}
                 type="number"
                 placeholder="Price per liter..."
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
@@ -266,7 +268,7 @@ const FuelForm = () => {
               </label>
               <input
                 readOnly
-                {...register("total_price", { required: true })}
+                {...register("total_amount", { required: true })}
                 type="number"
                 defaultValue={total}
                 value={total}

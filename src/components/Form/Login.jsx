@@ -14,7 +14,7 @@ const Login = () => {
     const result = await login(email, password);
 
     if (result.success) {
-      navigate("/");
+      navigate("/tramessy");
     } else {
       alert(result.message || "Login failed");
     }
@@ -25,23 +25,29 @@ const Login = () => {
       <div className="md:border-2 border-primary rounded-xl md:flex justify-between">
         {/* img */}
         <div className="hidden md:block md:w-1/2 mt-10 md:mt-0">
-          <img src={bgImage} alt="" className="rounded-lg md:rounded-l-lg" />
+          <img
+            src={bgImage}
+            alt=""
+            className="rounded-lg md:rounded-l-lg w-full h-full"
+          />
         </div>
         {/* form */}
         <div className="flex items-center justify-center md:w-1/2 bg-white rounded-xl py-7 md:p-8">
           <div className="bg-white shadow-lg p-5 md:p-7 rounded-md border md:border-none border-gray-200">
             <h2 className="text-3xl font-extrabold text-center text-[#11375B] mb-1">
-              এডমিন{" "}
-              <span className="font-semibold text-red-500">Nalitabari</span>
+              Admin{" "}
+              <span className="font-semibold text-red-500">MS Trading</span>
             </h2>
-            <p className="text-sm text-center text-primary mb-6">লগিন করুন</p>
+            <p className="text-sm text-center text-primary mb-6">
+              Please Login!
+            </p>
 
             <ReusableForm onSubmit={handleLogin}>
               <div className="relative">
                 <input
                   type="text"
                   name="email"
-                  placeholder="ইমেইল"
+                  placeholder="Email"
                   className="w-full md:w-80 text-sm px-4 py-2 border border-gray-300 rounded-md outline-none"
                   required
                 />
@@ -53,7 +59,7 @@ const Login = () => {
                 <input
                   type="password"
                   name="password"
-                  placeholder="পাসওয়ার্ড"
+                  placeholder="Password"
                   className="w-full md:w-80 text-sm px-4 py-2 border border-gray-300 rounded-md outline-none"
                   required
                 />
@@ -64,9 +70,9 @@ const Login = () => {
             </ReusableForm>
 
             <div className="mt-4 text-center">
-              <Link to="/ResetPass">
+              <Link to="/tramessy/ResetPass">
                 <span className="text-sm text-[#11375B] underline hover:text-red-500 transition-all duration-700">
-                  পাসওয়ার্ড ভুলে গেছেন?
+                  Forget password?
                 </span>
               </Link>
             </div>

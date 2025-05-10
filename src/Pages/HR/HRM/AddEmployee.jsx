@@ -54,6 +54,14 @@ const AddEmployee = () => {
               className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
             />
           </div>
+          <div className="w-full">
+            <label className="text-primary text-sm font-semibold">Salary</label>
+            <input
+              type="number"
+              placeholder="Salary..."
+              className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+            />
+          </div>
         </div>
         {/*  */}
         <div className="md:flex justify-between gap-3">

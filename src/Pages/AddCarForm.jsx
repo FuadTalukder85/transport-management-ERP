@@ -122,7 +122,7 @@ const AddCarForm = () => {
               Vehicle Category
             </label>
             <select
-              {...register("category", { required: true })}
+              {...register("vehicle_category", { required: true })}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
               <option value="">Select vehicle category...</option>
@@ -134,7 +134,7 @@ const AddCarForm = () => {
               <option value="Car">Car</option>
             </select>
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
-            {errors.category && (
+            {errors.vehicle_category && (
               <span className="text-red-600 text-sm">
                 This field is required
               </span>
@@ -145,7 +145,7 @@ const AddCarForm = () => {
               Vehicle Size
             </label>
             <select
-              {...register("size", { required: true })}
+              {...register("vehicle_size", { required: true })}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
             >
               <option value="">Select size...</option>
@@ -165,7 +165,7 @@ const AddCarForm = () => {
               ))}
             </select>
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
-            {errors.size && (
+            {errors.vehicle_size && (
               <span className="text-red-600 text-sm">
                 This field is required
               </span>
@@ -349,14 +349,14 @@ const AddCarForm = () => {
             <div className="relative">
               <input
                 type="date"
-                {...register("text_date", { required: true })}
+                {...register("tax_date", { required: true })}
                 ref={(e) => {
                   register("text_date").ref(e);
                   taxDateRef.current = e;
                 }}
                 className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
               />
-              {errors.text_date && (
+              {errors.tax_date && (
                 <span className="text-red-600 text-sm">
                   This field is required
                 </span>

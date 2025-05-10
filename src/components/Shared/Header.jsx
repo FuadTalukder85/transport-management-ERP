@@ -12,7 +12,7 @@ const Header = ({ setMobileSidebarOpen }) => {
   // handle signout
   const handleSignout = () => {
     logout();
-    navigate("/");
+    navigate("/tramessy");
   };
 
   return (
@@ -28,7 +28,7 @@ const Header = ({ setMobileSidebarOpen }) => {
             <FaBars />
           </h3>
 
-          <Link to="/" className="font-semibold text-primary">
+          <Link to="/tramessy" className="font-semibold text-primary">
             Home
           </Link>
         </div>
