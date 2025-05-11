@@ -1,19 +1,7 @@
-import React, { useState } from "react";
-import { Toaster } from "react-hot-toast";
-import {
-  FaTruck,
-  FaPlus,
-  FaFilter,
-  FaPen,
-  FaEye,
-  FaTrashAlt,
-} from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
+import { useState } from "react";
+import { FaTruck, FaPlus, FaFilter } from "react-icons/fa";
 import { Link } from "react-router-dom";
-// export
-import { CSVLink } from "react-csv";
-import * as XLSX from "xlsx";
-import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+
 const TripReport = () => {
   const [showFilter, setShowFilter] = useState(false);
   // Date filter state
@@ -111,7 +99,6 @@ const TripReport = () => {
                 <th className="px-2 py-3">Trip Cost</th>
                 <th className="px-2 py-3">Trip Fare</th>
                 <th className="px-2 py-3">Total Profit</th>
-                <th className="px-2 py-3 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -132,24 +119,6 @@ const TripReport = () => {
                 <td className="px-2 py-3">250</td>
                 <td className="px-2 py-3">80</td>
                 <td className="px-2 py-3">20000.00</td>
-                <td className="px-2 action_column">
-                  <div className="flex gap-1">
-                    <Link>
-                      <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                        <FaPen className="text-[12px]" />
-                      </button>
-                    </Link>
-                    <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                      <FaEye className="text-[12px]" />
-                    </button>
-                    <button
-                      onClick={() => {}}
-                      className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer"
-                    >
-                      <FaTrashAlt className="text-[12px]" />
-                    </button>
-                  </div>
-                </td>
               </tr>
             </tbody>
           </table>

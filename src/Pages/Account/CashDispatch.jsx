@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { FaFilter } from "react-icons/fa6";
+import React from "react";
+import { FaEye, FaPen, FaTrashAlt } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa6";
 import { HiCurrencyBangladeshi } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 
 const CashDispatch = () => {
-  const [showFilter, setShowFilter] = useState(false);
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
@@ -13,41 +14,14 @@ const CashDispatch = () => {
             Cash Dispatch
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
-            <button
-              onClick={() => setShowFilter((prev) => !prev)}
-              className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
-            >
-              <FaFilter /> Filter
-            </button>
+            <Link to="/tramessy/account/CashDispatchForm">
+              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
+                <FaPlus /> Dispatch
+              </button>
+            </Link>
           </div>
         </div>
 
-        {/* Conditional Filter Section */}
-        {showFilter && (
-          <div className="md:flex gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
-            <div className="relative w-64">
-              <input
-                type="date"
-                placeholder="Start date"
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-            </div>
-
-            <div className="relative w-64">
-              <input
-                type="date"
-                placeholder="End date"
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-            </div>
-
-            <div className="mt-3 md:mt-0 flex gap-2">
-              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
-                <FaFilter /> Filter
-              </button>
-            </div>
-          </div>
-        )}
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
@@ -60,6 +34,7 @@ const CashDispatch = () => {
                 <th className="px-2 py-3">Amount</th>
                 <th className="px-2 py-3">Bank Name</th>
                 <th className="px-2 py-3">Ref</th>
+                <th className="px-2 py-3">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -72,6 +47,21 @@ const CashDispatch = () => {
                 <td className="px-2 py-4">2500</td>
                 <td className="px-2 py-4">Ab Bank</td>
                 <td className="px-2 py-4">N/A</td>
+                <td className="px-2 action_column">
+                  <div className="flex gap-1">
+                    <Link>
+                      <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <FaPen className="text-[12px]" />
+                      </button>
+                    </Link>
+                    <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                      <FaEye className="text-[12px]" />
+                    </button>
+                    <button className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                      <FaTrashAlt className="text-[12px]" />
+                    </button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>

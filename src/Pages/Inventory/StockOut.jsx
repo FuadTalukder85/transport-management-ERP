@@ -1,4 +1,5 @@
 import React from "react";
+import { FaEye, FaPen, FaTrashAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import { MdShop } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -31,6 +32,7 @@ const StockOut = () => {
                 <th className="px-2 py-3">Vehicle Name</th>
                 <th className="px-2 py-3">Driver Name</th>
                 <th className="px-2 py-3">Current Stock</th>
+                <th className="px-2 py-3">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -42,6 +44,21 @@ const StockOut = () => {
                 <td className="px-2 py-4">Pickup</td>
                 <td className="px-2 py-4">Korim Mia</td>
                 <td className="px-2 py-4">0</td>
+                <td className="px-2 action_column">
+                  <div className="flex gap-1">
+                    <Link>
+                      <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <FaPen className="text-[12px]" />
+                      </button>
+                    </Link>
+                    <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                      <FaEye className="text-[12px]" />
+                    </button>
+                    <button className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                      <FaTrashAlt className="text-[12px]" />
+                    </button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>

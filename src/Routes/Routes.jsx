@@ -67,6 +67,8 @@ import Suzuki from "../Pages/Billing/Suzuki";
 import Honda from "../Pages/Billing/Honda";
 import CashDispatch from "../Pages/Account/CashDispatch";
 import Office from "../Pages/HR/HRM/Office";
+import CashDispatchForm from "../Pages/Account/CashDispatchForm";
+import OfficeForm from "../Pages/HR/HRM/OfficeForm";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -341,6 +343,10 @@ export const router = createBrowserRouter([
         element: <Office />,
       },
       {
+        path: "/tramessy/HR/HRM/OfficeForm",
+        element: <OfficeForm />,
+      },
+      {
         path: "/tramessy/HR/HRM/AddEmployee",
         element: <AddEmployee />,
       },
@@ -474,6 +480,10 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/account/CashDispatch",
         element: <CashDispatch />,
+      },
+      {
+        path: "/tramessy/account/CashDispatchForm",
+        element: <CashDispatchForm />,
       },
     ],
   },

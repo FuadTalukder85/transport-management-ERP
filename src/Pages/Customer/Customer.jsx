@@ -1,4 +1,5 @@
 import React from "react";
+import { FaEye, FaPen, FaTrashAlt } from "react-icons/fa";
 import { FaPlus, FaUsers } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
@@ -47,7 +48,21 @@ const Customer = () => {
                 <td className="px-2 py-4">10</td>
                 <td className="px-2 py-4">05-05-2025</td>
                 <td className="px-2 py-4">Active</td>
-                <td className="px-2 py-4 action_column"></td>
+                <td className="px-2 action_column">
+                  <div className="flex gap-1">
+                    <Link>
+                      <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <FaPen className="text-[12px]" />
+                      </button>
+                    </Link>
+                    <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                      <FaEye className="text-[12px]" />
+                    </button>
+                    <button className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                      <FaTrashAlt className="text-[12px]" />
+                    </button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>

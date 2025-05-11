@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { FaFilter, FaPlus, FaUserSecret } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { FaFilter, FaUserSecret } from "react-icons/fa6";
 
 const ExployeeReport = () => {
   const [showFilter, setShowFilter] = useState(false);

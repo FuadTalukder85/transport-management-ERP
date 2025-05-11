@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { FaTrashAlt } from "react-icons/fa";
-import { FaEye, FaFilter, FaPen, FaTruck } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { FaFilter, FaTruck } from "react-icons/fa6";
 
 const DriverReport = () => {
   const [showFilter, setShowFilter] = useState(false);
@@ -91,7 +89,6 @@ const DriverReport = () => {
                 <th className="px-2 py-3">License</th>
                 <th className="px-2 py-3">Expired</th>
                 <th className="px-2 py-3">Status</th>
-                <th className="px-2 py-3 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -107,21 +104,6 @@ const DriverReport = () => {
                   <span className="text-white bg-green-700 px-3 py-1 rounded-md text-xs font-semibold">
                     Active
                   </span>
-                </td>
-                <td className="px-2 action_column">
-                  <div className="flex gap-1">
-                    <Link>
-                      <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                        <FaPen className="text-[12px]" />
-                      </button>
-                    </Link>
-                    <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                      <FaEye className="text-[12px]" />
-                    </button>
-                    <button className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                      <FaTrashAlt className="text-[12px]" />
-                    </button>
-                  </div>
                 </td>
               </tr>
             </tbody>

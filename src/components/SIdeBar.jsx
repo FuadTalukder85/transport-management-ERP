@@ -672,7 +672,7 @@ const Sidebar = () => {
                                 : "bg-primary"
                             }`}
                           ></div>
-                          <span>Vendor</span>
+                          <span>Inventory Supplier</span>
                         </Link>
                       </li>
                     </ul>
@@ -703,7 +703,7 @@ const Sidebar = () => {
                       openMenu.purchase ? "max-h-[100px]" : "max-h-0"
                     }`}
                   >
-                    <ul className="space-y-3 px-2 text-sm">
+                    <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
                           to="/tramessy/Purchase/PurchaseList"
@@ -776,7 +776,7 @@ const Sidebar = () => {
                       openMenu.customer ? "max-h-[500px]" : "max-h-0"
                     }`}
                   >
-                    <ul className="space-y-3 px-2 text-sm">
+                    <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
                           to="/tramessy/Customer"
@@ -830,7 +830,7 @@ const Sidebar = () => {
                       openMenu.business ? "max-h-[500px]" : "max-h-0"
                     }`}
                   >
-                    <ul className="space-y-3 px-2 text-sm">
+                    <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
                           to="/tramessy/DailyIncome"

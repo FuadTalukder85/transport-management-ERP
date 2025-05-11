@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { FaTruck, FaPlus, FaFilter, FaPen, FaTrashAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { FaTruck, FaFilter } from "react-icons/fa";
 
 const FuelReport = () => {
   const [showFilter, setShowFilter] = useState(false);
@@ -90,7 +89,6 @@ const FuelReport = () => {
                 <th className="px-2 py-3">Gallon/Liter</th>
                 <th className="px-2 py-3">Cost per Liter</th>
                 <th className="px-2 py-3">Total Cost</th>
-                <th className="px-2 py-3 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -103,18 +101,6 @@ const FuelReport = () => {
                 <td className="px-2 py-4">15</td>
                 <td className="px-2 py-4">20</td>
                 <td className="px-2 py-4">300.00</td>
-                <td className="px-2 py-4 action_column">
-                  <div className="flex gap-2">
-                    <Link>
-                      <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                        <FaPen className="text-[12px]" />
-                      </button>
-                    </Link>
-                    <button className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                      <FaTrashAlt className="text-[12px]" />
-                    </button>
-                  </div>
-                </td>
               </tr>
             </tbody>
           </table>
