@@ -27,9 +27,9 @@ const CarList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/api/driver")
+      .get("https://api.dropshep.com/mstrading/api/driver/list")
       .then((response) => {
-        if (response.data.status === "success") {
+        if (response.data.status === "Success") {
           setDrivers(response.data.data);
         }
         setLoading(false);
@@ -42,7 +42,7 @@ const CarList = () => {
 
   if (loading) return <p className="text-center mt-16">Loading drivers...</p>;
 
-  console.log(drivers);
+  console.log("drivers", drivers);
   // delete by id
   const handleDelete = async (id) => {
     try {
@@ -289,12 +289,12 @@ const CarList = () => {
                   <td className="px-2 py-4 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-2 py-4">{driver.name}</td>
-                  <td className="px-2 py-4">{driver.contact}</td>
+                  <td className="px-2 py-4">{driver.driver_name}</td>
+                  <td className="px-2 py-4">{driver.driver_mobile}</td>
                   <td className="px-2 py-4">{driver.address}</td>
                   <td className="px-2 py-4">{driver.emergency_contact}</td>
                   <td className="px-2 py-4">{driver.license}</td>
-                  <td className="px-2 py-4">{driver.expire_date}</td>
+                  <td className="px-2 py-4">{driver.license_expire_date}</td>
                   <td className="px-2 py-4">
                     <span className="text-white bg-green-700 px-3 py-1 rounded-md text-xs font-semibold">
                       {driver.status}

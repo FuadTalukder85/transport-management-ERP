@@ -167,7 +167,7 @@ const Sidebar = () => {
                           <span>Trip List</span>
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link
                           to="/tramessy/Fuel"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
@@ -185,7 +185,7 @@ const Sidebar = () => {
                           ></div>
                           <span>Fuel</span>
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link
                           to="/tramessy/Parts"
@@ -1317,7 +1317,7 @@ const Sidebar = () => {
                           <span>ট্রিপ হিসাব</span>
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link
                           to="/Fuel"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
@@ -1333,7 +1333,7 @@ const Sidebar = () => {
                           ></div>
                           <span>ফুয়েল হিসাব</span>
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link
                           to="/Parts"

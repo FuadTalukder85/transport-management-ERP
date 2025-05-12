@@ -1,4 +1,3 @@
-import React from "react";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { InputField, SelectField } from "../components/Form/FormFields";
 import BtnSubmit from "../components/Button/BtnSubmit";
@@ -30,110 +29,129 @@ const AddTripForm = () => {
             </h5>
             {/* Common Input Fields */}
             <div>
-              <div className="mt-5 md:flex justify-between gap-3">
-                {/* Customer Dropdown */}
-                <div className="w-full relative">
-                  <SelectField
-                    name="customer"
-                    label="Select Customer"
-                    required
-                    options={[
-                      { value: "", label: "Select Customer" },
-                      { value: "Yamaha", label: "Yamaha" },
-                      { value: "Hatim", label: "Hatim" },
-                      { value: "Suzuki", label: "Suzuki" },
-                      { value: "Sonalika", label: "Sonalika" },
-                      { value: "Honda", label: "Honda" },
-                      { value: "Guest", label: "Guest" },
-                    ]}
-                  />
-                  <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
+              <div className="border border-gray-300 p-5 rounded-md mt-3">
+                <h5 className="text-primary font-semibold text-center pb-5">
+                  <span className="py-2 border-b-2 border-primary">
+                    Customer and Destination
+                  </span>
+                </h5>
+                <div className="mt-5 md:flex justify-between gap-3">
+                  {/* Customer Dropdown */}
+                  <div className="w-full relative">
+                    <SelectField
+                      name="customer"
+                      label="Select Customer"
+                      required
+                      options={[
+                        { value: "", label: "Customer" },
+                        { value: "Yamaha", label: "Yamaha" },
+                        { value: "Hatim", label: "Hatim" },
+                        { value: "Suzuki", label: "Suzuki" },
+                        { value: "Sonalika", label: "Sonalika" },
+                        { value: "Honda", label: "Honda" },
+                        { value: "Guest", label: "Guest" },
+                      ]}
+                    />
+                  </div>
+                  <div className="w-full">
+                    <InputField name="date" label="Date" required />
+                  </div>
                 </div>
-                <div className="w-full">
-                  <InputField name="date" label="Date" required />
-                </div>
-              </div>
-              <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-                <div className="w-full">
-                  <InputField name="load_point" label="Load Point" required />
-                </div>
-                <div className="w-full">
-                  <InputField
-                    name="unload_point"
-                    label="Unload Point"
-                    required
-                  />
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                  <div className="w-full">
+                    <InputField name="load_point" label="Load Point" required />
+                  </div>
+                  <div className="w-full">
+                    <InputField
+                      name="unload_point"
+                      label="Unload Point"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Conditionally Show Yamaha Fields */}
             {selectedCustomer === "Yamaha" && (
-              <div className="border-t border-gray-300">
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-                  <div className="w-full relative">
-                    <SelectField
-                      name="transport_type"
-                      label="Transport Type"
-                      required
-                      options={[
-                        { value: "", label: "Select Transport Type" },
-                        { value: "own_transport", label: "Own Transport" },
-                        {
-                          value: "vendor_transport",
-                          label: "Vendor Transport",
-                        },
-                      ]}
-                    />
-                    <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
+              <div className="">
+                <div className="border border-gray-300 p-5 rounded-md mt-3">
+                  <h5 className="text-primary font-semibold text-center pb-5">
+                    <span className="py-2 border-b-2 border-primary">
+                      Transport and Driver section
+                    </span>
+                  </h5>
+                  <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                    <div className="w-full relative">
+                      <SelectField
+                        name="transport_type"
+                        label="Transport Type"
+                        required
+                        options={[
+                          { value: "own_transport", label: "Own Transport" },
+                          {
+                            value: "vendor_transport",
+                            label: "Vendor Transport",
+                          },
+                        ]}
+                      />
+                    </div>
+                    <div className="w-full">
+                      <InputField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        required
+                      />
+                    </div>
+                    <div className="w-full">
+                      <InputField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className="w-full">
-                    <InputField
-                      name="vehicle_no"
-                      label="Vehicle No."
-                      required
-                    />
-                  </div>
-                  <div className="w-full">
-                    <InputField
-                      name="driver_name"
-                      label="Driver Name"
-                      required
-                    />
+                  <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                    <div className="w-full">
+                      <InputField
+                        name="driver_mobile"
+                        label="Driver Mobile"
+                        required
+                      />
+                    </div>
+                    <div className="w-full">
+                      <InputField name="challan" label="Challan" required />
+                    </div>
+                    <div className="w-full">
+                      <InputField name="sti" label="STI" required />
+                    </div>
                   </div>
                 </div>
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-                  <div className="w-full">
-                    <InputField
-                      name="driver_mobile"
-                      label="Driver Mobile"
-                      required
-                    />
+                <div className="border border-gray-300 p-5 rounded-md mt-3">
+                  <h5 className="text-primary font-semibold text-center pb-5">
+                    <span className="py-2 border-b-2 border-primary">
+                      Product and Expense
+                    </span>
+                  </h5>
+                  <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                    <div className="w-full">
+                      <InputField name="model_no" label="Model No." required />
+                    </div>
+                    <div className="w-full">
+                      <InputField name="quantity" label="Quantity" required />
+                    </div>
                   </div>
-                  <div className="w-full">
-                    <InputField name="challan" label="Challan" required />
-                  </div>
-                  <div className="w-full">
-                    <InputField name="sti" label="STI" required />
-                  </div>
-                </div>
-
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-                  <div className="w-full">
-                    <InputField name="model_no" label="Model No." required />
-                  </div>
-                  <div className="w-full">
-                    <InputField name="quantity" label="Quantity" required />
-                  </div>
-                  <div className="w-full">
-                    <InputField
-                      name="zamuna_bridge"
-                      label="Zamuna Bridge"
-                      required
-                    />
-                  </div>
-                  <div className="w-full">
-                    <InputField name="fuel_cost" label="Fuel Cost" required />
+                  <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                    <div className="w-full">
+                      <InputField name="fuel_cost" label="Fuel Cost" required />
+                    </div>
+                    <div className="w-full">
+                      <InputField
+                        name="total_rent"
+                        label="Total Rent/Bill Amount"
+                        required
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -157,7 +175,6 @@ const AddTripForm = () => {
                         },
                       ]}
                     />
-                    <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
                   </div>
                   <div className="w-full">
                     <InputField
@@ -185,26 +202,23 @@ const AddTripForm = () => {
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     <InputField
-                      name="destination"
-                      label="Destination"
+                      name="quantity"
+                      label="Bike/Quantity"
                       required
                     />
                   </div>
                   <div className="w-full">
-                    <InputField name="bike" label="Bike" required />
+                    <InputField name="masking" label="Masking" required />
                   </div>
-                  <div className="w-full">
-                    <InputField name="Masking" label="masking" required />
-                  </div>
-                </div>
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     <InputField
                       name="unload_charge"
-                      label="unload_charge"
+                      label="Unload Charge"
                       required
                     />
                   </div>
+                </div>
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     <InputField name="extra_fare" label="Extra Fare" required />
                   </div>
@@ -216,7 +230,11 @@ const AddTripForm = () => {
                     />
                   </div>
                   <div className="w-full">
-                    <InputField name="total_rent" label="total_rent" required />
+                    <InputField
+                      name="total_rent"
+                      label="Total Rent/Bill Amount"
+                      required
+                    />
                   </div>
                 </div>
               </div>
@@ -240,7 +258,6 @@ const AddTripForm = () => {
                         },
                       ]}
                     />
-                    <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
                   </div>
                   <div className="w-full">
                     <InputField
@@ -263,13 +280,13 @@ const AddTripForm = () => {
                   </div>
                   <div className="w-full">
                     <InputField
-                      name="destination"
-                      label="Destination"
+                      name="total_amount"
+                      label="Total Amount/Bill Amount"
                       required
                     />
                   </div>
                   <div className="w-full">
-                    <InputField name="amount" label="Amount" required />
+                    <InputField name="remarks" label="Remarks" required />
                   </div>
                 </div>
               </div>
@@ -293,7 +310,6 @@ const AddTripForm = () => {
                         },
                       ]}
                     />
-                    <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
                   </div>
                   <div className="w-full">
                     <InputField
@@ -330,6 +346,9 @@ const AddTripForm = () => {
                 </div>
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
+                    <InputField name="quantity" label="Quantity" required />
+                  </div>
+                  <div className="w-full">
                     <InputField
                       name="per_truck_rent"
                       label="Per Truck Rent"
@@ -340,7 +359,52 @@ const AddTripForm = () => {
                     <InputField name="vat" label="Vat" required />
                   </div>
                   <div className="w-full">
-                    <InputField name="total_cost" label="Total Cost" required />
+                    <InputField
+                      name="total_rent_cost"
+                      label="Total Rent Cost"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Conditionally Show Guest Fields */}
+            {selectedCustomer === "Guest" && (
+              <div className="">
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                  <div className="w-full relative">
+                    <SelectField
+                      name="transport_type"
+                      label="Transport Type"
+                      required
+                      options={[
+                        { value: "", label: "Select Transport Type" },
+                        { value: "own_transport", label: "Own Transport" },
+                        {
+                          value: "vendor_transport",
+                          label: "Vendor Transport",
+                        },
+                      ]}
+                    />
+                  </div>
+                  <div className="w-full">
+                    <InputField
+                      name="vehicle_no"
+                      label="Vehicle No."
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                  <div className="w-full">
+                    <InputField
+                      name="driver_name"
+                      label="Driver Name"
+                      required
+                    />
+                  </div>
+                  <div className="w-full">
+                    <InputField name="fuel_cost" label="Fuel Cost" required />
                   </div>
                 </div>
               </div>
@@ -362,27 +426,24 @@ const AddTripForm = () => {
                   <InputField name="food_cost" label="Food Cost" required />
                 </div>
                 <div className="w-full">
-                  <InputField name="total_cost" label="Total Cost" required />
+                  <InputField
+                    name="total_expense"
+                    label="Total Expense"
+                    required
+                  />
                 </div>
               </div>
             )}
             {selectedTransport === "vendor_transport" && (
               <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                 <div className="w-full">
-                  <InputField name="trip_price" label="Trip Price" required />
+                  <InputField name="trip_rent" label="Trip Rent" required />
                 </div>
                 <div className="w-full">
-                  <InputField
-                    name="trip_expense"
-                    label="Trip Expense"
-                    required
-                  />
+                  <InputField name="advance" label="Advance" required />
                 </div>
                 <div className="w-full">
                   <InputField name="due_amount" label="Due Amount" required />
-                </div>
-                <div className="w-full">
-                  <InputField name="total_cost" label="Total Cost" required />
                 </div>
               </div>
             )}

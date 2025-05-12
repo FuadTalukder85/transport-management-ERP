@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
@@ -9,9 +8,7 @@ import { InputField, SelectField } from "../components/Form/FormFields";
 const AddUserForm = () => {
   const methods = useForm();
   const { handleSubmit, reset, watch } = methods;
-
   const password = watch("password");
-
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();

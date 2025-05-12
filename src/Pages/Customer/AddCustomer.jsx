@@ -1,4 +1,3 @@
-import React from "react";
 import BtnSubmit from "../../components/Button/BtnSubmit";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { FiCalendar } from "react-icons/fi";
@@ -13,14 +12,14 @@ const AddCustomer = () => {
   return (
     <div className="mt-10">
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        Add Customer information Form
+        Add Customer information
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <FormProvider {...methods} className="">
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <div className="md:flex justify-between gap-3">
               <div className="w-full relative">
-                <InputField name="vendor_name" label="Vendor Name" required />
+                <InputField name="vendor_name" label="Customer Name" required />
               </div>
             </div>
             {/*  */}

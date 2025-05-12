@@ -92,7 +92,7 @@ const AddRentVehicleForm = () => {
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
                 <label className="text-primary text-sm font-semibold">
-                  Vendor Name
+                  Vendor Name/Driver Name
                 </label>
                 <input
                   {...register("vendor_name", { required: true })}
