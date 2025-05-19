@@ -1,16 +1,98 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BtnSubmit from "../../components/Button/BtnSubmit";
-import { FormProvider, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import { InputField, SelectField } from "../../components/Form/FormFields";
 import { FiCalendar } from "react-icons/fi";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { IoMdClose } from "react-icons/io";
 
 const PurchaseForm = () => {
   const methods = useForm();
-  const { handleSubmit, register, watch } = methods;
+  const { handleSubmit, register, watch, reset, setValue, control } = methods;
   const purChaseDateRef = useRef(null);
   const selectedCategory = watch("category");
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
+  // calculate Total Expense
+  const quantity = parseFloat(watch("quantity") || 0);
+  const unitPrice = parseFloat(watch("unit_price") || 0);
+  const totalPrice = quantity * unitPrice;
+  useEffect(() => {
+    const totalPrice = quantity * unitPrice;
+    setValue("total", totalPrice);
+  }, [quantity, unitPrice, setValue]);
+  // preview image
+  const [previewImage, setPreviewImage] = useState(null);
+  // generate ref id
+  const generateRefId = () => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let refId = "";
+    for (let i = 0; i < 6; i++) {
+      refId += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return refId;
+  };
+  // post data on server
+  const onSubmit = async (data) => {
+    console.log("purchase", data);
+    const refId = generateRefId();
+    try {
+      // --- First API: Purchase Create ---
+      const purchaseFormData = new FormData();
+      for (const key in data) {
+        purchaseFormData.append(key, data[key]);
+      }
+      purchaseFormData.append("ref_no", refId);
+      const purchaseResponse = await axios.post(
+        "https://api.dropshep.com/mstrading/api/purchase/create",
+        purchaseFormData
+      );
+
+      const purchaseData = purchaseResponse.data;
+
+      if (purchaseData.status === "Success") {
+        toast.success("Purchase added successfully", {
+          position: "top-right",
+        });
+
+        // --- Second API: Branch Create (only specific field) ---
+        const branchFormData = new FormData();
+        branchFormData.append("data", data.date);
+        branchFormData.append("item_name", data.item_name);
+        branchFormData.append("purchase_amount", data.total);
+        branchFormData.append("catagory", data.category);
+        branchFormData.append("remarks", data.remarks);
+        branchFormData.append("supplier_name", data.supplier_name);
+        branchFormData.append("quantity", data.quantity);
+        branchFormData.append("unit_price", data.unit_price);
+        branchFormData.append("ref_id", refId);
+
+        await axios.post(
+          "https://api.dropshep.com/mstrading/api/supplierLedger/create",
+          branchFormData
+        );
+        // --- Third API: if category is engine oil then send data on inventory (only specific field) ---
+        const inventoryFormData = new FormData();
+        branchFormData.append("data", data.date);
+        branchFormData.append("item_name", data.item_name);
+
+        await axios.post(
+          "https://api.dropshep.com/mstrading/api/stockProduct/create",
+          branchFormData
+        );
+
+        // Reset form if both succeed
+        reset();
+      } else {
+        toast.error(
+          "Purchase API failed: " + (purchaseData.message || "Unknown error")
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      const errorMessage =
+        error.response?.data?.message || error.message || "Unknown error";
+      toast.error("Server issue: " + errorMessage);
+    }
   };
   // todo set default status = unpaid, generate auto ref number from backend
   return (
@@ -27,12 +109,12 @@ const PurchaseForm = () => {
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <InputField
-                name="purchase_date"
+                name="date"
                 label="Purchase Date"
                 type="date"
                 required
                 inputRef={(e) => {
-                  register("purchase_date").ref(e);
+                  register("date").ref(e);
                   purChaseDateRef.current = e;
                 }}
                 icon={
@@ -92,27 +174,88 @@ const PurchaseForm = () => {
               <InputField name="unit_price" label="Unit Price" required />
             </div>
             <div className="w-full">
-              <InputField name="total" label="Total" required />
+              <InputField
+                name="total"
+                label="Total"
+                readOnly
+                defaultValue={totalPrice}
+                value={totalPrice}
+                required
+              />
             </div>
             <div className="w-full">
-              <InputField name="remark" label="Remark" required />
+              <InputField name="remarks" label="Remark" />
             </div>
           </div>
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <InputField name="payment" label="Payment" required />
-            </div>
-            <div className="w-full">
               <label className="text-primary text-sm font-semibold">
                 Bill Image
               </label>
-              <input
-                type="text"
-                placeholder="Bill Image..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+              <Controller
+                name="bill_image"
+                control={control}
+                rules={{ required: "This field is required" }}
+                render={({
+                  field: { onChange, ref },
+                  fieldState: { error },
+                }) => (
+                  <div className="relative">
+                    <label
+                      htmlFor="bill_image"
+                      className="border p-2 rounded w-full block bg-white text-gray-300 text-sm cursor-pointer"
+                    >
+                      {previewImage ? "Image selected" : "Choose image"}
+                    </label>
+                    <input
+                      id="bill_image"
+                      type="file"
+                      accept="image/*"
+                      ref={ref}
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          const url = URL.createObjectURL(file);
+                          setPreviewImage(url);
+                          onChange(file);
+                        } else {
+                          setPreviewImage(null);
+                          onChange(null);
+                        }
+                      }}
+                    />
+                    {error && (
+                      <span className="text-red-600 text-sm">
+                        {error.message}
+                      </span>
+                    )}
+                  </div>
+                )}
               />
             </div>
           </div>
+          {/* Preview */}
+          {previewImage && (
+            <div className="mt-3 relative flex justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setPreviewImage(null);
+                  document.getElementById("bill_image").value = "";
+                }}
+                className="absolute top-2 right-2 text-red-600 bg-white shadow rounded-sm hover:text-white hover:bg-secondary transition-all duration-300 cursor-pointer font-bold text-xl p-[2px]"
+                title="Remove image"
+              >
+                <IoMdClose />
+              </button>
+              <img
+                src={previewImage}
+                alt="License Preview"
+                className="max-w-xs h-auto rounded border border-gray-300"
+              />
+            </div>
+          )}
           <BtnSubmit>Submit</BtnSubmit>
         </form>
       </FormProvider>

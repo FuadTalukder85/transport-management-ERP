@@ -69,6 +69,12 @@ import CashDispatch from "../Pages/Account/CashDispatch";
 import Office from "../Pages/HR/HRM/Office";
 import CashDispatchForm from "../Pages/Account/CashDispatchForm";
 import OfficeForm from "../Pages/HR/HRM/OfficeForm";
+import CustomerLedger from "../Pages/Account/CustomerLedger";
+import SupplierLedger from "../Pages/Account/SupplierLedger";
+import OfficeLedger from "../Pages/Account/OfficeLedger";
+import PaymentList from "../Pages/Account/PaymentList";
+import PaymentReceiveForm from "../Pages/Account/PaymentReceiveForm";
+import PaymentReceive from "../Pages/Account/PaymentReceive";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -484,6 +490,30 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/account/CashDispatchForm",
         element: <CashDispatchForm />,
+      },
+      {
+        path: "/tramessy/account/PaymentList",
+        element: <PaymentList />,
+      },
+      {
+        path: "/tramessy/account/PaymentReceive",
+        element: <PaymentReceive />,
+      },
+      {
+        path: "/tramessy/account/PaymentReceiveForm",
+        element: <PaymentReceiveForm />,
+      },
+      {
+        path: "/tramessy/account/CustomerLedger",
+        element: <CustomerLedger />,
+      },
+      {
+        path: "/tramessy/account/SupplierLedger",
+        element: <SupplierLedger />,
+      },
+      {
+        path: "/tramessy/account/OfficeLedger",
+        element: <OfficeLedger />,
       },
     ],
   },

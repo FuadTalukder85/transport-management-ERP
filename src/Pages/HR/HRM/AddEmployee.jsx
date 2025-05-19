@@ -1,21 +1,53 @@
-import React, { useRef } from "react";
+import { useRef, useState } from "react";
 import BtnSubmit from "../../../components/Button/BtnSubmit";
-import { FormProvider, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import { InputField, SelectField } from "../../../components/Form/FormFields";
-import { MdOutlineArrowDropDown } from "react-icons/md";
 import { FiCalendar } from "react-icons/fi";
+import { IoMdClose } from "react-icons/io";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+import useRefId from "../../../hooks/useRef";
 
 const AddEmployee = () => {
   const methods = useForm();
-  const { handleSubmit, register } = methods;
+  const { handleSubmit, register, control, reset } = methods;
   const dateRef = useRef(null);
   const joinDateRef = useRef(null);
-
+  // preview image
+  const [previewImage, setPreviewImage] = useState(null);
+  const generateRefId = useRefId();
   const onSubmit = async (data) => {
-    console.log("add employee data", data);
+    console.log("add fuel data", data);
+    try {
+      const formData = new FormData();
+      for (const key in data) {
+        formData.append(key, data[key]);
+      }
+      formData.append("ref_id", generateRefId());
+      const response = await axios.post(
+        "https://api.dropshep.com/mstrading/api/employee/create",
+        formData
+      );
+      const resData = response.data;
+      console.log("resData", resData);
+      if (resData.status === "Success") {
+        toast.success("Rent vehicle saved successfully!", {
+          position: "top-right",
+        });
+        reset();
+      } else {
+        toast.error("Server Error: " + (resData.message || "Unknown issue"));
+      }
+    } catch (error) {
+      console.error(error);
+      const errorMessage =
+        error.response?.data?.message || error.message || "Unknown error";
+      toast.error("Server Error: " + errorMessage);
+    }
   };
   return (
     <div className="mt-10">
+      <Toaster position="top-center" reverseOrder={false} />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
         Add Employee Information
       </h3>
@@ -41,7 +73,7 @@ const AddEmployee = () => {
               <InputField name="full_name" label="Full Name" required />
             </div>
             <div className="w-full">
-              <InputField name="email" label="Email" required />
+              <InputField name="email" label="Email" />
             </div>
           </div>
 
@@ -62,7 +94,6 @@ const AddEmployee = () => {
                   { value: "Others", label: "Others" },
                 ]}
               />
-              <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="w-full">
               <InputField
@@ -122,17 +153,86 @@ const AddEmployee = () => {
               <InputField name="address" label="Address" required />
             </div>
             <div className="w-full">
+              <SelectField
+                name="status"
+                label="Status"
+                required
+                options={[
+                  { value: "Active", label: "Active" },
+                  { value: "Inactive", label: "Inactive" },
+                ]}
+              />
+            </div>
+            <div className="w-full">
               <label className="text-primary text-sm font-semibold">
                 Image
               </label>
-              <input
-                type="text"
-                placeholder="Image URL..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
+              <div className="relative">
+                <Controller
+                  name="image"
+                  control={control}
+                  rules={{ required: "This field is required" }}
+                  render={({
+                    field: { onChange, ref },
+                    fieldState: { error },
+                  }) => (
+                    <div className="relative">
+                      <label
+                        htmlFor="image"
+                        className="border p-2 rounded w-full block bg-white text-gray-500 text-sm cursor-pointer"
+                      >
+                        {previewImage ? "Image selected" : "Choose image"}
+                      </label>
+                      <input
+                        id="image"
+                        type="file"
+                        accept="image/*"
+                        ref={ref}
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          if (file) {
+                            const url = URL.createObjectURL(file);
+                            setPreviewImage(url);
+                            onChange(file);
+                          } else {
+                            setPreviewImage(null);
+                            onChange(null);
+                          }
+                        }}
+                      />
+                      {error && (
+                        <span className="text-red-600 text-sm">
+                          {error.message}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                />
+              </div>
             </div>
           </div>
-
+          {/* Preview */}
+          {previewImage && (
+            <div className="mt-3 relative flex justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setPreviewImage(null);
+                  document.getElementById("image").value = "";
+                }}
+                className="absolute top-2 right-2 text-red-600 bg-white shadow rounded-sm hover:text-white hover:bg-secondary transition-all duration-300 cursor-pointer font-bold text-xl p-[2px]"
+                title="Remove image"
+              >
+                <IoMdClose />
+              </button>
+              <img
+                src={previewImage}
+                alt="License Preview"
+                className="max-w-xs h-auto rounded border border-gray-300"
+              />
+            </div>
+          )}
           <BtnSubmit>Submit</BtnSubmit>
         </form>
       </FormProvider>

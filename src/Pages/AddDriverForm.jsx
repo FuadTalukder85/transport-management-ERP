@@ -16,8 +16,6 @@ const AddDriverForm = () => {
   const driverDateRef = useRef(null);
 
   const onSubmit = async (data) => {
-    console.log("add driver data", data);
-
     try {
       const formData = new FormData();
       for (const key in data) {
@@ -128,17 +126,15 @@ const AddDriverForm = () => {
                   label="Status"
                   required
                   options={[
-                    { value: "", label: "Select Status..." },
                     { value: "Active", label: "Active" },
                     { value: "Inactive", label: "Inactive" },
                   ]}
                 />
-                <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
               </div>
 
               <div className="mt-3 md:mt-0 w-full">
                 <label className="text-primary text-sm font-semibold">
-                  Upload License Image
+                  Upload License Image <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <Controller

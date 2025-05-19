@@ -1,56 +1,50 @@
 import axios from "axios";
-import React, { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { FiCalendar } from "react-icons/fi";
 import BtnSubmit from "../components/Button/BtnSubmit";
-import Select from "react-select";
-import { MdOutlineArrowDropDown } from "react-icons/md";
+import { InputField, SelectField } from "../components/Form/FormFields";
+import useRefId from "../hooks/useRef";
 
 const AddRentVehicleForm = () => {
-  //   const fuelDateRef = useRef(null);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    control,
-    formState: { errors },
-  } = useForm();
-  const quantity = parseFloat(watch("quantity") || 0);
-  const price = parseFloat(watch("price") || 0);
-  const total = quantity * price;
+  const methods = useForm();
+  const { handleSubmit, reset } = methods;
 
+  // get vehicle from server
+  // const [vehicles, setVehicles] = useState([]);
+  // useEffect(() => {
+  //   fetch("https://api.dropshep.com/mstrading/api/vehicle/list")
+  //     .then((response) => response.json())
+  //     .then((data) => setVehicles(data.data))
+  //     .catch((error) => console.error("Error fetching vehicle data:", error));
+  // }, []);
+  // const vehicleOptions = vehicles.map((vehicle) => ({
+  //   value: vehicle.registration_number,
+  //   label: vehicle.registration_number,
+  // }));
   useEffect(() => {
-    fetch("https://api.dropshep.com/api/vehicle")
+    fetch("https://api.dropshep.com/mstrading/api/driver/list")
       .then((response) => response.json())
 
       .catch((error) => console.error("Error fetching driver data:", error));
   }, []);
-
-  useEffect(() => {
-    fetch("https://api.dropshep.com/api/driver")
-      .then((response) => response.json())
-
-      .catch((error) => console.error("Error fetching driver data:", error));
-  }, []);
-
+  const generateRefId = useRefId();
   const onSubmit = async (data) => {
     console.log("add fuel data", data);
-    data.total_price = total;
     try {
       const formData = new FormData();
       for (const key in data) {
         formData.append(key, data[key]);
       }
+      formData.append("ref_id", generateRefId());
       const response = await axios.post(
-        "https://api.dropshep.com/api/fuel",
+        "https://api.dropshep.com/mstrading/api/rent/create",
         formData
       );
       const resData = response.data;
       console.log("resData", resData);
       if (resData.status === "Success") {
-        toast.success("Fuel saved successfully!", {
+        toast.success("Rent vehicle saved successfully!", {
           position: "top-right",
         });
         reset();
@@ -67,254 +61,201 @@ const AddRentVehicleForm = () => {
 
   return (
     <div className="mt-10">
+      <Toaster position="top-center" reverseOrder={false} />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
         Rent Vehicle Information
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-          <Toaster position="top-center" reverseOrder={false} />
-          {/* Trip & Destination Section */}
-          <div className="border border-gray-300 p-3 md:p-5 rounded-md">
-            <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-              <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
-                  Vehicle Name/Model
-                </label>
-                <input
-                  {...register("vehicle_name_model", { required: true })}
-                  type="text"
-                  placeholder="Vehicle Name..."
-                  className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-                />
-                {errors.vehicle_name_model && (
-                  <span className="text-red-600 text-sm">Required</span>
-                )}
+        <FormProvider {...methods} className="">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+            {/* Trip & Destination Section */}
+            <div className="border border-gray-300 p-3 md:p-5 rounded-md">
+              <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                <div className="mt-2 md:mt-0 w-full relative">
+                  <InputField
+                    name="vehicle_name_model"
+                    label="Vehicle Name/Model"
+                    required
+                  />
+                </div>
+                <div className="mt-2 md:mt-0 w-full relative">
+                  <InputField
+                    name="vendor_name"
+                    label="Vendor Name/Driver Name"
+                    required
+                  />
+                </div>
               </div>
-              <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
-                  Vendor Name/Driver Name
-                </label>
-                <input
-                  {...register("vendor_name", { required: true })}
-                  type="text"
-                  placeholder="Vendor Name..."
-                  className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-                />
-                {errors.vendor_name && (
-                  <span className="text-red-600 text-sm">Required</span>
-                )}
+
+              <div className="md:flex justify-between gap-3">
+                <div className="w-full">
+                  <SelectField
+                    name="vehicle_category"
+                    label="Vehicle Category"
+                    required
+                    options={[
+                      { value: "", label: "Select Vehicle category..." },
+                      { value: "Pickup", label: "Pickup" },
+                      { value: "Covered Van", label: "Covered Van" },
+                      { value: "Open Truck", label: "Open Truck" },
+                    ]}
+                  />
+                </div>
+                <div className="w-full relative">
+                  <SelectField
+                    name="vehicle_size_capacity"
+                    label="Vehicle Size/Capacity"
+                    required
+                    options={[
+                      { value: "", label: "Select Vehicle size..." },
+                      { value: "4 Ton", label: "4 Ton" },
+                      { value: "3 Ton", label: "3 Ton" },
+                      { value: "22 Ton", label: "22 Ton" },
+                      { value: "7 Feet", label: "7 Feet" },
+                      { value: "9 Feet", label: "9 Feet" },
+                      { value: "12 Feet", label: "12 Feet" },
+                      { value: "14 Feet", label: "14 Feet" },
+                      { value: "16 Feet", label: "16 Feet" },
+                      { value: "18 Feet", label: "18 Feet" },
+                      { value: "20 Feet", label: "20 Feet" },
+                      { value: "23 Feet", label: "23 Feet" },
+                    ]}
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="md:flex justify-between gap-3">
-              <div className="mt-2 md:mt-1 w-full relative">
-                <label className="text-primary text-sm font-semibold">
-                  Vehicle Category
-                </label>
-                <Controller
-                  name="vehicle_category"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: { onChange, ref } }) => (
-                    <Select
-                      inputRef={ref}
-                      //   value={
-                      //     vehicleOptions.find((c) => c.value === value) || null
-                      //   }
-                      onChange={(val) => onChange(val ? val.value : "")}
-                      //   options={vehicleOptions}
-                      placeholder="Select vehicle number..."
-                      className="mt-1 text-sm"
-                      classNamePrefix="react-select"
-                      isClearable
-                    />
-                  )}
-                />
-                {errors.vehicle_category && (
-                  <span className="text-red-600 text-sm">Required</span>
-                )}
-              </div>
-              <div className="mt-2 md:mt-1 w-full relative">
-                <label className="text-primary text-sm font-semibold">
-                  Vehicle Size/Capacity
-                </label>
-                <input
-                  {...register("vehicle_size_capacity", { required: true })}
-                  type="text"
-                  placeholder="Vehicle Size_Capacity..."
-                  className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-                />
-                {errors.unload_point && (
-                  <span className="text-red-600 text-sm">Required</span>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Vehicle and Driver Info */}
-          <div className="border border-gray-300 p-5 rounded-md">
-            <h5 className="text-primary font-semibold text-center pb-5">
-              <span className="py-2 border-b-2 border-primary">
-                Transport Registration Number
-              </span>
-            </h5>
-            <div className="md:flex justify-between gap-3">
-              <div className="relative w-full">
-                <label className="text-primary text-sm font-semibold">
-                  Registration Zone
-                </label>
-                <select
-                  {...register("registration_zone", { required: true })}
-                  className="mt-2 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
-                >
-                  <option value="">Select zone...</option>
-                  {[
-                    "Dhaka Metro",
-                    "Chatto Metro",
-                    "Sylhet Metro",
-                    "Rajshahi Metro",
-                    "Khulna Metro",
-                    "Rangpur Metro",
-                    "Barisal Metro",
-                    "Dhaka",
-                    "Narayanganj",
-                    "Gazipur",
-                    "Tangail",
-                    "Manikgonj",
-                    "Munshigonj",
-                    "Faridpur",
-                    "Rajbari",
-                    "Narsingdi",
-                    "Kishorgonj",
-                    "Shariatpur",
-                    "Gopalgonj",
-                    "Madaripur",
-                    "Chattogram",
-                    "Cumilla",
-                    "Feni",
-                    "Brahmanbaria",
-                    "Noakhali",
-                    "Chandpur",
-                    "Lokkhipur",
-                    "Bandarban",
-                    "Rangamati",
-                    "CoxsBazar",
-                    "Khagrasori",
-                    "Barisal",
-                    "Barguna",
-                    "Bhola",
-                    "Patuakhali",
-                    "Pirojpur",
-                    "Jhalokati",
-                    "Khulna",
-                    "Kustia",
-                    "Jashore",
-                    "Chuadanga",
-                    "Satkhira",
-                    "Bagerhat",
-                    "Meherpur",
-                    "Jhenaidah",
-                    "Norail",
-                    "Magura",
-                    "Rangpur",
-                    "Ponchogor",
-                    "Thakurgaon",
-                    "Kurigram",
-                    "Dinajpur",
-                    "Nilfamari",
-                    "Lalmonirhat",
-                    "Gaibandha",
-                    "Rajshahi",
-                    "Pabna",
-                    "Bagura",
-                    "Joypurhat",
-                    "Nouga",
-                    "Natore",
-                    "Sirajgonj",
-                    "Chapainawabganj",
-                    "Sylhet",
-                    "Habiganj",
-                    "Moulvibazar",
-                    "Sunamgonj",
-                    "Mymensingh",
-                    "Netrokona",
-                    "Jamalpur",
-                    "Sherpur",
-                  ].map((zone) => (
-                    <option key={zone} value={zone}>
-                      {zone}
-                    </option>
-                  ))}
-                </select>
-                <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
-                {errors.registration_zone && (
-                  <span className="text-red-600 text-sm">
-                    This field is required
-                  </span>
-                )}
-              </div>
-              <div className="relative mt-2 md:mt-0 w-full">
-                <label className="text-primary text-sm font-semibold">
-                  Registration Serial
-                </label>
-                <select
-                  {...register("registration_serial", { required: true })}
-                  className="mt-2 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
-                >
-                  <option value="">Select serial...</option>
-                  {["Ta", "Tha", "Da", "Dha", "Na", "M", "Sh"].map((serial) => (
-                    <option key={serial} value={serial}>
-                      {serial}
-                    </option>
-                  ))}
-                </select>
-                <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
-                {errors.registration_serial && (
-                  <span className="text-red-600 text-sm">
-                    This field is required
-                  </span>
-                )}
-              </div>
-              <div className="w-full">
-                <label className="text-primary text-sm font-semibold">
-                  Registration Number
-                </label>
-                <input
-                  {...register("registration_number", { required: true })}
-                  type="text"
-                  placeholder="Registration number..."
-                  className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-                />
-                {errors.registration_number && (
-                  <span className="text-red-600 text-sm">
-                    This field is required
-                  </span>
-                )}
+            {/* Vehicle and Driver Info */}
+            <div className="border border-gray-300 p-5 rounded-md">
+              <h5 className="text-primary font-semibold text-center pb-5">
+                <span className="py-2 border-b-2 border-primary">
+                  Transport Registration Number
+                </span>
+              </h5>
+              <div className="md:flex justify-between gap-3">
+                <div className="relative w-full">
+                  <InputField
+                    name="registration_number"
+                    label="Registration Number"
+                    required
+                  />
+                </div>
+                <div className="relative mt-2 md:mt-0 w-full">
+                  <SelectField
+                    name="registration_serial"
+                    label="Registration Serial"
+                    required
+                    options={[
+                      { value: "Ta", label: "Ta" },
+                      { value: "Tha", label: "Tha" },
+                      { value: "Da", label: "Da" },
+                      { value: "Dha", label: "Dha" },
+                      { value: "Na", label: "Na" },
+                      { value: "M", label: "M" },
+                      { value: "Sh", label: "Sh" },
+                    ]}
+                  />
+                </div>
+                <div className="w-full">
+                  <SelectField
+                    name="registration_zone"
+                    label="Registration Zone"
+                    required
+                    options={[
+                      { value: "", label: "Select zone..." },
+                      { value: "Dhaka Metro", label: "Dhaka Metro" },
+                      { value: "Chatto Metro", label: "Chatto Metro" },
+                      { value: "Sylhet Metro", label: "Sylhet Metro" },
+                      { value: "Rajshahi Metro", label: "Rajshahi Metro" },
+                      { value: "Khulna Metro", label: "Khulna Metro" },
+                      { value: "Rangpur Metro", label: "Rangpur Metro" },
+                      { value: "Barisal Metro", label: "Barisal Metro" },
+                      { value: "Dhaka", label: "Dhaka" },
+                      { value: "Narayanganj", label: "Narayanganj" },
+                      { value: "Gazipur", label: "Gazipur" },
+                      { value: "Tangail", label: "Tangail" },
+                      { value: "Manikgonj", label: "Manikgonj" },
+                      { value: "Munshigonj", label: "Munshigonj" },
+                      { value: "Faridpur", label: "Faridpur" },
+                      { value: "Rajbari", label: "Rajbari" },
+                      { value: "Narsingdi", label: "Narsingdi" },
+                      { value: "Kishorgonj", label: "Kishorgonj" },
+                      { value: "Shariatpur", label: "Shariatpur" },
+                      { value: "Gopalgonj", label: "Gopalgonj" },
+                      { value: "Madaripur", label: "Madaripur" },
+                      { value: "Chattogram", label: "Chattogram" },
+                      { value: "Cumilla", label: "Cumilla" },
+                      { value: "Feni", label: "Feni" },
+                      { value: "Brahmanbaria", label: "Brahmanbaria" },
+                      { value: "Noakhali", label: "Noakhali" },
+                      { value: "Chandpur", label: "Chandpur" },
+                      { value: "Lokkhipur", label: "Lokkhipur" },
+                      { value: "Bandarban", label: "Bandarban" },
+                      { value: "Rangamati", label: "Rangamati" },
+                      { value: "CoxsBazar", label: "CoxsBazar" },
+                      { value: "Khagrasori", label: "Khagrasori" },
+                      { value: "Barisal", label: "Barisal" },
+                      { value: "Barguna", label: "Barguna" },
+                      { value: "Bhola", label: "Bhola" },
+                      { value: "Patuakhali", label: "Patuakhali" },
+                      { value: "Pirojpur", label: "Pirojpur" },
+                      { value: "Jhalokati", label: "Jhalokati" },
+                      { value: "Khulna", label: "Khulna" },
+                      { value: "Kustia", label: "Kustia" },
+                      { value: "Jashore", label: "Jashore" },
+                      { value: "Chuadanga", label: "Chuadanga" },
+                      { value: "Satkhira", label: "Satkhira" },
+                      { value: "Bagerhat", label: "Bagerhat" },
+                      { value: "Meherpur", label: "Meherpur" },
+                      { value: "Jhenaidah", label: "Jhenaidah" },
+                      { value: "Norail", label: "Norail" },
+                      { value: "Magura", label: "Magura" },
+                      { value: "Rangpur", label: "Rangpur" },
+                      { value: "Ponchogor", label: "Ponchogor" },
+                      { value: "Thakurgaon", label: "Thakurgaon" },
+                      { value: "Kurigram", label: "Kurigram" },
+                      { value: "Dinajpur", label: "Dinajpur" },
+                      { value: "Nilfamari", label: "Nilfamari" },
+                      { value: "Lalmonirhat", label: "Lalmonirhat" },
+                      { value: "Gaibandha", label: "Gaibandha" },
+                      { value: "Rajshahi", label: "Rajshahi" },
+                      { value: "Pabna", label: "Pabna" },
+                      { value: "Bagura", label: "Bagura" },
+                      { value: "Joypurhat", label: "Joypurhat" },
+                      { value: "Nouga", label: "Nouga" },
+                      { value: "Natore", label: "Natore" },
+                      { value: "Sirajgonj", label: "Sirajgonj" },
+                      { value: "Chapainawabganj", label: "Chapainawabganj" },
+                      { value: "Sylhet", label: "Sylhet" },
+                      { value: "Habiganj", label: "Habiganj" },
+                      { value: "Moulvibazar", label: "Moulvibazar" },
+                      { value: "Sunamgonj", label: "Sunamgonj" },
+                      { value: "Mymensingh", label: "Mymensingh" },
+                      { value: "Netrokona", label: "Netrokona" },
+                      { value: "Jamalpur", label: "Jamalpur" },
+                      { value: "Sherpur", label: "Sherpur" },
+                    ]}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="w-full">
-            <label className="text-primary text-sm font-semibold">Status</label>
-            <select
-              {...register("status", { required: true })}
-              className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
-            >
-              <option value="">Select status</option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-            <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
-            {errors.status && (
-              <span className="text-red-600 text-sm">
-                This field is required
-              </span>
-            )}
-          </div>
-          {/* Submit Button */}
-          <div className="text-left">
-            <BtnSubmit>Submit</BtnSubmit>
-          </div>
-        </form>
+            <div className="w-full">
+              <SelectField
+                name="status"
+                label="Status"
+                required
+                options={[
+                  { value: "Active", label: "Active" },
+                  { value: "Inactive", label: "Inactive" },
+                ]}
+              />
+            </div>
+            {/* Submit Button */}
+            <div className="text-left">
+              <BtnSubmit>Submit</BtnSubmit>
+            </div>
+          </form>
+        </FormProvider>
       </div>
     </div>
   );

@@ -308,7 +308,7 @@ const RentList = () => {
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white uppercase text-sm">
+            <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
                 <th className="px-2 py-3">Vendor</th>
@@ -414,7 +414,7 @@ const RentList = () => {
                 <FaTrashAlt />
               </div>
               <p className="text-center text-gray-700 font-medium mb-6">
-                Are you sure you want to delete this fuel entry?
+                Are you sure you want to delete this data?
               </p>
               <div className="flex justify-center space-x-4">
                 <button

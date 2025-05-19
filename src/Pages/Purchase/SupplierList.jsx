@@ -23,7 +23,7 @@ const SupplierList = () => {
         </div>
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white uppercase text-sm">
+            <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
                 <th className="px-2 py-3">Date</th>

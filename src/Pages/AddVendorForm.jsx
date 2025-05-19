@@ -12,10 +12,21 @@ const AddVendorForm = () => {
   const { handleSubmit, register, reset } = methods;
   const dateRef = useRef(null);
 
+  // generate ref id
+  const generateRefId = () => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let refId = "";
+    for (let i = 0; i < 6; i++) {
+      refId += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return refId;
+  };
+
   const onSubmit = async (data) => {
-    console.log("add fuel data", data);
+    const refId = generateRefId();
     try {
       const formData = new FormData();
+      formData.append("ref_id", refId);
       for (const key in data) {
         formData.append(key, data[key]);
       }
@@ -62,7 +73,7 @@ const AddVendorForm = () => {
                 <InputField name="mobile" label="Mobile" required />
               </div>
               <div className="mt-3 md:mt-0 w-full relative">
-                <InputField name="email" label="Email" required />
+                <InputField name="email" label="Email" />
               </div>
             </div>
             {/*  */}
@@ -78,10 +89,9 @@ const AddVendorForm = () => {
                     { value: "Covered Van", label: "Covered Van" },
                   ]}
                 />
-                <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
               </div>
               <div className="w-full relative">
-                <InputField name="work_area" label="Work Area" required />
+                <InputField name="work_area" label="Work Area" />
               </div>
             </div>
             {/*  */}

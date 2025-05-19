@@ -37,7 +37,7 @@ const Main = () => {
   }
 
   return (
-    <div className="flex max-w-[1920px] hide-scrollbar">
+    <div className="flex md:max-w-7xl lg:max-w-[1920px] hide-scrollbar mx-auto">
       {/* Fixed Sidebar (Desktop) */}
       <div className="hidden md:flex flex-col w-64 h-screen fixed bg-gray-200 border-r border-gray-300">
         <SIdeBar />
@@ -62,7 +62,7 @@ const Main = () => {
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
         {/* Pass toggleSidebar function to Header */}
         <Header setMobileSidebarOpen={setMobileSidebarOpen} />
-        <main className="flex-1 overflow-y-auto md:p-4">
+        <main className="flex-1 overflow-hidden md:p-4">
           <Outlet />
         </main>
         <Footer />

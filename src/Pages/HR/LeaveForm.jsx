@@ -1,28 +1,101 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { InputField } from "../../components/Form/FormFields";
+import { InputField, SelectField } from "../../components/Form/FormFields";
+import toast, { Toaster } from "react-hot-toast";
+import useRefId from "../../hooks/useRef";
+import axios from "axios";
+import BtnSubmit from "../../components/Button/BtnSubmit";
+import { useEffect, useRef, useState } from "react";
+import { FiCalendar } from "react-icons/fi";
 
 const LeaveForm = () => {
   const methods = useForm();
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
+  const { handleSubmit, reset, control, register } = methods;
+  const applyDateRef = useRef(null);
+  const leaveFromDateRef = useRef(null);
+  const leaveToDateRef = useRef(null);
+  // select employee from api
+  const [employee, setEmployee] = useState([]);
+  useEffect(() => {
+    fetch("https://api.dropshep.com/mstrading/api/employee/list")
+      .then((response) => response.json())
+      .then((data) => setEmployee(data.data))
+      .catch((error) => console.error("Error fetching employee data:", error));
+  }, []);
+
+  const driverOptions = employee.map((name) => ({
+    value: name.full_name,
+    label: name.full_name,
+  }));
+  const generateRefId = useRefId();
+  const onSubmit = async (data) => {
+    try {
+      const formData = new FormData();
+      for (const key in data) {
+        formData.append(key, data[key]);
+      }
+      formData.append("ref_id", generateRefId());
+      const response = await axios.post(
+        "https://api.dropshep.com/mstrading/api/leave/create",
+        formData
+      );
+      const resData = response.data;
+      console.log("resData", resData);
+      if (resData.status === "Success") {
+        toast.success("Leave application saved successfully!", {
+          position: "top-right",
+        });
+        reset();
+      } else {
+        toast.error("Server Error: " + (resData.message || "Unknown issue"));
+      }
+    } catch (error) {
+      console.error(error);
+      const errorMessage =
+        error.response?.data?.message || error.message || "Unknown error";
+      toast.error("Server Error: " + errorMessage);
+    }
   };
   return (
     <div className="mt-10">
+      <Toaster position="top-center" reverseOrder={false} />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
         Leave Application
       </h3>
       <FormProvider {...methods}>
         <form
-          onSubmit={methods.handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="mx-auto p-6 bg-gray-100 rounded-md shadow space-y-4"
         >
           {/* Row 1: Full Name, Apply Date */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <InputField name="name" label="Full Name" required />
+              <SelectField
+                name="name"
+                label="Full Name"
+                required={true}
+                options={driverOptions}
+                control={control}
+              />
             </div>
             <div className="w-full">
-              <InputField name="apply_date" label="Apply Date" required />
+              <InputField
+                name="apply_date"
+                label="Apply Date"
+                type="date"
+                required
+                inputRef={(e) => {
+                  register("apply_date").ref(e);
+                  applyDateRef.current = e;
+                }}
+                icon={
+                  <span
+                    className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r"
+                    onClick={() => applyDateRef.current?.showPicker?.()}
+                  >
+                    <FiCalendar className="text-white cursor-pointer" />
+                  </span>
+                }
+              />
             </div>
           </div>
 
@@ -32,32 +105,67 @@ const LeaveForm = () => {
               <InputField name="leave_type" label="Leave Type" required />
             </div>
             <div className="w-full">
-              <InputField name="leave_from" label="Leave From" required />
+              <InputField
+                name="leave_from"
+                label="Leave From"
+                type="date"
+                required
+                inputRef={(e) => {
+                  register("leave_from").ref(e);
+                  leaveFromDateRef.current = e;
+                }}
+                icon={
+                  <span
+                    className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r"
+                    onClick={() => leaveFromDateRef.current?.showPicker?.()}
+                  >
+                    <FiCalendar className="text-white cursor-pointer" />
+                  </span>
+                }
+              />
             </div>
           </div>
 
           {/* Row 3: Leave To, Remark */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <InputField name="leave_to" label="Leave To" required />
+              <InputField
+                name="leave_to"
+                label="Leave To"
+                type="date"
+                required
+                inputRef={(e) => {
+                  register("leave_to").ref(e);
+                  leaveToDateRef.current = e;
+                }}
+                icon={
+                  <span
+                    className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r"
+                    onClick={() => leaveToDateRef.current?.showPicker?.()}
+                  >
+                    <FiCalendar className="text-white cursor-pointer" />
+                  </span>
+                }
+              />
             </div>
             <div className="w-full">
               <InputField name="remark" label="Remark" required />
             </div>
-          </div>
-
-          {/* Row 4: Status */}
-          <div className="md:flex justify-between gap-3">
-            <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
-                Status
-              </label>
-              <select className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none">
-                <option value="">Select Status...</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
+            <div className="w-full z-50">
+              <SelectField
+                name="status"
+                label="Status"
+                options={[
+                  { value: "", label: "Select Status..." },
+                  { value: "Active", label: "Active" },
+                  { value: "Inactive", label: "Inactive" },
+                ]}
+              />
             </div>
+          </div>
+          {/* Submit Button */}
+          <div className="text-left">
+            <BtnSubmit>Submit</BtnSubmit>
           </div>
         </form>
       </FormProvider>

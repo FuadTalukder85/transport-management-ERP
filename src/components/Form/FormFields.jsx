@@ -1,17 +1,17 @@
-import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { MdOutlineArrowDropDown } from "react-icons/md";
 import Select from "react-select";
 
 export const InputField = ({
   name,
   label,
   type,
+  value,
   placeholder = "",
   defaultValue,
   required = false,
   inputRef,
   icon,
+  readOnly = false,
 }) => {
   const {
     register,
@@ -40,14 +40,16 @@ export const InputField = ({
           type={type}
           placeholder={placeholder || `Enter ${label || name}`}
           defaultValue={defaultValue}
+          value={value}
+          readOnly={readOnly}
           {...rest}
           ref={(el) => {
             ref(el);
             if (inputRef) inputRef(el);
           }}
-          className={`remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none ${
+          className={`remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded outline-none ${
             icon ? "pr-10" : ""
-          }`}
+          } ${readOnly ? "bg-gray-200" : "bg-white"}`}
         />
         {icon && icon}
       </div>
@@ -57,27 +59,36 @@ export const InputField = ({
   );
 };
 
-export const SelectField = ({ name, label, required, options, control }) => (
-  <div className="mb-4">
-    <label className="block text-sm font-medium mb-1 text-primary">
-      {label} {required && <span className="text-red-500">*</span>}
-    </label>
-    <Controller
-      name={name}
-      control={control}
-      rules={{ required }}
-      render={({ field: { onChange, value, ref } }) => (
-        <Select
-          inputRef={ref}
-          value={options.find((opt) => opt.value === value) || null}
-          onChange={(val) => onChange(val ? val.value : "")}
-          options={options}
-          placeholder={` ${label}...`}
-          className="text-sm hide-scrollbar"
-          classNamePrefix="react-select"
-          isClearable
-        />
-      )}
-    />
-  </div>
-);
+export const SelectField = ({ name, label, required, options, control }) => {
+  const {
+    formState: { errors },
+  } = useFormContext();
+
+  const error = errors[name]?.message;
+
+  return (
+    <div className="mb-4">
+      <label className="block text-sm font-medium mb-1 text-primary">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
+      <Controller
+        name={name}
+        control={control}
+        rules={{ required: required ? `${label || name} is required` : false }}
+        render={({ field: { onChange, value, ref } }) => (
+          <Select
+            inputRef={ref}
+            value={options.find((opt) => opt.value === value) || null}
+            onChange={(val) => onChange(val ? val.value : "")}
+            options={options}
+            placeholder={` ${label}...`}
+            className="text-sm hide-scrollbar"
+            classNamePrefix="react-select"
+            isClearable
+          />
+        )}
+      />
+      {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+    </div>
+  );
+};

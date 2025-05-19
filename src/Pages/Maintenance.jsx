@@ -199,7 +199,7 @@ const Maintenance = () => {
             Maintenance
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
-            <Link to="/MaintenanceForm">
+            <Link to="/tramessy/MaintenanceForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <FaPlus /> Maintenance
               </button>
@@ -293,7 +293,7 @@ const Maintenance = () => {
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white uppercase text-sm">
+            <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
                 <th className="px-2 py-3">Service Type</th>

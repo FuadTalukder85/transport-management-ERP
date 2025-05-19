@@ -27,9 +27,9 @@ const CarList = () => {
   const toggleModal = () => setIsOpen(!isOpen);
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/api/vehicle")
+      .get("https://api.dropshep.com/mstrading/api/vehicle/list")
       .then((response) => {
-        if (response.data.status === "success") {
+        if (response.data.status === "Success") {
           setVehicle(response.data.data);
         }
         setLoading(false);
@@ -43,7 +43,7 @@ const CarList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.dropshep.com/api/vehicle/${id}`,
+        `https://api.dropshep.com/mstrading/api/vehicle/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -54,7 +54,7 @@ const CarList = () => {
       }
       // Remove car from local list
       setVehicle((prev) => prev.filter((driver) => driver.id !== id));
-      toast.success("গাড়িটি সফলভাবে ডিলিট হয়েছে", {
+      toast.success("Vehicle deleted successfully", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -63,7 +63,7 @@ const CarList = () => {
       setSelectedDriverId(null);
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("ডিলিট করতে সমস্যা হয়েছে!", {
+      toast.error("There was a problem deleting!", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -289,7 +289,7 @@ const CarList = () => {
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white uppercase text-sm">
+            <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
                 <th className="px-2 py-3">Driver Name</th>
@@ -311,8 +311,8 @@ const CarList = () => {
                   </td>
                   <td className="px-2 py-4">{vehicle.driver_name}</td>
                   <td className="px-2 py-4">{vehicle.vehicle_name}</td>
-                  <td className="px-2 py-4">{vehicle.category}</td>
-                  <td className="px-2 py-4">{vehicle.size}</td>
+                  <td className="px-2 py-4">{vehicle.vehicle_category}</td>
+                  <td className="px-2 py-4">{vehicle.vehicle_size}</td>
                   <td className="px-2 py-4">{vehicle.registration_zone}</td>
 
                   <td className="px-2 py-4">0</td>

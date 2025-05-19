@@ -186,7 +186,7 @@ const Sidebar = () => {
                           <span>Fuel</span>
                         </Link>
                       </li> */}
-                      <li>
+                      {/* <li>
                         <Link
                           to="/tramessy/Parts"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
@@ -204,7 +204,7 @@ const Sidebar = () => {
                           ></div>
                           <span>Spare & Parts List</span>
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link
                           to="/tramessy/Maintenance"
@@ -1029,12 +1029,22 @@ const Sidebar = () => {
                   >
                     <span className="flex items-center gap-2">
                       <FaBriefcase />
-                      <span>Accounnt</span>
+                      <span>Account</span>
                     </span>
-                    {openMenu.accounts ? <FaChevronUp /> : <FaChevronDown />}
+                    <span
+                      className={`transform transition-transform duration-900 ${
+                        openMenu.billing ? "rotate-180" : ""
+                      }`}
+                    >
+                      <FaChevronDown />
+                    </span>
                   </div>
-
-                  {openMenu.accounts && (
+                  <div
+                    className={`transition-all duration-900 ease-in-out overflow-hidden ${
+                      openMenu.accounts ? "max-h-[500px]" : "max-h-0"
+                    }`}
+                  >
+                    {" "}
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
@@ -1052,11 +1062,106 @@ const Sidebar = () => {
                                 : "bg-primary"
                             }`}
                           ></div>
-                          <span>Cash Dispatch</span>
+                          <span>Fund Transfer</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/account/PaymentList"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/account/PaymentList")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/account/PaymentList")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Payment List</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/account/PaymentReceive"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/account/PaymentReceive")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/account/PaymentReceive")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Payment Receive</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/account/SupplierLedger"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/account/SupplierLedger")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/account/SupplierLedger")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Supplier Ledger</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/account/CustomerLedger"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/account/CustomerLedger")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/account/CustomerLedger")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Customer Ledger</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/account/OfficeLedger"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/account/OfficeLedger")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/account/OfficeLedger")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Office Ledger</span>
                         </Link>
                       </li>
                     </ul>
-                  )}
+                  </div>
                 </li>
                 {/* Billing Control */}
                 <li className="text-primary font-medium rounded-sm">

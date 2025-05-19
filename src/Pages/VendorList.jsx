@@ -31,9 +31,9 @@ const VendorList = () => {
   // Fetch fuel data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/api/fuel")
+      .get("https://api.dropshep.com/mstrading/api/vendor/list")
       .then((response) => {
-        if (response.data.status === "success") {
+        if (response.data.status === "Success") {
           setFuel(response.data.data);
         }
         setLoading(false);
@@ -140,16 +140,19 @@ const VendorList = () => {
   // delete by id
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`https://api.dropshep.com/api/fuel/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://api.dropshep.com/mstrading/api/vendor/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete trip");
       }
       // Remove fuel from local list
       setFuel((prev) => prev.filter((driver) => driver.id !== id));
-      toast.success("ট্রিপ সফলভাবে ডিলিট হয়েছে", {
+      toast.success("Vendor deleted successfully", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -158,7 +161,7 @@ const VendorList = () => {
       setselectedFuelId(null);
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("ডিলিট করতে সমস্যা হয়েছে!", {
+      toast.error("Failed to delete vendor!", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -189,7 +192,7 @@ const VendorList = () => {
   const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentFuel = filteredFuel.slice(indexOfFirstItem, indexOfLastItem);
+  const currentVendor = filteredFuel.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(fuel.length / itemsPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
@@ -307,7 +310,7 @@ const VendorList = () => {
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white uppercase text-sm">
+            <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
                 <th className="px-2 py-3">Name</th>
@@ -321,18 +324,18 @@ const VendorList = () => {
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              {currentFuel?.map((dt, index) => (
+              {currentVendor?.map((dt, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-all">
                   <td className="px-4 py-4 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-2 py-4">{dt.driver_name}</td>
-                  <td className="px-2 py-4">{dt.vehicle_number}</td>
-                  <td className="px-2 py-4">{dt.type}</td>
+                  <td className="px-2 py-4">{dt.vendor_name}</td>
+                  <td className="px-2 py-4">{dt.mobile}</td>
+                  <td className="px-2 py-4">{dt.rent_category}</td>
                   <td className="px-2 py-4">{dt.date_time}</td>
                   <td className="px-2 py-4">{dt.quantity}</td>
                   <td className="px-2 py-4">{dt.price}</td>
-                  <td className="px-2 py-4">{dt.quantity * dt.price}.00</td>
+                  <td className="px-2 py-4">{dt.status}</td>
                   <td className="px-2 py-4 action_column">
                     <div className="flex gap-2">
                       <Link to={`/UpdateFuelForm/${dt.id}`}>
@@ -411,7 +414,7 @@ const VendorList = () => {
                 <FaTrashAlt />
               </div>
               <p className="text-center text-gray-700 font-medium mb-6">
-                Are you sure you want to delete this fuel entry?
+                Are you sure you want to delete this Vendor?
               </p>
               <div className="flex justify-center space-x-4">
                 <button

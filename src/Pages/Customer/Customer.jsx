@@ -25,15 +25,14 @@ const Customer = () => {
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white uppercase text-sm">
+            <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
                 <th className="px-2 py-3">Name</th>
                 <th className="px-2 py-3">Mobile</th>
-                <th className="px-2 py-3">RentCate</th>
-                <th className="px-2 py-3">Vehicle</th>
-                <th className="px-2 py-3">Trip</th>
-                <th className="px-2 py-3">Joindate</th>
+                <th className="px-2 py-3">Email</th>
+                <th className="px-2 py-3">Address</th>
+                <th className="px-2 py-3">DueBalance</th>
                 <th className="px-2 py-3">Status</th>
                 <th className="px-2 py-3 action_column">Action</th>
               </tr>
@@ -43,10 +42,9 @@ const Customer = () => {
                 <td className="px-4 py-4 font-bold">1</td>
                 <td className="px-2 py-4">Korim Mia</td>
                 <td className="px-2 py-4">01756000000</td>
-                <td className="px-2 py-4">Octen</td>
-                <td className="px-2 py-4">2025-04-26</td>
-                <td className="px-2 py-4">10</td>
-                <td className="px-2 py-4">05-05-2025</td>
+                <td className="px-2 py-4">email@gmail.com</td>
+                <td className="px-2 py-4">Mirpur, Dhaka</td>
+                <td className="px-2 py-4">2000</td>
                 <td className="px-2 py-4">Active</td>
                 <td className="px-2 action_column">
                   <div className="flex gap-1">

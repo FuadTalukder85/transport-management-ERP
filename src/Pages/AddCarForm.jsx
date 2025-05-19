@@ -7,6 +7,7 @@ import { MdOutlineArrowDropDown } from "react-icons/md";
 import Select from "react-select";
 import BtnSubmit from "../components/Button/BtnSubmit";
 import { InputField, SelectField } from "../components/Form/FormFields";
+import useRefId from "../hooks/useRef";
 const AddCarForm = () => {
   const methods = useForm();
   const { handleSubmit, register, reset, control } = methods;
@@ -14,21 +15,23 @@ const AddCarForm = () => {
   const taxDateRef = useRef(null);
   const roadPermitRef = useRef(null);
   const fitnessDateRef = useRef(null);
-  // select driver
-  // const [drivers, setDrivers] = useState([]);
+  const insuranceDateRef = useRef(null);
+  // select driver from api
+  const [drivers, setDrivers] = useState([]);
   useEffect(() => {
     fetch("https://api.dropshep.com/mstrading/api/driver/list")
       .then((response) => response.json())
-      // .then((data) => setDrivers(data.data))
+      .then((data) => setDrivers(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
   }, []);
 
-  // const driverOptions = drivers.map((driver) => ({
-  //   value: driver.driver_name,
-  //   label: driver.driver_name,
-  // }));
+  const driverOptions = drivers.map((driver) => ({
+    value: driver.driver_name,
+    label: driver.driver_name,
+  }));
 
   // post vehicle
+  const generateRefId = useRefId();
   const onSubmit = async (data) => {
     console.log("add car data", data);
     try {
@@ -36,13 +39,14 @@ const AddCarForm = () => {
       for (const key in data) {
         formData.append(key, data[key]);
       }
+      formData.append("ref_id", generateRefId());
       const response = await axios.post(
         "https://api.dropshep.com/mstrading/api/vehicle/create",
         formData
       );
       const resData = response.data;
       console.log("resData", resData);
-      if (resData.status === "Vehicle saved successfully") {
+      if (resData.status === "Success") {
         toast.success("Vehicle saved successfully!", { position: "top-right" });
         reset();
       } else {
@@ -74,11 +78,8 @@ const AddCarForm = () => {
               <SelectField
                 name="driver_name"
                 label="Driver Name"
-                required
-                options={[
-                  { value: "Korim Mia", label: "Korim Mia" },
-                  { value: "Motin Ali", label: "Motin Ali" },
-                ]}
+                required={true}
+                options={driverOptions}
                 control={control}
               />
             </div>
@@ -95,6 +96,7 @@ const AddCarForm = () => {
                   { value: "", label: "Select Vehicle category..." },
                   { value: "Pickup", label: "Pickup" },
                   { value: "Covered Van", label: "Covered Van" },
+                  { value: "Open Truck", label: "Open Truck" },
                 ]}
               />
             </div>
@@ -102,10 +104,13 @@ const AddCarForm = () => {
             <div className="relative mt-2 md:mt-0 w-full">
               <SelectField
                 name="vehicle_size"
-                label="Vehicle Size"
+                label="Vehicle Size/Capacity"
                 required
                 options={[
                   { value: "", label: "Select Vehicle size..." },
+                  { value: "4 Ton", label: "4 Ton" },
+                  { value: "3 Ton", label: "3 Ton" },
+                  { value: "22 Ton", label: "22 Ton" },
                   { value: "7 Feet", label: "7 Feet" },
                   { value: "9 Feet", label: "9 Feet" },
                   { value: "12 Feet", label: "12 Feet" },
@@ -117,13 +122,13 @@ const AddCarForm = () => {
                 ]}
               />
             </div>
+            <div className="w-full">
+              <InputField name="fuel_capacity" label="Fuel Capacity" required />
+            </div>
           </div>
 
           {/* Registration Number & Serial */}
           <div className="md:flex justify-between gap-3">
-            <div className="w-full">
-              <InputField name="fuel_capacity" label="Fuel Capacity" required />
-            </div>
             <div className="w-full">
               <InputField
                 name="registration_number"
@@ -147,10 +152,6 @@ const AddCarForm = () => {
                 ]}
               />
             </div>
-          </div>
-
-          {/* Registration Zone */}
-          <div className="md:flex justify-between gap-3">
             <div className="relative w-full">
               <SelectField
                 name="registration_zone"
@@ -232,7 +233,10 @@ const AddCarForm = () => {
                 ]}
               />
             </div>
+          </div>
 
+          {/* Registration Zone */}
+          <div className="md:flex justify-between gap-3">
             {/* Registration Date */}
             <div className="relative w-full">
               <InputField
@@ -241,7 +245,7 @@ const AddCarForm = () => {
                 type="date"
                 required
                 inputRef={(e) => {
-                  register("date").ref(e);
+                  register("registration_date").ref(e);
                   registrationDateRef.current = e;
                 }}
                 icon={
@@ -263,7 +267,7 @@ const AddCarForm = () => {
                 type="date"
                 required
                 inputRef={(e) => {
-                  register("date").ref(e);
+                  register("tax_date").ref(e);
                   taxDateRef.current = e;
                 }}
                 icon={
@@ -276,10 +280,6 @@ const AddCarForm = () => {
                 }
               />
             </div>
-          </div>
-
-          {/* Road Permit & Fitness Date & Status */}
-          <div className="md:flex justify-between gap-3">
             <div className="w-full">
               <InputField
                 name="road_permit_date"
@@ -287,7 +287,7 @@ const AddCarForm = () => {
                 type="date"
                 required
                 inputRef={(e) => {
-                  register("date").ref(e);
+                  register("road_permit_date").ref(e);
                   roadPermitRef.current = e;
                 }}
                 icon={
@@ -301,7 +301,10 @@ const AddCarForm = () => {
               />
               <label className="text-primary text-sm font-semibold"></label>
             </div>
+          </div>
 
+          {/* Road Permit & Fitness Date & Status */}
+          <div className="md:flex justify-between gap-3">
             <div className="mt-2 md:mt-0 w-full">
               <InputField
                 name="fitness_date"
@@ -309,13 +312,33 @@ const AddCarForm = () => {
                 type="date"
                 required
                 inputRef={(e) => {
-                  register("date").ref(e);
+                  register("fitness_date").ref(e);
                   fitnessDateRef.current = e;
                 }}
                 icon={
                   <span
                     className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r"
                     onClick={() => fitnessDateRef.current?.showPicker?.()}
+                  >
+                    <FiCalendar className="text-white cursor-pointer" />
+                  </span>
+                }
+              />
+            </div>
+            <div className="mt-2 md:mt-0 w-full">
+              <InputField
+                name="insurance_date"
+                label="Insurance Expiry Date"
+                type="date"
+                required
+                inputRef={(e) => {
+                  register("insurance_date").ref(e);
+                  insuranceDateRef.current = e;
+                }}
+                icon={
+                  <span
+                    className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r"
+                    onClick={() => insuranceDateRef.current?.showPicker?.()}
                   >
                     <FiCalendar className="text-white cursor-pointer" />
                   </span>
@@ -329,7 +352,6 @@ const AddCarForm = () => {
                 label="Status"
                 required
                 options={[
-                  { value: "", label: "Select Status..." },
                   { value: "Active", label: "Active" },
                   { value: "Inactive", label: "Inactive" },
                 ]}

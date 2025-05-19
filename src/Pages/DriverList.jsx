@@ -47,7 +47,7 @@ const CarList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.dropshep.com/api/driver/${id}`,
+        `https://api.dropshep.com/mstrading/api/driver/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -58,7 +58,7 @@ const CarList = () => {
       }
       // Remove driver from local list
       setDrivers((prev) => prev.filter((driver) => driver.id !== id));
-      toast.success("ড্রাইভার সফলভাবে ডিলিট হয়েছে", {
+      toast.success("Driver deleted successfully", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -67,7 +67,7 @@ const CarList = () => {
       setSelectedDriverId(null);
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("ডিলিট করতে সমস্যা হয়েছে!", {
+      toast.error("There was a problem deleting!", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -83,11 +83,11 @@ const CarList = () => {
         setSelectedDriver(response.data.data);
         setViewModalOpen(true);
       } else {
-        toast.error("ড্রাইভারের তথ্য লোড করা যায়নি");
+        toast.error("Driver information could not be loaded.");
       }
     } catch (error) {
       console.error("View error:", error);
-      toast.error("ড্রাইভারের তথ্য আনতে সমস্যা হয়েছে");
+      toast.error("There was a problem retrieving driver information.");
     }
   };
   // export functionality
@@ -270,7 +270,7 @@ const CarList = () => {
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white uppercase text-sm">
+            <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
                 <th className="px-2 py-3">Name</th>
