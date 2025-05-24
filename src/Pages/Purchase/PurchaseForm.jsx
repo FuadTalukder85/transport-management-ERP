@@ -46,14 +46,11 @@ const PurchaseForm = () => {
         "https://api.dropshep.com/mstrading/api/purchase/create",
         purchaseFormData
       );
-
       const purchaseData = purchaseResponse.data;
-
       if (purchaseData.status === "Success") {
         toast.success("Purchase added successfully", {
           position: "top-right",
         });
-
         // --- Second API: Branch Create (only specific field) ---
         const branchFormData = new FormData();
         branchFormData.append("data", data.date);
@@ -65,20 +62,23 @@ const PurchaseForm = () => {
         branchFormData.append("quantity", data.quantity);
         branchFormData.append("unit_price", data.unit_price);
         branchFormData.append("ref_id", refId);
-
         await axios.post(
           "https://api.dropshep.com/mstrading/api/supplierLedger/create",
           branchFormData
         );
         // --- Third API: if category is engine oil then send data on inventory (only specific field) ---
         const inventoryFormData = new FormData();
-        branchFormData.append("data", data.date);
-        branchFormData.append("item_name", data.item_name);
-
-        await axios.post(
-          "https://api.dropshep.com/mstrading/api/stockProduct/create",
-          branchFormData
-        );
+        if (selectedCategory === "Engine Oil") {
+          inventoryFormData.append("date", data.date);
+          inventoryFormData.append("category", data.category);
+          inventoryFormData.append("product_name", data.item_name);
+          inventoryFormData.append("quantity", data.quantity);
+          inventoryFormData.append("ref_id", refId);
+          await axios.post(
+            "https://api.dropshep.com/mstrading/api/stockProduct/create",
+            inventoryFormData
+          );
+        }
 
         // Reset form if both succeed
         reset();
@@ -134,6 +134,7 @@ const PurchaseForm = () => {
                 required
                 options={[
                   { value: "Fuel", label: "Fuel" },
+                  { value: "Engine Oil", label: "Engine Oil" },
                   { value: "Parts", label: "Parts" },
                   { value: "Stationary", label: "Stationary" },
                   { value: "Snacks", label: "Snacks" },
@@ -146,8 +147,8 @@ const PurchaseForm = () => {
               <InputField name="item_name" label="Item Name" required />
             </div>
           </div>
-          {/* fuel category */}
-          {selectedCategory === "Fuel" && (
+          {/* Engine Oil category */}
+          {selectedCategory === "Engine Oil" && (
             <div className="md:flex justify-between gap-3">
               <div className="w-full">
                 <InputField name="driver_name" label="Driver Name" required />

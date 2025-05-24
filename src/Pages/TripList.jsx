@@ -15,8 +15,8 @@ import { Link } from "react-router-dom";
 import { CSVLink } from "react-csv";
 const TripList = () => {
   const [trip, setTrip] = useState([]);
-  const [showFilter, setShowFilter] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showFilter, setShowFilter] = useState(false);
   // delete modal
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTripId, setselectedTripId] = useState(null);
@@ -40,12 +40,13 @@ const TripList = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching driver data:", error);
+        console.error("Error fetching trip data:", error);
         setLoading(false);
       });
   }, []);
   if (loading) return <p className="text-center mt-16">Loading trip...</p>;
   console.log("trip:", trip);
+
   // delete by id
   const handleDelete = async (id) => {
     try {

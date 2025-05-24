@@ -75,6 +75,7 @@ import OfficeLedger from "../Pages/Account/OfficeLedger";
 import PaymentList from "../Pages/Account/PaymentList";
 import PaymentReceiveForm from "../Pages/Account/PaymentReceiveForm";
 import PaymentReceive from "../Pages/Account/PaymentReceive";
+import DriverLedger from "../Pages/Account/DriverLedger";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -510,6 +511,10 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/account/SupplierLedger",
         element: <SupplierLedger />,
+      },
+      {
+        path: "/tramessy/account/DriverLedger",
+        element: <DriverLedger />,
       },
       {
         path: "/tramessy/account/OfficeLedger",

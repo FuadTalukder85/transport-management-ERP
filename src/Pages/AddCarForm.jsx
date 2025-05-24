@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { FiCalendar } from "react-icons/fi";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { MdOutlineArrowDropDown } from "react-icons/md";
-import Select from "react-select";
 import BtnSubmit from "../components/Button/BtnSubmit";
 import { InputField, SelectField } from "../components/Form/FormFields";
 import useRefId from "../hooks/useRef";

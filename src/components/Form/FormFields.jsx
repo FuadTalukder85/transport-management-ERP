@@ -59,7 +59,15 @@ export const InputField = ({
   );
 };
 
-export const SelectField = ({ name, label, required, options, control }) => {
+export const SelectField = ({
+  name,
+  label,
+  required,
+  options,
+  control,
+  placeholder,
+  onSelectChange,
+}) => {
   const {
     formState: { errors },
   } = useFormContext();
@@ -68,9 +76,11 @@ export const SelectField = ({ name, label, required, options, control }) => {
 
   return (
     <div className="mb-4">
-      <label className="block text-sm font-medium mb-1 text-primary">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
+      {label && (
+        <label className="block text-sm font-medium mb-1 text-primary">
+          {label} {required && <span className="text-red-500">*</span>}
+        </label>
+      )}
       <Controller
         name={name}
         control={control}
@@ -79,9 +89,15 @@ export const SelectField = ({ name, label, required, options, control }) => {
           <Select
             inputRef={ref}
             value={options.find((opt) => opt.value === value) || null}
-            onChange={(val) => onChange(val ? val.value : "")}
+            onChange={(selectedOption) => {
+              const selectedValue = selectedOption?.value || "";
+              onChange(selectedValue);
+              if (onSelectChange) {
+                onSelectChange(selectedOption);
+              }
+            }}
             options={options}
-            placeholder={` ${label}...`}
+            placeholder={placeholder || `${label}...`}
             className="text-sm hide-scrollbar"
             classNamePrefix="react-select"
             isClearable

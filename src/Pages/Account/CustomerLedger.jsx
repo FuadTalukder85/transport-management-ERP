@@ -1,20 +1,53 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import { FaEye, FaPen } from "react-icons/fa";
 import { MdOutlineArrowDropDown } from "react-icons/md";
-import { Link } from "react-router-dom";
 
 const CustomerLedger = () => {
+  const [customer, setCustomer] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [customerList, setCustomerList] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState("");
+
+  // Fetch customer ledger data
+  useEffect(() => {
+    axios
+      .get("https://api.dropshep.com/mstrading/api/customerLedger/list")
+      .then((response) => {
+        if (response.data.status === "Success") {
+          const data = response.data.data;
+          setCustomer(data);
+
+          // Extract unique customer names
+          const uniqueCustomers = Array.from(
+            new Set(data.map((item) => item.customer_name))
+          );
+          setCustomerList(uniqueCustomers);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching customer data:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p className="text-center mt-16">Loading customer...</p>;
+
+  // Filtered data based on selected customer
+  const filteredCustomer = selectedCustomer
+    ? customer.filter((item) => item.customer_name === selectedCustomer)
+    : customer;
+
   return (
     <main className="bg-gradient-to-br from-gray-100 to-white md:p-2 overflow-hidden">
       <Toaster />
-      <div className="w-xs md:w-full overflow-hidden  max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 border border-gray-200">
+      <div className="w-xs md:w-full overflow-hidden max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 border border-gray-200">
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold text-[#11375B] capitalize flex items-center gap-3">
-            {/* <FaTruck className="text-[#11375B] text-2xl" /> */}
             Customer ledger
           </h1>
-          <div className="mt-3 md:mt-0 flex gap-2"></div>
         </div>
 
         {/* Export */}
@@ -23,28 +56,33 @@ const CustomerLedger = () => {
             <div className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all">
               CSV
             </div>
-
             <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
               Excel
             </button>
-
             <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
               PDF
             </button>
-
             <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
               Print
             </button>
           </div>
+
           <div className="mt-3 md:mt-0">
             <div className="relative w-full">
               <label className="text-primary text-sm font-semibold">
                 Select Customer Ledger
               </label>
-              <select className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none">
+              <select
+                className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
+                value={selectedCustomer}
+                onChange={(e) => setSelectedCustomer(e.target.value)}
+              >
                 <option value="">Select customer</option>
-                <option value="Korim Mia">Korim Mia</option>
-                <option value="Selim Ali">Selim Ali</option>
+                {customerList.map((name, i) => (
+                  <option key={i} value={name}>
+                    {name}
+                  </option>
+                ))}
               </select>
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
@@ -52,72 +90,76 @@ const CustomerLedger = () => {
         </div>
 
         {/* Table */}
-        <div className="w-[1030px] mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="w-[1030px] mt-5 overflow-x-auto border border-gray-200">
           <table className="text-sm text-left">
             <thead className="text-black capitalize font-bold">
               <tr>
-                <th className="border border-gray-700 px-2 py-3">SL</th>
+                <th className="border border-gray-700 px-2 py-3">SL.</th>
                 <th className="border border-gray-700 px-2 py-3">BillDate</th>
                 <th className="border border-gray-700 px-2 py-3">
                   WorkingDate
                 </th>
-                <th className="border border-gray-700 px-2 py-3">
-                  CustomerName
+                <th className="border border-gray-700 px-2 py-3">Chalan</th>
+                <th className="border border-gray-700 px-2 py-3">Vehicle</th>
+                <th className="border border-gray-700 px-2 py-3">Load</th>
+                <th className="border border-gray-700 px-2 py-3">Unload</th>
+                <th className="border border-gray-700 px-2 py-3">Qty</th>
+                <th className="border border-gray-700 px-2 py-3 text-center">
+                  BillAmount
+                  <br />
+                  with VAT & TAX
                 </th>
-                <th className="border border-gray-700 px-2 py-3">VehicleNo</th>
-                <th className="border border-gray-700 px-2 py-3">LoadPoint</th>
-                <th className="border border-gray-700 px-2 py-3">
-                  UnloadPoint
+
+                <th className="border border-gray-700 px-2 py-3 text-center">
+                  Net Bill
+                  <br />
+                  Receivable after Tax
                 </th>
-                <th className="border border-gray-700 px-2 py-3">Quantity</th>
-                <th className="border border-gray-700 px-2 py-3">BillAmount</th>
-                <th className="border border-gray-700 px-2 py-3">Vat</th>
-                <th className="border border-gray-700 px-2 py-3">
-                  TotalAmount
+                <th className="border border-gray-700 px-2 py-3 text-center">
+                  ReceiveAmount
                 </th>
-                <th className="border border-gray-700 px-2 py-3">DueAmount</th>
-                <th className="border border-gray-700 px-2 py-3">Status</th>
-                {/* <th className="border border-gray-700 px-2 py-3 action_column">
-                  Action
-                </th> */}
+                <th className="text-center border border-black py-1">
+                  <p className="border-b">OpeningBalance 2000</p>
+                  Balance
+                </th>
               </tr>
             </thead>
             <tbody className="text-black font-semibold">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="border border-gray-700 px-2 py-4 font-bold">
-                  1.
-                </td>
-                <td className="border border-gray-700 px-2 py-4">12-05-2025</td>
-                <td className="border border-gray-700 px-2 py-4">12-05-2025</td>
-                <td className="border border-gray-700 px-2 py-4">Korim Mia</td>
-                <td className="border border-gray-700 px-2 py-4">12-2525</td>
-                <td className="border border-gray-700 px-2 py-4">Dhaka</td>
-                <td className="border border-gray-700 px-2 py-4">Gazipur</td>
-                <td className="border border-gray-700 px-2 py-4">5</td>
-                <td className="border border-gray-700 px-2 py-4">500</td>
-                <td className="border border-gray-700 px-2 py-4">15</td>
-                <td className="border border-gray-700 px-2 py-4">5000</td>
-                <td className="border border-gray-700 px-2 py-4">
-                  500 <p>Opening balance: 2000</p>
-                </td>
-                <td className="border border-gray-700 px-2 py-4">
-                  <span className="text-white bg-green-700 px-3 py-1 rounded-md text-xs font-semibold">
-                    Active
-                  </span>
-                </td>
-                {/* <td className="border border-gray-700 px-2 action_column">
-                  <div className="flex gap-1">
-                    <Link>
-                      <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                        <FaPen className="text-[12px]" />
-                      </button>
-                    </Link>
-                    <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                      <FaEye className="text-[12px]" />
-                    </button>
-                  </div>
-                </td> */}
-              </tr>
+              {filteredCustomer?.map((dt, index) => (
+                <tr key={index} className="hover:bg-gray-50 transition-all">
+                  <td className="border border-gray-700 px-2 py-4 font-bold">
+                    {index + 1}
+                  </td>
+                  <td className="border border-gray-700 px-2 py-4">
+                    {dt.bill_date}
+                  </td>
+                  <td className="border border-gray-700 px-2 py-4">
+                    {dt.woring_date}
+                  </td>
+                  <td className="border border-gray-700 px-2 py-4">
+                    {dt.customer_name}
+                  </td>
+                  <td className="border border-gray-700 px-2 py-4">
+                    {dt.vehicle_no}
+                  </td>
+                  <td className="border border-gray-700 px-2 py-4">
+                    {dt.load_point}
+                  </td>
+                  <td className="border border-gray-700 px-2 py-4">
+                    {dt.unload_point}
+                  </td>
+                  <td className="border border-gray-700 px-2 py-4">{dt.qty}</td>
+                  <td className="border border-gray-700 px-2 py-4">
+                    {dt.bill_amount}
+                  </td>
+
+                  <td className="border border-gray-700 px-2 py-4">50</td>
+                  <td className="border border-gray-700 px-2 py-4">
+                    {dt.total_amount}
+                  </td>
+                  <td className="border border-gray-700 px-2 py-4">500</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

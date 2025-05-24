@@ -1,9 +1,32 @@
-import React, { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
 import { HiCurrencyBangladeshi } from "react-icons/hi2";
 
 const Yamaha = () => {
+  const [yamaha, setYamaha] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showFilter, setShowFilter] = useState(false);
+  // Fetch trips data
+  useEffect(() => {
+    axios
+      .get("https://api.dropshep.com/mstrading/api/trip/list")
+      .then((response) => {
+        if (response.data.status === "Success") {
+          setYamaha(response.data.data);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching driver data:", error);
+        setLoading(false);
+      });
+  }, []);
+  // find yamaha
+  const yamahaTrip = yamaha?.filter((dt) => dt.customer === "Yamaha");
+  console.log("yamahaTrip", yamahaTrip);
+  if (loading) return <p className="text-center mt-16">Loading Yamaha...</p>;
+
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
@@ -51,7 +74,7 @@ const Yamaha = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
+                <th className="px-2 py-3">SL.</th>
                 <th className="px-2 py-3">Date</th>
                 <th className="px-2 py-3">Chalan</th>
                 <th className="px-2 py-3">STI</th>
@@ -65,19 +88,21 @@ const Yamaha = () => {
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="px-2 py-4 font-bold">01</td>
-                <td className="px-2 py-4">02-02-2025</td>
-                <td className="px-2 py-4">1212</td>
-                <td className="px-2 py-4">353535</td>
-                <td className="px-2 py-4">Dhaka</td>
-                <td className="px-2 py-4">Gazipur</td>
-                <td className="px-2 py-4">M-2020</td>
-                <td className="px-2 py-4">5</td>
-                <td className="px-2 py-4">--</td>
-                <td className="px-2 py-4">2000</td>
-                <td className="px-2 py-4">1000</td>
-              </tr>
+              {yamahaTrip?.map((dt, index) => (
+                <tr key={index} className="hover:bg-gray-50 transition-all">
+                  <td className="px-2 py-4 font-bold">{index + 1}</td>
+                  <td className="px-2 py-4">{dt.date}</td>
+                  <td className="px-2 py-4">1212</td>
+                  <td className="px-2 py-4">353535</td>
+                  <td className="px-2 py-4">Dhaka</td>
+                  <td className="px-2 py-4">Gazipur</td>
+                  <td className="px-2 py-4">M-2020</td>
+                  <td className="px-2 py-4">5</td>
+                  <td className="px-2 py-4">--</td>
+                  <td className="px-2 py-4">2000</td>
+                  <td className="px-2 py-4">1000</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

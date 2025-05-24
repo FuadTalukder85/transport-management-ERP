@@ -31,7 +31,7 @@ const OfficeLedger = () => {
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold text-[#11375B] capitalize flex items-center gap-3">
-            Office ledger
+            OFFICE ledger
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2"></div>
         </div>
@@ -71,7 +71,7 @@ const OfficeLedger = () => {
         </div>
 
         {/* Table */}
-        <div className="w-full mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="w-full mt-5 overflow-x-auto border border-gray-200">
           <table className="w-full text-sm text-left">
             <thead className="text-black capitalize font-bold">
               <tr>
@@ -102,16 +102,40 @@ const OfficeLedger = () => {
                     {dt.date}
                   </td>
                   <td className="border border-gray-700 px-2 py-4">
-                    {dt.remarks}
+                    {dt.remarks ? (
+                      dt.remarks
+                    ) : (
+                      <span className="flex justify-center items-center">
+                        --
+                      </span>
+                    )}
                   </td>
                   <td className="border border-gray-700 px-2 py-4">
-                    {dt.mode}
+                    {dt.mode ? (
+                      dt.mode
+                    ) : (
+                      <span className="flex justify-center items-center">
+                        --
+                      </span>
+                    )}
                   </td>
                   <td className="border border-gray-700 px-2 py-4">
-                    {dt.destination}
+                    {dt.destination ? (
+                      dt.destination
+                    ) : (
+                      <span className="flex justify-center items-center">
+                        --
+                      </span>
+                    )}
                   </td>
                   <td className="border border-gray-700 px-2 py-4">
-                    {dt.trip_expense}
+                    {dt.trip_expense ? (
+                      dt.trip_expense
+                    ) : (
+                      <span className="flex justify-center items-center">
+                        --
+                      </span>
+                    )}
                   </td>
                   <td className="border border-gray-700 px-2 py-4">{dt.due}</td>
                   <td className="border border-gray-700 px-2 py-4">

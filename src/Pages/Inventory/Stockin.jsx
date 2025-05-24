@@ -1,10 +1,29 @@
-import React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaEye, FaPen, FaTrashAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import { MdShop } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const Stockin = () => {
+  const [stock, setStockIn] = useState([]);
+  const [loading, setLoading] = useState(true);
+  // fetch data from server
+  useEffect(() => {
+    axios
+      .get("https://api.dropshep.com/mstrading/api/stockProduct/list")
+      .then((response) => {
+        if (response.data.status === "Success") {
+          setStockIn(response.data.data);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching driver data:", error);
+        setLoading(false);
+      });
+  }, []);
+  if (loading) return <p className="text-center mt-16">Loading vehicle...</p>;
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
@@ -25,7 +44,7 @@ const Stockin = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
+                <th className="px-2 py-3">SL.</th>
                 <th className="px-2 py-3">Date</th>
                 <th className="px-2 py-3">Category</th>
                 <th className="px-2 py-3">Product Name</th>
@@ -37,31 +56,42 @@ const Stockin = () => {
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="px-2 py-4 font-bold">01</td>
-                <td className="px-2 py-4">05-05-2025</td>
-                <td className="px-2 py-4">Parts</td>
-                <td className="px-2 py-4">Piston</td>
-                <td className="px-2 py-4">3</td>
-                <td className="px-2 py-4">Korim Mia</td>
-                <td className="px-2 py-4">0</td>
-                <td className="px-2 py-4">50</td>
-                <td className="px-2 action_column">
-                  <div className="flex gap-1">
-                    <Link>
+              {stock?.map((dt, index) => (
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50 transition-all border-t border-gray-300"
+                >
+                  <td className="px-2 py-4 font-bold">{index + 1}</td>
+                  <td className="px-2 py-4">{dt.date}</td>
+                  <td className="px-2 py-4">{dt.category}</td>
+                  <td className="px-2 py-4">{dt.product_name}</td>
+                  <td className="px-2 py-4">{dt.quantity}</td>
+                  <td className="px-2 py-4">
+                    {dt.vendor_name ? dt.vendor_name : "--"}
+                  </td>
+                  <td className="px-2 py-4">
+                    {dt.before_stock ? dt.before_stock : "--"}
+                  </td>
+                  <td className="px-2 py-4">
+                    {dt.after_stock ? dt.after_stock : "--"}
+                  </td>
+                  <td className="px-2 action_column">
+                    <div className="flex gap-1">
+                      <Link>
+                        <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                          <FaPen className="text-[12px]" />
+                        </button>
+                      </Link>
                       <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                        <FaPen className="text-[12px]" />
+                        <FaEye className="text-[12px]" />
                       </button>
-                    </Link>
-                    <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                      <FaEye className="text-[12px]" />
-                    </button>
-                    <button className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                      <FaTrashAlt className="text-[12px]" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                      <button className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <FaTrashAlt className="text-[12px]" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

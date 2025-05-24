@@ -1,9 +1,32 @@
-import React, { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
 import { HiCurrencyBangladeshi } from "react-icons/hi2";
 
 const Honda = () => {
+  const [honda, setHonda] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showFilter, setShowFilter] = useState(false);
+  // Fetch trips data
+  useEffect(() => {
+    axios
+      .get("https://api.dropshep.com/mstrading/api/trip/list")
+      .then((response) => {
+        if (response.data.status === "Success") {
+          setHonda(response.data.data);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching driver data:", error);
+        setLoading(false);
+      });
+  }, []);
+  // find honda
+  const hondaTrip = honda?.filter((dt) => dt.customer === "Honda");
+
+  if (loading) return <p className="text-center mt-16">Loading Honda...</p>;
+
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
@@ -52,12 +75,13 @@ const Honda = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">SL</th>
+                <th className="px-2 py-3">SL.</th>
                 <th className="px-2 py-3">Date</th>
                 <th className="px-2 py-3">Do(Si)</th>
                 <th className="px-2 py-3">DealerName</th>
                 <th className="px-2 py-3">Address</th>
                 <th className="px-2 py-3">NoOfTrip</th>
+                <th className="px-2 py-3">NoOfUnit</th>
                 <th className="px-2 py-3">VehicleMode</th>
                 <th className="px-2 py-3">PerTruckRent</th>
                 <th className="px-2 py-3">TotalRent</th>
@@ -66,19 +90,28 @@ const Honda = () => {
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="px-2 py-4 font-bold">01</td>
-                <td className="px-2 py-4">02-02-2025</td>
-                <td className="px-2 py-4">2525</td>
-                <td className="px-2 py-4">Korim Mis</td>
-                <td className="px-2 py-4">Dhaka</td>
-                <td className="px-2 py-4">2</td>
-                <td className="px-2 py-4">Bike</td>
-                <td className="px-2 py-4">2000</td>
-                <td className="px-2 py-4">200</td>
-                <td className="px-2 py-4">200</td>
-                <td className="px-2 py-4">500</td>
-              </tr>
+              {hondaTrip?.map((dt, index) => {
+                const rent = parseFloat(dt?.total_rent_cost) || 0;
+                const vatAmount = (rent * 15) / 100;
+                const totalCost = rent + vatAmount;
+
+                return (
+                  <tr key={index} className="hover:bg-gray-50 transition-all">
+                    <td className="px-2 py-4 font-bold">{index + 1}</td>
+                    <td className="px-2 py-4">{dt.date}</td>
+                    <td className="px-2 py-4">{dt.do_si}</td>
+                    <td className="px-2 py-4">{dt.dealer_name}</td>
+                    <td className="px-2 py-4">{dt.unload_point}</td>
+                    <td className="px-2 py-4">{dt.no_of_trip}</td>
+                    <td className="px-2 py-4">{dt.quantity}</td>
+                    <td className="px-2 py-4">{dt.vehicle_mode}</td>
+                    <td className="px-2 py-4">{dt.per_truck_rent}</td>
+                    <td className="px-2 py-4">{dt.total_rent}</td>
+                    <td className="px-2 py-4">{vatAmount}</td>
+                    <td className="px-2 py-4">{totalCost}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

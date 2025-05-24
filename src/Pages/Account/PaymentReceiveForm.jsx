@@ -1,35 +1,166 @@
-import React from "react";
-
 import { FormProvider, useForm } from "react-hook-form";
-import { InputField } from "../../components/Form/FormFields";
+import { InputField, SelectField } from "../../components/Form/FormFields";
 import BtnSubmit from "../../components/Button/BtnSubmit";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+import useRefId from "../../hooks/useRef";
+import { FiCalendar } from "react-icons/fi";
+import { useEffect, useRef, useState } from "react";
 
 const PaymentReceiveForm = () => {
+  const dateRef = useRef(null);
   const methods = useForm();
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
+  const { handleSubmit, reset, register, control } = methods;
+
+  // select customer from api
+  const [customer, setCustomer] = useState([]);
+  useEffect(() => {
+    fetch("https://api.dropshep.com/mstrading/api/customer/list")
+      .then((response) => response.json())
+      .then((data) => setCustomer(data.data))
+      .catch((error) => console.error("Error fetching customer data:", error));
+  }, []);
+  const customerOptions = customer.map((dt) => ({
+    value: dt.customer_name,
+    label: dt.customer_name,
+  }));
+  // select branch office from api
+  const [branch, setBranch] = useState([]);
+  useEffect(() => {
+    fetch("https://api.dropshep.com/mstrading/api/office/list")
+      .then((response) => response.json())
+      .then((data) => setBranch(data.data))
+      .catch((error) => console.error("Error fetching branch data:", error));
+  }, []);
+  const branchOptions = branch.map((dt) => ({
+    value: dt.branch_name,
+    label: dt.branch_name,
+  }));
+
+  const generateRefId = useRefId();
+  const onSubmit = async (data) => {
+    const refId = generateRefId();
+
+    try {
+      // ✅ Step 1: Get all previous branch transactions
+      const branchListRes = await axios.get(
+        "https://api.dropshep.com/mstrading/api/branch/list"
+      );
+      const branchTransactions = branchListRes.data?.data || [];
+
+      let updatedCashIn = 0;
+      const newAmount = parseFloat(data.amount || 0);
+
+      if (branchTransactions.length === 0) {
+        // 🆕 No previous transaction — use the amount as initial cash_in
+        updatedCashIn = newAmount;
+      } else {
+        // ✅ Get the latest transaction
+        const latestTransaction = branchTransactions.reduce(
+          (latest, current) => {
+            return new Date(current.created_at) > new Date(latest.created_at)
+              ? current
+              : latest;
+          }
+        );
+
+        const lastCashIn = parseFloat(latestTransaction.cash_in || 0);
+        updatedCashIn = lastCashIn + newAmount;
+      }
+
+      // ✅ Step 2: Submit payment
+      const formData = new FormData();
+      for (const key in data) {
+        formData.append(key, data[key]);
+      }
+      formData.append("ref_id", refId);
+
+      const paymentResponse = await axios.post(
+        "https://api.dropshep.com/mstrading/api/paymentRecived/create",
+        formData
+      );
+
+      if (paymentResponse.data.status === "Success") {
+        toast.success("Payment saved successfully", { position: "top-right" });
+
+        // ✅ Step 3: Save updated cash_in to branch
+        const branchFormData = new FormData();
+        branchFormData.append("branch_name", data.branch_name);
+        branchFormData.append("date", data.date);
+        branchFormData.append("cash_in", updatedCashIn.toString());
+        branchFormData.append("ref_id", refId);
+
+        await axios.post(
+          "https://api.dropshep.com/mstrading/api/branch/create",
+          branchFormData
+        );
+
+        reset();
+      } else {
+        toast.error(
+          "Payment API failed: " +
+            (paymentResponse.data.message || "Unknown error")
+        );
+      }
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || error.message || "Unknown error";
+      toast.error("Server issue: " + errorMessage);
+    }
   };
+
   return (
     <div className="mt-10">
+      <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        Payment Form
+        Payment Receive Form
       </h3>
       <FormProvider {...methods} className="">
         <form
-          onSubmit={methods.handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="space-y-3 mx-auto bg-gray-100 rounded-md shadow"
         >
           {/* Trip & Destination Section */}
           <div className="border border-gray-300 p-3 md:p-5 rounded-b-md">
             <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
               <div className="w-full">
-                <InputField name="date" label="Date" required />
+                <InputField
+                  name="date"
+                  label="Date"
+                  type="date"
+                  required
+                  inputRef={(e) => {
+                    register("date").ref(e);
+                    dateRef.current = e;
+                  }}
+                  icon={
+                    <span
+                      className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r"
+                      onClick={() => dateRef.current?.showPicker?.()}
+                    >
+                      <FiCalendar className="text-white cursor-pointer" />
+                    </span>
+                  }
+                />
               </div>
               <div className="w-full">
-                <InputField name="customer" label="Customer Name" required />
+                <SelectField
+                  name="customer_name"
+                  label="Customer Name"
+                  required
+                  options={customerOptions}
+                  control={control}
+                />
               </div>
               <div className="w-full">
-                <InputField name="bank_name" label="Branch Name" required />
+                <SelectField
+                  name="branch_name"
+                  label="Branch Name"
+                  required
+                  options={branchOptions}
+                  control={control}
+                />
+                {/* todo dropdown add korte hobe */}
               </div>
             </div>
             <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
@@ -39,13 +170,33 @@ const PaymentReceiveForm = () => {
               <div className="w-full">
                 <InputField name="amount" label="Amount" required />
               </div>
+              <div className="w-full">
+                <SelectField
+                  name="type"
+                  label="Cash Type"
+                  required
+                  options={[
+                    { value: "Cash", label: "Cash" },
+                    { value: "Bank", label: "Bank" },
+                    { value: "Card", label: "Card" },
+                  ]}
+                />
+              </div>
             </div>
             <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
               <div className="w-full">
                 <InputField name="created_by" label="Created By" required />
               </div>
               <div className="w-full">
-                <InputField name="status" label="Status" required />
+                <SelectField
+                  name="status"
+                  label="Status"
+                  required
+                  options={[
+                    { value: "Active", label: "Active" },
+                    { value: "Inactive", label: "Inactive" },
+                  ]}
+                />
               </div>
             </div>
             {/* Submit Button */}

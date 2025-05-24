@@ -14,22 +14,35 @@ const AddStock = () => {
   // post vehicle
   const generateRefId = useRefId();
   const onSubmit = async (data) => {
+    const refId = generateRefId();
     try {
       const formData = new FormData();
       for (const key in data) {
         formData.append(key, data[key]);
       }
-      formData.append("ref_id", generateRefId());
+      formData.append("ref_id", refId);
       const response = await axios.post(
         "https://api.dropshep.com/mstrading/api/stockProduct/create",
         formData
       );
       const resData = response.data;
-      console.log("resData", resData);
+
       if (resData.status === "Success") {
         toast.success("Stock product saved successfully!", {
           position: "top-right",
         });
+        // --- Second API: Branch Create (only specific field) ---
+        const paymentList = new FormData();
+        paymentList.append("date", data.date);
+        paymentList.append("supplier_name", data.vendor_name);
+        paymentList.append("category", data.category);
+        paymentList.append("quantity", data.quantity);
+
+        paymentList.append("ref_id", refId);
+        await axios.post(
+          "https://api.dropshep.com/mstrading/api/payment/create",
+          paymentList
+        );
         reset();
       } else {
         toast.error("Server error: " + (resData.message || "Unknown issue"));

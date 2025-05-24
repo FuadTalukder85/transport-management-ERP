@@ -129,7 +129,7 @@ const Sidebar = () => {
                           <span>Vehicle List</span>
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link
                           to="/tramessy/DriverList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
@@ -147,7 +147,7 @@ const Sidebar = () => {
                           ></div>
                           <span>Driver List</span>
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link
                           to="/tramessy/TripList"
@@ -656,7 +656,7 @@ const Sidebar = () => {
                           <span>Stock Out</span>
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link
                           to="/tramessy/Inventory/Inventory-supplier"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
@@ -674,7 +674,7 @@ const Sidebar = () => {
                           ></div>
                           <span>Inventory Supplier</span>
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </li>
@@ -1120,6 +1120,25 @@ const Sidebar = () => {
                             }`}
                           ></div>
                           <span>Supplier Ledger</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tramessy/account/DriverLedger"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/account/DriverLedger")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/account/DriverLedger")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Driver Ledger</span>
                         </Link>
                       </li>
                       <li>

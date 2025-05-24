@@ -4,7 +4,7 @@ import { FiCalendar } from "react-icons/fi";
 import { FormProvider, useForm } from "react-hook-form";
 import { InputField, SelectField } from "../../components/Form/FormFields";
 import { useRef } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import useRefId from "../../hooks/useRef";
 
@@ -44,6 +44,7 @@ const AddCustomer = () => {
 
   return (
     <div className="mt-10">
+      <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
         Add Customer information
       </h3>
@@ -72,7 +73,11 @@ const AddCustomer = () => {
                 />
               </div>
               <div className="w-full relative">
-                <InputField name="vendor_name" label="Customer Name" required />
+                <InputField
+                  name="customer_name"
+                  label="Customer Name"
+                  required
+                />
               </div>
             </div>
             {/*  */}
@@ -90,7 +95,7 @@ const AddCustomer = () => {
                 <InputField name="address" label="Address" required />
               </div>
               <div className="w-full relative">
-                <InputField name="due_balance" label="Due Balance" required />
+                <InputField name="due" label="Due Balance" required />
               </div>
               <div className="w-full">
                 <SelectField

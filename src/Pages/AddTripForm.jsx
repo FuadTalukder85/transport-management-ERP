@@ -5,6 +5,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useRef, useState } from "react";
 import { FiCalendar } from "react-icons/fi";
+import useRefId from "../hooks/useRef";
 
 const AddTripForm = () => {
   const dateRef = useRef(null);
@@ -12,6 +13,33 @@ const AddTripForm = () => {
   const { watch, handleSubmit, reset, register, setValue, control } = methods;
   const selectedCustomer = watch("customer");
   const selectedTransport = watch("transport_type");
+
+  // select customer from api
+  const [customers, setCustomers] = useState([]);
+  useEffect(() => {
+    fetch("https://api.dropshep.com/mstrading/api/customer/list")
+      .then((response) => response.json())
+      .then((data) => setCustomers(data.data))
+      .catch((error) => console.error("Error fetching customer data:", error));
+  }, []);
+
+  const customerOptions = customers.map((customer) => ({
+    value: customer.customer_name,
+    label: customer.customer_name,
+  }));
+  // select Vehicle No. from api
+  const [vehicle, setVehicle] = useState([]);
+  useEffect(() => {
+    fetch("https://api.dropshep.com/mstrading/api/vehicle/list")
+      .then((response) => response.json())
+      .then((data) => setVehicle(data.data))
+      .catch((error) => console.error("Error fetching vehicle data:", error));
+  }, []);
+
+  const vehicleOptions = vehicle.map((dt) => ({
+    value: `${dt.registration_zone} ${dt.registration_serial} ${dt.registration_number} `,
+    label: `${dt.registration_zone} ${dt.registration_serial} ${dt.registration_number} `,
+  }));
   // select driver from api
   const [drivers, setDrivers] = useState([]);
   useEffect(() => {
@@ -24,6 +52,7 @@ const AddTripForm = () => {
   const driverOptions = drivers.map((driver) => ({
     value: driver.driver_name,
     label: driver.driver_name,
+    contact: driver.driver_mobile,
   }));
 
   // calculate Total Expense
@@ -36,7 +65,7 @@ const AddTripForm = () => {
   const feriCost = parseFloat(watch("feri_cost") || 0);
   const policeCost = parseFloat(watch("police_cost") || 0);
   const chadaCost = parseFloat(watch("chada") || 0);
-  const foodCost = parseFloat(watch("food_cost") || 0);
+  // const foodCost = parseFloat(watch("food_cost") || 0);
   const fuelCost = parseFloat(watch("fuel_cost") || 0);
   const bodyFare = parseFloat(watch("body_fare") || 0);
   const totalExpense =
@@ -49,7 +78,7 @@ const AddTripForm = () => {
     feriCost +
     policeCost +
     chadaCost +
-    foodCost +
+    // foodCost +
     fuelCost +
     bodyFare;
   console.log("totalExpense", totalExpense);
@@ -64,7 +93,7 @@ const AddTripForm = () => {
       feriCost +
       policeCost +
       chadaCost +
-      foodCost +
+      // foodCost +
       fuelCost +
       bodyFare;
     setValue("total_expense", total);
@@ -77,25 +106,25 @@ const AddTripForm = () => {
     feriCost,
     policeCost,
     chadaCost,
-    foodCost,
+    // foodCost,
     fuelCost,
     bodyFare,
     setValue,
   ]);
+  // calculate Total Expense of honda
 
-  // generate ref id
-  const generateRefId = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let refId = "";
-    for (let i = 0; i < 6; i++) {
-      refId += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return refId;
-  };
-
+  const noOfTrip = watch("no_of_trip") || 0;
+  const perTruckRent = watch("per_truck_rent") || 0;
+  const totalRentHonda = Number(noOfTrip) * Number(perTruckRent);
+  useEffect(() => {
+    const total = Number(noOfTrip) * Number(perTruckRent);
+    setValue("total_rent", total || 0);
+  }, [noOfTrip, perTruckRent, setValue]);
   // post data on server
+  const generateRefId = useRefId();
   const onSubmit = async (data) => {
     const refId = generateRefId();
+    console.log("trid data => ", data);
     try {
       // --- First API: Trip Create ---
       const tripFormData = new FormData();
@@ -107,14 +136,11 @@ const AddTripForm = () => {
         "https://api.dropshep.com/mstrading/api/trip/create",
         tripFormData
       );
-
       const tripData = tripResponse.data;
-
       if (tripData.status === "Success") {
         toast.success("Trip added successfully", {
           position: "top-right",
         });
-
         // --- Second API: Branch Create (only specific field) ---
         const branchFormData = new FormData();
         branchFormData.append("trip_expense", data.total_expense);
@@ -124,10 +150,32 @@ const AddTripForm = () => {
         branchFormData.append("remarks", data.remarks);
         branchFormData.append("due", data.due_amount);
         branchFormData.append("ref_id", refId);
-
         await axios.post(
           "https://api.dropshep.com/mstrading/api/branch/create",
           branchFormData
+        );
+        // --- Third API: Driver ledger Create (only specific field) ---
+        const driverLedgerFormData = new FormData();
+        driverLedgerFormData.append("date", data.date);
+        driverLedgerFormData.append("driver_name", data.driver_name);
+        driverLedgerFormData.append("load_point", data.load_point);
+        driverLedgerFormData.append("unload_point", data.unload_point);
+        driverLedgerFormData.append("commission", data.driver_commission);
+        driverLedgerFormData.append("trip_rent", data.total_rent);
+        driverLedgerFormData.append("advanced", data.driver_adv);
+        driverLedgerFormData.append("parking_cost", data.parking_cost);
+        driverLedgerFormData.append("night_guard", data.night_guard);
+        driverLedgerFormData.append("toll_cost", data.toll_cost);
+        driverLedgerFormData.append("feri_cost", data.feri_cost);
+        driverLedgerFormData.append("police_cost", data.police_cost);
+        driverLedgerFormData.append("chada", data.chada);
+        driverLedgerFormData.append("labor", data.labour_cost);
+        driverLedgerFormData.append("total_exp", data.toll_cost);
+        driverLedgerFormData.append("due_amount", data.due_amount);
+        driverLedgerFormData.append("ref_id", refId);
+        await axios.post(
+          "https://api.dropshep.com/mstrading/api/driverLedger/create",
+          driverLedgerFormData
         );
 
         // Reset form if both succeed
@@ -173,16 +221,10 @@ const AddTripForm = () => {
                   <div className="w-full relative">
                     <SelectField
                       name="customer"
-                      label="Select Customer"
-                      required
-                      options={[
-                        { value: "Yamaha", label: "Yamaha" },
-                        { value: "Hatim", label: "Hatim" },
-                        { value: "Suzuki", label: "Suzuki" },
-                        { value: "Sonalika", label: "Sonalika" },
-                        { value: "Honda", label: "Honda" },
-                        { value: "Guest", label: "Guest" },
-                      ]}
+                      label="Customer"
+                      required={true}
+                      options={customerOptions}
+                      control={control}
                     />
                   </div>
                   <div className="w-full">
@@ -246,19 +288,27 @@ const AddTripForm = () => {
                       />
                     </div>
                     <div className="w-full">
-                      <InputField
+                      <SelectField
                         name="vehicle_no"
                         label="Vehicle No."
-                        required
+                        required={true}
+                        options={vehicleOptions}
+                        control={control}
                       />
                     </div>
                     <div className="w-full">
                       <SelectField
                         name="driver_name"
                         label="Driver Name"
-                        required={true}
-                        options={driverOptions}
+                        required
                         control={control}
+                        options={driverOptions}
+                        onSelectChange={(selectedOption) => {
+                          setValue(
+                            "driver_mobile",
+                            selectedOption?.contact || ""
+                          );
+                        }}
                       />
                     </div>
                   </div>
@@ -312,9 +362,14 @@ const AddTripForm = () => {
               </div>
             )}
 
-            {/* Conditionally Show Suzuki Fields */}
-            {selectedCustomer === "Suzuki" && (
-              <div className="border-t border-gray-300">
+            {/* Conditionally Show Hatim Fields */}
+            {selectedCustomer === "Hatim" && (
+              <div className="border border-gray-300 p-5 rounded-md mt-3">
+                <h5 className="text-primary font-semibold text-center pb-5">
+                  <span className="py-2 border-b-2 border-primary">
+                    Transport and Driver section
+                  </span>
+                </h5>
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full relative">
                     <SelectField
@@ -322,7 +377,6 @@ const AddTripForm = () => {
                       label="Transport Type"
                       required
                       options={[
-                        { value: "", label: "Select Transport Type" },
                         { value: "own_transport", label: "Own Transport" },
                         {
                           value: "vendor_transport",
@@ -332,10 +386,86 @@ const AddTripForm = () => {
                     />
                   </div>
                   <div className="w-full">
-                    <InputField
+                    <SelectField
                       name="vehicle_no"
                       label="Vehicle No."
+                      required={true}
+                      options={vehicleOptions}
+                      control={control}
+                    />
+                  </div>
+                  <div className="w-full">
+                    <SelectField
+                      name="driver_name"
+                      label="Driver Name"
+                      required={true}
+                      options={driverOptions}
+                      control={control}
+                    />
+                  </div>
+                </div>{" "}
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                  <div className="w-full">
+                    <InputField
+                      name="driver_mobile"
+                      label="Driver Mobile"
                       required
+                    />
+                  </div>
+                  <div className="w-full">
+                    <InputField name="challan" label="Challan" required />
+                  </div>
+                  <div className="w-full">
+                    <InputField name="goods" label="Goods" required />
+                  </div>
+                </div>
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                  <div className="w-full">
+                    <InputField
+                      name="distribution_name"
+                      label="Distribution Name"
+                      required
+                    />
+                  </div>
+                  <div className="w-full">
+                    <InputField
+                      name="total_rent"
+                      label="Total Rent/Bill Amount"
+                      required
+                    />
+                  </div>
+                  <div className="w-full">
+                    <InputField name="remarks" label="Remarks" required />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Conditionally Show Suzuki Fields */}
+            {selectedCustomer === "Suzuki" && (
+              <div className="border border-gray-300 p-5 rounded-md mt-3">
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                  <div className="w-full relative">
+                    <SelectField
+                      name="transport_type"
+                      label="Transport Type"
+                      required
+                      options={[
+                        { value: "own_transport", label: "Own Transport" },
+                        {
+                          value: "vendor_transport",
+                          label: "Vendor Transport",
+                        },
+                      ]}
+                    />
+                  </div>
+                  <div className="w-full">
+                    <SelectField
+                      name="vehicle_no"
+                      label="Vehicle No."
+                      required={true}
+                      options={vehicleOptions}
+                      control={control}
                     />
                   </div>
                   <div className="w-full">
@@ -395,61 +525,9 @@ const AddTripForm = () => {
               </div>
             )}
 
-            {/* Conditionally Show Hatim Fields */}
-            {selectedCustomer === "Hatim" && (
-              <div className="border-t border-gray-300">
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-                  <div className="w-full relative">
-                    <SelectField
-                      name="transport_type"
-                      label="Transport Type"
-                      required
-                      options={[
-                        { value: "", label: "Select Transport Type" },
-                        { value: "own_transport", label: "Own Transport" },
-                        {
-                          value: "vendor_transport",
-                          label: "Vendor Transport",
-                        },
-                      ]}
-                    />
-                  </div>
-                  <div className="w-full">
-                    <InputField
-                      name="vehicle_no"
-                      label="Vehicle No."
-                      required
-                    />
-                  </div>
-                  <div className="w-full">
-                    <InputField name="goods" label="Goods" required />
-                  </div>
-                </div>
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-                  <div className="w-full">
-                    <InputField
-                      name="distribution_name"
-                      label="Distribution Name"
-                      required
-                    />
-                  </div>
-                  <div className="w-full">
-                    <InputField
-                      name="total_rent"
-                      label="Total Rent/Bill Amount"
-                      required
-                    />
-                  </div>
-                  <div className="w-full">
-                    <InputField name="remarks" label="Remarks" />
-                  </div>
-                </div>
-              </div>
-            )}
-
             {/* Conditionally Show Honda Fields */}
             {selectedCustomer === "Honda" && (
-              <div className="border-t border-gray-300">
+              <div className="border border-gray-300 p-5 rounded-md mt-3">
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full relative">
                     <SelectField
@@ -457,7 +535,6 @@ const AddTripForm = () => {
                       label="Transport Type"
                       required
                       options={[
-                        { value: "", label: "Select Transport Type" },
                         { value: "own_transport", label: "Own Transport" },
                         {
                           value: "vendor_transport",
@@ -474,10 +551,12 @@ const AddTripForm = () => {
                     />
                   </div>
                   <div className="w-full">
-                    <InputField
+                    <SelectField
                       name="vehicle_no"
                       label="Vehicle No."
-                      required
+                      required={true}
+                      options={vehicleOptions}
+                      control={control}
                     />
                   </div>
                   <div className="w-full">
@@ -489,16 +568,16 @@ const AddTripForm = () => {
                     <InputField name="no_of_trip" label="No of Trip" required />
                   </div>
                   <div className="w-full">
+                    <InputField name="quantity" label="Quantity" required />
+                  </div>
+                </div>
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                  <div className="w-full">
                     <InputField
                       name="vehicle_mode"
                       label="Vehicle Mode"
                       required
                     />
-                  </div>
-                </div>
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-                  <div className="w-full">
-                    <InputField name="quantity" label="Quantity" required />
                   </div>
                   <div className="w-full">
                     <InputField
@@ -508,21 +587,24 @@ const AddTripForm = () => {
                     />
                   </div>
                   <div className="w-full">
-                    <InputField name="vat" label="Vat" required />
+                    <InputField
+                      name="total_rent"
+                      label="Total Rent/Bill Amount"
+                      required
+                      readOnly
+                      defaultValue={totalRentHonda}
+                      value={totalRentHonda}
+                    />
                   </div>
                   <div className="w-full">
-                    <InputField
-                      name="total_rent_cost"
-                      label="Total Rent Cost"
-                      required
-                    />
+                    <InputField name="vat" label="Vat" required />
                   </div>
                 </div>
               </div>
             )}
             {/* Conditionally Show Guest Fields */}
             {selectedCustomer === "Guest" && (
-              <div className="">
+              <div className="border border-gray-300 p-5 rounded-md mt-3">
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full relative">
                     <SelectField
@@ -530,7 +612,6 @@ const AddTripForm = () => {
                       label="Transport Type"
                       required
                       options={[
-                        { value: "", label: "Select Transport Type" },
                         { value: "own_transport", label: "Own Transport" },
                         {
                           value: "vendor_transport",
@@ -540,10 +621,12 @@ const AddTripForm = () => {
                     />
                   </div>
                   <div className="w-full">
-                    <InputField
+                    <SelectField
                       name="vehicle_no"
                       label="Vehicle No."
-                      required
+                      required={true}
+                      options={vehicleOptions}
+                      control={control}
                     />
                   </div>
                 </div>
@@ -563,8 +646,16 @@ const AddTripForm = () => {
             )}
             {/* transport type input field */}
             {selectedTransport === "own_transport" && (
-              <div>
+              <div className="border border-gray-300 p-5 rounded-md mt-5">
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                  <div className="w-full">
+                    <InputField
+                      name="driver_adv"
+                      label="Driver Advance"
+                      required
+                      type="number"
+                    />
+                  </div>
                   <div className="w-full">
                     <InputField
                       name="driver_commission"
@@ -573,13 +664,13 @@ const AddTripForm = () => {
                       type="number"
                     />
                   </div>
-                  <div className="w-full">
+                  {/* <div className="w-full">
                     <InputField
                       name="road_cost"
                       label="Road Cost"
                       type="number"
                     />
-                  </div>
+                  </div> */}
                   <div className="w-full">
                     <InputField
                       name="labour_cost"
@@ -587,6 +678,8 @@ const AddTripForm = () => {
                       type="number"
                     />
                   </div>
+                </div>
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     <InputField
                       name="parking_cost"
@@ -608,17 +701,15 @@ const AddTripForm = () => {
                       type="number"
                     />
                   </div>
+                  <div className="w-full">
+                    <InputField
+                      name="feri_cost"
+                      label="Feri Cost"
+                      type="number"
+                    />
+                  </div>
                 </div>
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-                  <div className="w-full">
-                    <div className="w-full">
-                      <InputField
-                        name="feri_cost"
-                        label="Feri Cost"
-                        type="number"
-                      />
-                    </div>
-                  </div>
                   <div className="w-full">
                     <InputField
                       name="police_cost"
@@ -629,13 +720,13 @@ const AddTripForm = () => {
                   <div className="w-full">
                     <InputField name="chada" label="Chada" type="number" />
                   </div>
-                  <div className="w-full">
+                  {/* <div className="w-full">
                     <InputField
                       name="food_cost"
                       label="Food Cost"
                       type="number"
                     />
-                  </div>
+                  </div> */}
                   <div className="w-full">
                     <InputField
                       name="total_expense"
@@ -650,9 +741,14 @@ const AddTripForm = () => {
               </div>
             )}
             {selectedTransport === "vendor_transport" && (
-              <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+              <div className="border border-gray-300 p-5 rounded-md mt-5 md:mt-3 md:flex justify-between gap-3">
                 <div className="w-full">
-                  <InputField name="trip_rent" label="Trip Rent" required />
+                  <InputField
+                    name="trip_rent"
+                    label="Trip Rent"
+                    required
+                    type="number"
+                  />
                 </div>
                 <div className="w-full">
                   <InputField name="advance" label="Advance" required />

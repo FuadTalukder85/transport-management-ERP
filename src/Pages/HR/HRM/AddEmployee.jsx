@@ -31,7 +31,7 @@ const AddEmployee = () => {
       const resData = response.data;
       console.log("resData", resData);
       if (resData.status === "Success") {
-        toast.success("Rent vehicle saved successfully!", {
+        toast.success("Employee saved successfully!", {
           position: "top-right",
         });
         reset();
