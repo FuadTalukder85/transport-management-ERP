@@ -1,7 +1,4 @@
 import { Toaster } from "react-hot-toast";
-import { FaEye, FaPen } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { SelectField } from "../../components/Form/FormFields";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -9,13 +6,22 @@ import axios from "axios";
 const OfficeLedger = () => {
   const [branch, setbranch] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [branchList, setBranchList] = useState([]);
+  const [selectedBranch, setselectedBranch] = useState("");
   useEffect(() => {
     axios
       .get("https://api.dropshep.com/mstrading/api/branch/list")
       .then((response) => {
         if (response.data.status === "Success") {
-          setbranch(response.data.data);
+          const data = response.data.data;
+          setbranch(data);
+          // Extract unique customer names
+          const uniqueBranch = Array.from(
+            new Set(data.map((item) => item.branch_name))
+          );
+          setBranchList(uniqueBranch);
         }
+
         setLoading(false);
       })
       .catch((error) => {
@@ -24,6 +30,10 @@ const OfficeLedger = () => {
       });
   }, []);
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
+  // Filtered data based on selected customer
+  const filteredBranch = selectedBranch
+    ? branch.filter((item) => item.branch_name === selectedBranch)
+    : branch;
   return (
     <main className="bg-gradient-to-br from-gray-100 to-white md:p-2 overflow-hidden">
       <Toaster />
@@ -60,10 +70,17 @@ const OfficeLedger = () => {
               <label className="text-primary text-sm font-semibold">
                 Select Branch Ledger
               </label>
-              <select className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none">
+              <select
+                value={selectedBranch}
+                onChange={(e) => setselectedBranch(e.target.value)}
+                className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
+              >
                 <option value="">Select branch</option>
-                <option value="Abdullahpur">Abdullahpur</option>
-                <option value="Narayanganj">Narayanganj</option>
+                {branchList.map((name, i) => (
+                  <option key={i} value={name}>
+                    {name}
+                  </option>
+                ))}
               </select>
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
@@ -93,7 +110,7 @@ const OfficeLedger = () => {
               </tr>
             </thead>
             <tbody className="text-black font-semibold">
-              {branch?.map((dt, index) => (
+              {filteredBranch?.map((dt, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-all">
                   <td className="border border-gray-700 px-2 py-4 font-bold">
                     {index + 1}.

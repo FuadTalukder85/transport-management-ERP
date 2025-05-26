@@ -94,28 +94,27 @@ const CustomerLedger = () => {
           <table className="text-sm text-left">
             <thead className="text-black capitalize font-bold">
               <tr>
-                <th className="border border-gray-700 px-2 py-3">SL.</th>
-                <th className="border border-gray-700 px-2 py-3">BillDate</th>
-                <th className="border border-gray-700 px-2 py-3">
-                  WorkingDate
-                </th>
-                <th className="border border-gray-700 px-2 py-3">Chalan</th>
-                <th className="border border-gray-700 px-2 py-3">Vehicle</th>
-                <th className="border border-gray-700 px-2 py-3">Load</th>
-                <th className="border border-gray-700 px-2 py-3">Unload</th>
-                <th className="border border-gray-700 px-2 py-3">Qty</th>
-                <th className="border border-gray-700 px-2 py-3 text-center">
+                <th className="border border-gray-700 p-1">SL.</th>
+                <th className="border border-gray-700 p-1">BillDate</th>
+                <th className="border border-gray-700 p-1">WorkingDate</th>
+                <th className="border border-gray-700 p-1">Chalan</th>
+                <th className="border border-gray-700 p-1">Vehicle</th>
+                <th className="border border-gray-700 p-1">Load</th>
+                <th className="border border-gray-700 p-1">Unload</th>
+                <th className="border border-gray-700 p-1">Qty</th>
+                <th className="border border-gray-700 p-1">FuelCost</th>
+                <th className="border border-gray-700 p-1 text-center">
                   BillAmount
                   <br />
                   with VAT & TAX
                 </th>
 
-                <th className="border border-gray-700 px-2 py-3 text-center">
+                <th className="border border-gray-700 p-1 text-center">
                   Net Bill
                   <br />
                   Receivable after Tax
                 </th>
-                <th className="border border-gray-700 px-2 py-3 text-center">
+                <th className="border border-gray-700 p-1 text-center">
                   ReceiveAmount
                 </th>
                 <th className="text-center border border-black py-1">
@@ -125,41 +124,55 @@ const CustomerLedger = () => {
               </tr>
             </thead>
             <tbody className="text-black font-semibold">
-              {filteredCustomer?.map((dt, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="border border-gray-700 px-2 py-4 font-bold">
-                    {index + 1}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.bill_date}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.woring_date}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.customer_name}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.vehicle_no}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.load_point}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.unload_point}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">{dt.qty}</td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.bill_amount}
-                  </td>
+              {(() => {
+                let openingBalance = 2000; // Initial opening balance
+                return filteredCustomer?.map((dt, index) => {
+                  const receiveAmount = Number(dt.total_amount) || 0;
+                  const currentBalance = receiveAmount - openingBalance;
 
-                  <td className="border border-gray-700 px-2 py-4">50</td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.total_amount}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">500</td>
-                </tr>
-              ))}
+                  const row = (
+                    <tr key={index} className="hover:bg-gray-50 transition-all">
+                      <td className="border border-gray-700 p-1 font-bold">
+                        {index + 1}
+                      </td>
+                      <td className="border border-gray-700 p-1">
+                        {dt.bill_date}
+                      </td>
+                      <td className="border border-gray-700 p-1">
+                        {dt.woring_date}
+                      </td>
+                      <td className="border border-gray-700 p-1">
+                        {dt.challan}
+                      </td>
+                      <td className="border border-gray-700 p-1">
+                        {dt.vehicle_no}
+                      </td>
+                      <td className="border border-gray-700 p-1">
+                        {dt.load_point}
+                      </td>
+                      <td className="border border-gray-700 p-1">
+                        {dt.unload_point}
+                      </td>
+                      <td className="border border-gray-700 p-1">{dt.qty}</td>
+                      <td className="border border-gray-700 p-1">500</td>
+                      <td className="border border-gray-700 p-1">
+                        {dt.bill_amount}
+                      </td>
+                      <td className="border border-gray-700 p-1">50</td>
+                      <td className="border border-gray-700 p-1">
+                        {dt.total_amount}
+                      </td>
+                      <td className="border border-gray-700 p-1">
+                        {dt.due_amount}
+                      </td>
+                    </tr>
+                  );
+
+                  // Update openingBalance for next iteration
+                  openingBalance = currentBalance;
+                  return row;
+                });
+              })()}
             </tbody>
           </table>
         </div>

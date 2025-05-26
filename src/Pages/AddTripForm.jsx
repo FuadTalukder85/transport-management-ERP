@@ -87,6 +87,7 @@ const AddTripForm = () => {
     const total =
       driverCommision +
       roadCost +
+      labourCost +
       parkingCost +
       guardCost +
       tollCost +
@@ -100,6 +101,7 @@ const AddTripForm = () => {
   }, [
     driverCommision,
     roadCost,
+    labourCost,
     parkingCost,
     guardCost,
     tollCost,
@@ -120,8 +122,10 @@ const AddTripForm = () => {
     const total = Number(noOfTrip) * Number(perTruckRent);
     setValue("total_rent", total || 0);
   }, [noOfTrip, perTruckRent, setValue]);
+
   // post data on server
   const generateRefId = useRefId();
+
   const onSubmit = async (data) => {
     const refId = generateRefId();
     console.log("trid data => ", data);
@@ -132,6 +136,7 @@ const AddTripForm = () => {
         tripFormData.append(key, data[key]);
       }
       tripFormData.append("ref_id", refId);
+      tripFormData.append("status", "Pending");
       const tripResponse = await axios.post(
         "https://api.dropshep.com/mstrading/api/trip/create",
         tripFormData
@@ -141,6 +146,7 @@ const AddTripForm = () => {
         toast.success("Trip added successfully", {
           position: "top-right",
         });
+        // if (selectedTransport !== "vendor_transport") {
         // --- Second API: Branch Create (only specific field) ---
         const branchFormData = new FormData();
         branchFormData.append("trip_expense", data.total_expense);
@@ -154,6 +160,7 @@ const AddTripForm = () => {
           "https://api.dropshep.com/mstrading/api/branch/create",
           branchFormData
         );
+
         // --- Third API: Driver ledger Create (only specific field) ---
         const driverLedgerFormData = new FormData();
         driverLedgerFormData.append("date", data.date);
@@ -177,6 +184,7 @@ const AddTripForm = () => {
           "https://api.dropshep.com/mstrading/api/driverLedger/create",
           driverLedgerFormData
         );
+        // }
 
         // Reset form if both succeed
         reset();
@@ -323,9 +331,9 @@ const AddTripForm = () => {
                     <div className="w-full">
                       <InputField name="challan" label="Challan" required />
                     </div>
-                    <div className="w-full">
+                    {/* <div className="w-full">
                       <InputField name="sti" label="STI" required />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="border border-gray-300 p-5 rounded-md mt-3">

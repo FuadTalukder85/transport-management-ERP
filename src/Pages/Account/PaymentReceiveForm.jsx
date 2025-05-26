@@ -38,37 +38,12 @@ const PaymentReceiveForm = () => {
   }));
 
   const generateRefId = useRefId();
+  // send data on server
   const onSubmit = async (data) => {
     const refId = generateRefId();
 
     try {
-      // ✅ Step 1: Get all previous branch transactions
-      const branchListRes = await axios.get(
-        "https://api.dropshep.com/mstrading/api/branch/list"
-      );
-      const branchTransactions = branchListRes.data?.data || [];
-
-      let updatedCashIn = 0;
-      const newAmount = parseFloat(data.amount || 0);
-
-      if (branchTransactions.length === 0) {
-        // 🆕 No previous transaction — use the amount as initial cash_in
-        updatedCashIn = newAmount;
-      } else {
-        // ✅ Get the latest transaction
-        const latestTransaction = branchTransactions.reduce(
-          (latest, current) => {
-            return new Date(current.created_at) > new Date(latest.created_at)
-              ? current
-              : latest;
-          }
-        );
-
-        const lastCashIn = parseFloat(latestTransaction.cash_in || 0);
-        updatedCashIn = lastCashIn + newAmount;
-      }
-
-      // ✅ Step 2: Submit payment
+      // ✅ Step 1: Submit payment
       const formData = new FormData();
       for (const key in data) {
         formData.append(key, data[key]);
@@ -80,14 +55,16 @@ const PaymentReceiveForm = () => {
         formData
       );
 
-      if (paymentResponse.data.status === "Success") {
-        toast.success("Payment saved successfully", { position: "top-right" });
+      const paymentData = paymentResponse.data;
 
-        // ✅ Step 3: Save updated cash_in to branch
+      if (paymentData.status === "Success") {
+        // ✅ Step 2: Save cash_in to branch
         const branchFormData = new FormData();
         branchFormData.append("branch_name", data.branch_name);
+        branchFormData.append("customer", data.customer_name);
         branchFormData.append("date", data.date);
-        branchFormData.append("cash_in", updatedCashIn.toString());
+        branchFormData.append("cash_in", data.amount);
+        branchFormData.append("remarks", data.note);
         branchFormData.append("ref_id", refId);
 
         await axios.post(
@@ -95,14 +72,26 @@ const PaymentReceiveForm = () => {
           branchFormData
         );
 
+        // ✅ Step 3: Save cash_out to customer ledger
+        const customerFormData = new FormData();
+        customerFormData.append("customer_name", data.customer_name);
+        customerFormData.append("bill_date", data.date);
+        customerFormData.append("total_amount", data.amount);
+        customerFormData.append("ref_id", refId);
+
+        await axios.post(
+          "https://api.dropshep.com/mstrading/api/customerLedger/create",
+          customerFormData
+        );
+        toast.success("Payment saved successfully", { position: "top-right" });
         reset();
       } else {
         toast.error(
-          "Payment API failed: " +
-            (paymentResponse.data.message || "Unknown error")
+          "Payment API failed: " + (paymentData.message || "Unknown error")
         );
       }
     } catch (error) {
+      console.error("Submit error:", error);
       const errorMessage =
         error.response?.data?.message || error.message || "Unknown error";
       toast.error("Server issue: " + errorMessage);
@@ -172,7 +161,7 @@ const PaymentReceiveForm = () => {
               </div>
               <div className="w-full">
                 <SelectField
-                  name="type"
+                  name="cash_type"
                   label="Cash Type"
                   required
                   options={[
@@ -184,6 +173,9 @@ const PaymentReceiveForm = () => {
               </div>
             </div>
             <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+              <div className="w-full">
+                <InputField name="note" label="Note" required />
+              </div>
               <div className="w-full">
                 <InputField name="created_by" label="Created By" required />
               </div>

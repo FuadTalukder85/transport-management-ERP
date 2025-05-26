@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { FaFilter } from "react-icons/fa6";
 import { HiCurrencyBangladeshi } from "react-icons/hi2";
 
@@ -7,6 +8,7 @@ const Honda = () => {
   const [honda, setHonda] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilter, setShowFilter] = useState(false);
+  const [selectedRows, setSelectedRows] = useState({});
   // Fetch trips data
   useEffect(() => {
     axios
@@ -25,10 +27,76 @@ const Honda = () => {
   // find honda
   const hondaTrip = honda?.filter((dt) => dt.customer === "Honda");
 
+  const handleCheckBox = (index) => {
+    setSelectedRows((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+  const handleSubmit = async () => {
+    const selectedData = hondaTrip.filter((_, i) => selectedRows[i]);
+    if (!selectedData.length) {
+      return toast.error("Please select at least one row.", {
+        position: "top-right",
+      });
+    }
+
+    try {
+      const loadingToast = toast.loading("Submitting selected rows...");
+
+      for (const dt of selectedData) {
+        const fd = new FormData();
+        fd.append("bill_date", dt.date);
+        fd.append("customer_name", dt.customer);
+        fd.append("chalan", dt.challan);
+        fd.append("load_point", dt.load_point);
+        fd.append("unload_point", dt.unload_point);
+        fd.append("qty", dt.quantity);
+        fd.append("body_cost", dt.body_fare);
+        fd.append("fuel_cost", dt.fuel_cost);
+
+        // Step 1: Create ledger entry
+        await axios.post(
+          "https://api.dropshep.com/mstrading/api/customerLedger/create",
+          fd
+        );
+
+        // Step 2: Update trip status to Approved
+        await axios.post(
+          `https://api.dropshep.com/mstrading/api/trip/update/${dt.id}`,
+          { status: "Approved" }
+        );
+      }
+
+      toast.success(
+        "Successfully submitted!",
+        {
+          id: loadingToast,
+        },
+        { position: "top-right" }
+      );
+      setSelectedRows({});
+
+      // Optional: refetch trips to refresh data
+      const refreshed = await axios.get(
+        "https://api.dropshep.com/mstrading/api/trip/list"
+      );
+      if (refreshed.data.status === "Success") {
+        setHonda(refreshed.data.data);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error("Submission failed. Check console for details.", {
+        position: "top-right",
+      });
+    }
+  };
+
   if (loading) return <p className="text-center mt-16">Loading Honda...</p>;
 
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
+      <Toaster />
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
@@ -71,49 +139,92 @@ const Honda = () => {
             </div>
           </div>
         )}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white capitalize text-sm">
+            <thead className="capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">SL.</th>
-                <th className="px-2 py-3">Date</th>
-                <th className="px-2 py-3">Do(Si)</th>
-                <th className="px-2 py-3">DealerName</th>
-                <th className="px-2 py-3">Address</th>
-                <th className="px-2 py-3">NoOfTrip</th>
-                <th className="px-2 py-3">NoOfUnit</th>
-                <th className="px-2 py-3">VehicleMode</th>
-                <th className="px-2 py-3">PerTruckRent</th>
-                <th className="px-2 py-3">TotalRent</th>
-                <th className="px-2 py-3">Vat</th>
-                <th className="px-2 py-3">TotalCost</th>
+                <th className="border border-gray-700 px-2 py-1">SL.</th>
+                <th className="border border-gray-700 px-2 py-1">Date</th>
+                <th className="border border-gray-700 px-2 py-1">Do(Si)</th>
+                <th className="border border-gray-700 px-2 py-1">DealerName</th>
+                <th className="border border-gray-700 px-2 py-1">Address</th>
+                <th className="border border-gray-700 px-2 py-1">NoOfTrip</th>
+                <th className="border border-gray-700 px-2 py-1">NoOfUnit</th>
+                <th className="border border-gray-700 px-2 py-1">
+                  VehicleMode
+                </th>
+                <th className="border border-gray-700 px-2 py-1">
+                  PerTruckRent
+                </th>
+                <th className="border border-gray-700 px-2 py-1">TotalRent</th>
+                <th className="border border-gray-700 px-2 py-1">Vat</th>
+                <th className="border border-gray-700 px-2 py-1">TotalCost</th>
+                <th className="border border-gray-700 px-2 py-1">BillStatus</th>
               </tr>
             </thead>
-            <tbody className="text-[#11375B] font-semibold bg-gray-100">
+            <tbody className="font-semibold">
               {hondaTrip?.map((dt, index) => {
-                const rent = parseFloat(dt?.total_rent_cost) || 0;
+                const rent = parseFloat(dt?.total_rent) || 0;
                 const vatAmount = (rent * 15) / 100;
                 const totalCost = rent + vatAmount;
 
                 return (
                   <tr key={index} className="hover:bg-gray-50 transition-all">
-                    <td className="px-2 py-4 font-bold">{index + 1}</td>
-                    <td className="px-2 py-4">{dt.date}</td>
-                    <td className="px-2 py-4">{dt.do_si}</td>
-                    <td className="px-2 py-4">{dt.dealer_name}</td>
-                    <td className="px-2 py-4">{dt.unload_point}</td>
-                    <td className="px-2 py-4">{dt.no_of_trip}</td>
-                    <td className="px-2 py-4">{dt.quantity}</td>
-                    <td className="px-2 py-4">{dt.vehicle_mode}</td>
-                    <td className="px-2 py-4">{dt.per_truck_rent}</td>
-                    <td className="px-2 py-4">{dt.total_rent}</td>
-                    <td className="px-2 py-4">{vatAmount}</td>
-                    <td className="px-2 py-4">{totalCost}</td>
+                    <td className="border border-gray-700 p-1 font-bold">
+                      {index + 1}
+                    </td>
+                    <td className="border border-gray-700 p-1">{dt.date}</td>
+                    <td className="border border-gray-700 p-1">{dt.do_si}</td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.dealer_name}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.unload_point}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.no_of_trip}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.quantity}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.vehicle_mode}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.per_truck_rent}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.total_rent}
+                    </td>
+                    <td className="border border-gray-700 p-1">{vatAmount}</td>
+                    <td className="border border-gray-700 p-1">{totalCost}</td>
+                    <td className="border border-gray-700 p-1 text-center">
+                      {dt.status === "Pending" ? (
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4"
+                          checked={!!selectedRows[index]}
+                          onChange={() => handleCheckBox(index)}
+                        />
+                      ) : (
+                        <span className="inline-block px-2 py-1 text-xs text-green-700 rounded">
+                          Submited
+                        </span>
+                      )}
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          <div className="flex justify-end mt-5">
+            <button
+              className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300  cursor-pointer"
+              onClick={handleSubmit}
+            >
+              Save Change
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1263,7 +1263,7 @@ const Sidebar = () => {
                           <span>Suzuki</span>
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link
                           to="/tramessy/billing/Sonalika"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
@@ -1281,7 +1281,7 @@ const Sidebar = () => {
                           ></div>
                           <span>Sonalika</span>
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link
                           to="/tramessy/billing/Honda"
@@ -1301,7 +1301,7 @@ const Sidebar = () => {
                           <span>Honda</span>
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link
                           to="/tramessy/billing/Meghdona"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
@@ -1319,7 +1319,7 @@ const Sidebar = () => {
                           ></div>
                           <span>Meghdona</span>
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </li>

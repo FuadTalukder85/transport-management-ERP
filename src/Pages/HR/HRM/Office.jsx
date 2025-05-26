@@ -1,8 +1,30 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { RiHomeOfficeLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
 const Office = () => {
+  const [office, setOffice] = useState([]);
+  const [loading, setLoading] = useState(true);
+  // Fetch customer ledger data
+  useEffect(() => {
+    axios
+      .get("https://api.dropshep.com/mstrading/api/office/list")
+      .then((response) => {
+        if (response.data.status === "Success") {
+          const data = response.data.data;
+          setOffice(data);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching office data:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p className="text-center mt-16">Loading office...</p>;
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
@@ -24,7 +46,7 @@ const Office = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">SL</th>
+                <th className="px-2 py-3">SL.</th>
                 <th className="px-2 py-3">Date</th>
                 <th className="px-2 py-3">Branch</th>
                 <th className="px-2 py-3">Address</th>
@@ -33,14 +55,16 @@ const Office = () => {
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="px-2 py-4 font-bold">01</td>
-                <td className="px-2 py-4">02-02-2025</td>
-                <td className="px-2 py-4">Dhaka</td>
-                <td className="px-2 py-4">Nikunja-02</td>
-                <td className="px-2 py-4">Mirpur</td>
-                <td className="px-2 py-4">25</td>
-              </tr>
+              {office?.map((dt, index) => (
+                <tr key={index} className="hover:bg-gray-50 transition-all">
+                  <td className="px-2 py-4 font-bold">{index + 1}</td>
+                  <td className="px-2 py-4">{dt.date}</td>
+                  <td className="px-2 py-4">{dt.branch_name}</td>
+                  <td className="px-2 py-4">{dt.address}</td>
+                  <td className="px-2 py-4">{dt.factory_name}</td>
+                  <td className="px-2 py-4">25</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
