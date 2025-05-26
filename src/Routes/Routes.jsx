@@ -76,6 +76,7 @@ import PaymentList from "../Pages/Account/PaymentList";
 import PaymentReceiveForm from "../Pages/Account/PaymentReceiveForm";
 import PaymentReceive from "../Pages/Account/PaymentReceive";
 import DriverLedger from "../Pages/Account/DriverLedger";
+import HatimPubail from "../Pages/Billing/HatimPubail";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -474,6 +475,10 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/billing/Hatim",
         element: <Hatim />,
+      },
+      {
+        path: "/tramessy/billing/HatimPubail",
+        element: <HatimPubail />,
       },
       {
         path: "/tramessy/billing/Suzuki",

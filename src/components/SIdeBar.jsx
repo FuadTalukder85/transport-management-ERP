@@ -1226,23 +1226,76 @@ const Sidebar = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link
-                          to="/tramessy/billing/Hatim"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/billing/Hatim")
-                              ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                        {/* hatim toggle inside billing */}
+                        <div
+                          onClick={() => toggleMenu("hatimMenu")}
+                          className="flex justify-between items-center p-2 cursor-pointer hover:text-primary rounded-sm"
+                        >
+                          <span className="flex gap-2 items-center">
+                            <div
+                              className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                isActive("/hatimMenu")
+                                  ? "bg-white"
+                                  : "bg-primary"
+                              }`}
+                            ></div>
+                            <span>Hatim</span>
+                          </span>
+                          <span
+                            className={`transform transition-transform duration-900 ${
+                              openMenu.hatimMenu ? "rotate-180" : ""
+                            }`}
+                          >
+                            <FaChevronDown />
+                          </span>
+                        </div>
+                        {/* hatim submenu */}
+                        <div
+                          className={`transition-all duration-900 overflow-hidden ${
+                            openMenu.hatimMenu ? "max-h-[500px]" : "max-h-0"
                           }`}
                         >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/billing/Hatim")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Hatim</span>
-                        </Link>
+                          <ul className="pl-6 space-y-2 mt-1">
+                            <li>
+                              <Link
+                                to="/tramessy/billing/Hatim"
+                                className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                                  isActive("/tramessy/billing/Hatim")
+                                    ? "text-white bg-primary"
+                                    : "text-gray-500 hover:text-primary"
+                                }`}
+                              >
+                                <div
+                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                    isActive("/tramessy/billing/Hatim")
+                                      ? "bg-white"
+                                      : "bg-primary"
+                                  }`}
+                                ></div>
+                                <span>Hatim Rupgonj</span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                to="/tramessy/billing/HatimPubail"
+                                className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                                  isActive("/tramessy/billing/HatimPubail")
+                                    ? "text-white bg-primary"
+                                    : "text-gray-500 hover:text-primary"
+                                }`}
+                              >
+                                <div
+                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                    isActive("/tramessy/billing/HatimPubail")
+                                      ? "bg-white"
+                                      : "bg-primary"
+                                  }`}
+                                ></div>
+                                <span>Hatim Pubail</span>
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
                       </li>
                       <li>
                         <Link

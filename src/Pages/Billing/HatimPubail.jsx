@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { FaFilter } from "react-icons/fa6";
 import { HiCurrencyBangladeshi } from "react-icons/hi2";
 
-const Hatim = () => {
+const HatimPubail = () => {
   const [hatim, setHatim] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilter, setShowFilter] = useState(false);
@@ -100,7 +100,7 @@ const Hatim = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <HiCurrencyBangladeshi className="text-[#11375B] text-2xl" />
-            Billing Hatim Rupgonj
+            Billing Hatim Pubail
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <button
@@ -145,7 +145,7 @@ const Hatim = () => {
                 <th className="border border-gray-700 p-1">SL.</th>
                 <th className="border border-gray-700 p-1">Date</th>
                 <th className="border border-gray-700 p-1">VehicleNo.</th>
-                <th className="border border-gray-700 p-1">Goods</th>
+                {/* <th className="border border-gray-700 p-1">Goods</th> */}
                 <th className="border border-gray-700 p-1">DistributorName</th>
                 <th className="border border-gray-700 p-1">Destination</th>
                 <th className="border border-gray-700 p-1">Amount</th>
@@ -156,13 +156,13 @@ const Hatim = () => {
               {hatimTrip?.map((dt, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-all">
                   <td className="border border-gray-700 p-1 font-bold">
-                    {index + 1}
+                    {index + 1}.
                   </td>
                   <td className="border border-gray-700 p-1">{dt.date}</td>
                   <td className="border border-gray-700 p-1">
                     {dt.vehicle_no}
                   </td>
-                  <td className="border border-gray-700 p-1">{dt.goods}</td>
+                  {/* <td className="border border-gray-700 p-1">{dt.goods}</td> */}
                   <td className="border border-gray-700 p-1 whitespace-pre-line">
                     {dt.distribution_name
                       ?.split(",")
@@ -210,4 +210,4 @@ const Hatim = () => {
   );
 };
 
-export default Hatim;
+export default HatimPubail;

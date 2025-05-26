@@ -7,6 +7,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import { toWords } from "number-to-words";
 pdfMake.vfs = pdfFonts.vfs;
 
 const Yamaha = () => {
@@ -16,6 +17,8 @@ const Yamaha = () => {
   const [selectedRows, setSelectedRows] = useState({});
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  // table footer end
   const exportToExcel = () => {
     const selectedData = yamahaTrip.filter((_, i) => selectedRows[i]);
     if (!selectedData.length) {
@@ -93,7 +96,6 @@ const Yamaha = () => {
     if (!selectedData.length) {
       return toast.error("Please select at least one row.");
     }
-
     const months = [
       ...new Set(
         selectedData.map((dt) => {
@@ -105,6 +107,18 @@ const Yamaha = () => {
     const monthText = months.join("/");
     const currentYear = new Date().getFullYear();
     const billNumber = `Bill No-${monthText}-${currentYear}-1426`;
+
+    const totalBodyFare = selectedData.reduce(
+      (sum, dt) => sum + (parseFloat(dt.body_fare) || 0),
+      0
+    );
+    const totalFuelCost = selectedData.reduce(
+      (sum, dt) => sum + (parseFloat(dt.fuel_cost) || 0),
+      0
+    );
+
+    const totalBodyFareWords = numberToWords(totalBodyFare);
+    const totalFuelCostWords = numberToWords(totalFuelCost);
 
     const newWindow = window.open("", "_blank");
     const html = `
@@ -137,6 +151,10 @@ const Yamaha = () => {
         }
         th {
           background: #eee;
+        }
+        tfoot td {
+          font-weight: bold;
+          background-color: #f3f3f3;
         }
       </style>
     </head>
@@ -193,6 +211,20 @@ const Yamaha = () => {
             )
             .join("")}
         </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="9" style="text-align: right;">Total</td>
+            <td>${totalBodyFare}</td>
+            <td></td>
+            <td>${totalFuelCost}</td>
+          </tr>
+          <tr>
+            <td colspan="13">Total Amount In Words (For Body Bill): ${totalBodyFareWords}</td>
+          </tr>
+          <tr>
+            <td colspan="13">Total Amount In Words (For Fuel Bill): ${totalFuelCostWords}</td>
+          </tr>
+        </tfoot>
       </table>
     </body>
   </html>`;
@@ -241,6 +273,28 @@ const Yamaha = () => {
       [index]: !prev[index],
     }));
   };
+
+  // table footer start
+  const numberToWords = (num) => {
+    if (!num || isNaN(num)) return "Zero";
+    return toWords(num).replace(/^\w/, (c) => c.toUpperCase()) + " Taka only.";
+  };
+  // Get selected data based on selectedRows
+  const selectedTrips = filteredTrips.filter((_, idx) => selectedRows[idx]);
+
+  // Fallback: show all if none selected
+  const tripsToCalculate =
+    selectedTrips.length > 0 ? selectedTrips : filteredTrips;
+
+  const totalBodyFare = tripsToCalculate.reduce(
+    (sum, dt) => sum + (parseFloat(dt.body_fare) || 0),
+    0
+  );
+
+  const totalFuelCost = tripsToCalculate.reduce(
+    (sum, dt) => sum + (parseFloat(dt.fuel_cost) || 0),
+    0
+  );
 
   const handleSubmit = async () => {
     const selectedData = filteredTrips.filter((_, i) => selectedRows[i]);
@@ -425,6 +479,40 @@ const Yamaha = () => {
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr className="font-bold">
+                <td
+                  colSpan={9}
+                  className="border border-black px-2 py-1 text-right"
+                >
+                  Total
+                </td>
+                <td className="border border-black px-2 py-1">
+                  {totalBodyFare}
+                </td>
+                <td className="border border-black px-2 py-1"></td>
+                <td className="border border-black px-2 py-1">
+                  {totalFuelCost}
+                </td>
+                <td className="border border-black px-2 py-1"></td>
+              </tr>
+              <tr className="font-bold">
+                <td colSpan={13} className="border border-black px-2 py-1">
+                  Total Amount In Words (For Body Bill):{" "}
+                  <span className="font-medium">
+                    {numberToWords(totalBodyFare)}
+                  </span>
+                </td>
+              </tr>
+              <tr className="font-bold">
+                <td colSpan={13} className="border border-black px-2 py-1">
+                  Total Amount In Words (For Fuel Bill):{" "}
+                  <span className="font-medium">
+                    {numberToWords(totalFuelCost)}
+                  </span>
+                </td>
+              </tr>
+            </tfoot>
           </table>
           <div className="flex justify-end mt-5">
             <button
