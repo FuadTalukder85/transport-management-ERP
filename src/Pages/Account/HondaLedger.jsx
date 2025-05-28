@@ -28,7 +28,19 @@ const HondaLedger = () => {
       });
   }, []);
 
-  const suzukiLedger = suzuki?.filter((dt) => dt.customer_name === "Honda");
+  const hondaLedger = suzuki?.filter((dt) => dt.customer_name === "Honda");
+  // Total vehicle rent with VAT
+  const totalVehicleRentWithVAT = hondaLedger.reduce((sum, dt) => {
+    const rent = parseFloat(dt?.total_amount) || 0;
+    const vatAmount = (rent * 15) / 100;
+    return sum + rent + vatAmount;
+  }, 0);
+  // Calculate Total Net Bill after tax
+  const netBill = hondaLedger.reduce((sum, dt) => {
+    const body = parseFloat(dt.total_amount || 0);
+    const vatAmount = (body * 5) / 100;
+    return sum + body - vatAmount;
+  }, 0);
   if (loading) return <p className="text-center mt-16">Loading Honda...</p>;
 
   return (
@@ -130,10 +142,15 @@ const HondaLedger = () => {
               </tr>
             </thead>
             <tbody className="font-semibold">
-              {suzukiLedger?.map((dt, index) => {
+              {hondaLedger?.map((dt, index) => {
+                // BillAmount with vat tax
                 const rent = parseFloat(dt?.total_amount) || 0;
                 const vatAmount = (rent * 15) / 100;
                 const totalCost = rent + vatAmount;
+                // Net Bill Receivable after Tax
+                const body = parseFloat(dt?.total_amount) || 0;
+                const billAmount = (body * 5) / 100;
+                const totalNetBillAmount = body - billAmount;
                 return (
                   <tr lassName="hover:bg-gray-50 transition-all">
                     <td className="border border-gray-700 p-1 font-bold">
@@ -165,7 +182,9 @@ const HondaLedger = () => {
                     <td className="border border-gray-700 p-1">{vatAmount}</td>
 
                     <td className="border border-gray-700 p-1">{totalCost}</td>
-                    <td className="border border-gray-700 p-1">--</td>
+                    <td className="border border-gray-700 p-1">
+                      {totalNetBillAmount}
+                    </td>
                     <td className="border border-gray-700 p-1">--</td>
                     <td className="border border-gray-700 p-1">--</td>
                   </tr>
@@ -181,9 +200,9 @@ const HondaLedger = () => {
                   Total
                 </td>
                 <td className="border border-black px-2 py-1">
-                  {/* {totalBodyFare} */}
+                  {totalVehicleRentWithVAT}
                 </td>
-                <td className="border border-black px-2 py-1"></td>
+                <td className="border border-black px-2 py-1">{netBill}</td>
                 <td className="border border-black px-2 py-1">
                   {/* {totalFuelCost} */}
                 </td>

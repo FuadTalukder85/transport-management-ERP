@@ -73,7 +73,7 @@ const Hatim = () => {
       const loadingToast = toast.loading("Submitting selected rows...");
       for (const dt of selectedData) {
         const fd = new FormData();
-        fd.append("bill_date", dt.date);
+        fd.append("bill_date", new Date().toISOString().split("T")[0]);
         fd.append("vehicle_no", dt.vehicle_no);
         fd.append("goods", dt.goods);
         fd.append("customer_name", dt.customer);
