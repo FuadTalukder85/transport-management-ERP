@@ -6,7 +6,7 @@ const DriverLedger = () => {
   const [driver, setDriver] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDriver, setSelectedDriver] = useState("");
-  const openingBalance = 2000; // or 0, or make this dynamic if needed
+  const openingBalance = 2000;
   let previousBalance = openingBalance;
 
   // Fetch driver ledger data
@@ -252,7 +252,32 @@ const DriverLedger = () => {
                 {footerTotals.total}
               </td>
               <td className="border border-black px-2 py-1">
-                {/* {footerTotals.balance} */}
+                {footerTotals.balance + openingBalance}
+              </td>
+            </tr>
+            <tr className="font-bold bg-gray-100">
+              <td
+                colSpan={3}
+                className="border border-black px-2 py-1 text-right"
+              >
+                Monthly report :
+              </td>
+              <td
+                colSpan={12}
+                className="border border-black px-8 py-1 text-right"
+              >
+                {footerTotals.balance +
+                  openingBalance -
+                  footerTotals.commission <
+                0
+                  ? `(${Math.abs(
+                      footerTotals.balance +
+                        openingBalance -
+                        footerTotals.commission
+                    )})`
+                  : footerTotals.balance +
+                    openingBalance -
+                    footerTotals.commission}
               </td>
             </tr>
           </tfoot>

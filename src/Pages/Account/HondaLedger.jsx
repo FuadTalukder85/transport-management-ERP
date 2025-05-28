@@ -1,14 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa6";
 import { Toaster } from "react-hot-toast";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import axios from "axios";
 pdfMake.vfs = pdfFonts.vfs;
 
 const HondaLedger = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showFilter, setShowFilter] = useState(false);
+  const [suzuki, setHonda] = useState([]);
+  const [loading, setLoading] = useState(true);
+  // load data from server
+  useEffect(() => {
+    axios
+      .get("https://api.dropshep.com/mstrading/api/customerLedger/list")
+      .then((response) => {
+        if (response.data.status === "Success") {
+          setHonda(response.data.data);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching driver data:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  const suzukiLedger = suzuki?.filter((dt) => dt.customer_name === "Honda");
+  if (loading) return <p className="text-center mt-16">Loading Honda...</p>;
 
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
@@ -87,9 +108,8 @@ const HondaLedger = () => {
                   PerTruckRent
                 </th>
                 <th className="border border-gray-700 px-2 py-1">TotalRent</th>
-                <th className="border border-gray-700 px-2 py-1">Vat</th>
-                <th className="border border-gray-700 px-2 py-1">TotalCost</th>
-                <th className="border border-gray-700 px-2 py-1">10000</th>
+                <th className="border border-gray-700 px-2 py-1">15%Vat</th>
+                {/* <th className="border border-gray-700 px-2 py-1">10000</th> */}
                 <th className="border border-gray-700 p-1 text-center">
                   BillAmount
                   <br />
@@ -110,32 +130,52 @@ const HondaLedger = () => {
               </tr>
             </thead>
             <tbody className="font-semibold">
-              <tr lassName="hover:bg-gray-50 transition-all">
-                <td className="border border-gray-700 p-1 font-bold">1.</td>
-                <td className="border border-gray-700 p-1 w-2xl min-w-[100px]">
-                  25-05-2026
-                </td>
-                <td className="border border-gray-700 p-1">Motorcycle</td>
-                <td className="border border-gray-700 p-1">Korim</td>
-                <td className="border border-gray-700 p-1">1212</td>
-                <td className="border border-gray-700 p-1">Chalan</td>
-                <td className="border border-gray-700 p-1">Benapole</td>
-                <td className="border border-gray-700 p-1">Gazipur</td>
-                <td className="border border-gray-700 p-1">2</td>
-                <td className="border border-gray-700 p-1">200</td>
-                <td className="border border-gray-700 p-1"></td>
-                <td className="border border-gray-700 p-1">500</td>
-                <td className="border border-gray-700 p-1">400</td>
-                <td className="border border-gray-700 p-1">100</td>
-                <td className="border border-gray-700 p-1">120</td>
-                <td className="border border-gray-700 p-1">140</td>
-                <td className="border border-gray-700 p-1">200</td>
-              </tr>
+              {suzukiLedger?.map((dt, index) => {
+                const rent = parseFloat(dt?.total_amount) || 0;
+                const vatAmount = (rent * 15) / 100;
+                const totalCost = rent + vatAmount;
+                return (
+                  <tr lassName="hover:bg-gray-50 transition-all">
+                    <td className="border border-gray-700 p-1 font-bold">
+                      {index + 1}.
+                    </td>
+                    <td className="border border-gray-700 p-1 w-2xl min-w-[100px]">
+                      {dt.bill_date}
+                    </td>
+                    <td className="border border-gray-700 p-1">{dt.do}</td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.delar_name}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.unload_point}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.no_of_trip}
+                    </td>
+                    <td className="border border-gray-700 p-1">{dt.qty}</td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.vehicle_mode}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.per_truck_rent}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.no_of_trip * dt.per_truck_rent}
+                    </td>
+                    <td className="border border-gray-700 p-1">{vatAmount}</td>
+
+                    <td className="border border-gray-700 p-1">{totalCost}</td>
+                    <td className="border border-gray-700 p-1">--</td>
+                    <td className="border border-gray-700 p-1">--</td>
+                    <td className="border border-gray-700 p-1">--</td>
+                  </tr>
+                );
+              })}
             </tbody>
             <tfoot>
               <tr className="font-bold">
                 <td
-                  colSpan={13}
+                  colSpan={11}
                   className="border border-black px-2 py-1 text-right"
                 >
                   Total
@@ -148,22 +188,6 @@ const HondaLedger = () => {
                   {/* {totalFuelCost} */}
                 </td>
                 <td className="border border-black px-2 py-1"></td>
-              </tr>
-              <tr className="font-bold">
-                <td colSpan={17} className="border border-black px-2 py-1">
-                  Total Amount In Words (For Body Bill):{" "}
-                  <span className="font-medium">
-                    {/* {numberToWords(totalBodyFare)} */}
-                  </span>
-                </td>
-              </tr>
-              <tr className="font-bold">
-                <td colSpan={17} className="border border-black px-2 py-1">
-                  Total Amount In Words (For Fuel Bill):{" "}
-                  <span className="font-medium">
-                    {/* {numberToWords(totalFuelCost)} */}
-                  </span>
-                </td>
               </tr>
             </tfoot>
           </table>

@@ -21,20 +21,7 @@ const CustomerLedger = () => {
 
         {/* Export */}
         <div className="md:flex items-center justify-between mb-4">
-          <div className="flex gap-1 md:gap-3 flex-wrap">
-            <div className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all">
-              CSV
-            </div>
-            <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
-              Excel
-            </button>
-            <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
-              PDF
-            </button>
-            <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
-              Print
-            </button>
-          </div>
+          <div className="flex gap-1 md:gap-3 flex-wrap"></div>
 
           <div className="mt-3 md:mt-0">
             <div className="relative w-full">

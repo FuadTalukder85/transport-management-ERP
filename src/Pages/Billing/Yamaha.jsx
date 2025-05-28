@@ -274,7 +274,7 @@ const Yamaha = () => {
     }));
   };
 
-  // table footer start
+  // number to words
   const numberToWords = (num) => {
     if (!num || isNaN(num)) return "Zero";
     return toWords(num).replace(/^\w/, (c) => c.toUpperCase()) + " Taka only.";
@@ -290,7 +290,6 @@ const Yamaha = () => {
     (sum, dt) => sum + (parseFloat(dt.body_fare) || 0),
     0
   );
-
   const totalFuelCost = tripsToCalculate.reduce(
     (sum, dt) => sum + (parseFloat(dt.fuel_cost) || 0),
     0
@@ -303,38 +302,33 @@ const Yamaha = () => {
         position: "top-right",
       });
     }
-
     try {
       const loadingToast = toast.loading("Submitting selected rows...");
-
       for (const dt of selectedData) {
         const fd = new FormData();
-        fd.append("bill_date", dt.date);
+        fd.append("bill_date", new Date().toISOString().split("T")[0]);
         fd.append("customer_name", dt.customer);
+        fd.append("vehicle_no", dt.vehicle_no);
         fd.append("chalan", dt.challan);
         fd.append("load_point", dt.load_point);
         fd.append("unload_point", dt.unload_point);
         fd.append("qty", dt.quantity);
         fd.append("body_cost", dt.body_fare);
         fd.append("fuel_cost", dt.fuel_cost);
-
         await axios.post(
           "https://api.dropshep.com/mstrading/api/customerLedger/create",
           fd
         );
-
         await axios.post(
           `https://api.dropshep.com/mstrading/api/trip/update/${dt.id}`,
           { status: "Approved" }
         );
       }
-
       toast.success("Successfully submitted!", {
         id: loadingToast,
         position: "top-right",
       });
       setSelectedRows({});
-
       const refreshed = await axios.get(
         "https://api.dropshep.com/mstrading/api/trip/list"
       );

@@ -371,7 +371,8 @@ const AddTripForm = () => {
             )}
 
             {/* Conditionally Show Hatim Fields */}
-            {selectedCustomer === "Hatim" && (
+            {(selectedCustomer === "Hatim Pubail" ||
+              selectedCustomer === "Hatim Rupgonj") && (
               <div className="border border-gray-300 p-5 rounded-md mt-3">
                 <h5 className="text-primary font-semibold text-center pb-5">
                   <span className="py-2 border-b-2 border-primary">
@@ -515,13 +516,7 @@ const AddTripForm = () => {
                   <div className="w-full">
                     <InputField name="extra_fare" label="Extra Fare" required />
                   </div>
-                  <div className="w-full">
-                    <InputField
-                      name="vehicle_rent"
-                      label="Vehicle Rent"
-                      required
-                    />
-                  </div>
+
                   <div className="w-full">
                     <InputField
                       name="total_rent"
@@ -567,11 +562,11 @@ const AddTripForm = () => {
                       control={control}
                     />
                   </div>
+                </div>
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     <InputField name="do_si" label="DO(SI)" required />
                   </div>
-                </div>
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     <InputField name="no_of_trip" label="No of Trip" required />
                   </div>
