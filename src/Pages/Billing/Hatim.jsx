@@ -79,7 +79,7 @@ const Hatim = () => {
         fd.append("customer_name", dt.customer);
         fd.append("delar_name", dt.distribution_name);
         fd.append("unload_point", dt.unload_point);
-        fd.append("bill_amount", dt.total_rent);
+        fd.append("total_amount", dt.total_rent);
 
         // Step 1: Create ledger entry
         await axios.post(

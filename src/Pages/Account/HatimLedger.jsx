@@ -12,6 +12,7 @@ const HatimLedger = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showFilter, setShowFilter] = useState(false);
+  let runningBalance = 2000;
   // Fetch ledger data
   useEffect(() => {
     axios
@@ -138,13 +139,18 @@ const HatimLedger = () => {
             <tbody className="font-semibold">
               {hatimTrip?.map((dt, index) => {
                 // BillAmount with vat tax
-                const rent = parseFloat(dt?.bill_amount) || 0;
+                const rent = parseFloat(dt?.total_amount) || 0;
                 const vatAmount = (rent * 15) / 100;
                 const totalCost = rent + vatAmount;
                 // Net Bill Receivable after Tax
-                const body = parseFloat(dt?.bill_amount) || 0;
+                const body = parseFloat(dt?.total_amount) || 0;
                 const billAmount = (body * 5) / 100;
                 const totalNetBillAmount = body - billAmount;
+                // Received amount
+                const received = parseFloat(dt.bill_amount || 0);
+                // update balance
+                runningBalance += totalNetBillAmount;
+                runningBalance -= received;
                 return (
                   <tr key={index} lassName="hover:bg-gray-50 transition-all">
                     <td className="border border-gray-700 p-1 font-bold">
@@ -164,14 +170,18 @@ const HatimLedger = () => {
                       {dt.unload_point}
                     </td>
                     <td className="border border-gray-700 p-1">
-                      {dt.bill_amount}
+                      {dt.total_amount}
                     </td>
                     <td className="border border-gray-700 p-1">{totalCost}</td>
                     <td className="border border-gray-700 p-1">
                       {totalNetBillAmount}
                     </td>
-                    <td className="border border-gray-700 p-1">---</td>
-                    <td className="border border-gray-700 p-1">---</td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.bill_amount}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {runningBalance}
+                    </td>
                   </tr>
                 );
               })}

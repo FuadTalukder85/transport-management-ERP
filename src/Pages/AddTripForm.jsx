@@ -407,9 +407,15 @@ const AddTripForm = () => {
                     <SelectField
                       name="driver_name"
                       label="Driver Name"
-                      required={true}
-                      options={driverOptions}
+                      required
                       control={control}
+                      options={driverOptions}
+                      onSelectChange={(selectedOption) => {
+                        setValue(
+                          "driver_mobile",
+                          selectedOption?.contact || ""
+                        );
+                      }}
                     />
                   </div>
                 </div>{" "}

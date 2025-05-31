@@ -12,6 +12,7 @@ const HondaLedger = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [suzuki, setHonda] = useState([]);
   const [loading, setLoading] = useState(true);
+  let runningBalance = 2000;
   // load data from server
   useEffect(() => {
     axios
@@ -151,6 +152,11 @@ const HondaLedger = () => {
                 const body = parseFloat(dt?.total_amount) || 0;
                 const billAmount = (body * 5) / 100;
                 const totalNetBillAmount = body - billAmount;
+                // Receive amount
+                const received = parseFloat(dt.bill_amount || 0);
+                // update balance
+                runningBalance += totalNetBillAmount;
+                runningBalance -= received;
                 return (
                   <tr lassName="hover:bg-gray-50 transition-all">
                     <td className="border border-gray-700 p-1 font-bold">
@@ -185,8 +191,12 @@ const HondaLedger = () => {
                     <td className="border border-gray-700 p-1">
                       {totalNetBillAmount}
                     </td>
-                    <td className="border border-gray-700 p-1">--</td>
-                    <td className="border border-gray-700 p-1">--</td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.bill_amount}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {runningBalance}
+                    </td>
                   </tr>
                 );
               })}

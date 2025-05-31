@@ -157,7 +157,7 @@ const YamahaLedger = () => {
                 const billAmount = (body * 5) / 100;
                 const totalBillAmount = body - billAmount + fuel;
                 // Receive amount
-                const received = parseFloat(dt.total_amount || 0);
+                const received = parseFloat(dt.bill_amount || 0);
                 // update balance 
                 runningBalance +=totalBillAmount;
                 runningBalance -= received;
@@ -195,7 +195,7 @@ const YamahaLedger = () => {
                     <td className="border border-gray-700 p-1">
                       {totalBillAmount}
                     </td>
-                    <td className="border border-gray-700 p-1">{dt.total_amount}</td>
+                    <td className="border border-gray-700 p-1">{dt.bill_amount}</td>
                     <td className="border border-gray-700 p-1">{runningBalance.toFixed(2)}</td>
                   </tr>
                 );

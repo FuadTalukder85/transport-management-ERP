@@ -76,7 +76,7 @@ const PaymentReceiveForm = () => {
         const customerFormData = new FormData();
         customerFormData.append("customer_name", data.customer_name);
         customerFormData.append("bill_date", data.date);
-        customerFormData.append("total_amount", data.amount);
+        customerFormData.append("bill_amount", data.amount);
         customerFormData.append("ref_id", refId);
 
         await axios.post(
