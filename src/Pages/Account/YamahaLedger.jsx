@@ -11,6 +11,7 @@ const YamahaLedger = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [yamaha, setYamaha] = useState([]);
   const [loading, setLoading] = useState(true);
+  let runningBalance = 2000;
   // load data from server
   useEffect(() => {
     axios
@@ -155,6 +156,11 @@ const YamahaLedger = () => {
                 const fuel = parseFloat(dt?.fuel_cost) || 0;
                 const billAmount = (body * 5) / 100;
                 const totalBillAmount = body - billAmount + fuel;
+                // Receive amount
+                const received = parseFloat(dt.total_amount || 0);
+                // update balance 
+                runningBalance +=totalBillAmount;
+                runningBalance -= received;
                 return (
                   <tr key={index} lassName="hover:bg-gray-50 transition-all">
                     <td className="border border-gray-700 p-1 font-bold">
@@ -189,8 +195,8 @@ const YamahaLedger = () => {
                     <td className="border border-gray-700 p-1">
                       {totalBillAmount}
                     </td>
-                    <td className="border border-gray-700 p-1">--</td>
-                    <td className="border border-gray-700 p-1">--</td>
+                    <td className="border border-gray-700 p-1">{dt.total_amount}</td>
+                    <td className="border border-gray-700 p-1">{runningBalance.toFixed(2)}</td>
                   </tr>
                 );
               })}
