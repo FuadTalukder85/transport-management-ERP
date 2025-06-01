@@ -3,7 +3,7 @@ import BtnSubmit from "../../components/Button/BtnSubmit";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { InputField, SelectField } from "../../components/Form/FormFields";
 import { FiCalendar } from "react-icons/fi";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { IoMdClose } from "react-icons/io";
 
@@ -11,6 +11,11 @@ const PurchaseForm = () => {
   const methods = useForm();
   const { handleSubmit, register, watch, reset, setValue, control } = methods;
   const purChaseDateRef = useRef(null);
+  const [drivers, setDrivers] = useState([]);
+  const [vehicle, setVehicle] = useState([]);
+  const [branch, setBranch] = useState([]);
+  const [supplier, setSupplier] = useState([]);
+
   const selectedCategory = watch("category");
   // calculate Total Expense
   const quantity = parseFloat(watch("quantity") || 0);
@@ -31,6 +36,51 @@ const PurchaseForm = () => {
     }
     return refId;
   };
+  // select driver from api
+  useEffect(() => {
+    fetch("https://api.dropshep.com/mstrading/api/driver/list")
+      .then((response) => response.json())
+      .then((data) => setDrivers(data.data))
+      .catch((error) => console.error("Error fetching driver data:", error));
+  }, []);
+  const driverOptions = drivers.map((driver) => ({
+    value: driver.driver_name,
+    label: driver.driver_name,
+  }));
+  // select Vehicle No. from api
+  useEffect(() => {
+    fetch("https://api.dropshep.com/mstrading/api/vehicle/list")
+      .then((response) => response.json())
+      .then((data) => setVehicle(data.data))
+      .catch((error) => console.error("Error fetching vehicle data:", error));
+  }, []);
+
+  const vehicleOptions = vehicle.map((dt) => ({
+    value: `${dt.registration_zone} ${dt.registration_serial} ${dt.registration_number} `,
+    label: `${dt.registration_zone} ${dt.registration_serial} ${dt.registration_number} `,
+  }));
+  // select branch from api
+  useEffect(() => {
+    fetch("https://api.dropshep.com/mstrading/api/office/list")
+      .then((response) => response.json())
+      .then((data) => setBranch(data.data))
+      .catch((error) => console.error("Error fetching branch data:", error));
+  }, []);
+  const branchOptions = branch.map((branch) => ({
+    value: branch.branch_name,
+    label: branch.branch_name,
+  }));
+  // select supplier from api
+  useEffect(() => {
+    fetch("https://api.dropshep.com/mstrading/api/supply/list")
+      .then((response) => response.json())
+      .then((data) => setSupplier(data.data))
+      .catch((error) => console.error("Error fetching supply data:", error));
+  }, []);
+  const supplyOptions = supplier.map((supply) => ({
+    value: supply.contact_person_name,
+    label: supply.contact_person_name,
+  }));
   // post data on server
   const onSubmit = async (data) => {
     console.log("purchase", data);
@@ -42,6 +92,7 @@ const PurchaseForm = () => {
         purchaseFormData.append(key, data[key]);
       }
       purchaseFormData.append("ref_no", refId);
+      purchaseFormData.append("status", "Unpaid");
       const purchaseResponse = await axios.post(
         "https://api.dropshep.com/mstrading/api/purchase/create",
         purchaseFormData
@@ -79,6 +130,23 @@ const PurchaseForm = () => {
             inventoryFormData
           );
         }
+        // post data on payment api
+        const paymentFormData = new FormData();
+        paymentFormData.append("date", data.date);
+        paymentFormData.append("category", data.category);
+        paymentFormData.append("item_name", data.item_name);
+        paymentFormData.append("branch_name", data.branch_name);
+        paymentFormData.append("supplier_name", data.supplier_name);
+        paymentFormData.append("quantity", data.quantity);
+        paymentFormData.append("unit_price", data.unit_price);
+        paymentFormData.append("total_amount", data.total);
+        paymentFormData.append("remarks", data.remarks);
+        paymentFormData.append("status", "Unpaid");
+        paymentFormData.append("ref_id", refId);
+        await axios.post(
+          "https://api.dropshep.com/mstrading/api/payment/create",
+          paymentFormData
+        );
 
         // Reset form if both succeed
         reset();
@@ -97,6 +165,7 @@ const PurchaseForm = () => {
   // todo set default status = unpaid, generate auto ref number from backend
   return (
     <div className="mt-10">
+      <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
         Add Purchase Information
       </h3>
@@ -151,19 +220,45 @@ const PurchaseForm = () => {
           {selectedCategory === "Engine Oil" && (
             <div className="md:flex justify-between gap-3">
               <div className="w-full">
-                <InputField name="driver_name" label="Driver Name" required />
+                <SelectField
+                  name="driver_name"
+                  label="Driver Name"
+                  required={true}
+                  options={driverOptions}
+                  control={control}
+                />
               </div>
               <div className="w-full">
-                <InputField name="vehicle_no" label="Vehicle No" required />
+                <SelectField
+                  name="vehicle_no"
+                  label="Vehicle No."
+                  required={true}
+                  options={vehicleOptions}
+                  control={control}
+                />
               </div>
             </div>
           )}
 
           {/*  */}
           <div className="md:flex justify-between gap-3">
-            {" "}
             <div className="w-full">
-              <InputField name="supplier_name" label="Supplier Name" required />
+              <SelectField
+                name="branch_name"
+                label="Branch Name"
+                required={true}
+                options={branchOptions}
+                control={control}
+              />
+            </div>
+            <div className="w-full">
+              <SelectField
+                name="supplier_name"
+                label="Supplier Name"
+                required={true}
+                options={supplyOptions}
+                control={control}
+              />
             </div>
             <div className="w-full">
               <InputField name="quantity" label="Quantity" required />

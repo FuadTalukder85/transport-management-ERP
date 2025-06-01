@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FaUserSecret } from "react-icons/fa6";
 import { InputField, SelectField } from "../../components/Form/FormFields";
 import { FormProvider, useForm } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import BtnSubmit from "../../components/Button/BtnSubmit";
 
 const PaymentList = () => {
@@ -11,9 +11,9 @@ const PaymentList = () => {
   const { handleSubmit, reset } = methods;
   const [payment, setPayment] = useState([]);
   const [loading, setLoading] = useState(true);
+  //
   const [showModal, setShowModal] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState(null);
-
   useEffect(() => {
     axios
       .get("https://api.dropshep.com/mstrading/api/payment/list")
@@ -24,66 +24,39 @@ const PaymentList = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching payment data:", error);
+        console.error("Error fetching driver data:", error);
         setLoading(false);
       });
   }, []);
-
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
-  // onSubmit
-  const onSubmit = async (data) => {
-    if (!data.main_amount || isNaN(data.main_amount)) {
-      toast.error("Invalid payment amount");
-      return;
-    }
-
-    // previous main_amount থেকে parseFloat করে রাখলাম
-    const previousAmount = parseFloat(selectedPayment.main_amount) || 0;
-    const newAmount = parseFloat(data.main_amount);
-
-    // যোগ করা মূল পেমেন্ট
-    const updatedAmount = previousAmount + newAmount;
-
-    try {
-      const response = await axios.post(
-        `https://api.dropshep.com/mstrading/api/payment/update/${selectedPayment.id}`,
-        {
-          main_amount: updatedAmount,
-          // note: data.note, // যদি দরকার হয় uncomment করুন
-        }
-      );
-
-      if (response.data.status === "Success") {
-        toast.success("Payment updated successfully!", {
-          position: "top-right",
-        });
-
-        setPayment((prevList) =>
-          prevList.map((item) =>
-            item.id === selectedPayment.id
-              ? {
-                  ...item,
-                  main_amount: updatedAmount,
-                  status:
-                    updatedAmount >= parseFloat(item.total_amount)
-                      ? "Paid"
-                      : "Pending",
-                }
-              : item
-          )
-        );
-        setShowModal(false);
-      } else {
-        toast.error(response.data.message || "Failed to update.");
-      }
-    } catch (err) {
-      toast.error(err.response?.data?.message || err.message || "Server error");
-    }
-  };
-
+  // const onSubmit = async (data) => {
+  //   try {
+  //     const formData = new FormData();
+  //     for (const key in data) {
+  //       formData.append(key, data[key]);
+  //     }
+  //     const response = await axios.post(
+  //       "https://api.dropshep.com/mstrading/api/payment/update/{id}",
+  //       formData
+  //     );
+  //     const resData = response.data;
+  //     if (resData.status === "Success") {
+  //       toast.success("Payment information saved successfully!", {
+  //         position: "top-right",
+  //       });
+  //       reset();
+  //     } else {
+  //       toast.error("Server Error: " + (resData.message || "Unknown issue"));
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     const errorMessage =
+  //       error.response?.data?.message || error.message || "Unknown error";
+  //     toast.error("Server Error: " + errorMessage);
+  //   }
+  // };
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
-      <Toaster />
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
@@ -158,7 +131,6 @@ const PaymentList = () => {
           </table>
         </div>
       </div>
-
       {/* modal start */}
       {showModal && selectedPayment && (
         <div className="fixed inset-0 z-50  flex items-center justify-center">
@@ -167,12 +139,48 @@ const PaymentList = () => {
               Update Payment
             </h2>
             <FormProvider {...methods}>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <form
+                onSubmit={handleSubmit((data) => {
+                  console.log("pay data", data);
+                  const formData = new FormData();
+                  formData.append("main_amount", data.main_amount);
+                  // formData.append("note", data.note);
+                  axios
+                    .post(
+                      `https://api.dropshep.com/mstrading/api/payment/update/${selectedPayment.id}`,
+                      formData
+                    )
+                    .then((res) => {
+                      if (res.data.status === "Success") {
+                        toast.success("Payment updated successfully!");
+                        setShowModal(false);
+                        // Refresh payment list
+                        setLoading(true);
+                        axios
+                          .get(
+                            "https://api.dropshep.com/mstrading/api/payment/list"
+                          )
+                          .then((response) => {
+                            if (response.data.status === "Success") {
+                              setPayment(response.data.data);
+                            }
+                            setLoading(false);
+                          });
+                      } else {
+                        toast.error(res.data.message || "Failed to update.");
+                      }
+                    })
+                    .catch((err) => {
+                      toast.error(err.message || "Server error");
+                    });
+                })}
+                className="space-y-4"
+              >
                 <InputField
                   name="due_amount"
                   label="Due Amount"
                   required
-                  readOnly
+                  disabled
                 />
                 <InputField name="main_amount" label="Pay Amount" required />
                 {/* <InputField name="note" label="Note" /> */}
@@ -180,7 +188,7 @@ const PaymentList = () => {
                   <button
                     type="button"
                     onClick={() => setShowModal(false)}
-                    className="bg-gray-200 px-4 rounded mt-4 hover:bg-primary hover:text-white cursor-pointer transition-all duration-300"
+                    className="bg-gray-200 px-4 py-2 rounded"
                   >
                     Cancel
                   </button>

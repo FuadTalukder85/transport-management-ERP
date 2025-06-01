@@ -56,7 +56,8 @@ const SupplierLedger = () => {
           <table className="w-full text-sm text-left">
             <thead className="text-black capitalize font-bold">
               <tr>
-                <th className="border border-gray-700 px-2 py-3">SL</th>
+                <th className="border border-gray-700 px-2 py-3">SL.</th>
+                <th className="border border-gray-700 px-2 py-3">Date</th>
                 <th className="border border-gray-700 px-2 py-3">
                   Particulars
                 </th>
@@ -67,11 +68,11 @@ const SupplierLedger = () => {
                 <th className="border border-gray-700 px-2 py-3">
                   PaymentAmount
                 </th>
-                <th className="border border-gray-700 px-2 py-3">DueAMount</th>
-                <th className="border border-gray-700 px-2 py-3">
-                  OpeningBalance
+                <th className="border border-gray-700 py-3 text-center">
+                  <p className="border-b">OpeningBalance 2000</p>
+                  Balance
                 </th>
-                <th className="border border-gray-700 px-2 py-3">Status</th>
+
                 {/* <th className="border border-gray-700 px-2 py-3 action_column">
                   Action
                 </th> */}
@@ -79,32 +80,15 @@ const SupplierLedger = () => {
             </thead>
             <tbody className="text-black font-semibold">
               <tr className="hover:bg-gray-50 transition-all">
-                <td className="border border-gray-700 px-2 py-4 font-bold">
+                <td className="border border-gray-700 px-2 py-1 font-bold">
                   1.
                 </td>
-                <td className="border border-gray-700 px-2 py-4">Furniture</td>
-                <td className="border border-gray-700 px-2 py-4">Cash</td>
-                <td className="border border-gray-700 px-2 py-4">20000</td>
-                <td className="border border-gray-700 px-2 py-4">5000</td>
-                <td className="border border-gray-700 px-2 py-4">15000</td>
-                <td className="border border-gray-700 px-2 py-4">10000</td>
-                <td className="border border-gray-700 px-2 py-4">
-                  <span className="text-white bg-green-700 px-3 py-1 rounded-md text-xs font-semibold">
-                    Active
-                  </span>
-                </td>
-                {/* <td className="border border-gray-700 px-2 action_column">
-                  <div className="flex gap-1">
-                    <Link>
-                      <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                        <FaPen className="text-[12px]" />
-                      </button>
-                    </Link>
-                    <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                      <FaEye className="text-[12px]" />
-                    </button>
-                  </div>
-                </td> */}
+                <td className="border border-gray-700 px-2 py-1">06-01-2025</td>
+                <td className="border border-gray-700 px-2 py-1">Furniture</td>
+                <td className="border border-gray-700 px-2 py-1">Cash</td>
+                <td className="border border-gray-700 px-2 py-1">20000</td>
+                <td className="border border-gray-700 px-2 py-1">5000</td>
+                <td className="border border-gray-700 px-2 py-1">10000</td>
               </tr>
             </tbody>
           </table>

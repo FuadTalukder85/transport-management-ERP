@@ -13,7 +13,6 @@ const AddSupply = () => {
   const { handleSubmit, reset, register } = methods;
   const generateRefId = useRefId();
   const onSubmit = async (data) => {
-    console.log("add fuel data", data);
     try {
       const formData = new FormData();
       for (const key in data) {
@@ -25,7 +24,6 @@ const AddSupply = () => {
         formData
       );
       const resData = response.data;
-      console.log("resData", resData);
       if (resData.status === "Success") {
         toast.success("Supply information saved successfully!", {
           position: "top-right",

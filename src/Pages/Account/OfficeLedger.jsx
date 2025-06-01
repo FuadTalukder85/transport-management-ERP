@@ -6,7 +6,6 @@ import axios from "axios";
 const OfficeLedger = () => {
   const [branch, setbranch] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [branchList, setBranchList] = useState([]);
   const [selectedBranch, setselectedBranch] = useState("");
   useEffect(() => {
     axios
@@ -15,11 +14,6 @@ const OfficeLedger = () => {
         if (response.data.status === "Success") {
           const data = response.data.data;
           setbranch(data);
-          // Extract unique customer names
-          const uniqueBranch = Array.from(
-            new Set(data.map((item) => item.branch_name))
-          );
-          setBranchList(uniqueBranch);
         }
 
         setLoading(false);
@@ -29,6 +23,25 @@ const OfficeLedger = () => {
         setLoading(false);
       });
   }, []);
+  const [officeList, setOfficeList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://api.dropshep.com/mstrading/api/office/list")
+      .then((response) => {
+        if (response.data.status === "Success") {
+          const data = response.data.data;
+          const uniqueOffices = Array.from(
+            new Set(data.map((item) => item.branch_name)) // if field is different, adjust this
+          );
+          setOfficeList(uniqueOffices);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching office list:", error);
+      });
+  }, []);
+
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
   // Filtered data based on selected customer
   const filteredBranch = selectedBranch
@@ -76,7 +89,7 @@ const OfficeLedger = () => {
                 className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
               >
                 <option value="">Select branch</option>
-                {branchList.map((name, i) => (
+                {officeList.map((name, i) => (
                   <option key={i} value={name}>
                     {name}
                   </option>
