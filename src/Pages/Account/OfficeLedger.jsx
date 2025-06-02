@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const OfficeLedger = () => {
+  let openingBalance = 2000;
+  let currentBalance = openingBalance;
   const [branch, setbranch] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedBranch, setselectedBranch] = useState("");
@@ -105,81 +107,96 @@ const OfficeLedger = () => {
           <table className="w-full text-sm text-left">
             <thead className="text-black capitalize font-bold">
               <tr>
-                <th className="border border-gray-700 px-2 py-3">SL</th>
-                <th className="border border-gray-700 px-2 py-3">Date</th>
-                <th className="border border-gray-700 px-2 py-3">
+                <th className="border border-gray-700 px-2 py-1">SL</th>
+                <th className="border border-gray-700 px-2 py-1">Date</th>
+                <th className="border border-gray-700 px-2 py-1">
                   Particulars
                 </th>
-                <th className="border border-gray-700 px-2 py-3">Mode</th>
-                <th className="border border-gray-700 px-2 py-3">
+                <th className="border border-gray-700 px-2 py-1">Mode</th>
+                <th className="border border-gray-700 px-2 py-1">
                   Destination
                 </th>
-                <th className="border border-gray-700 px-2 py-3">TripExp</th>
-                <th className="border border-gray-700 px-2 py-3">Due</th>
-                <th className="border border-gray-700 px-2 py-3">CashIn</th>
-                <th className="border border-gray-700 px-2 py-3">CashOut</th>
-                <th className="border border-gray-700 px-2 py-3">Balance</th>
-                <th className="border border-gray-700 px-2 py-3">Ref</th>
+                <th className="border border-gray-700 px-2 py-1">TripExp</th>
+                <th className="border border-gray-700 px-2 py-1">Due</th>
+                <th className="border border-gray-700 px-2 py-1">CashIn</th>
+                <th className="border border-gray-700 px-2 py-1">CashOut</th>
+                <th className="border border-gray-700 py-1 text-center">
+                  <p className="border-b">OpeningBalance 2000</p>Balance
+                </th>
+                <th className="border border-gray-700 px-2 py-1">Ref</th>
               </tr>
             </thead>
             <tbody className="text-black font-semibold">
-              {filteredBranch?.map((dt, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="border border-gray-700 px-2 py-4 font-bold">
-                    {index + 1}.
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.date}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.remarks ? (
-                      dt.remarks
-                    ) : (
-                      <span className="flex justify-center items-center">
-                        --
+              {filteredBranch?.map((dt, index) => {
+                const expense = parseFloat(dt.trip_expense) || 0;
+                const cashOut = parseFloat(dt.cash_out) || 0;
+                currentBalance += expense - cashOut;
+                return (
+                  <tr key={index} className="hover:bg-gray-50 transition-all">
+                    <td className="border border-gray-700 px-2 py-1 font-bold">
+                      {index + 1}.
+                    </td>
+                    <td className="border border-gray-700 px-2 py-1">
+                      {dt.date}
+                    </td>
+                    <td className="border border-gray-700 px-2 py-1">
+                      {dt.remarks ? (
+                        dt.remarks
+                      ) : (
+                        <span className="flex justify-center items-center">
+                          --
+                        </span>
+                      )}
+                    </td>
+                    <td className="border border-gray-700 px-2 py-1">
+                      {dt.mode ? (
+                        dt.mode
+                      ) : (
+                        <span className="flex justify-center items-center">
+                          --
+                        </span>
+                      )}
+                    </td>
+                    <td className="border border-gray-700 px-2 py-1">
+                      {dt.destination ? (
+                        dt.destination
+                      ) : (
+                        <span className="flex justify-center items-center">
+                          --
+                        </span>
+                      )}
+                    </td>
+                    <td className="border border-gray-700 px-2 py-1">
+                      {dt.trip_expense ? (
+                        dt.trip_expense
+                      ) : (
+                        <span className="flex justify-center items-center">
+                          --
+                        </span>
+                      )}
+                    </td>
+                    <td className="border border-gray-700 px-2 py-1">
+                      {dt.due}
+                    </td>
+                    <td className="border border-gray-700 px-2 py-1">
+                      {dt.cash_in}
+                    </td>
+                    <td className="border border-gray-700 px-2 py-1">
+                      {dt.cash_out}
+                    </td>
+                    <td className="border border-gray-700 px-2 py-1">
+                      <span>
+                        {currentBalance < 0
+                          ? `(${Math.abs(currentBalance)})`
+                          : currentBalance}
                       </span>
-                    )}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.mode ? (
-                      dt.mode
-                    ) : (
-                      <span className="flex justify-center items-center">
-                        --
-                      </span>
-                    )}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.destination ? (
-                      dt.destination
-                    ) : (
-                      <span className="flex justify-center items-center">
-                        --
-                      </span>
-                    )}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.trip_expense ? (
-                      dt.trip_expense
-                    ) : (
-                      <span className="flex justify-center items-center">
-                        --
-                      </span>
-                    )}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">{dt.due}</td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.cash_in}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.cash_out}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">
-                    {dt.balance}
-                  </td>
-                  <td className="border border-gray-700 px-2 py-4">{dt.ref}</td>
-                </tr>
-              ))}
+                    </td>
+                    <td className="border border-gray-700 px-2 py-1">
+                      {dt.ref}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

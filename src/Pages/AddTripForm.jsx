@@ -153,8 +153,8 @@ const AddTripForm = () => {
         branchFormData.append("date", data.date);
         branchFormData.append("destination", data.unload_point);
         branchFormData.append("customer", data.customer);
-        branchFormData.append("remarks", data.remarks);
-        branchFormData.append("due", data.due_amount);
+        // branchFormData.append("remarks", data.remarks);
+        // branchFormData.append("due", data.due_amount);
         branchFormData.append("ref_id", refId);
         await axios.post(
           "https://api.dropshep.com/mstrading/api/branch/create",

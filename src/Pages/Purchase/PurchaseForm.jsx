@@ -99,9 +99,6 @@ const PurchaseForm = () => {
       );
       const purchaseData = purchaseResponse.data;
       if (purchaseData.status === "Success") {
-        toast.success("Purchase added successfully", {
-          position: "top-right",
-        });
         // --- Second API: Branch Create (only specific field) ---
         const branchFormData = new FormData();
         branchFormData.append("data", data.date);
@@ -140,6 +137,7 @@ const PurchaseForm = () => {
         paymentFormData.append("quantity", data.quantity);
         paymentFormData.append("unit_price", data.unit_price);
         paymentFormData.append("total_amount", data.total);
+        paymentFormData.append("main_amount", 0);
         paymentFormData.append("remarks", data.remarks);
         paymentFormData.append("status", "Unpaid");
         paymentFormData.append("ref_id", refId);
@@ -147,7 +145,9 @@ const PurchaseForm = () => {
           "https://api.dropshep.com/mstrading/api/payment/create",
           paymentFormData
         );
-
+        toast.success("Purchase added successfully", {
+          position: "top-right",
+        });
         // Reset form if both succeed
         reset();
       } else {

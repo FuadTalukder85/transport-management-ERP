@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaUserSecret } from "react-icons/fa6";
-import { InputField, SelectField } from "../../components/Form/FormFields";
+import { InputField } from "../../components/Form/FormFields";
 import { FormProvider, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import BtnSubmit from "../../components/Button/BtnSubmit";
+import useRefId from "../../hooks/useRef";
 
 const PaymentList = () => {
+  const generateRefId = useRefId();
   const methods = useForm();
   const { handleSubmit, reset } = methods;
   const [payment, setPayment] = useState([]);
@@ -30,18 +32,16 @@ const PaymentList = () => {
   }, []);
 
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
-  // onSubmit
+  // onsubmit
   const onSubmit = async (data) => {
+    const refId = generateRefId();
     if (!data.main_amount || isNaN(data.main_amount)) {
       toast.error("Invalid payment amount");
       return;
     }
 
-    // previous main_amount থেকে parseFloat করে রাখলাম
     const previousAmount = parseFloat(selectedPayment.main_amount) || 0;
     const newAmount = parseFloat(data.main_amount);
-
-    // যোগ করা মূল পেমেন্ট
     const updatedAmount = previousAmount + newAmount;
 
     try {
@@ -49,15 +49,42 @@ const PaymentList = () => {
         `https://api.dropshep.com/mstrading/api/payment/update/${selectedPayment.id}`,
         {
           main_amount: updatedAmount,
-          // note: data.note, // যদি দরকার হয় uncomment করুন
         }
       );
 
       if (response.data.status === "Success") {
+        // --- Second API: Supplier Ledger Create ---
+        const supplierFormData = new FormData();
+        supplierFormData.append("data", new Date().toISOString().split("T")[0]);
+        supplierFormData.append("supplier_name", selectedPayment.supplier_name);
+        supplierFormData.append("remarks", data.note);
+        supplierFormData.append("payment_amount", data.main_amount);
+        supplierFormData.append("ref_id", refId);
+        await axios.post(
+          "https://api.dropshep.com/mstrading/api/supplierLedger/create",
+          supplierFormData
+        );
+
+        // --- Third API: Branch Ledger Create ---
+        const branchLedgerFormData = new FormData();
+        branchLedgerFormData.append(
+          "date",
+          new Date().toISOString().split("T")[0]
+        );
+        branchLedgerFormData.append("branch_name", selectedPayment.branch_name);
+        branchLedgerFormData.append("remarks", data.note);
+        branchLedgerFormData.append("cash_out", data.main_amount);
+        branchLedgerFormData.append("ref_id", refId);
+        await axios.post(
+          "https://api.dropshep.com/mstrading/api/branch/create",
+          branchLedgerFormData
+        );
+
         toast.success("Payment updated successfully!", {
           position: "top-right",
         });
 
+        // UI update
         setPayment((prevList) =>
           prevList.map((item) =>
             item.id === selectedPayment.id
@@ -65,9 +92,11 @@ const PaymentList = () => {
                   ...item,
                   main_amount: updatedAmount,
                   status:
-                    updatedAmount >= parseFloat(item.total_amount)
-                      ? "Paid"
-                      : "Pending",
+                    updatedAmount === 0
+                      ? "Unpaid"
+                      : updatedAmount < parseFloat(item.total_amount)
+                      ? "Partial"
+                      : "Paid",
                 }
               : item
           )
@@ -125,30 +154,68 @@ const PaymentList = () => {
                     {dt.total_amount - dt.main_amount}
                   </td>
                   <td className="px-1 py-4">
-                    <select
-                      defaultValue={dt.status}
-                      className="text-xs font-semibold rounded-md px-2 py-1 border border-gray-300 bg-white text-gray-700"
-                    >
-                      <option value={dt.status}>{dt.status}</option>
-                      <option value="Paid">Paid</option>
-                      <option value="Partial">Unpaid</option>
-                    </select>
+                    {(() => {
+                      const total = parseFloat(dt.total_amount) || 0;
+                      const paid = parseFloat(dt.main_amount) || 0;
+                      const due = total - paid;
+
+                      let status = "Unpaid";
+                      if (due === 0) {
+                        status = "Paid";
+                      } else if (paid > 0 && due > 0) {
+                        status = "Partial";
+                      }
+
+                      return (
+                        <select
+                          value={status}
+                          disabled
+                          className="appearance-none text-xs font-semibold rounded-md px-2 py-1 border border-gray-300 bg-gray-100 text-gray-700"
+                        >
+                          <option value="Paid">Paid</option>
+                          <option value="Unpaid">Unpaid</option>
+                          <option value="Partial">Partial</option>
+                        </select>
+                      );
+                    })()}
                   </td>
+
                   <td className="px-1 action_column">
                     <div className="flex gap-1">
                       <button
                         onClick={() => {
+                          if (
+                            parseFloat(dt.total_amount) -
+                              parseFloat(dt.main_amount) <=
+                            0
+                          )
+                            return;
                           setSelectedPayment(dt);
                           setShowModal(true);
                           reset({
                             due_amount: dt.total_amount - dt.main_amount,
                             main_amount: dt.main_amount,
-                            note: "",
+                            // note: dt.item_name,
                           });
                         }}
-                        className="text-primary hover:bg-primary hover:text-white px-1 py-1 rounded shadow-md transition-all cursor-pointer"
+                        className={`px-1 py-1 rounded shadow-md transition-all cursor-pointer ${
+                          parseFloat(dt.total_amount) -
+                            parseFloat(dt.main_amount) >
+                          0
+                            ? "text-primary hover:bg-primary hover:text-white"
+                            : "text-green-700 bg-gray-200 cursor-not-allowed"
+                        }`}
+                        disabled={
+                          parseFloat(dt.total_amount) -
+                            parseFloat(dt.main_amount) <=
+                          0
+                        }
                       >
-                        Payment
+                        {parseFloat(dt.total_amount) -
+                          parseFloat(dt.main_amount) >
+                        0
+                          ? "Pay Now"
+                          : "Complete"}
                       </button>
                     </div>
                   </td>
@@ -175,7 +242,7 @@ const PaymentList = () => {
                   readOnly
                 />
                 <InputField name="main_amount" label="Pay Amount" required />
-                {/* <InputField name="note" label="Note" /> */}
+                <InputField name="note" label="Note" required />
                 <div className="flex justify-end gap-2">
                   <button
                     type="button"
