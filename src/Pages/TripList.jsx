@@ -77,6 +77,20 @@ const TripList = () => {
       });
     }
   };
+  // Filter by date
+  const filteredTrips = trip.filter((trip) => {
+    const tripDate = new Date(trip.date);
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
+
+    if (start && end) {
+      return tripDate >= start && tripDate <= end;
+    } else if (start) {
+      return tripDate.toDateString() === start.toDateString();
+    } else {
+      return true; // no filter applied
+    }
+  });
   return (
     <main className="bg-gradient-to-br from-gray-100 to-white md:p-6">
       <Toaster />
@@ -133,7 +147,7 @@ const TripList = () => {
         {/* Conditional Filter Section */}
         {showFilter && (
           <div className="md:flex gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
-            <div className="relative w-64">
+            <div className="relative w-full">
               <input
                 type="date"
                 value={startDate}
@@ -143,7 +157,7 @@ const TripList = () => {
               />
             </div>
 
-            <div className="relative w-64">
+            <div className="relative w-full">
               <input
                 type="date"
                 value={endDate}
@@ -177,7 +191,7 @@ const TripList = () => {
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              {trip?.map((dt, index) => {
+              {filteredTrips?.map((dt, index) => {
                 return (
                   <tr
                     key={index}
@@ -210,15 +224,6 @@ const TripList = () => {
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaEye className="text-[12px]" />
                         </button>
-                        {/* <button
-                          onClick={() => {
-                            setselectedTripId(dt.id);
-                            setIsOpen(true);
-                          }}
-                          className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer"
-                        >
-                          <FaTrashAlt className="text-[12px]" />
-                        </button> */}
                       </div>
                     </td>
                   </tr>

@@ -66,8 +66,8 @@ const AddTripForm = () => {
   const policeCost = parseFloat(watch("police_cost") || 0);
   const chadaCost = parseFloat(watch("chada") || 0);
   // const foodCost = parseFloat(watch("food_cost") || 0);
-  const fuelCost = parseFloat(watch("fuel_cost") || 0);
-  const bodyFare = parseFloat(watch("body_fare") || 0);
+  // const fuelCost = parseFloat(watch("fuel_cost") || 0);
+  // const bodyFare = parseFloat(watch("body_fare") || 0);
   const totalExpense =
     driverCommision +
     roadCost +
@@ -77,11 +77,10 @@ const AddTripForm = () => {
     tollCost +
     feriCost +
     policeCost +
-    chadaCost +
-    // foodCost +
-    fuelCost +
-    bodyFare;
-  console.log("totalExpense", totalExpense);
+    chadaCost;
+  // foodCost +
+  // fuelCost +
+  // bodyFare;
 
   useEffect(() => {
     const total =
@@ -93,10 +92,10 @@ const AddTripForm = () => {
       tollCost +
       feriCost +
       policeCost +
-      chadaCost +
-      // foodCost +
-      fuelCost +
-      bodyFare;
+      chadaCost;
+    // foodCost +
+    // fuelCost +
+    // bodyFare;
     setValue("total_expense", total);
   }, [
     driverCommision,
@@ -109,8 +108,8 @@ const AddTripForm = () => {
     policeCost,
     chadaCost,
     // foodCost,
-    fuelCost,
-    bodyFare,
+    // fuelCost,
+    // bodyFare,
     setValue,
   ]);
   // calculate Total Expense of honda
@@ -128,7 +127,6 @@ const AddTripForm = () => {
 
   const onSubmit = async (data) => {
     const refId = generateRefId();
-    console.log("trid data => ", data);
     try {
       // --- First API: Trip Create ---
       const tripFormData = new FormData();

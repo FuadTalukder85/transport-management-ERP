@@ -52,7 +52,7 @@ const YamahaLedger = () => {
   if (loading) return <p className="text-center mt-16">Loading Yamaha...</p>;
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
-      <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
+      <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-gradient-to-br from-gray-100 to-white">
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             Yamaha Ledger
@@ -158,8 +158,8 @@ const YamahaLedger = () => {
                 const totalBillAmount = body - billAmount + fuel;
                 // Receive amount
                 const received = parseFloat(dt.bill_amount || 0);
-                // update balance 
-                runningBalance +=totalBillAmount;
+                // update balance
+                runningBalance += totalBillAmount;
                 runningBalance -= received;
                 return (
                   <tr key={index} lassName="hover:bg-gray-50 transition-all">
@@ -195,8 +195,12 @@ const YamahaLedger = () => {
                     <td className="border border-gray-700 p-1">
                       {totalBillAmount}
                     </td>
-                    <td className="border border-gray-700 p-1">{dt.bill_amount}</td>
-                    <td className="border border-gray-700 p-1">{runningBalance.toFixed(2)}</td>
+                    <td className="border border-gray-700 p-1">
+                      {dt.bill_amount}
+                    </td>
+                    <td className="border border-gray-700 p-1">
+                      {runningBalance.toFixed(2)}
+                    </td>
                   </tr>
                 );
               })}
