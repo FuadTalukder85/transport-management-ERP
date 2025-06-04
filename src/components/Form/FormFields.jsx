@@ -97,7 +97,7 @@ export const SelectField = ({
               }
             }}
             options={options}
-            placeholder={placeholder || `${label}...`}
+            placeholder={placeholder || `Select ${label}`}
             className="text-sm hide-scrollbar"
             classNamePrefix="react-select"
             isClearable

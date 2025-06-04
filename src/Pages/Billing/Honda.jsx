@@ -171,11 +171,6 @@ const Honda = () => {
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
-            <div className="mt-3 md:mt-0 flex gap-2">
-              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
-                <FaFilter /> Filter
-              </button>
-            </div>
           </div>
         )}
         <div className="mt-5 overflow-x-auto">

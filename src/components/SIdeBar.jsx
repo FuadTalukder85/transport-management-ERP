@@ -129,25 +129,6 @@ const Sidebar = () => {
                           <span>Vehicle List</span>
                         </Link>
                       </li>
-                      {/* <li>
-                        <Link
-                          to="/tramessy/DriverList"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/DriverList")
-                              ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/DriverList")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Driver List</span>
-                        </Link>
-                      </li> */}
                       <li>
                         <Link
                           to="/tramessy/TripList"
@@ -380,24 +361,57 @@ const Sidebar = () => {
                             <li>
                               <Link
                                 to="/tramessy/HR/HRM/employee-list"
-                                className={`block p-2 rounded-sm ${
+                                className={`flex gap-2 items-center block p-2 rounded-sm ${
                                   isActive("/tramessy/HR/HRM/employee-list")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
+                                <div
+                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                    isActive("/tramessy/HR/HRM/employee-list")
+                                      ? "bg-white"
+                                      : "bg-primary"
+                                  }`}
+                                ></div>
                                 Employee List
                               </Link>
                             </li>
                             <li>
                               <Link
+                                to="/tramessy/DriverList"
+                                className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                                  isActive("/tramessy/DriverList")
+                                    ? "text-white bg-primary"
+                                    : "text-gray-500 hover:text-primary"
+                                }`}
+                              >
+                                <div
+                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                    isActive("/tramessy/DriverList")
+                                      ? "bg-white"
+                                      : "bg-primary"
+                                  }`}
+                                ></div>
+                                <span>Driver List</span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
                                 to="/tramessy/HR/HRM/Office"
-                                className={`block p-2 rounded-sm ${
+                                className={`flex gap-2 items-center p-2 rounded-sm ${
                                   isActive("/tramessy/HR/HRM/Office")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
+                                <div
+                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                    isActive("/tramessy/HR/HRM/Office")
+                                      ? "bg-white"
+                                      : "bg-primary"
+                                  }`}
+                                ></div>
                                 Office
                               </Link>
                             </li>
@@ -552,12 +566,23 @@ const Sidebar = () => {
                             <li>
                               <Link
                                 to="/tramessy/HRM/Payroll/Advance-Salary"
-                                className={`block p-2 rounded-sm ${
-                                  isActive("/HRM/Payroll/Advance-Salary")
+                                className={`flex items-center gap-2 p-2 rounded-sm ${
+                                  isActive(
+                                    "/tramessy/HRM/Payroll/Advance-Salary"
+                                  )
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
+                                <div
+                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                    isActive(
+                                      "/tramessy/HRM/Payroll/Advance-Salary"
+                                    )
+                                      ? "bg-white"
+                                      : "bg-primary"
+                                  }`}
+                                ></div>
                                 Salary Advance
                               </Link>
                             </li>

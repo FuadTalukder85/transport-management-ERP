@@ -182,39 +182,7 @@ const DailyIncome = () => {
             </button>
           </div>
         </div>
-        {/* Conditional Filter Section */}
-        {showFilter && (
-          <div className="md:flex gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
-            <div className="relative w-64">
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                placeholder="Start date"
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-            </div>
 
-            <div className="relative w-64">
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                placeholder="End date"
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-            </div>
-
-            <div className="mt-3 md:mt-0 flex gap-2">
-              <button
-                onClick={() => setCurrentPage(1)}
-                className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
-              >
-                <FaFilter /> Filter
-              </button>
-            </div>
-          </div>
-        )}
         {/* Export & Search */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
@@ -260,6 +228,30 @@ const DailyIncome = () => {
             />
           </div>
         </div>
+        {/* Conditional Filter Section */}
+        {showFilter && (
+          <div className="md:flex gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
+            <div className="relative w-full">
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                placeholder="Start date"
+                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+              />
+            </div>
+
+            <div className="relative w-full">
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                placeholder="End date"
+                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+              />
+            </div>
+          </div>
+        )}
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">

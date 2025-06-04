@@ -7,7 +7,7 @@ import SuzukiLedger from "./SuzukiLedger";
 import HondaLedger from "./HondaLedger";
 
 const CustomerLedger = () => {
-  const [selectedCustomer, setSelectedCustomer] = useState("");
+  const [selectedCustomer, setSelectedCustomer] = useState("Yamaha");
   return (
     <main className="bg-gradient-to-br from-gray-100 to-white md:p-2 overflow-hidden">
       <Toaster />
