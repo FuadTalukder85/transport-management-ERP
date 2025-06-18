@@ -1,4 +1,3 @@
-import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaEye, FaPen, FaPlus, FaUserSecret } from "react-icons/fa6";
 import { Link } from "react-router-dom";

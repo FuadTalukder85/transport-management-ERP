@@ -463,12 +463,25 @@ const Sidebar = () => {
                               <Link
                                 to="/tramessy/HR/Attendance/AttendanceList"
                                 className={`block p-2 rounded-sm ${
-                                  isActive("/HR/Attendance/AttendanceList")
+                                  isActive(
+                                    "/tramessy/HR/Attendance/AttendanceList"
+                                  )
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
-                                Attendance
+                                <span className="flex gap-2 items-center">
+                                  <div
+                                    className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                      isActive(
+                                        "/tramessy/HR/Attendance/AttendanceList"
+                                      )
+                                        ? "bg-white"
+                                        : "bg-primary"
+                                    }`}
+                                  ></div>
+                                  <span>Attendanceee</span>
+                                </span>
                               </Link>
                             </li>
 
@@ -502,27 +515,44 @@ const Sidebar = () => {
                           onClick={() => toggleMenu("leave")}
                           className="p-2 cursor-pointer hover:text-primary rounded-sm"
                         >
-                          <span className="">
-                            <li>
-                              <Link
-                                to="/tramessy/HR/HRM/Leave"
-                                className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                          <li>
+                            <Link
+                              to="/tramessy/HR/HRM/Leave"
+                              className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                                isActive("/tramessy/HR/HRM/Leave")
+                                  ? "text-white bg-primary"
+                                  : "text-gray-500 hover:text-primary"
+                              }`}
+                            >
+                              <div
+                                className={`w-[6px] h-[6px] rounded-full bg-primary ${
                                   isActive("/tramessy/HR/HRM/Leave")
-                                    ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    ? "bg-white"
+                                    : "bg-primary"
                                 }`}
-                              >
-                                <div
-                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive("/tramessy/HR/HRM/Leave")
-                                      ? "bg-white"
-                                      : "bg-primary"
-                                  }`}
-                                ></div>
-                                <span>Leave Request</span>
-                              </Link>
-                            </li>
-                          </span>
+                              ></div>
+                              <span>Leave Request</span>
+                            </Link>
+                          </li>
+                          {/* <li>
+                            <Link
+                              to="/tramessy/HR/HRM/MonthAttendance"
+                              className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                                isActive("/tramessy/HR/HRM/MonthAttendance")
+                                  ? "text-white bg-primary"
+                                  : "text-gray-500 hover:text-primary"
+                              }`}
+                            >
+                              <div
+                                className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                  isActive("/tramessy/HR/HRM/MonthAttendance")
+                                    ? "bg-white"
+                                    : "bg-primary"
+                                }`}
+                              ></div>
+                              <span>Month Attendance</span>
+                            </Link>
+                          </li> */}
                         </div>
                       </li>
                     </ul>
