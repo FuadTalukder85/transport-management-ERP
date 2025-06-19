@@ -480,7 +480,7 @@ const Sidebar = () => {
                                         : "bg-primary"
                                     }`}
                                   ></div>
-                                  <span>Attendanceee</span>
+                                  <span>Attendance</span>
                                 </span>
                               </Link>
                             </li>
@@ -1088,7 +1088,7 @@ const Sidebar = () => {
                     </span>
                     <span
                       className={`transform transition-transform duration-900 ${
-                        openMenu.billing ? "rotate-180" : ""
+                        openMenu.accounts ? "rotate-180" : ""
                       }`}
                     >
                       <FaChevronDown />

@@ -1,120 +1,177 @@
-import React, { useEffect, useRef, useState } from "react";
-import BtnSubmit from "../../../components/Button/BtnSubmit";
-import { FormProvider, useForm } from "react-hook-form";
-import { InputField, SelectField } from "../../../components/Form/FormFields";
-import { FiCalendar } from "react-icons/fi";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
-import useRefId from "../../../hooks/useRef";
+import { useEffect, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 
 const AttendanceForm = () => {
-  const methods = useForm();
-  const { handleSubmit, reset, register } = methods;
-  const dateRef = useRef(null);
-  // select Vehicle No. from api
   const [employee, setEmployee] = useState([]);
+  const [currentDate, setCurrentDate] = useState("");
+  const [attendance, setAttendance] = useState({});
+
+  // Set today's date & load employee list
   useEffect(() => {
+    const today = new Date();
+    const formattedDate = today.toISOString().split("T")[0];
+    setCurrentDate(formattedDate);
+
     fetch("https://api.dropshep.com/mstrading/api/employee/list")
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => setEmployee(data.data))
-      .catch((error) => console.error("Error fetching employee data:", error));
+      .catch((err) => console.error("Error loading employees:", err));
   }, []);
 
-  const employeeOptions = employee.map((dt) => ({
-    value: dt.full_name,
-    label: dt.full_name,
-  }));
-  // post data on server
-  const generateRefId = useRefId();
-  const onSubmit = async (data) => {
-    const refId = generateRefId();
+  // Handle checkbox toggle
+  const handleSelect = (id, type) => {
+    setAttendance((prev) => ({
+      ...prev,
+      [id]: prev[id] === type ? null : type,
+    }));
+  };
+
+  // Submit handler
+  const handleSubmit = async () => {
+    toast.loading("Submitting attendance...", {
+      id: "attendance",
+      position: "top-right",
+    });
+
     try {
-      const formData = new FormData();
-      formData.append("ref_id", refId);
-      for (const key in data) {
-        formData.append(key, data[key]);
-      }
-      const response = await axios.post(
-        "https://api.dropshep.com/mstrading/api/attendance/create",
-        formData
+      const existingRes = await fetch(
+        "https://api.dropshep.com/mstrading/api/attendance/list"
       );
-      const resData = response.data;
-      console.log("resData", resData);
-      if (resData.status === "Success") {
-        toast.success("Attendance saved successfully!", {
+      const existingData = await existingRes.json();
+
+      const alreadySubmittedIds = existingData.data
+        .filter((item) => item.date === currentDate)
+        .map((item) => String(item.employee_id));
+
+      let submittedCount = 0;
+
+      for (const empId of Object.keys(attendance)) {
+        const status = attendance[empId];
+
+        if (!status) continue;
+
+        if (alreadySubmittedIds.includes(empId)) {
+          toast.error(`Attendance already submitted for ID: ${empId}`, {
+            position: "top-right",
+          });
+          continue;
+        }
+
+        const payload = {
+          employee_id: empId,
+          date: currentDate,
+          present: status === "present" ? "1" : "0",
+          absent: status === "absent" ? "1" : "0",
+        };
+
+        const res = await fetch(
+          "https://api.dropshep.com/mstrading/api/attendance/create",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }
+        );
+
+        const result = await res.json();
+
+        if (result.status === "Success") {
+          submittedCount++;
+        } else {
+          toast.error(`Failed for ID: ${empId}`);
+        }
+      }
+
+      if (submittedCount > 0) {
+        toast.success("Attendance submitted successfully!", {
+          id: "attendance",
           position: "top-right",
         });
-        reset();
       } else {
-        toast.error("Server Error: " + (resData.message || "Unknown issue"));
+        toast.dismiss("attendance");
       }
     } catch (error) {
       console.error(error);
-      const errorMessage =
-        error.response?.data?.message || error.message || "Unknown error";
-      toast.error("Server Error: " + errorMessage);
+      toast.error("Something went wrong", {
+        id: "attendance",
+        position: "top-right",
+      });
     }
   };
-  return (
-    <div className="mt-10">
-      <Toaster />
-      <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        Attendance Form
-      </h3>
-      <FormProvider {...methods} className="">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-3 mx-auto bg-gray-100 rounded-md shadow"
-        >
-          {/* Trip & Destination Section */}
-          <div className="border border-gray-300 p-3 md:p-5 rounded-b-md">
-            <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-              <div className="w-full">
-                <SelectField
-                  name="name"
-                  label="Name"
-                  required={true}
-                  options={employeeOptions}
-                  // control={control}
-                />
-              </div>
-              <div className="w-full">
-                <InputField
-                  name="date"
-                  label="Date"
-                  type="date"
-                  required
-                  inputRef={(e) => {
-                    register("date").ref(e);
-                    dateRef.current = e;
-                  }}
-                  icon={
-                    <span
-                      className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r"
-                      onClick={() => dateRef.current?.showPicker?.()}
-                    >
-                      <FiCalendar className="text-white cursor-pointer" />
-                    </span>
-                  }
-                />
-              </div>
-            </div>
-            <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
-              <div className="w-full">
-                <InputField name="check_in" label="Check In" required />
-              </div>
-              <div className="w-full">
-                <InputField name="check_out" label="Check Out" required />
-              </div>
-            </div>
-          </div>
 
-          {/* Submit Button */}
-          <div className="text-left p-5">
-            <BtnSubmit>Submit</BtnSubmit>
-          </div>
-        </form>
-      </FormProvider>
+  return (
+    <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
+      <Toaster />
+      <div className="md:flex items-center justify-between mb-6">
+        <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
+          Attendance Form
+        </h1>
+        <div className="relative">
+          <label className="block mb-1 text-sm font-medium">Date</label>
+          <input
+            type="date"
+            value={currentDate}
+            onChange={(e) => setCurrentDate(e.target.value)}
+            className="text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+          />
+        </div>
+      </div>
+
+      <div className="mt-5 overflow-x-auto">
+        <table className="min-w-full text-sm text-left text-gray-900">
+          <thead className="capitalize text-sm">
+            <tr>
+              <th className="border border-gray-700 px-2 py-1">SL.</th>
+              <th className="border border-gray-700 px-2 py-1">
+                Employee Name & Id
+              </th>
+              <th className="border border-gray-700 px-2 py-1 text-center">
+                Present
+              </th>
+              <th className="border border-gray-700 px-2 py-1 text-center">
+                Absent
+              </th>
+            </tr>
+          </thead>
+          <tbody className="font-semibold">
+            {employee.map((emp, index) => (
+              <tr key={emp.id} className="hover:bg-gray-50 transition-all">
+                <td className="border border-gray-700 p-1 font-bold">
+                  {index + 1}.
+                </td>
+                <td className="border border-gray-700 p-1">
+                  {emp.full_name} - {emp.id}
+                </td>
+                <td className="border border-gray-700 p-1 text-center">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4"
+                    checked={attendance[emp.id] === "present"}
+                    onChange={() => handleSelect(String(emp.id), "present")}
+                  />
+                </td>
+                <td className="border border-gray-700 p-1 text-center">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4"
+                    checked={attendance[emp.id] === "absent"}
+                    onChange={() => handleSelect(String(emp.id), "absent")}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="flex justify-end mt-5">
+          <button
+            onClick={handleSubmit}
+            className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 cursor-pointer"
+          >
+            Save Change
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
