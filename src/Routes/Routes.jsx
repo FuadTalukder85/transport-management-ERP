@@ -19,7 +19,6 @@ import AddUserForm from "../Pages/AddUserForm";
 import Login from "../components/Form/Login";
 import ResetPass from "../components/Form/ResetPass";
 import PrivateRoute from "./PrivateRoute";
-import UpdateCarForm from "../Pages/updateForm/UpdateCarForm";
 import UpdateTripForm from "../Pages/updateForm/UpdateTripForm";
 import UpdateFuelForm from "../Pages/updateForm/UpdateFuelForm";
 import UpdatePartsForm from "../Pages/updateForm/UpdatePartsForm";
@@ -77,6 +76,7 @@ import PaymentReceiveForm from "../Pages/Account/PaymentReceiveForm";
 import PaymentReceive from "../Pages/Account/PaymentReceive";
 import DriverLedger from "../Pages/Account/DriverLedger";
 import HatimPubail from "../Pages/Billing/HatimPubail";
+import UpdateCarForm from "../Pages/UpdateCarForm";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -114,7 +114,9 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://api.dropshep.com/api/vehicle/${params.id}`),
+          fetch(
+            `https://api.dropshep.com/mstrading/api/vehicle/show/${params.id}`
+          ),
       },
       {
         path: "/tramessy/DriverList",

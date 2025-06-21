@@ -144,45 +144,45 @@ const AddTripForm = () => {
         toast.success("Trip added successfully", {
           position: "top-right",
         });
-        // if (selectedTransport !== "vendor_transport") {
-        // --- Second API: Branch Create (only specific field) ---
-        const branchFormData = new FormData();
-        branchFormData.append("trip_expense", data.total_expense);
-        branchFormData.append("date", data.date);
-        branchFormData.append("destination", data.unload_point);
-        branchFormData.append("customer", data.customer);
-        // branchFormData.append("remarks", data.remarks);
-        // branchFormData.append("due", data.due_amount);
-        branchFormData.append("ref_id", refId);
-        await axios.post(
-          "https://api.dropshep.com/mstrading/api/branch/create",
-          branchFormData
-        );
+        if (selectedTransport !== "vendor_transport") {
+          // --- Second API: Branch Create (only specific field) ---
+          const branchFormData = new FormData();
+          branchFormData.append("trip_expense", data.total_expense);
+          branchFormData.append("date", data.date);
+          branchFormData.append("destination", data.unload_point);
+          branchFormData.append("customer", data.customer);
+          // branchFormData.append("remarks", data.remarks);
+          // branchFormData.append("due", data.due_amount);
+          branchFormData.append("ref_id", refId);
+          await axios.post(
+            "https://api.dropshep.com/mstrading/api/branch/create",
+            branchFormData
+          );
 
-        // --- Third API: Driver ledger Create (only specific field) ---
-        const driverLedgerFormData = new FormData();
-        driverLedgerFormData.append("date", data.date);
-        driverLedgerFormData.append("driver_name", data.driver_name);
-        driverLedgerFormData.append("load_point", data.load_point);
-        driverLedgerFormData.append("unload_point", data.unload_point);
-        driverLedgerFormData.append("commission", data.driver_commission);
-        driverLedgerFormData.append("trip_rent", data.total_rent);
-        driverLedgerFormData.append("advanced", data.driver_adv);
-        driverLedgerFormData.append("parking_cost", data.parking_cost);
-        driverLedgerFormData.append("night_guard", data.night_guard);
-        driverLedgerFormData.append("toll_cost", data.toll_cost);
-        driverLedgerFormData.append("feri_cost", data.feri_cost);
-        driverLedgerFormData.append("police_cost", data.police_cost);
-        driverLedgerFormData.append("chada", data.chada);
-        driverLedgerFormData.append("labor", data.labour_cost);
-        driverLedgerFormData.append("total_exp", data.toll_cost);
-        driverLedgerFormData.append("due_amount", data.due_amount);
-        driverLedgerFormData.append("ref_id", refId);
-        await axios.post(
-          "https://api.dropshep.com/mstrading/api/driverLedger/create",
-          driverLedgerFormData
-        );
-        // }
+          // --- Third API: Driver ledger Create (only specific field) ---
+          const driverLedgerFormData = new FormData();
+          driverLedgerFormData.append("date", data.date);
+          driverLedgerFormData.append("driver_name", data.driver_name);
+          driverLedgerFormData.append("load_point", data.load_point);
+          driverLedgerFormData.append("unload_point", data.unload_point);
+          driverLedgerFormData.append("commission", data.driver_commission);
+          driverLedgerFormData.append("trip_rent", data.total_rent);
+          driverLedgerFormData.append("advanced", data.driver_adv);
+          driverLedgerFormData.append("parking_cost", data.parking_cost);
+          driverLedgerFormData.append("night_guard", data.night_guard);
+          driverLedgerFormData.append("toll_cost", data.toll_cost);
+          driverLedgerFormData.append("feri_cost", data.feri_cost);
+          driverLedgerFormData.append("police_cost", data.police_cost);
+          driverLedgerFormData.append("chada", data.chada);
+          driverLedgerFormData.append("labor", data.labour_cost);
+          driverLedgerFormData.append("total_exp", data.toll_cost);
+          driverLedgerFormData.append("due_amount", data.due_amount);
+          driverLedgerFormData.append("ref_id", refId);
+          await axios.post(
+            "https://api.dropshep.com/mstrading/api/driverLedger/create",
+            driverLedgerFormData
+          );
+        }
 
         // Reset form if both succeed
         reset();

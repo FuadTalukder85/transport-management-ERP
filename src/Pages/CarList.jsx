@@ -15,8 +15,8 @@ const CarList = () => {
   const [vehicles, setVehicle] = useState([]);
   const [loading, setLoading] = useState(true);
   // get single car info by id
-  const [viewModalOpen, setViewModalOpen] = useState(false);
-  const [selectedCar, setselectedCar] = useState(null);
+  // const [viewModalOpen, setViewModalOpen] = useState(false);
+  // const [selectedCar, setselectedCar] = useState(null);
   // delete modal
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDriverId, setSelectedDriverId] = useState(null);
@@ -74,13 +74,13 @@ const CarList = () => {
   // export functionality
   const headers = [
     { label: "#", key: "index" },
-    { label: "নাম", key: "driver_name" },
-    { label: "গাড়ি", key: "vehicle_name" },
-    { label: "ধরন", key: "category" },
-    { label: "গাড়ির সাইজ", key: "size" },
-    { label: "এলাকা", key: "registration_zone" },
-    { label: "ট্রিপ", key: "0" },
-    { label: "রেজিস্ট্রেশন নাম্বার", key: "registration_number" },
+    { label: "Name", key: "driver_name" },
+    { label: "Vehicle", key: "vehicle_name" },
+    { label: "Catrgory", key: "category" },
+    { label: "Size", key: "size" },
+    { label: "Area", key: "registration_zone" },
+    { label: "Trip", key: "0" },
+    { label: "Registration No", key: "registration_number" },
     // { label: "স্ট্যাটাস", key: "Active" },
   ];
 
@@ -169,22 +169,22 @@ const CarList = () => {
   };
   console.log(vehicles);
   // view car by id
-  const handleViewCar = async (id) => {
-    try {
-      const response = await axios.get(
-        `https://api.dropshep.com/api/vehicle/${id}`
-      );
-      if (response.data.status === "success") {
-        setselectedCar(response.data.data);
-        setViewModalOpen(true);
-      } else {
-        toast.error("ড্রাইভারের তথ্য লোড করা যায়নি");
-      }
-    } catch (error) {
-      console.error("View error:", error);
-      toast.error("ড্রাইভারের তথ্য আনতে সমস্যা হয়েছে");
-    }
-  };
+  // const handleViewCar = async (id) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://api.dropshep.com/api/vehicle/${id}`
+  //     );
+  //     if (response.data.status === "success") {
+  //       setselectedCar(response.data.data);
+  //       setViewModalOpen(true);
+  //     } else {
+  //       toast.error("ড্রাইভারের তথ্য লোড করা যায়নি");
+  //     }
+  //   } catch (error) {
+  //     console.error("View error:", error);
+  //     toast.error("ড্রাইভারের তথ্য আনতে সমস্যা হয়েছে");
+  //   }
+  // };
   // search
   const filteredCarList = vehicles.filter((vehicle) => {
     const term = searchTerm.toLowerCase();
@@ -324,17 +324,17 @@ const CarList = () => {
                   </td>
                   <td className="px-2 py-4 action_column">
                     <div className="flex gap-1">
-                      <Link to={`/UpdateCarForm/${vehicle.id}`}>
+                      <Link to={`/tramessy/UpdateCarForm/${vehicle.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
-                      <button
+                      {/* <button
                         onClick={() => handleViewCar(vehicle.id)}
                         className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
                       >
                         <FaEye className="text-[12px]" />
-                      </button>
+                      </button> */}
                       <button
                         onClick={() => {
                           setSelectedDriverId(vehicle.id);
@@ -426,7 +426,7 @@ const CarList = () => {
         )}
       </div>
       {/* get car information by id */}
-      {viewModalOpen && selectedCar && (
+      {/* {viewModalOpen && selectedCar && (
         <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-[#000000ad] z-50">
           <div className="w-4xl p-5 bg-gray-100 rounded-xl mt-10">
             <h3 className="text-primary font-semibold">গাড়ির নাম</h3>
@@ -497,7 +497,7 @@ const CarList = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </main>
   );
 };

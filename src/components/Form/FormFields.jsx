@@ -66,6 +66,7 @@ export const SelectField = ({
   options,
   control,
   placeholder,
+  defaultValue,
   onSelectChange,
 }) => {
   const {
@@ -98,6 +99,7 @@ export const SelectField = ({
             }}
             options={options}
             placeholder={placeholder || `Select ${label}`}
+            defaultValue={defaultValue}
             className="text-sm hide-scrollbar"
             classNamePrefix="react-select"
             isClearable
