@@ -57,7 +57,7 @@ const UpdateCarForm = () => {
     label: driver.driver_name,
   }));
 
-  // post vehicle
+  // update vehicle
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(

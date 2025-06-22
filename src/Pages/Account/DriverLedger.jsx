@@ -71,7 +71,7 @@ const DriverLedger = () => {
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold text-[#11375B] capitalize flex items-center gap-3">
-            Driver ledger
+            Driver ledger : {selectedDriver}
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2"></div>
         </div>

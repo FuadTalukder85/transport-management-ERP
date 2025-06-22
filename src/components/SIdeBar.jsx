@@ -1084,7 +1084,7 @@ const Sidebar = () => {
                   >
                     <span className="flex items-center gap-2">
                       <FaBriefcase />
-                      <span>Account</span>
+                      <span>Accounts</span>
                     </span>
                     <span
                       className={`transform transition-transform duration-900 ${

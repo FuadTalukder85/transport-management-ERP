@@ -69,7 +69,7 @@ const Customer = () => {
                   <td className="px-2 py-4">{dt.status}</td>
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
-                      <Link>
+                      <Link to={`/tramessy/UpdateCustomerForm/${dt.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>

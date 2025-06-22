@@ -15,8 +15,8 @@ const CarList = () => {
   const [vehicles, setVehicle] = useState([]);
   const [loading, setLoading] = useState(true);
   // get single car info by id
-  // const [viewModalOpen, setViewModalOpen] = useState(false);
-  // const [selectedCar, setselectedCar] = useState(null);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [selectedCar, setselectedCar] = useState(null);
   // delete modal
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDriverId, setSelectedDriverId] = useState(null);
@@ -169,22 +169,22 @@ const CarList = () => {
   };
   console.log(vehicles);
   // view car by id
-  // const handleViewCar = async (id) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://api.dropshep.com/api/vehicle/${id}`
-  //     );
-  //     if (response.data.status === "success") {
-  //       setselectedCar(response.data.data);
-  //       setViewModalOpen(true);
-  //     } else {
-  //       toast.error("ড্রাইভারের তথ্য লোড করা যায়নি");
-  //     }
-  //   } catch (error) {
-  //     console.error("View error:", error);
-  //     toast.error("ড্রাইভারের তথ্য আনতে সমস্যা হয়েছে");
-  //   }
-  // };
+  const handleViewCar = async (id) => {
+    try {
+      const response = await axios.get(
+        `https://api.dropshep.com/mstrading/api/vehicle/show/${id}`
+      );
+      if (response.data.status === "Success") {
+        setselectedCar(response.data.data);
+        setViewModalOpen(true);
+      } else {
+        toast.error("Vehicle information could not be loaded.");
+      }
+    } catch (error) {
+      console.error("View error:", error);
+      toast.error("Vehicle information could not be loaded.");
+    }
+  };
   // search
   const filteredCarList = vehicles.filter((vehicle) => {
     const term = searchTerm.toLowerCase();
@@ -329,12 +329,12 @@ const CarList = () => {
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
-                      {/* <button
+                      <button
                         onClick={() => handleViewCar(vehicle.id)}
                         className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
                       >
                         <FaEye className="text-[12px]" />
-                      </button> */}
+                      </button>
                       <button
                         onClick={() => {
                           setSelectedDriverId(vehicle.id);
@@ -426,64 +426,69 @@ const CarList = () => {
         )}
       </div>
       {/* get car information by id */}
-      {/* {viewModalOpen && selectedCar && (
+      {viewModalOpen && selectedCar && (
         <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-[#000000ad] z-50">
           <div className="w-4xl p-5 bg-gray-100 rounded-xl mt-10">
-            <h3 className="text-primary font-semibold">গাড়ির নাম</h3>
+            <h3 className="text-primary font-semibold">Vehicle Information</h3>
             <div className="mt-5">
               <ul className="flex border border-gray-300">
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">ড্রাইভারের নাম</p>{" "}
+                  <p className="w-48">Driver Name</p>{" "}
                   <p>{selectedCar.driver_name}</p>
                 </li>
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
-                  <p className="w-48">গাড়ির নাম</p>{" "}
+                  <p className="w-48">Vehicle Name</p>{" "}
                   <p>{selectedCar.vehicle_name}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">গাড়ির ধরন</p>{" "}
-                  <p>{selectedCar.category}</p>
+                  <p className="w-48">Vehicle Category</p>{" "}
+                  <p>{selectedCar.vehicle_category}</p>
                 </li>
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
-                  <p className="w-48">গাড়ির সাইজ</p> <p>{selectedCar.size}</p>
+                  <p className="w-48">Vehicle Size</p>{" "}
+                  <p>{selectedCar.vehicle_size}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">রেজিস্ট্রেশন নাম্বার</p>{" "}
+                  <p className="w-48">Registration Number</p>{" "}
                   <p>{selectedCar.registration_number}</p>
                 </li>
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
-                  <p className="w-48">রেজিস্ট্রেশন সিরিয়াল</p>{" "}
+                  <p className="w-48">Registration Serial</p>{" "}
                   <p>{selectedCar.registration_serial}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">রেজিস্ট্রেশন এলাকা</p>{" "}
+                  <p className="w-48">Registration Area</p>{" "}
                   <p>{selectedCar.registration_zone}</p>
                 </li>
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
-                  <p className="w-48">রেজিস্ট্রেশন তারিখ</p>{" "}
+                  <p className="w-48">Registration Date</p>{" "}
                   <p>{selectedCar.registration_date}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">ট্যাক্স মেয়াদোত্তীর্ণ তারিখ</p>{" "}
+                  <p className="w-48">Tax Expiry Date</p>{" "}
                   <p>{selectedCar.text_date || "N/A"}</p>
                 </li>
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
-                  <p className="w-48">রোড পারমিট তারিখ</p>{" "}
+                  <p className="w-48">Road Permit Date</p>{" "}
                   <p>{selectedCar.road_permit_date}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
                 <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">ফিটনেসর মেয়াদোত্তীর্ণ তারিখ</p>{" "}
+                  <p className="w-48">Fitness Expiry Date</p>{" "}
                   <p>{selectedCar.fitness_date}</p>
+                </li>
+                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                  <p className="w-48">Insurance Expiry Date</p>{" "}
+                  <p>{selectedCar.insurance_date}</p>
                 </li>
               </ul>
               <div className="flex justify-end mt-10">
@@ -491,13 +496,13 @@ const CarList = () => {
                   onClick={() => setViewModalOpen(false)}
                   className="text-white bg-primary py-1 px-2 rounded-md cursor-pointer hover:bg-secondary"
                 >
-                  বন্ধ করুন
+                  Close
                 </button>
               </div>
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </main>
   );
 };
