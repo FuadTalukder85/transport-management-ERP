@@ -2,12 +2,16 @@ import { Toaster } from "react-hot-toast";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { FaFilter } from "react-icons/fa6";
 
 const OfficeLedger = () => {
   let openingBalance = 2000;
   let currentBalance = openingBalance;
   const [branch, setbranch] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showFilter, setShowFilter] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [selectedBranch, setselectedBranch] = useState("");
   useEffect(() => {
     axios
@@ -26,7 +30,6 @@ const OfficeLedger = () => {
       });
   }, []);
   const [officeList, setOfficeList] = useState([]);
-
   useEffect(() => {
     axios
       .get("https://api.dropshep.com/mstrading/api/office/list")
@@ -46,9 +49,28 @@ const OfficeLedger = () => {
 
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
   // Filtered data based on selected customer
-  const filteredBranch = selectedBranch
-    ? branch.filter((item) => item.branch_name === selectedBranch)
-    : branch;
+  const filteredBranch = branch.filter((item) => {
+    const isBranchMatch = selectedBranch
+      ? item.branch_name === selectedBranch
+      : true;
+
+    if (!isBranchMatch) return false;
+
+    const itemDate = new Date(item.date);
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
+
+    if (start && end) {
+      return itemDate >= start && itemDate <= end;
+    } else if (start) {
+      return itemDate >= start;
+    } else if (end) {
+      return itemDate <= end;
+    }
+
+    return true;
+  });
+
   return (
     <main className="bg-gradient-to-br from-gray-100 to-white md:p-2 overflow-hidden">
       <Toaster />
@@ -58,7 +80,14 @@ const OfficeLedger = () => {
           <h1 className="text-xl font-bold text-[#11375B] capitalize flex items-center gap-3">
             OFFICE ledger : {selectedBranch}
           </h1>
-          <div className="mt-3 md:mt-0 flex gap-2"></div>
+          <div className="mt-3 md:mt-0 flex gap-2">
+            <button
+              onClick={() => setShowFilter((prev) => !prev)}
+              className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+            >
+              <FaFilter /> Filter
+            </button>
+          </div>
         </div>
 
         {/* Export */}
@@ -101,7 +130,27 @@ const OfficeLedger = () => {
             </div>
           </div>
         </div>
-
+        {/* Conditional Filter Section */}
+        {showFilter && (
+          <div className="md:flex gap-6 justify-between border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
+            <div className="relative w-full">
+              <input
+                onChange={(e) => setStartDate(e.target.value)}
+                type="date"
+                placeholder="Start date"
+                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+              />
+            </div>
+            <div className="relative w-full">
+              <input
+                onChange={(e) => setEndDate(e.target.value)}
+                type="date"
+                placeholder="End date"
+                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+              />
+            </div>
+          </div>
+        )}
         {/* Table */}
         <div className="w-full mt-5 overflow-x-auto border border-gray-200">
           <table className="w-full text-sm text-left">

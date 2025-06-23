@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
-import { MdOutlineArrowDropDown } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { FiCalendar } from "react-icons/fi";
 import axios from "axios";
@@ -14,7 +13,6 @@ const AddDriverForm = () => {
   const { handleSubmit, register, reset, control } = methods;
   const [previewImage, setPreviewImage] = useState(null);
   const driverDateRef = useRef(null);
-  // todo driver employee te niye jete hobe
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();

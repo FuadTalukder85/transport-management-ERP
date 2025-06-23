@@ -77,9 +77,9 @@ const CarList = () => {
   const handleView = async (id) => {
     try {
       const response = await axios.get(
-        `https://api.dropshep.com/api/driver/${id}`
+        `https://api.dropshep.com/mstrading/api/driver/show/${id}`
       );
-      if (response.data.status === "success") {
+      if (response.data.status === "Success") {
         setSelectedDriver(response.data.data);
         setViewModalOpen(true);
       } else {
@@ -92,24 +92,24 @@ const CarList = () => {
   };
   // export functionality
   const driverHeaders = [
-    { label: "#", key: "index" },
-    { label: "নাম", key: "name" },
-    { label: "মোবাইল", key: "contact" },
-    { label: "ঠিকানা", key: "address" },
-    { label: "জরুরি যোগাযোগ", key: "emergency_contact" },
-    { label: "লাইসেন্স", key: "license" },
-    { label: "লা.মেয়াদোত্তীর্ণ", key: "expire_date" },
-    { label: "স্ট্যাটাস", key: "status" },
+    { label: "SL.", key: "index" },
+    { label: "Name", key: "name" },
+    { label: "Mobile", key: "contact" },
+    { label: "Address", key: "address" },
+    { label: "Emergency Contact", key: "emergency_contact" },
+    { label: "License", key: "license" },
+    { label: "License Expire Date", key: "expire_date" },
+    { label: "Status", key: "status" },
   ];
 
   const driverCsvData = drivers?.map((driver, index) => ({
     index: index + 1,
-    name: driver.name,
-    contact: driver.contact,
+    name: driver.driver_name,
+    contact: driver.driver_mobile,
     address: driver.address,
     emergency_contact: driver.emergency_contact,
     license: driver.license,
-    expire_date: driver.expire_date,
+    expire_date: driver.license_expire_date,
     status: driver.status,
   }));
   // excel
@@ -170,13 +170,11 @@ const CarList = () => {
   const filteredDriver = drivers.filter((driver) => {
     const term = searchTerm.toLowerCase();
     return (
-      driver.name?.toLowerCase().includes(term) ||
-      driver.contact?.toLowerCase().includes(term) ||
+      driver.driver_name?.toLowerCase().includes(term) ||
+      driver.driver_mobile?.toLowerCase().includes(term) ||
       driver.nid?.toLowerCase().includes(term) ||
       driver.emergency_contact?.toLowerCase().includes(term) ||
       driver.address?.toLowerCase().includes(term) ||
-      driver.expire_date?.toLowerCase().includes(term) ||
-      driver.note?.toLowerCase().includes(term) ||
       driver.license?.toLowerCase().includes(term) ||
       driver.status?.toLowerCase().includes(term)
     );
@@ -302,7 +300,7 @@ const CarList = () => {
                   </td>
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
-                      <Link to={`/UpdateDriverForm/${driver.id}`}>
+                      <Link to={`/tramessy/UpdateDriverForm/${driver.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
@@ -410,48 +408,51 @@ const CarList = () => {
       {viewModalOpen && selectedDriver && (
         <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-[#000000ad] z-50">
           <div className="w-4xl p-5 bg-gray-100 rounded-xl mt-10">
-            <h3 className="text-primary font-semibold">Driver Information</h3>
+            <h3 className="text-primary font-semibold text-base">
+              Driver Information
+            </h3>
             <div className="mt-5">
               <ul className="flex border border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold px-3 py-2 border-r border-gray-300">
-                  <p className="w-48">Name:</p> <p>{selectedDriver.name}</p>
+                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                  <p className="w-48">Name:</p>{" "}
+                  <p>{selectedDriver.driver_name}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold px-3 py-2">
+                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
                   <p className="w-48">Mobile:</p>{" "}
-                  <p>{selectedDriver.contact}</p>
+                  <p>{selectedDriver.driver_mobile}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Emergency Contact:</p>{" "}
                   <p>{selectedDriver.emergency_contact}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold px-3 py-2">
+                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
                   <p className="w-48">Address:</p>{" "}
                   <p>{selectedDriver.address}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">NID:</p> <p>{selectedDriver.nid}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold px-3 py-2">
+                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
                   <p className="w-48">License:</p>{" "}
                   <p>{selectedDriver.license}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">License Expiry:</p>{" "}
-                  <p>{selectedDriver.expire_date}</p>
+                  <p>{selectedDriver.license_expire_date}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold px-3 py-2">
+                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
                   <p className="w-48">Note:</p>{" "}
                   <p>{selectedDriver.note || "N/A"}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Status:</p> <p>{selectedDriver.status}</p>
                 </li>
               </ul>

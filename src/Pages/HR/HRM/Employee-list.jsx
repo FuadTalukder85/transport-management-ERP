@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaPlus, FaUserSecret } from "react-icons/fa";
+import { FaEye, FaPen, FaPlus, FaTrashAlt, FaUserSecret } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const EmployeeList = () => {
@@ -39,11 +39,12 @@ const EmployeeList = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
                 <th className="px-2 py-3">SL.</th>
+                <th className="px-2 py-3">Image</th>
                 <th className="px-2 py-3">Full Name</th>
                 <th className="px-2 py-3">Email</th>
                 <th className="px-2 py-3">Join Date</th>
@@ -52,14 +53,23 @@ const EmployeeList = () => {
                 <th className="px-2 py-3">Mobile</th>
                 <th className="px-2 py-3">Birth Date</th>
                 <th className="px-2 py-3">Address</th>
-                <th className="px-2 py-3">Image</th>
+                <th className="px-2 py-3">Status</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
               {employee?.map((dt, index) => {
                 return (
-                  <tr key={index} className="hover:bg-gray-50 transition-all">
+                  <tr
+                    key={index}
+                    className="hover:bg-gray-50 transition-all border border-gray-200"
+                  >
                     <td className="px-2 py-4 font-bold">{index + 1}</td>
+                    <td className="px-2 py-4">
+                      <img
+                        src={`https://api.dropshep.com/mstrading/public/uploads/employee/${dt.image}`}
+                        alt=""
+                      />
+                    </td>
                     <td className="px-2 py-4">{dt.full_name}</td>
                     <td className="px-2 py-4">{dt.email}</td>
                     <td className="px-2 py-4">{dt.join_date}</td>
@@ -68,7 +78,31 @@ const EmployeeList = () => {
                     <td className="px-2 py-4">{dt.mobile}</td>
                     <td className="px-2 py-4">{dt.birth_date}</td>
                     <td className="px-2 py-4">{dt.address}</td>
-                    <td className="px-2 py-4">{dt.image}</td>
+
+                    <td className="px-2 action_column">
+                      <div className="flex gap-1">
+                        <Link to={`/tramessy/UpdateDriverForm/${dt.id}`}>
+                          <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                            <FaPen className="text-[12px]" />
+                          </button>
+                        </Link>
+                        <button
+                          // onClick={() => handleView(driver.id)}
+                          className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
+                        >
+                          <FaEye className="text-[12px]" />
+                        </button>
+                        <button
+                          // onClick={() => {
+                          //   setSelectedDriverId(driver.id);
+                          //   setIsOpen(true);
+                          // }}
+                          className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer"
+                        >
+                          <FaTrashAlt className="text-[12px]" />
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 );
               })}

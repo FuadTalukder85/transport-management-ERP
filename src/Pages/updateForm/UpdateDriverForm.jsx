@@ -1,32 +1,35 @@
-import React, { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useRef, useState } from "react";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
-import { MdOutlineArrowDropDown } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { FiCalendar } from "react-icons/fi";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { useLoaderData } from "react-router-dom";
 import BtnSubmit from "../../components/Button/BtnSubmit";
+import { InputField, SelectField } from "../../components/Form/FormFields";
+import { useLoaderData } from "react-router-dom";
 
 const UpdateDriverForm = () => {
-  const { register, handleSubmit, reset, setValue } = useForm();
-  const driverDateRef = useRef(null);
+  //   update loader data
   const updateDriverLoaderData = useLoaderData();
-
   const {
     id,
-    name,
-    contact,
-    nid,
-    emergency_contact,
+    driver_name,
+    driver_mobile,
     address,
-    expire_date,
-    note,
+    emergency_contact,
+    nid,
     license,
+    license_expire_date,
+    note,
     status,
     license_image,
   } = updateDriverLoaderData.data;
+  console.log("updateDriverLoaderData", updateDriverLoaderData.data);
+  const methods = useForm({ defaultValues: { status } });
+  const { handleSubmit, register, control, setValue } = methods;
+  const driverDateRef = useRef(null);
+  //  set license image
   const [previewImage, setPreviewImage] = useState(license_image);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -36,35 +39,24 @@ const UpdateDriverForm = () => {
       setValue("license_image", file);
     }
   };
-  console.log("updateDriverLoaderData", updateDriverLoaderData.data);
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
-
-      // Append fields
       for (const key in data) {
         if (data[key] !== undefined && data[key] !== null) {
           formData.append(key, data[key]);
         }
       }
-
-      // Debug: log all data being sent
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
-
       const response = await axios.post(
-        `https://api.dropshep.com/api/driver/${id}`,
+        `https://api.dropshep.com/mstrading/api/driver/edit/${id}`,
         formData
       );
-
       const resData = response.data;
-      if (resData.status === "success") {
-        toast.success("Driver updated successfully!", {
+      console.log("resData", resData);
+      if (resData.status === "Success") {
+        toast.success("Driver updated successfully", {
           position: "top-right",
         });
-        reset();
-        setPreviewImage(null);
       } else {
         toast.error("Server issue: " + (resData.message || "Unknown issue"));
       }
@@ -80,202 +72,171 @@ const UpdateDriverForm = () => {
     <div className="mt-10">
       <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        Create Driver
+        Update Driver
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Name & Contact */}
-          <div className="md:flex justify-between gap-3">
-            <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
-                Driver Name
-              </label>
-              <input
-                {...register("name")}
-                defaultValue={name}
-                type="text"
-                placeholder="Enter driver name..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
+        <FormProvider {...methods} className="">
+          <form onSubmit={handleSubmit(onSubmit)} className="">
+            {/* Name & Contact */}
+            <div className="md:flex justify-between gap-3">
+              <div className="w-full">
+                <InputField
+                  name="driver_name"
+                  label="Driver Name"
+                  defaultValue={driver_name}
+                />
+              </div>
+              <div className="mt-2 md:mt-0 w-full">
+                <InputField
+                  name="driver_mobile"
+                  defaultValue={driver_mobile}
+                  label="Driver Mobile"
+                />
+              </div>
             </div>
-            <div className="mt-2 md:mt-0 w-full">
-              <label className="text-primary text-sm font-semibold">
-                Driver Mobile
-              </label>
-              <input
-                {...register("contact")}
-                defaultValue={contact}
-                type="number"
-                placeholder="Enter driver mobile..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-            </div>
-          </div>
 
-          {/* NID & Emergency Contact */}
-          <div className="md:flex justify-between gap-3">
-            <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
-                NID Number
-              </label>
-              <input
-                {...register("nid")}
-                defaultValue={nid}
-                type="number"
-                placeholder="Enter NID number..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
+            {/* NID & Emergency Contact */}
+            <div className="md:flex justify-between gap-3">
+              <div className="w-full">
+                <InputField
+                  name="address"
+                  label="Address"
+                  defaultValue={address}
+                />
+              </div>
+              <div className="mt-2 md:mt-0 w-full">
+                <InputField
+                  name="emergency_contact"
+                  defaultValue={emergency_contact}
+                  label="Emergency Contact"
+                />
+              </div>
             </div>
-            <div className="mt-2 md:mt-0 w-full">
-              <label className="text-primary text-sm font-semibold">
-                Emergency Contact
-              </label>
-              <input
-                {...register("emergency_contact")}
-                defaultValue={emergency_contact}
-                type="number"
-                placeholder="Enter emergency contact..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-            </div>
-          </div>
 
-          {/* Address & Note */}
-          <div className="md:flex justify-between gap-3">
-            <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
-                Address
-              </label>
-              <input
-                {...register("address")}
-                defaultValue={address}
-                type="text"
-                placeholder="Enter address..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
+            {/* Address & Note */}
+            <div className="md:flex justify-between gap-3">
+              <div className="w-full">
+                <InputField name="nid" label="NID Number" defaultValue={nid} />
+              </div>
+              <div className="mt-2 md:mt-0 w-full">
+                <InputField
+                  name="license"
+                  label="License No"
+                  defaultValue={license}
+                />
+              </div>
             </div>
-            <div className="mt-2 md:mt-0 w-full">
-              <label className="text-primary text-sm font-semibold">Note</label>
-              <input
-                {...register("note")}
-                defaultValue={note}
-                type="text"
-                placeholder="Any note..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-            </div>
-          </div>
 
-          {/* License & Expiry */}
-          <div className="md:flex justify-between gap-3">
-            <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
-                License No.
-              </label>
-              <input
-                {...register("license")}
-                defaultValue={license}
-                type="text"
-                placeholder="Enter license number..."
-                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
-              />
-            </div>
-            <div className="mt-2 md:mt-0 w-full relative">
-              <label className="text-primary text-sm font-semibold">
-                Expiry Date
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  {...register("expire_date")}
-                  defaultValue={expire_date}
-                  ref={(e) => {
-                    register("expire_date").ref(e);
+            {/* License & Expiry */}
+            <div className="md:flex justify-between gap-3">
+              <div className="w-full">
+                <InputField
+                  name="license_expire_date"
+                  label="License Expiry Date"
+                  type="date"
+                  defaultValue={license_expire_date}
+                  inputRef={(e) => {
+                    register("license_expire_date").ref(e);
                     driverDateRef.current = e;
                   }}
-                  className="remove-date-icon mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none pr-10"
+                  icon={
+                    <span
+                      className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r"
+                      onClick={() => driverDateRef.current?.showPicker?.()}
+                    >
+                      <FiCalendar className="text-white cursor-pointer" />
+                    </span>
+                  }
                 />
-                <span className="py-[11px] absolute right-0 px-3 top-[22px] transform -translate-y-1/2 bg-primary rounded-r">
-                  <FiCalendar
-                    className="text-white cursor-pointer"
-                    onClick={() => driverDateRef.current?.showPicker?.()}
-                  />
-                </span>
+              </div>
+              <div className="mt-2 md:mt-0 w-full relative">
+                <InputField name="note" defaultValue={note} label="Note" />
               </div>
             </div>
-          </div>
 
-          {/* Status & License Image */}
-          <div className="md:flex justify-between gap-3">
-            <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
-                Status
-              </label>
-              <select
-                {...register("status")}
-                className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"
-              >
-                <option value={status}>{status}</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-              <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
-            </div>
+            {/* Status & License Image */}
+            <div className="md:flex justify-between gap-3">
+              <div className="w-full relative">
+                <SelectField
+                  name="status"
+                  label="Status"
+                  defaultValue={status}
+                  options={[
+                    { value: "Active", label: "Active" },
+                    { value: "Inactive", label: "Inactive" },
+                  ]}
+                />
+              </div>
 
-            <div className="mt-3 md:mt-0 w-full">
-              <label className="text-primary text-sm font-semibold">
-                Upload License Image
-              </label>
-              <div className="relative mt-1">
-                <label
-                  htmlFor="license_image"
-                  className="border p-2 rounded w-full block bg-white text-gray-500 text-sm cursor-pointer"
-                >
-                  {previewImage ? "Image Selected" : "Choose Image"}
+              <div className="mt-3 md:mt-0 w-full">
+                <label className="text-primary text-sm font-semibold">
+                  Upload License Image
                 </label>
-                <input
-                  {...register("license_image")}
-                  id="license_image"
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
+                <div className="relative">
+                  <Controller
+                    name="license_image"
+                    control={control}
+                    // rules={{ required: "This field is required" }}
+                    render={({ fieldState: { error } }) => (
+                      <div className="relative">
+                        <label
+                          htmlFor="license_image"
+                          className="border p-2 rounded w-full block bg-white text-gray-500 text-sm cursor-pointer"
+                        >
+                          {previewImage ? "Image selected" : "Choose image"}
+                        </label>
+                        <input
+                          {...register("license_image")}
+                          id="license_image"
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleImageChange}
+                        />
+                        {error && (
+                          <span className="text-red-600 text-sm">
+                            {error.message}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Preview */}
-          {previewImage && (
-            <div className="mt-3 relative flex justify-end">
-              <button
-                type="button"
-                onClick={() => {
-                  setPreviewImage(null);
-                  document.querySelector('input[type="file"]').value = null;
-                  setValue("license_image", null);
-                }}
-                className="absolute top-2 right-2 text-red-600 bg-white shadow rounded-sm hover:text-white hover:bg-secondary transition-all duration-300 cursor-pointer font-bold text-xl p-[2px]"
-                title="Remove image"
-              >
-                <IoMdClose />
-              </button>
-              <img
-                src={
-                  previewImage?.startsWith("blob:")
-                    ? previewImage
-                    : `https://api.dropshep.com/public/uploads/driver/${previewImage}`
-                }
-                alt="License Preview"
-                className="max-w-xs h-auto rounded border border-gray-300"
-              />
+            {/* Preview */}
+            {previewImage && (
+              <div className="mt-3 relative flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPreviewImage(null);
+                    document.querySelector('input[type="file"]').value = null;
+                    setValue("license_image", null);
+                  }}
+                  className="absolute top-2 right-2 text-red-600 bg-white shadow rounded-sm hover:text-white hover:bg-secondary transition-all duration-300 cursor-pointer font-bold text-xl p-[2px]"
+                  title="Remove image"
+                >
+                  <IoMdClose />
+                </button>
+                <img
+                  src={
+                    previewImage?.startsWith("blob:")
+                      ? previewImage
+                      : `https://api.dropshep.com/mstrading/public/uploads/driver/${previewImage}`
+                  }
+                  alt="License Preview"
+                  className="max-w-xs h-auto rounded border border-gray-300"
+                />
+              </div>
+            )}
+
+            <div className="mt-6 text-left">
+              <BtnSubmit>Submit</BtnSubmit>
             </div>
-          )}
-
-          <div className="mt-6 text-left">
-            <BtnSubmit>Submit</BtnSubmit>
-          </div>
-        </form>
+          </form>
+        </FormProvider>
       </div>
     </div>
   );

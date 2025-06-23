@@ -144,7 +144,9 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://api.dropshep.com/api/driver/${params.id}`),
+          fetch(
+            `https://api.dropshep.com/mstrading/api/driver/show/${params.id}`
+          ),
       },
       {
         path: "/tramessy/TripList",
