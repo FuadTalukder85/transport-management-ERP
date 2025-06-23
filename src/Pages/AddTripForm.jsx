@@ -354,6 +354,7 @@ const AddTripForm = () => {
                       <InputField
                         name="total_rent"
                         label="Total Rent/Bill Amount"
+                        type="number"
                         required
                       />
                     </div>
@@ -444,6 +445,7 @@ const AddTripForm = () => {
                     <InputField
                       name="total_rent"
                       label="Total Rent/Bill Amount"
+                      type="number"
                       required
                     />
                   </div>
@@ -525,6 +527,7 @@ const AddTripForm = () => {
                     <InputField
                       name="total_rent"
                       label="Total Rent/Bill Amount"
+                      type="number"
                       required
                     />
                   </div>
@@ -597,6 +600,7 @@ const AddTripForm = () => {
                     <InputField
                       name="total_rent"
                       label="Total Rent/Bill Amount"
+                      type="number"
                       required
                       readOnly
                       defaultValue={totalRentHonda}

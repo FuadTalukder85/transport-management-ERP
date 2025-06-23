@@ -91,7 +91,7 @@ const PurchaseForm = () => {
       for (const key in data) {
         purchaseFormData.append(key, data[key]);
       }
-      purchaseFormData.append("ref_no", refId);
+      purchaseFormData.append("ref_id", refId);
       purchaseFormData.append("status", "Unpaid");
       const purchaseResponse = await axios.post(
         "https://api.dropshep.com/mstrading/api/purchase/create",

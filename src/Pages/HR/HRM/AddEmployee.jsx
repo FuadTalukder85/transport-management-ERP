@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BtnSubmit from "../../../components/Button/BtnSubmit";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { InputField, SelectField } from "../../../components/Form/FormFields";
@@ -13,6 +13,18 @@ const AddEmployee = () => {
   const { handleSubmit, register, control, reset } = methods;
   const dateRef = useRef(null);
   const joinDateRef = useRef(null);
+  const [branch, setBranch] = useState([]);
+  // select branch name from api
+  useEffect(() => {
+    fetch("https://api.dropshep.com/mstrading/api/office/list")
+      .then((response) => response.json())
+      .then((data) => setBranch(data.data))
+      .catch((error) => console.error("Error fetching branch data:", error));
+  }, []);
+  const branchOptions = branch.map((dt) => ({
+    value: dt.branch_name,
+    label: dt.branch_name,
+  }));
   // preview image
   const [previewImage, setPreviewImage] = useState(null);
   const generateRefId = useRefId();
@@ -62,11 +74,9 @@ const AddEmployee = () => {
               <SelectField
                 name="branch_name"
                 label="Branch Name"
-                required
-                options={[
-                  { value: "Abdullahpur", label: "Abdullahpur" },
-                  { value: "Comilla", label: "Comilla" },
-                ]}
+                required={true}
+                options={branchOptions}
+                control={control}
               />
             </div>
             <div className="w-full">

@@ -78,6 +78,7 @@ import DriverLedger from "../Pages/Account/DriverLedger";
 import HatimPubail from "../Pages/Billing/HatimPubail";
 import UpdateCarForm from "../Pages/UpdateCarForm";
 import UpdateCustomerForm from "../Pages/Customer/UpdateCustomerForm";
+import UpdatePurchaseForm from "../Pages/Purchase/UpdatePurchaseForm";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -402,6 +403,14 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/Purchase/PurchaseForm",
         element: <PurchaseForm />,
+      },
+      {
+        path: "/tramessy/Purchase/UpdatePurchaseForm/:id",
+        element: <UpdatePurchaseForm />,
+        loader: ({ params }) =>
+          fetch(
+            `https://api.dropshep.com/mstrading/api/purchase/show/${params.id}`
+          ),
       },
       {
         path: "/tramessy/Purchase/SupplierList",

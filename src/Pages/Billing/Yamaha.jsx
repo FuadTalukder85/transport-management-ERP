@@ -17,8 +17,30 @@ const Yamaha = () => {
   const [selectedRows, setSelectedRows] = useState({});
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  // fetch data from server
+  useEffect(() => {
+    axios
+      .get("https://api.dropshep.com/mstrading/api/trip/list")
+      .then((response) => {
+        if (response.data.status === "Success") {
+          setYamaha(response.data.data);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching driver data:", error);
+        setLoading(false);
+      });
+  }, []);
 
-  // table footer end
+  const yamahaTrip = yamaha?.filter((dt) => dt.customer === "Yamaha");
+  const handleCheckBox = (index) => {
+    setSelectedRows((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+  // export to excel
   const exportToExcel = () => {
     const selectedData = yamahaTrip.filter((_, i) => selectedRows[i]);
     if (!selectedData.length) {
@@ -50,7 +72,7 @@ const Yamaha = () => {
       "YamahaTrips.xlsx"
     );
   };
-
+  // export to pdf
   const exportToPDF = () => {
     const selectedData = yamahaTrip.filter((_, i) => selectedRows[i]);
     if (!selectedData.length) {
@@ -90,7 +112,7 @@ const Yamaha = () => {
 
     pdfMake.createPdf(docDefinition).download("YamahaTrips.pdf");
   };
-
+  // handle print
   const handlePrint = () => {
     const selectedData = yamahaTrip.filter((_, i) => selectedRows[i]);
     if (!selectedData.length) {
@@ -235,23 +257,6 @@ const Yamaha = () => {
     newWindow.print();
   };
 
-  useEffect(() => {
-    axios
-      .get("https://api.dropshep.com/mstrading/api/trip/list")
-      .then((response) => {
-        if (response.data.status === "Success") {
-          setYamaha(response.data.data);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching driver data:", error);
-        setLoading(false);
-      });
-  }, []);
-
-  const yamahaTrip = yamaha?.filter((dt) => dt.customer === "Yamaha");
-
   // Filter by date
   const filteredTrips = yamahaTrip.filter((trip) => {
     const tripDate = new Date(trip.date);
@@ -266,13 +271,6 @@ const Yamaha = () => {
       return true; // no filter applied
     }
   });
-
-  const handleCheckBox = (index) => {
-    setSelectedRows((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
-  };
 
   // number to words
   const numberToWords = (num) => {
@@ -294,7 +292,7 @@ const Yamaha = () => {
     (sum, dt) => sum + (parseFloat(dt.fuel_cost) || 0),
     0
   );
-
+  // post data on server
   const handleSubmit = async () => {
     const selectedData = filteredTrips.filter((_, i) => selectedRows[i]);
     if (!selectedData.length) {

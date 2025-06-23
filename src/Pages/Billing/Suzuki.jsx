@@ -1,5 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import pdfMake from "pdfmake/build/pdfmake";
 import toast, { Toaster } from "react-hot-toast";
 import { FaFilter } from "react-icons/fa6";
 import { HiCurrencyBangladeshi } from "react-icons/hi2";
@@ -30,13 +33,286 @@ const Suzuki = () => {
   }, []);
   // find Suzuki
   const suzukiTrip = suzuki?.filter((dt) => dt.customer === "Suzuki");
-
   const handleCheckBox = (index) => {
     setSelectedRows((prev) => ({
       ...prev,
       [index]: !prev[index],
     }));
   };
+  // export to excel
+  const exportToExcel = () => {
+    const selectedData = suzukiTrip.filter((_, i) => selectedRows[i]);
+    if (!selectedData.length) {
+      return toast.error("Please select at least one row.");
+    }
+    const excelData = selectedData.map((dt, idx) => {
+      const rent = parseFloat(dt?.total_rent) || 0;
+      const vatAmount = (rent * 15) / 100;
+      const totalCost = rent + vatAmount;
+
+      const totalAmount =
+        (parseFloat(dt.marking) || 0) +
+        (parseFloat(dt.unload_charge) || 0) +
+        (parseFloat(dt.extra_fare) || 0) +
+        totalCost;
+      return {
+        SL: idx + 1,
+        Date: dt.date,
+        VehicleNo: dt.vehicle_no,
+        DealerName: dt.dealer_name,
+        "Do(Si)": dt.do_si,
+        "Co(U)": dt.co_u,
+        Destination: dt.unload_point,
+        Quantity: dt.quantity,
+        Masking: dt.masking,
+        UnloadCharge: dt.unload_charge,
+        ExtraFare: dt.extra_fare,
+        VehicleRentWithVatTax: totalCost,
+        TotalAmount: totalAmount,
+      };
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "SuzukiTrips");
+
+    const wbout = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    saveAs(
+      new Blob([wbout], { type: "application/octet-stream" }),
+      "SuzukiTrips.xlsx"
+    );
+  };
+  // export to pdf
+  const exportToPDF = () => {
+    const selectedData = suzukiTrip.filter((_, i) => selectedRows[i]);
+    if (!selectedData.length) {
+      return toast.error("Please select at least one row.");
+    }
+    const docDefinition = {
+      pageOrientation: "landscape", // Optional: for wide tables
+      content: [
+        { text: "Suzuki Trip Report", style: "header" },
+        {
+          table: {
+            headerRows: 1,
+            widths: [
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+            ],
+            body: [
+              [
+                "SL.",
+                "Date",
+                "VehicleNo",
+                "DealerName",
+                "Do(Si)",
+                "Co(U)",
+                "Destination",
+                "BikeQty",
+                "Masking",
+                "UnloadCharge",
+                "ExtraFare",
+                "VehicleRent WithVatTax",
+                "Total Amount",
+              ],
+              ...selectedData.map((dt, idx) => {
+                const rent = parseFloat(dt?.total_rent) || 0;
+                const vatAmount = (rent * 15) / 100;
+                const totalCost = rent + vatAmount;
+                const totalAmount =
+                  (parseFloat(dt.marking) || 0) +
+                  (parseFloat(dt.unload_charge) || 0) +
+                  (parseFloat(dt.extra_fare) || 0) +
+                  totalCost;
+
+                return [
+                  idx + 1,
+                  dt.date,
+                  dt.vehicle_no,
+                  dt.dealer_name,
+                  dt.do_si,
+                  dt.co_u,
+                  dt.unload_point,
+                  dt.quantity,
+                  dt.masking,
+                  dt.unload_charge,
+                  dt.extra_fare,
+                  totalCost.toFixed(2),
+                  totalAmount.toFixed(2),
+                ];
+              }),
+            ],
+          },
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 16,
+          bold: true,
+          marginBottom: 10,
+          alignment: "center",
+        },
+      },
+    };
+
+    pdfMake.createPdf(docDefinition).download("SuzukiTrips.pdf");
+  };
+  // handle print
+  const handlePrint = () => {
+    const selectedData = suzukiTrip.filter((_, i) => selectedRows[i]);
+    if (!selectedData.length) {
+      return toast.error("Please select at least one row.");
+    }
+
+    const currentYear = new Date().getFullYear();
+
+    let totalQuantity = 0;
+    let totalMasking = 0;
+    let totalUnload = 0;
+    let totalExtraFare = 0;
+    let totalVehicleRentWithVAT = 0;
+    let grandTotal = 0;
+
+    const rowsHTML = selectedData
+      .map((dt, i) => {
+        const rent = parseFloat(dt?.total_rent) || 0;
+        const vat = (rent * 15) / 100;
+        const totalCost = rent + vat;
+        const masking = parseFloat(dt.masking) || 0;
+        const unload = parseFloat(dt.unload_charge) || 0;
+        const extraFare = parseFloat(dt.extra_fare) || 0;
+        const totalAmount = masking + unload + extraFare + totalCost;
+
+        totalQuantity += parseFloat(dt.quantity) || 0;
+        totalMasking += masking;
+        totalUnload += unload;
+        totalExtraFare += extraFare;
+        totalVehicleRentWithVAT += totalCost;
+        grandTotal += totalAmount;
+
+        return `
+        <tr>
+          <td>${i + 1}</td>
+          <td>${dt.date}</td>
+          <td>${dt.vehicle_no}</td>
+          <td>${dt.dealer_name}</td>
+          <td>${dt.do_si}</td>
+          <td>${dt.co_u}</td>
+          <td>${dt.unload_point}</td>
+          <td>${dt.quantity}</td>
+          <td>${dt.masking}</td>
+          <td>${dt.unload_charge}</td>
+          <td>${dt.extra_fare}</td>
+          <td>${totalCost.toFixed(2)}</td>
+          <td>${totalAmount.toFixed(2)}</td>
+        </tr>`;
+      })
+      .join("");
+
+    const totalInWords = numberToWords(grandTotal);
+
+    const html = `
+  <html>
+    <head>
+      <style>
+        @page {
+          margin: 0;
+        }
+        body {
+          margin: 1cm;
+          font-family: Arial, sans-serif;
+          font-size: 12px;
+        }
+        .header-section { margin-bottom: 5px; }
+        .subject { margin-top: 20px; }
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          font-size: 12px;
+        }
+        th, td {
+          border: 1px solid #000;
+          padding: 4px;
+          text-align: center;
+        }
+        th {
+          background: #eee;
+        }
+        tfoot td {
+          font-weight: bold;
+          background-color: #f3f3f3;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header-section">
+        <div class="to-section">
+          <div>To</div>
+          <div><strong>Rancon Motor Bikes Ltd.</strong></div>
+          <div>Boro Bhobanipur</div>
+          <div>Kashimpur, Gazipur</div>
+          <div>Dhaka</div>
+          <div class="subject">Subject : Carrying Bill-${currentYear}</div>
+        </div>
+        
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>SL</th>
+            <th>Date</th>
+            <th>Vehicle No</th>
+            <th>Dealer Name</th>
+            <th>Do (Si)</th>
+            <th>Co (U)</th>
+            <th>Destination</th>
+            <th>Bike<br/>Qty</th>
+            <th>Mask-<br/>ing</th>
+            <th>Unload<br/>Charge</th>
+            <th>Extra<br/>Fare</th>
+            <th>Vehicle Rent<br/>(With Vat+Tax)</th>
+            <th>Total<br/>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rowsHTML}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7">Total</td>
+            <td>${totalQuantity}</td>
+            <td>${totalMasking}</td>
+            <td>${totalUnload}</td>
+            <td>${totalExtraFare}</td>
+            <td>${totalVehicleRentWithVAT}</td>
+            <td>${grandTotal}</td>
+          </tr>
+          <tr>
+            <td colspan="13" style="text-align:left;">In Words: <strong>${totalInWords}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </body>
+  </html>`;
+
+    const newWindow = window.open("", "_blank");
+    newWindow.document.write(html);
+    newWindow.document.close();
+    newWindow.focus();
+    newWindow.print();
+  };
+
   // Filter start
   // Get selected data based on selectedRows
   const selectedTrips = suzukiTrip.filter((_, idx) => selectedRows[idx]);
@@ -95,6 +371,7 @@ const Suzuki = () => {
     if (!num || isNaN(num)) return "Zero";
     return toWords(num).replace(/^\w/, (c) => c.toUpperCase()) + " Taka only.";
   };
+  // post data on server
   const handleSubmit = async () => {
     const selectedData = suzukiTrip.filter((_, i) => selectedRows[i]);
     if (!selectedData.length) {
@@ -156,7 +433,7 @@ const Suzuki = () => {
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
       <Toaster />
-      <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
+      <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-lg p-2 py-10 md:p-6 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <HiCurrencyBangladeshi className="text-[#11375B] text-2xl" />
@@ -168,6 +445,29 @@ const Suzuki = () => {
               className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
               <FaFilter /> Filter
+            </button>
+          </div>
+        </div>
+        {/* export and search */}
+        <div className="md:flex justify-between items-center">
+          <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
+            <button
+              onClick={exportToExcel}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
+              Excel
+            </button>
+            <button
+              onClick={exportToPDF}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
+              PDF
+            </button>
+            <button
+              onClick={handlePrint}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
+              Print
             </button>
           </div>
         </div>
