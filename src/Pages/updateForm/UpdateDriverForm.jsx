@@ -25,7 +25,7 @@ const UpdateDriverForm = () => {
     status,
     license_image,
   } = updateDriverLoaderData.data;
-  console.log("updateDriverLoaderData", updateDriverLoaderData.data);
+
   const methods = useForm({ defaultValues: { status } });
   const { handleSubmit, register, control, setValue } = methods;
   const driverDateRef = useRef(null);
@@ -176,7 +176,6 @@ const UpdateDriverForm = () => {
                   <Controller
                     name="license_image"
                     control={control}
-                    // rules={{ required: "This field is required" }}
                     render={({ fieldState: { error } }) => (
                       <div className="relative">
                         <label

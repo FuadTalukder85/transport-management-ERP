@@ -79,6 +79,7 @@ import HatimPubail from "../Pages/Billing/HatimPubail";
 import UpdateCarForm from "../Pages/UpdateCarForm";
 import UpdateCustomerForm from "../Pages/Customer/UpdateCustomerForm";
 import UpdatePurchaseForm from "../Pages/Purchase/UpdatePurchaseForm";
+import UpdateEmployeeForm from "../Pages/HR/HRM/UpdateEmployeeForm";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -363,6 +364,18 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/HR/HRM/AddEmployee",
         element: <AddEmployee />,
+      },
+      {
+        path: "/tramessy/UpdateEmployeeForm/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateEmployeeForm />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(
+            `https://api.dropshep.com/mstrading/api/employee/show/${params.id}`
+          ),
       },
       {
         path: "/tramessy/HR/Attendance/AttendanceList",
