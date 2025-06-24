@@ -81,6 +81,7 @@ import UpdateCustomerForm from "../Pages/Customer/UpdateCustomerForm";
 import UpdatePurchaseForm from "../Pages/Purchase/UpdatePurchaseForm";
 import UpdateEmployeeForm from "../Pages/HR/HRM/UpdateEmployeeForm";
 import UpdateSupplyForm from "../Pages/Purchase/UpdateSupplyForm";
+import UpdateRentVehicleForm from "../Pages/UpdateRentVehicleForm";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -277,6 +278,18 @@ export const router = createBrowserRouter([
           <AddRentVehicleForm />
           // </AdminRoute>
         ),
+      },
+      {
+        path: "/tramessy/UpdateRentVehicleForm/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateRentVehicleForm />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(
+            `https://api.dropshep.com/mstrading/api/rent/show/${params.id}`
+          ),
       },
       {
         path: "/tramessy/DailyIncome",

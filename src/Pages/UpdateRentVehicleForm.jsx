@@ -3,31 +3,47 @@ import { FormProvider, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import BtnSubmit from "../components/Button/BtnSubmit";
 import { InputField, SelectField } from "../components/Form/FormFields";
-import useRefId from "../hooks/useRef";
+import { useLoaderData } from "react-router-dom";
+const UpdateRentVehicleForm = () => {
+  //   update loader data
+  const updateRentLoaderData = useLoaderData();
+  const {
+    id,
+    vehicle_name_model,
+    vendor_name,
+    vehicle_category,
+    vehicle_size_capacity,
+    registration_zone,
+    registration_serial,
+    registration_number,
+    status,
+  } = updateRentLoaderData.data;
 
-const AddRentVehicleForm = () => {
-  const methods = useForm();
-  const { handleSubmit, reset } = methods;
-
-  const generateRefId = useRefId();
+  const methods = useForm({
+    defaultValues: {
+      vehicle_category,
+      status,
+      vehicle_size_capacity,
+      registration_serial,
+      registration_zone,
+    },
+  });
+  const { handleSubmit } = methods;
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
       for (const key in data) {
         formData.append(key, data[key]);
       }
-      formData.append("ref_id", generateRefId());
       const response = await axios.post(
-        "https://api.dropshep.com/mstrading/api/rent/create",
+        `https://api.dropshep.com/mstrading/api/rent/update/${id}`,
         formData
       );
       const resData = response.data;
-      console.log("resData", resData);
       if (resData.status === "Success") {
-        toast.success("Rent vehicle saved successfully!", {
+        toast.success("Rent vehicle updated successfully!", {
           position: "top-right",
         });
-        reset();
       } else {
         toast.error("Server Error: " + (resData.message || "Unknown issue"));
       }
@@ -43,7 +59,7 @@ const AddRentVehicleForm = () => {
     <div className="mt-10">
       <Toaster position="top-center" reverseOrder={false} />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        Rent Vehicle Information
+        Update Rent Vehicle Information
       </h3>
       <div className="mx-auto p-6 bg-gray-100 rounded-md shadow">
         <FormProvider {...methods} className="">
@@ -55,14 +71,14 @@ const AddRentVehicleForm = () => {
                   <InputField
                     name="vehicle_name_model"
                     label="Vehicle Name/Model"
-                    required
+                    defaultValue={vehicle_name_model}
                   />
                 </div>
                 <div className="mt-2 md:mt-0 w-full relative">
                   <InputField
                     name="vendor_name"
                     label="Vendor Name/Driver Name"
-                    required
+                    defaultValue={vendor_name}
                   />
                 </div>
               </div>
@@ -72,7 +88,7 @@ const AddRentVehicleForm = () => {
                   <SelectField
                     name="vehicle_category"
                     label="Vehicle Category"
-                    required
+                    defaultValue={vehicle_category}
                     options={[
                       { value: "", label: "Select Vehicle category..." },
                       { value: "Pickup", label: "Pickup" },
@@ -85,9 +101,8 @@ const AddRentVehicleForm = () => {
                   <SelectField
                     name="vehicle_size_capacity"
                     label="Vehicle Size/Capacity"
-                    required
+                    defaultValue={vehicle_size_capacity}
                     options={[
-                      { value: "", label: "Select Vehicle size..." },
                       { value: "4 Ton", label: "4 Ton" },
                       { value: "3 Ton", label: "3 Ton" },
                       { value: "22 Ton", label: "22 Ton" },
@@ -117,14 +132,14 @@ const AddRentVehicleForm = () => {
                   <InputField
                     name="registration_number"
                     label="Registration Number"
-                    required
+                    defaultValue={registration_number}
                   />
                 </div>
                 <div className="relative mt-2 md:mt-0 w-full">
                   <SelectField
                     name="registration_serial"
                     label="Registration Serial"
-                    required
+                    defaultValue={registration_serial}
                     options={[
                       { value: "Ta", label: "Ta" },
                       { value: "Tha", label: "Tha" },
@@ -140,7 +155,7 @@ const AddRentVehicleForm = () => {
                   <SelectField
                     name="registration_zone"
                     label="Registration Zone"
-                    required
+                    defaultValue={registration_zone}
                     options={[
                       { value: "", label: "Select zone..." },
                       { value: "Dhaka Metro", label: "Dhaka Metro" },
@@ -223,7 +238,7 @@ const AddRentVehicleForm = () => {
               <SelectField
                 name="status"
                 label="Status"
-                required
+                defaultValue={status}
                 options={[
                   { value: "Active", label: "Active" },
                   { value: "Inactive", label: "Inactive" },
@@ -241,4 +256,4 @@ const AddRentVehicleForm = () => {
   );
 };
 
-export default AddRentVehicleForm;
+export default UpdateRentVehicleForm;

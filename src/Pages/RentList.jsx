@@ -29,23 +29,23 @@ const RentList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   // search
   const [searchTerm, setSearchTerm] = useState("");
-  // Fetch fuel data
+  // Fetch rent vehicle data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/api/fuel")
+      .get("https://api.dropshep.com/mstrading/api/rent/list")
       .then((response) => {
-        if (response.data.status === "success") {
+        if (response.data.status === "Success") {
           setFuel(response.data.data);
         }
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching driver data:", error);
+        console.error("Error fetching rent vehicle data:", error);
         setLoading(false);
       });
   }, []);
 
-  if (loading) return <p className="text-center mt-16">Loading fuel...</p>;
+  if (loading) return <p className="text-center mt-16">Loading data...</p>;
 
   console.log("fuel", fuel);
   // export functionality
@@ -141,9 +141,12 @@ const RentList = () => {
   // delete by id
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`https://api.dropshep.com/api/fuel/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://api.dropshep.com/mstrading/api/employee/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete trip");
@@ -302,13 +305,11 @@ const RentList = () => {
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Vendor</th>
-                <th className="px-2 py-3">Vehicle</th>
-                <th className="px-2 py-3">Category</th>
-                <th className="px-2 py-3">Size</th>
+                <th className="px-2 py-3">Vendor/Driver Name</th>
+                <th className="px-2 py-3">Vehicle Name/Model</th>
+                <th className="px-2 py-3">Vehicle Category</th>
+                <th className="px-2 py-3">Vehicle Size/Capacity</th>
                 <th className="px-2 py-3">Regi.No</th>
-                <th className="px-2 py-3">LastTrip</th>
-                <th className="px-2 py-3">Trip</th>
                 <th className="px-2 py-3">Status</th>
                 <th className="px-2 py-3 action_column">Action</th>
               </tr>
@@ -319,17 +320,15 @@ const RentList = () => {
                   <td className="px-4 py-4 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-2 py-4">{dt.driver_name}</td>
-                  <td className="px-2 py-4">{dt.vehicle_number}</td>
-                  <td className="px-2 py-4">{dt.type}</td>
-                  <td className="px-2 py-4">{dt.date_time}</td>
-                  <td className="px-2 py-4">{dt.quantity}</td>
-                  <td className="px-2 py-4">{dt.price}</td>
-                  <td className="px-2 py-4">{dt.quantity * dt.price}.00</td>
-                  <td className="px-2 py-4">Active</td>
+                  <td className="px-2 py-4">{dt.vendor_name}</td>
+                  <td className="px-2 py-4">{dt.vehicle_name_model}</td>
+                  <td className="px-2 py-4">{dt.vehicle_category}</td>
+                  <td className="px-2 py-4">{dt.vehicle_size_capacity}</td>
+                  <td className="px-2 py-4">{dt.registration_number}</td>
+                  <td className="px-2 py-4">{dt.status}</td>
                   <td className="px-2 py-4 action_column">
                     <div className="flex gap-2">
-                      <Link to={`/UpdateFuelForm/${dt.id}`}>
+                      <Link to={`/tramessy/UpdateRentVehicleForm/${dt.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
