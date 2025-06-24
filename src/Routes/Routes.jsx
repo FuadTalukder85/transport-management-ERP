@@ -80,6 +80,7 @@ import UpdateCarForm from "../Pages/UpdateCarForm";
 import UpdateCustomerForm from "../Pages/Customer/UpdateCustomerForm";
 import UpdatePurchaseForm from "../Pages/Purchase/UpdatePurchaseForm";
 import UpdateEmployeeForm from "../Pages/HR/HRM/UpdateEmployeeForm";
+import UpdateSupplyForm from "../Pages/Purchase/UpdateSupplyForm";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -434,6 +435,18 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/Purchase/AddSupply",
         element: <AddSupply />,
+      },
+      {
+        path: "/tramessy/UpdateSupplyForm/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateSupplyForm />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(
+            `https://api.dropshep.com/mstrading/api/supply/show/${params.id}`
+          ),
       },
       // Inventory
       {
