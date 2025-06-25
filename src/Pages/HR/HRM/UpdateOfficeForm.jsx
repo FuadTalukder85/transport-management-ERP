@@ -1,18 +1,20 @@
-import React, { useRef } from "react";
-
+import { useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { InputField } from "../../../components/Form/FormFields";
 import BtnSubmit from "../../../components/Button/BtnSubmit";
 import { FiCalendar } from "react-icons/fi";
 import toast, { Toaster } from "react-hot-toast";
-import useRefId from "../../../hooks/useRef";
 import axios from "axios";
+import { useLoaderData } from "react-router-dom";
 
-const OfficeForm = () => {
+const UpdateOfficeForm = () => {
+  //   update loader data
+  const updateOfficeLoaderData = useLoaderData();
+  const { id, date, branch_name, address, factory_name } =
+    updateOfficeLoaderData.data;
   const methods = useForm();
-  const { handleSubmit, register, reset } = methods;
+  const { handleSubmit, register } = methods;
   const dateRef = useRef(null);
-  const generateRefId = useRefId();
   const onSubmit = async (data) => {
     console.log("add fuel data", data);
     try {
@@ -20,18 +22,16 @@ const OfficeForm = () => {
       for (const key in data) {
         formData.append(key, data[key]);
       }
-      formData.append("ref_id", generateRefId());
       const response = await axios.post(
-        "https://api.dropshep.com/mstrading/api/office/create",
+        `https://api.dropshep.com/mstrading/api/office/update/${id}`,
         formData
       );
       const resData = response.data;
       console.log("resData", resData);
       if (resData.status === "Success") {
-        toast.success("Office info saved successfully!", {
+        toast.success("Office info Updated successfully!", {
           position: "top-right",
         });
-        reset();
       } else {
         toast.error("Server Error: " + (resData.message || "Unknown issue"));
       }
@@ -61,7 +61,7 @@ const OfficeForm = () => {
                   name="date"
                   label="Date"
                   type="date"
-                  required
+                  defaultValue={date}
                   inputRef={(e) => {
                     register("date").ref(e);
                     dateRef.current = e;
@@ -77,19 +77,27 @@ const OfficeForm = () => {
                 />
               </div>
               <div className="w-full">
-                <InputField name="branch_name" label="Branch Name" required />
+                <InputField
+                  name="branch_name"
+                  label="Branch Name"
+                  defaultValue={branch_name}
+                />
               </div>
               <div className="w-full">
                 <InputField
                   name="factory_name"
                   label="Factory / Company Name"
-                  required
+                  defaultValue={factory_name}
                 />
               </div>
             </div>
             <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
               <div className="w-full">
-                <InputField name="address" label="Address" required />
+                <InputField
+                  name="address"
+                  label="Address"
+                  defaultValue={address}
+                />
               </div>
             </div>
             {/* Submit Button */}
@@ -103,4 +111,4 @@ const OfficeForm = () => {
   );
 };
 
-export default OfficeForm;
+export default UpdateOfficeForm;

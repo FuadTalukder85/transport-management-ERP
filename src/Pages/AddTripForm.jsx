@@ -572,6 +572,30 @@ const AddTripForm = () => {
                 </div>
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
+                    <SelectField
+                      name="driver_name"
+                      label="Driver Name"
+                      required
+                      control={control}
+                      options={driverOptions}
+                      onSelectChange={(selectedOption) => {
+                        setValue(
+                          "driver_mobile",
+                          selectedOption?.contact || ""
+                        );
+                      }}
+                    />
+                  </div>
+                  <div className="w-full">
+                    <InputField
+                      name="driver_mobile"
+                      label="Driver Mobile"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
+                  <div className="w-full">
                     <InputField name="do_si" label="DO(SI)" required />
                   </div>
                   <div className="w-full">

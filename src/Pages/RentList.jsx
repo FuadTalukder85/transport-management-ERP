@@ -162,7 +162,7 @@ const RentList = () => {
       setselectedFuelId(null);
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("ডিলিট করতে সমস্যা হয়েছে!", {
+      toast.error("There was a problem deleting.!", {
         position: "top-right",
         autoClose: 3000,
       });
