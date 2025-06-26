@@ -41,7 +41,7 @@ const PaymentReceiveForm = () => {
   // send data on server
   const onSubmit = async (data) => {
     const refId = generateRefId();
-
+    // TODO update payment and delete
     try {
       // ✅ Step 1: Submit payment
       const formData = new FormData();

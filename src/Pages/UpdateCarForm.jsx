@@ -26,7 +26,7 @@ const UpdateCarForm = () => {
     fuel_capacity,
     insurance_date,
   } = updateCarLoaderData.data;
-  console.log("updateCarLoaderData", updateCarLoaderData.data);
+
   const methods = useForm({
     defaultValues: {
       driver_name,

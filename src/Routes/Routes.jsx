@@ -83,6 +83,8 @@ import UpdateEmployeeForm from "../Pages/HR/HRM/UpdateEmployeeForm";
 import UpdateSupplyForm from "../Pages/Purchase/UpdateSupplyForm";
 import UpdateRentVehicleForm from "../Pages/UpdateRentVehicleForm";
 import UpdateOfficeForm from "../Pages/HR/HRM/UpdateOfficeForm";
+import UpdateVendorForm from "../Pages/UpdateVendorForm";
+import UpdateLeaveForm from "../Pages/HR/UpdateLeaveForm";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -265,6 +267,18 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "/tramessy/UpdateVendorForm/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateVendorForm />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(
+            `https://api.dropshep.com/mstrading/api/vendor/show/${params.id}`
+          ),
+      },
+      {
         path: "/tramessy/RentList",
         element: (
           // <AdminRoute>
@@ -437,6 +451,18 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/HR/HRM/LeaveForm",
         element: <LeaveForm />,
+      },
+      {
+        path: "/tramessy/UpdateLeaveForm/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateLeaveForm />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(
+            `https://api.dropshep.com/mstrading/api/leave/show/${params.id}`
+          ),
       },
       {
         path: "/tramessy/Purchase/PurchaseList",

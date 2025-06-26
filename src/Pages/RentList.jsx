@@ -142,7 +142,7 @@ const RentList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.dropshep.com/mstrading/api/employee/delete/${id}`,
+        `https://api.dropshep.com/mstrading/api/rent/delete/${id}`,
         {
           method: "DELETE",
         }

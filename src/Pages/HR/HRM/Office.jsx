@@ -12,7 +12,7 @@ const Office = () => {
   const [loading, setLoading] = useState(true);
   // delete modal
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedDriverId, setSelectedDriverId] = useState(null);
+  const [selectedOfficeId, setSelectedOfficeId] = useState(null);
   const toggleModal = () => setIsOpen(!isOpen);
   // Fetch customer ledger data
   useEffect(() => {
@@ -39,19 +39,18 @@ const Office = () => {
           method: "DELETE",
         }
       );
-
       if (!response.ok) {
         throw new Error("Failed to delete office data");
       }
-      // Remove driver from local list
-      setOffice((prev) => prev.filter((driver) => driver.id !== id));
+      // Remove office data from local list
+      setOffice((prev) => prev.filter((office) => office.id !== id));
       toast.success("Office data deleted successfully", {
         position: "top-right",
         autoClose: 3000,
       });
 
       setIsOpen(false);
-      setSelectedDriverId(null);
+      setSelectedOfficeId(null);
     } catch (error) {
       console.error("Delete error:", error);
       toast.error("There was a problem deleting!", {
@@ -115,7 +114,7 @@ const Office = () => {
                       </button> */}
                       <button
                         onClick={() => {
-                          setSelectedDriverId(dt.id);
+                          setSelectedOfficeId(dt.id);
                           setIsOpen(true);
                         }}
                         className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer"
@@ -145,7 +144,7 @@ const Office = () => {
                 <FaTrashAlt />
               </div>
               <p className="text-center text-gray-700 font-medium mb-6">
-                Are you sure you want to delete this driver?
+                Are you sure you want to delete this office?
               </p>
               <div className="flex justify-center space-x-4">
                 <button
@@ -155,7 +154,7 @@ const Office = () => {
                   No
                 </button>
                 <button
-                  onClick={() => handleDelete(selectedDriverId)}
+                  onClick={() => handleDelete(selectedOfficeId)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 cursor-pointer"
                 >
                   Yes

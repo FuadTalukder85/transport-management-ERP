@@ -6,9 +6,23 @@ import axios from "axios";
 import BtnSubmit from "../../components/Button/BtnSubmit";
 import { useEffect, useRef, useState } from "react";
 import { FiCalendar } from "react-icons/fi";
+import { useLoaderData } from "react-router-dom";
 
-const LeaveForm = () => {
-  const methods = useForm();
+const UpdateLeaveForm = () => {
+  //   update loader data
+  const updateLeaveLoaderData = useLoaderData();
+  const {
+    id,
+    name,
+    apply_date,
+    leave_from,
+    leave_to,
+    leave_type,
+    remark,
+    status,
+  } = updateLeaveLoaderData.data;
+
+  const methods = useForm({ defaultValue: { name, status } });
   const { handleSubmit, reset, control, register } = methods;
   const applyDateRef = useRef(null);
   const leaveFromDateRef = useRef(null);
@@ -26,6 +40,7 @@ const LeaveForm = () => {
     value: name.full_name,
     label: name.full_name,
   }));
+  console.log("employee", employee);
   const generateRefId = useRefId();
   const onSubmit = async (data) => {
     try {
@@ -35,13 +50,13 @@ const LeaveForm = () => {
       }
       formData.append("ref_id", generateRefId());
       const response = await axios.post(
-        "https://api.dropshep.com/mstrading/api/leave/create",
+        `https://api.dropshep.com/mstrading/api/leave/update/${id}`,
         formData
       );
       const resData = response.data;
       console.log("resData", resData);
       if (resData.status === "Success") {
-        toast.success("Leave application saved successfully!", {
+        toast.success("Leave application update successfully!", {
           position: "top-right",
         });
         reset();
@@ -59,7 +74,7 @@ const LeaveForm = () => {
     <div className="mt-10">
       <Toaster position="top-center" reverseOrder={false} />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        Leave Application
+        Update Leave Application
       </h3>
       <FormProvider {...methods}>
         <form
@@ -72,7 +87,8 @@ const LeaveForm = () => {
               <SelectField
                 name="name"
                 label="Full Name"
-                required={true}
+                // todo
+                defaultValue={name}
                 options={driverOptions}
                 control={control}
               />
@@ -82,7 +98,7 @@ const LeaveForm = () => {
                 name="apply_date"
                 label="Apply Date"
                 type="date"
-                required
+                defaultValue={apply_date}
                 inputRef={(e) => {
                   register("apply_date").ref(e);
                   applyDateRef.current = e;
@@ -102,14 +118,18 @@ const LeaveForm = () => {
           {/* Row 2: Leave Type, Leave From */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <InputField name="leave_type" label="Leave Type" required />
+              <InputField
+                name="leave_type"
+                label="Leave Type"
+                defaultValue={leave_type}
+              />
             </div>
             <div className="w-full">
               <InputField
                 name="leave_from"
                 label="Leave From"
                 type="date"
-                required
+                defaultValue={leave_from}
                 inputRef={(e) => {
                   register("leave_from").ref(e);
                   leaveFromDateRef.current = e;
@@ -133,7 +153,7 @@ const LeaveForm = () => {
                 name="leave_to"
                 label="Leave To"
                 type="date"
-                required
+                defaultValue={leave_to}
                 inputRef={(e) => {
                   register("leave_to").ref(e);
                   leaveToDateRef.current = e;
@@ -149,14 +169,14 @@ const LeaveForm = () => {
               />
             </div>
             <div className="w-full">
-              <InputField name="remark" label="Remark" required />
+              <InputField name="remark" label="Remark" defaultValue={remark} />
             </div>
             <div className="w-full z-50">
               <SelectField
                 name="status"
                 label="Status"
+                defaultValue={status}
                 options={[
-                  { value: "", label: "Select Status..." },
                   { value: "Approve", label: "Approve" },
                   { value: "Pending", label: "Pending" },
                 ]}
@@ -173,4 +193,4 @@ const LeaveForm = () => {
   );
 };
 
-export default LeaveForm;
+export default UpdateLeaveForm;

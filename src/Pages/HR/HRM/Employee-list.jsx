@@ -79,17 +79,14 @@ const EmployeeList = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">SL.</th>
-                <th className="px-2 py-3">Image</th>
-                <th className="px-2 py-3">Full Name</th>
-                <th className="px-2 py-3">Email</th>
-                <th className="px-2 py-3">Join Date</th>
-                <th className="px-2 py-3">Designation</th>
-                <th className="px-2 py-3">Gender</th>
-                <th className="px-2 py-3">Mobile</th>
-                <th className="px-2 py-3">Birth Date</th>
-                <th className="px-2 py-3">Address</th>
-                <th className="px-2 py-3">Status</th>
+                <th className="px-2 py-1">SL.</th>
+                <th className="px-2 py-1">Image</th>
+                <th className="px-2 py-1">FullName</th>
+                <th className="px-2 py-1">Email</th>
+                <th className="px-2 py-1">JoinDate</th>
+                <th className="px-2 py-1">Designation</th>
+                <th className="px-2 py-1">Mobile</th>
+                <th className="px-2 py-1">Status</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -99,22 +96,18 @@ const EmployeeList = () => {
                     key={index}
                     className="hover:bg-gray-50 transition-all border border-gray-200"
                   >
-                    <td className="px-2 py-4 font-bold">{index + 1}.</td>
-                    <td className="px-2 py-4">
+                    <td className="px-2 py-1 font-bold">{index + 1}.</td>
+                    <td className="px-2 py-1">
                       <img
                         src={`https://api.dropshep.com/mstrading/public/uploads/employee/${dt.image}`}
                         alt=""
                       />
                     </td>
-                    <td className="px-2 py-4">{dt.full_name}</td>
-                    <td className="px-2 py-4">{dt.email}</td>
-                    <td className="px-2 py-4">{dt.join_date}</td>
-                    <td className="px-2 py-4">{dt.designation}</td>
-                    <td className="px-2 py-4">{dt.gender}</td>
-                    <td className="px-2 py-4">{dt.mobile}</td>
-                    <td className="px-2 py-4">{dt.birth_date}</td>
-                    <td className="px-2 py-4">{dt.address}</td>
-
+                    <td className="px-2 py-1">{dt.full_name}</td>
+                    <td className="px-2 py-1">{dt.email}</td>
+                    <td className="px-2 py-1">{dt.join_date}</td>
+                    <td className="px-2 py-1">{dt.designation}</td>
+                    <td className="px-2 py-1">{dt.mobile}</td>
                     <td className="px-2 action_column">
                       <div className="flex gap-1">
                         <Link to={`/tramessy/UpdateEmployeeForm/${dt.id}`}>

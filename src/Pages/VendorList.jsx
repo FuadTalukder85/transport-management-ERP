@@ -1,9 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus, FaFilter, FaPen, FaTrashAlt, FaUsers } from "react-icons/fa";
 import { Link } from "react-router-dom";
 // export
-import { CSVLink } from "react-csv";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
@@ -14,7 +13,7 @@ import { IoMdClose } from "react-icons/io";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 const VendorList = () => {
-  const [fuel, setFuel] = useState([]);
+  const [vendor, setVendor] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [loading, setLoading] = useState(true);
   // Date filter state
@@ -22,19 +21,19 @@ const VendorList = () => {
   const [endDate, setEndDate] = useState("");
   // delete modal
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedFuelId, setselectedFuelId] = useState(null);
+  const [selectedvendorId, setselectedvendorId] = useState(null);
   const toggleModal = () => setIsOpen(!isOpen);
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   // search
   const [searchTerm, setSearchTerm] = useState("");
-  // Fetch fuel data
+  // Fetch vendor data
   useEffect(() => {
     axios
       .get("https://api.dropshep.com/mstrading/api/vendor/list")
       .then((response) => {
         if (response.data.status === "Success") {
-          setFuel(response.data.data);
+          setVendor(response.data.data);
         }
         setLoading(false);
       })
@@ -45,98 +44,131 @@ const VendorList = () => {
   }, []);
 
   if (loading) return <p className="text-center mt-16">Loading vendor...</p>;
-
-  console.log("fuel", fuel);
-  // export functionality
-  const headers = [
-    { label: "#", key: "index" },
-    { label: "ড্রাইভারের নাম", key: "driver_name" },
-    { label: "গাড়ির নাম", key: "vehicle_name" },
-    { label: "ফুয়েলের ধরন", key: "type" },
-    { label: "ফুয়েলিং তারিখ", key: "date_time" },
-    { label: "গ্যালন/লিটার", key: "quantity" },
-    { label: "লিটার প্রতি খরচ", key: "price" },
-    { label: "সকল খরচ", key: "total" },
-  ];
-  const csvData = fuel.map((dt, index) => ({
-    index: index + 1,
-    driver_name: dt.driver_name,
-    vehicle_name: dt.vehicle_number,
-    type: dt.type,
-    date_time: dt.date_time,
-    quantity: dt.quantity,
-    price: dt.price,
-    total: dt.quantity * dt.price,
-  }));
-  // export
+  // Export Excel
   const exportExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(csvData);
+    const exportData = filteredvendor.map(
+      ({ date, vendor_name, mobile, rent_category, work_area, status }) => ({
+        Date: date,
+        Name: vendor_name,
+        Mobile: mobile,
+        RentCategory: rent_category,
+        WorkArea: work_area,
+        Status: status,
+      })
+    );
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Fuel Data");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Vendors");
+
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
     });
+
     const data = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(data, "fuel_data.xlsx");
+    saveAs(data, `Vendor_List_${new Date().toISOString()}.xlsx`);
   };
+
+  // Export PDF
   const exportPDF = () => {
     const doc = new jsPDF();
 
     const tableColumn = [
-      "#",
-      "ড্রাইভারের নাম",
-      "গাড়ির নাম",
-      "ফুয়েলের ধরন",
-      "ফুয়েলিং তারিখ",
-      "গ্যালন/লিটার",
-      "লিটার প্রতি খরচ",
-      "সকল খরচ",
+      "Date",
+      "Name",
+      "Mobile",
+      "RentCategory",
+      "WorkArea",
+      "Status",
     ];
-
-    const tableRows = fuel.map((dt, index) => [
-      index + 1,
-      dt.driver_name,
-      dt.driver_name,
-      dt.type,
-      dt.date_time,
-      dt.quantity,
-      dt.price,
-      dt.quantity * dt.price,
-    ]);
+    const tableRows = filteredvendor.map(
+      ({ date, vendor_name, mobile, rent_category, work_area, status }) => [
+        date,
+        vendor_name,
+        mobile,
+        rent_category,
+        work_area,
+        status,
+      ]
+    );
 
     autoTable(doc, {
       head: [tableColumn],
       body: tableRows,
+      styles: { fontSize: 8 },
+      headStyles: { fillColor: [17, 55, 91] },
     });
 
-    doc.save("fuel_data.pdf");
+    doc.save(`Vendor_List_${new Date().toISOString()}.pdf`);
   };
+
+  // Print Table
   const printTable = () => {
-    // hide specific column
-    const actionColumns = document.querySelectorAll(".action_column");
-    actionColumns.forEach((col) => {
-      col.style.display = "none";
-    });
-    const printContent = document.querySelector("table").outerHTML;
-    const WinPrint = window.open("", "", "width=900,height=650");
-    WinPrint.document.write(`
+    const printableContent = `
     <html>
-        <head>
-          <title>Print</title>
-          <style>
-            table { width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid #000; padding: 8px; text-align: left; }
-          </style>
-        </head>
-        <body>${printContent}</body>
-      </html>
-  `);
-    WinPrint.document.close();
-    WinPrint.focus();
-    WinPrint.print();
-    WinPrint.close();
+      <head>
+        <title>Vendor List</title>
+        <style>
+          table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+          th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            font-size: 12px;
+            text-align: left;
+          }
+          th {
+            background-color: #11375B;
+            color: white;
+          }
+        </style>
+      </head>
+      <body>
+        <h2 style="text-align:center;">Vendor List</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Mobile</th>
+              <th>RentCategory</th>
+              <th>WorkArea</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filteredvendor
+              .map(
+                (dt, i) => `
+              <tr>
+                <td>${i + 1}</td>
+                <td>${dt.date}</td>
+                <td>${dt.vendor_name}</td>
+                <td>${dt.mobile}</td>
+                <td>${dt.rent_category}</td>
+                <td>${dt.work_area}</td>
+                <td>${dt.status}</td>
+              </tr>`
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </body>
+    </html>
+  `;
+
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(printableContent);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
   };
+
   // delete by id
   const handleDelete = async (id) => {
     try {
@@ -150,15 +182,15 @@ const VendorList = () => {
       if (!response.ok) {
         throw new Error("Failed to delete trip");
       }
-      // Remove fuel from local list
-      setFuel((prev) => prev.filter((driver) => driver.id !== id));
+      // Remove vendor from local list
+      setVendor((prev) => prev.filter((driver) => driver.id !== id));
       toast.success("Vendor deleted successfully", {
         position: "top-right",
         autoClose: 3000,
       });
 
       setIsOpen(false);
-      setselectedFuelId(null);
+      setselectedvendorId(null);
     } catch (error) {
       console.error("Delete error:", error);
       toast.error("Failed to delete vendor!", {
@@ -168,9 +200,9 @@ const VendorList = () => {
     }
   };
   // search
-  const filteredFuel = fuel.filter((dt) => {
+  const filteredvendor = vendor.filter((dt) => {
     const term = searchTerm.toLowerCase();
-    const fuelDate = dt.date_time;
+    const vendorDate = dt.date_time;
     const matchesSearch =
       dt.date_time?.toLowerCase().includes(term) ||
       dt.vehicle_number?.toLowerCase().includes(term) ||
@@ -183,8 +215,8 @@ const VendorList = () => {
       dt.price?.toLowerCase().includes(term) ||
       dt.total_price?.toLowerCase().includes(term);
     const matchesDateRange =
-      (!startDate || new Date(fuelDate) >= new Date(startDate)) &&
-      (!endDate || new Date(fuelDate) <= new Date(endDate));
+      (!startDate || new Date(vendorDate) >= new Date(startDate)) &&
+      (!endDate || new Date(vendorDate) <= new Date(endDate));
 
     return matchesSearch && matchesDateRange;
   });
@@ -192,8 +224,8 @@ const VendorList = () => {
   const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentVendor = filteredFuel.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(fuel.length / itemsPerPage);
+  const currentVendor = filteredvendor.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(vendor.length / itemsPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
   };
@@ -232,14 +264,6 @@ const VendorList = () => {
         {/* export */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
-            <CSVLink
-              data={csvData}
-              headers={headers}
-              filename={"fuel_data.csv"}
-              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
-            >
-              CSV
-            </CSVLink>
             <button
               onClick={exportExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
@@ -304,12 +328,11 @@ const VendorList = () => {
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
                 <th className="px-2 py-3">#</th>
+                <th className="px-2 py-3">Date</th>
                 <th className="px-2 py-3">Name</th>
                 <th className="px-2 py-3">Mobile</th>
                 <th className="px-2 py-3">RentCate</th>
-                <th className="px-2 py-3">Vehicle</th>
-                <th className="px-2 py-3">Trip</th>
-                <th className="px-2 py-3">Joindate</th>
+                <th className="px-2 py-3">Work Area</th>
                 <th className="px-2 py-3">Status</th>
                 <th className="px-2 py-3 action_column">Action</th>
               </tr>
@@ -320,23 +343,22 @@ const VendorList = () => {
                   <td className="px-4 py-4 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
+                  <td className="px-2 py-4">{dt.date}</td>
                   <td className="px-2 py-4">{dt.vendor_name}</td>
                   <td className="px-2 py-4">{dt.mobile}</td>
                   <td className="px-2 py-4">{dt.rent_category}</td>
-                  <td className="px-2 py-4">{dt.date_time}</td>
-                  <td className="px-2 py-4">{dt.quantity}</td>
-                  <td className="px-2 py-4">{dt.price}</td>
+                  <td className="px-2 py-4">{dt.work_area}</td>
                   <td className="px-2 py-4">{dt.status}</td>
                   <td className="px-2 py-4 action_column">
                     <div className="flex gap-2">
-                      <Link to={`/UpdateFuelForm/${dt.id}`}>
+                      <Link to={`/tramessy/UpdateVendorForm/${dt.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
                       <button
                         onClick={() => {
-                          setselectedFuelId(dt.id);
+                          setselectedvendorId(dt.id);
                           setIsOpen(true);
                         }}
                         className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer"
@@ -415,7 +437,7 @@ const VendorList = () => {
                   No
                 </button>
                 <button
-                  onClick={() => handleDelete(selectedFuelId)}
+                  onClick={() => handleDelete(selectedvendorId)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 cursor-pointer"
                 >
                   Yes

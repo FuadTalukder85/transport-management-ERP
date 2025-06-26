@@ -296,9 +296,9 @@ const CarList = () => {
                 <th className="px-2 py-3">Vehicle Name</th>
                 <th className="px-2 py-3">Vehicle Category</th>
                 <th className="px-2 py-3">Vehicle size</th>
-                <th className="px-2 py-3">Registration Zone</th>
-                <th className="px-2 py-3">Trip</th>
-                <th className="px-2 py-3">Registration No</th>
+                <th className="px-2 py-3">Vehicle No</th>
+                {/* <th className="px-2 py-3">Trip</th> */}
+                {/* <th className="px-2 py-3">Registration No</th> */}
                 <th className="px-2 py-3">Status</th>
                 <th className="px-2 py-3 action_column">Action</th>
               </tr>
@@ -313,10 +313,11 @@ const CarList = () => {
                   <td className="px-2 py-4">{vehicle.vehicle_name}</td>
                   <td className="px-2 py-4">{vehicle.vehicle_category}</td>
                   <td className="px-2 py-4">{vehicle.vehicle_size}</td>
-                  <td className="px-2 py-4">{vehicle.registration_zone}</td>
-
-                  <td className="px-2 py-4">0</td>
-                  <td className="px-2 py-4">{vehicle.registration_number}</td>
+                  <td className="px-2 py-4">
+                    {vehicle.registration_zone} {vehicle.registration_number}
+                  </td>
+                  {/* <td className="px-2 py-4">0</td> */}
+                  {/* <td className="px-2 py-4">{vehicle.registration_number}</td> */}
                   <td className="px-2 py-4">
                     <span className="text-white bg-green-700 px-3 py-1 rounded-md text-xs font-semibold">
                       Active
