@@ -101,6 +101,7 @@ const EmployeeList = () => {
                       <img
                         src={`https://api.dropshep.com/mstrading/public/uploads/employee/${dt.image}`}
                         alt=""
+                        className="w-20 h-20 rounded-full"
                       />
                     </td>
                     <td className="px-2 py-1">{dt.full_name}</td>

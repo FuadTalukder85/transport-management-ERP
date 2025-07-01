@@ -30,7 +30,7 @@ const Main = () => {
 
   if (hideMenu) {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen roboto-font">
         <Outlet />
       </div>
     );

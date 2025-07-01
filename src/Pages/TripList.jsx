@@ -1,18 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import {
-  FaTruck,
-  FaPlus,
-  FaFilter,
-  FaPen,
-  FaEye,
-  FaTrashAlt,
-} from "react-icons/fa";
+import { FaTruck, FaPlus, FaFilter, FaEye, FaTrashAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
-
-import { CSVLink } from "react-csv";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 const TripList = () => {
   const [trip, setTrip] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,8 +23,6 @@ const TripList = () => {
   // get single trip info by id
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedTrip, setselectedTrip] = useState(null);
-
-  // search
 
   // Fetch trips data
   useEffect(() => {
@@ -47,7 +40,118 @@ const TripList = () => {
       });
   }, []);
   if (loading) return <p className="text-center mt-16">Loading trip...</p>;
-  console.log("trip:", trip);
+
+  // excel
+  const exportTripsToExcel = () => {
+    const tableData = filteredTrips.map((dt, index) => ({
+      "SL.": index + 1,
+      Date: dt.date,
+      "Driver Name": dt.driver_name || "N/A",
+      "Driver Mobile": dt.driver_mobile || "N/A",
+      Commission: dt.driver_commission || "0",
+      "Load Point": dt.load_point,
+      "Unload Point": dt.unload_point,
+      "Trip Cost": dt.total_expense || 0,
+      "Trip Fare": dt.total_rent || 0,
+      "Total Profit":
+        parseFloat(dt.total_rent || 0) - parseFloat(dt.total_expense || 0),
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(tableData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Trips");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(data, "trip_report.xlsx");
+  };
+  // pdf
+  const exportTripsToPDF = () => {
+    const doc = new jsPDF("landscape");
+
+    const tableColumn = [
+      "SL.",
+      "Date",
+      "Driver Name",
+      "Mobile",
+      "Commission",
+      "Load Point",
+      "Unload Point",
+      "Trip Cost",
+      "Trip Fare",
+      "Profit",
+    ];
+
+    const tableRows = filteredTrips.map((dt, index) => [
+      index + 1,
+      dt.date,
+      dt.driver_name || "N/A",
+      dt.driver_mobile || "N/A",
+      dt.driver_commission || "0",
+      dt.load_point,
+      dt.unload_point,
+      dt.total_expense || "0",
+      dt.total_rent || "0",
+      parseFloat(dt.total_rent || 0) - parseFloat(dt.total_expense || 0),
+    ]);
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+      styles: {
+        fontSize: 10,
+      },
+      headStyles: {
+        fillColor: [17, 55, 91],
+        textColor: [255, 255, 255],
+      },
+      alternateRowStyles: {
+        fillColor: [240, 240, 240],
+      },
+      theme: "grid",
+    });
+
+    doc.save("trip_report.pdf");
+  };
+  // print
+  const printTripsTable = () => {
+    const actionColumns = document.querySelectorAll(".action_column");
+    actionColumns.forEach((col) => (col.style.display = "none"));
+
+    const printContent = document.querySelector("table").outerHTML;
+    const WinPrint = window.open("", "", "width=900,height=650");
+
+    WinPrint.document.write(`
+    <html>
+    <head>
+      <title>Print</title>
+      <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+        thead { background-color: #11375B; color: white; }
+        tbody tr:nth-child(even) { background-color: #f3f4f6; }
+      </style>
+    </head>
+    <body>
+      <h3>Trip Report</h3>
+      ${printContent}
+    </body>
+    </html>
+  `);
+
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+
+    actionColumns.forEach((col) => (col.style.display = ""));
+  };
 
   // delete by id
   const handleDelete = async (id) => {
@@ -137,19 +241,22 @@ const TripList = () => {
         {/* export and search */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
-            <div
-              filename={"trip_data.csv"}
+            <button
+              onClick={exportTripsToExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
             >
-              CSV
-            </div>
-            <button className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer">
               Excel
             </button>
-            <button className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer">
+            <button
+              onClick={exportTripsToPDF}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
               PDF
             </button>
-            <button className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer">
+            <button
+              onClick={printTripsTable}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
               Print
             </button>
           </div>
@@ -193,7 +300,7 @@ const TripList = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
+                <th className="px-2 py-3">SL.</th>
                 <th className="px-2 py-3">Date</th>
                 <th className="px-2 py-3">DriverInfo</th>
                 <th className="px-2 py-3">Trip&Destination</th>

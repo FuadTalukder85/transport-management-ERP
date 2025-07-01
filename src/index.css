@@ -3,6 +3,11 @@
   --color-primary: #11375b;
   --color-secondary: #181f38;
 }
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+}
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }

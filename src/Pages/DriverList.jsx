@@ -91,81 +91,118 @@ const CarList = () => {
     }
   };
   // export functionality
-  const driverHeaders = [
-    { label: "SL.", key: "index" },
-    { label: "Name", key: "name" },
-    { label: "Mobile", key: "contact" },
-    { label: "Address", key: "address" },
-    { label: "Emergency Contact", key: "emergency_contact" },
-    { label: "License", key: "license" },
-    { label: "License Expire Date", key: "expire_date" },
-    { label: "Status", key: "status" },
-  ];
-
-  const driverCsvData = drivers?.map((driver, index) => ({
-    index: index + 1,
-    name: driver.driver_name,
-    contact: driver.driver_mobile,
-    address: driver.address,
-    emergency_contact: driver.emergency_contact,
-    license: driver.license,
-    expire_date: driver.license_expire_date,
-    status: driver.status,
-  }));
-  // excel
   const exportDriversToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(driverCsvData);
+    const tableData = currentDrivers.map((driver, index) => ({
+      "SL.": indexOfFirstItem + index + 1,
+      Name: driver.driver_name,
+      Mobile: driver.driver_mobile,
+      Address: driver.address,
+      Emergency: driver.emergency_contact,
+      License: driver.license,
+      Expired: driver.license_expire_date,
+      Status: driver.status,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(tableData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Drivers");
+
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
     });
+
     const data = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(data, "drivers.xlsx");
+    saveAs(data, "drivers_data.xlsx");
   };
-  // pdf
   const exportDriversToPDF = () => {
-    const doc = new jsPDF();
-    const tableColumn = driverHeaders.map((h) => h.label);
-    const tableRows = driverCsvData.map((row) =>
-      driverHeaders.map((h) => row[h.key])
-    );
+    const doc = new jsPDF("landscape");
+
+    const tableColumn = [
+      "SL.",
+      "Name",
+      "Mobile",
+      "Address",
+      "Emergency",
+      "License",
+      "Expired",
+      "Status",
+    ];
+
+    const tableRows = currentDrivers.map((driver, index) => [
+      indexOfFirstItem + index + 1,
+      driver.driver_name,
+      driver.driver_mobile,
+      driver.address,
+      driver.emergency_contact,
+      driver.license,
+      driver.license_expire_date,
+      driver.status,
+    ]);
 
     autoTable(doc, {
       head: [tableColumn],
       body: tableRows,
-      styles: { font: "helvetica", fontSize: 8 },
+      startY: 20,
+      styles: {
+        fontSize: 10,
+        cellPadding: 3,
+      },
+      headStyles: {
+        fillColor: [17, 55, 91],
+        textColor: [255, 255, 255],
+        halign: "left",
+      },
+      bodyStyles: {
+        textColor: [17, 55, 91],
+      },
+      alternateRowStyles: {
+        fillColor: [240, 240, 240],
+      },
+      theme: "grid",
     });
 
-    doc.save("drivers.pdf");
+    doc.save("drivers_data.pdf");
   };
-  // print
   const printDriversTable = () => {
-    // hide specific column
+    // Hide Action column
     const actionColumns = document.querySelectorAll(".action_column");
     actionColumns.forEach((col) => {
       col.style.display = "none";
     });
+
     const printContent = document.querySelector("table").outerHTML;
     const WinPrint = window.open("", "", "width=900,height=650");
+
     WinPrint.document.write(`
     <html>
-      <head>
-        <title>Print</title>
-        <style>
-          table { width: 100%; border-collapse: collapse; }
-          th, td { border: 1px solid #000; padding: 8px; text-align: left; }
-        </style>
-      </head>
-      <body>${printContent}</body>
+    <head>
+      <title>Print</title>
+      <style>
+        table { width: 100%; border-collapse: collapse; font-family: Arial; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+        thead { background-color: #11375B; color: white; }
+        tbody tr:nth-child(odd) { background-color: #f3f4f6; }
+      </style>
+    </head>
+    <body>
+      <h3>Driver List</h3>
+      ${printContent}
+    </body>
     </html>
   `);
+
     WinPrint.document.close();
     WinPrint.focus();
     WinPrint.print();
     WinPrint.close();
+
+    // Restore Action column
+    actionColumns.forEach((col) => {
+      col.style.display = "";
+    });
   };
+
   // search
   const filteredDriver = drivers.filter((driver) => {
     const term = searchTerm.toLowerCase();
@@ -220,15 +257,6 @@ const CarList = () => {
         {/* Export */}
         <div className="md:flex justify-between mb-4">
           <div className="flex gap-1 md:gap-3 flex-wrap">
-            <CSVLink
-              data={driverCsvData}
-              headers={driverHeaders}
-              filename="drivers.csv"
-              className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all"
-            >
-              CSV
-            </CSVLink>
-
             <button
               onClick={exportDriversToExcel}
               className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
@@ -270,7 +298,7 @@ const CarList = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
+                <th className="px-2 py-3">SL.</th>
                 <th className="px-2 py-3">Name</th>
                 <th className="px-2 py-3">Mobile</th>
                 <th className="px-2 py-3">Address</th>

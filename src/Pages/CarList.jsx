@@ -1,11 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FaTruck, FaPlus, FaPen, FaEye, FaTrashAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 // export
-import { CSVLink } from "react-csv";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
@@ -70,20 +69,6 @@ const CarList = () => {
     }
   };
   if (loading) return <p className="text-center mt-16">Loading vehicle...</p>;
-
-  // export functionality
-  const headers = [
-    { label: "#", key: "index" },
-    { label: "Name", key: "driver_name" },
-    { label: "Vehicle", key: "vehicle_name" },
-    { label: "Catrgory", key: "category" },
-    { label: "Size", key: "size" },
-    { label: "Area", key: "registration_zone" },
-    { label: "Trip", key: "0" },
-    { label: "Registration No", key: "registration_number" },
-    // { label: "স্ট্যাটাস", key: "Active" },
-  ];
-
   const csvData = vehicles.map((dt, index) => ({
     index: index + 1,
     driver_name: dt.driver_name,
@@ -106,67 +91,92 @@ const CarList = () => {
     const data = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(data, "vehicles_data.xlsx");
   };
-
   const exportPDF = () => {
-    const doc = new jsPDF();
-
+    const doc = new jsPDF("landscape");
     const tableColumn = [
       "#",
-      "নাম",
-      "গাড়ি",
-      "ধরন",
-      "গাড়ির সাইজ",
-      "এলাকা",
-      "ট্রিপ",
-      "রেজিস্ট্রেশন নাম্বার",
+      "Driver Name",
+      "Vehicle Name",
+      "Vehicle Category",
+      "Vehicle Size",
+      "Vehicle No",
+      "Status",
     ];
-
-    const tableRows = vehicles.map((dt, index) => [
-      index + 1,
-      dt.driver_name,
-      dt.driver_name,
-      dt.vehicle_name,
-      dt.date_time,
-      dt.category,
-      dt.size,
-      dt.registration_zone,
-      dt.registration_number,
+    const tableRows = currentVehicles.map((v, index) => [
+      indexOfFirstItem + index + 1,
+      v.driver_name,
+      v.vehicle_name,
+      v.vehicle_category,
+      v.vehicle_size,
+      `${v.registration_zone} ${v.registration_number}`,
+      v.status,
     ]);
 
     autoTable(doc, {
       head: [tableColumn],
       body: tableRows,
+      startY: 20,
+      styles: {
+        fontSize: 10,
+        cellPadding: 3,
+      },
+      headStyles: {
+        fillColor: [17, 55, 91], // Dark blue like your table header: #11375B
+        textColor: [255, 255, 255], // White text
+        halign: "left",
+      },
+      bodyStyles: {
+        textColor: [17, 55, 91], // Dark text color (same as text-[#11375B])
+      },
+      alternateRowStyles: {
+        fillColor: [240, 240, 240], // Light gray for alternate rows (like bg-gray-100)
+      },
+      theme: "grid",
     });
 
     doc.save("vehicles_data.pdf");
   };
 
   const printTable = () => {
-    // hide specific column
     const actionColumns = document.querySelectorAll(".action_column");
     actionColumns.forEach((col) => {
       col.style.display = "none";
     });
 
     const printContent = document.querySelector("table").outerHTML;
-    const WinPrint = window.open("", "", "width=900,height=650");
+    const WinPrint = window.open("", "", "width=1200,height=800");
+
     WinPrint.document.write(`
-      <html>
-      <head>
-        <title>Print</title>
-        <style>
-          table { width: 100%; border-collapse: collapse; }
-          th, td { border: 1px solid #000; padding: 8px; text-align: left; }
-        </style>
-      </head>
-      <body>${printContent}</body>
+    <html>
+    <head>
+      <title>Print</title>
+      <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #000; padding: 6px; text-align: left; }
+        th { background: #f0f0f0; }
+      </style>
+    </head>
+    <body>
+      <h2 style="text-align:center;">Vehicle Full Details</h2>
+      ${printContent}
+    </body>
     </html>
-    `);
+  `);
+
     WinPrint.document.close();
     WinPrint.focus();
     WinPrint.print();
     WinPrint.close();
+
+    // Restore hidden columns
+    setTimeout(() => {
+      actionColumns.forEach((col) => {
+        col.style.display = "";
+      });
+    }, 500);
   };
+
   console.log(vehicles);
   // view car by id
   const handleViewCar = async (id) => {
@@ -243,14 +253,6 @@ const CarList = () => {
         {/* export */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
-            <CSVLink
-              data={csvData}
-              headers={headers}
-              filename={"vehicles_data.csv"}
-              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
-            >
-              CSV
-            </CSVLink>
             <button
               onClick={exportExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
@@ -406,20 +408,20 @@ const CarList = () => {
                 <FaTrashAlt />
               </div>
               <p className="text-center text-gray-700 font-medium mb-6">
-                আপনি কি গাড়িটি ডিলিট করতে চান?
+                Do you want to delete the car?
               </p>
               <div className="flex justify-center space-x-4">
                 <button
                   onClick={toggleModal}
                   className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-primary hover:text-white cursor-pointer"
                 >
-                  না
+                  No
                 </button>
                 <button
                   onClick={() => handleDelete(selectedDriverId)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 cursor-pointer"
                 >
-                  হ্যাঁ
+                  Yes
                 </button>
               </div>
             </div>
