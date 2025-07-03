@@ -282,7 +282,7 @@ const CarList = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="গাড়ি খুঁজুন..."
+              placeholder="Search Vehicle..."
               className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
             />
           </div>

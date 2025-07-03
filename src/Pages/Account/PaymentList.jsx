@@ -1,11 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaUserSecret } from "react-icons/fa6";
+import { FaFilter, FaUserSecret } from "react-icons/fa6";
 import { InputField } from "../../components/Form/FormFields";
 import { FormProvider, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import BtnSubmit from "../../components/Button/BtnSubmit";
 import useRefId from "../../hooks/useRef";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const PaymentList = () => {
   const generateRefId = useRefId();
@@ -15,6 +19,11 @@ const PaymentList = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState(null);
+  const [showFilter, setShowFilter] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  // search
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     axios
@@ -30,25 +39,209 @@ const PaymentList = () => {
         setLoading(false);
       });
   }, []);
+  // Filter by date
+  const filteredPayment = payment.filter((trip) => {
+    const tripDate = new Date(trip.date);
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
 
+    if (start && end) {
+      return tripDate >= start && tripDate <= end;
+    } else if (start) {
+      return tripDate.toDateString() === start.toDateString();
+    } else {
+      return true;
+    }
+  });
+  // search
+  const filteredPaymentList = filteredPayment.filter((dt) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      dt.date?.toLowerCase().includes(term) ||
+      dt.item_name?.toLowerCase().includes(term) ||
+      dt.supplier_name?.toLowerCase().includes(term) ||
+      dt.purchase_id?.toLowerCase().includes(term) ||
+      dt.category?.toLowerCase().includes(term) ||
+      dt.quantity?.toLowerCase().includes(term) ||
+      dt.unit_price?.toLowerCase().includes(term) ||
+      dt.total_amount?.toLowerCase().includes(term) ||
+      dt.due_amount?.toLowerCase().includes(term) ||
+      dt.pay_amount?.toLowerCase().includes(term) ||
+      dt.branch_name?.toLowerCase().includes(term)
+    );
+  });
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
+
+  // excel
+  const exportToExcel = () => {
+    const exportData = filteredPaymentList.map((dt, index) => ({
+      SL: index + 1,
+      Date: dt.date,
+      SupplierName: dt.supplier_name,
+      Category: dt.category,
+      ItemName: dt.item_name,
+      Quantity: dt.quantity,
+      UnitPrice: dt.unit_price,
+      TotalAmount: dt.total_amount,
+      PayAmount: dt.pay_amount,
+      DueAmount: parseFloat(dt.total_amount) - parseFloat(dt.pay_amount),
+      Status:
+        parseFloat(dt.pay_amount) === 0
+          ? "Unpaid"
+          : parseFloat(dt.pay_amount) >= parseFloat(dt.total_amount)
+          ? "Paid"
+          : "Partial",
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Payments");
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const dataBlob = new Blob([excelBuffer], {
+      type: "application/octet-stream",
+    });
+    saveAs(dataBlob, "PaymentReport.xlsx");
+  };
+  // pdf
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    const tableColumn = [
+      "SL",
+      "Date",
+      "Supplier Name",
+      "Category",
+      "Item Name",
+      "Qty",
+      "Unit Price",
+      "Total",
+      "Paid",
+      "Due",
+      "Status",
+    ];
+
+    const tableRows = filteredPaymentList.map((dt, index) => [
+      index + 1,
+      dt.date,
+      dt.supplier_name,
+      dt.category,
+      dt.item_name,
+      dt.quantity,
+      dt.unit_price,
+      dt.total_amount,
+      dt.pay_amount,
+      parseFloat(dt.total_amount) - parseFloat(dt.pay_amount),
+      parseFloat(dt.pay_amount) === 0
+        ? "Unpaid"
+        : parseFloat(dt.pay_amount) >= parseFloat(dt.total_amount)
+        ? "Paid"
+        : "Partial",
+    ]);
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      styles: { fontSize: 8 },
+    });
+
+    doc.save("PaymentReport.pdf");
+  };
+  // handle print
+  const handlePrint = () => {
+    const printWindow = window.open("", "_blank");
+    const tableRows = filteredPaymentList.map(
+      (dt, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${dt.date}</td>
+        <td>${dt.supplier_name}</td>
+        <td>${dt.category}</td>
+        <td>${dt.item_name}</td>
+        <td>${dt.quantity}</td>
+        <td>${dt.unit_price}</td>
+        <td>${dt.total_amount}</td>
+        <td>${dt.pay_amount}</td>
+        <td>${parseFloat(dt.total_amount) - parseFloat(dt.pay_amount)}</td>
+        <td>${
+          parseFloat(dt.pay_amount) === 0
+            ? "Unpaid"
+            : parseFloat(dt.pay_amount) >= parseFloat(dt.total_amount)
+            ? "Paid"
+            : "Partial"
+        }</td>
+      </tr>
+    `
+    );
+
+    const htmlContent = `
+    <html>
+      <head>
+        <title>Print Report</title>
+        <style>
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+          }
+          th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+          }
+          th {
+            background-color: #11375B;
+            color: white;
+          }
+        </style>
+      </head>
+      <body>
+        <h3>Payment Report</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Date</th>
+              <th>Supplier Name</th>
+              <th>Category</th>
+              <th>Item Name</th>
+              <th>Qty</th>
+              <th>Unit Price</th>
+              <th>Total</th>
+              <th>Paid</th>
+              <th>Due</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRows.join("")}
+          </tbody>
+        </table>
+      </body>
+    </html>
+  `;
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+    printWindow.print();
+  };
   // onsubmit
   const onSubmit = async (data) => {
     const refId = generateRefId();
-    if (!data.main_amount || isNaN(data.main_amount)) {
+    if (!data.pay_amount || isNaN(data.pay_amount)) {
       toast.error("Invalid payment amount");
       return;
     }
 
-    const previousAmount = parseFloat(selectedPayment.main_amount) || 0;
-    const newAmount = parseFloat(data.main_amount);
+    const previousAmount = parseFloat(selectedPayment.pay_amount) || 0;
+    const newAmount = parseFloat(data.pay_amount);
     const updatedAmount = previousAmount + newAmount;
 
     try {
       const response = await axios.post(
         `https://api.tramessy.com/mstrading/api/payment/update/${selectedPayment.id}`,
         {
-          main_amount: updatedAmount,
+          pay_amount: updatedAmount,
         }
       );
 
@@ -58,7 +251,7 @@ const PaymentList = () => {
         supplierFormData.append("data", new Date().toISOString().split("T")[0]);
         supplierFormData.append("supplier_name", selectedPayment.supplier_name);
         supplierFormData.append("remarks", data.note);
-        supplierFormData.append("payment_amount", data.main_amount);
+        supplierFormData.append("payment_amount", data.pay_amount);
         supplierFormData.append("ref_id", refId);
         await axios.post(
           "https://api.tramessy.com/mstrading/api/supplierLedger/create",
@@ -73,7 +266,7 @@ const PaymentList = () => {
         );
         branchLedgerFormData.append("branch_name", selectedPayment.branch_name);
         branchLedgerFormData.append("remarks", data.note);
-        branchLedgerFormData.append("cash_out", data.main_amount);
+        branchLedgerFormData.append("cash_out", data.pay_amount);
         branchLedgerFormData.append("ref_id", refId);
         await axios.post(
           "https://api.tramessy.com/mstrading/api/branch/create",
@@ -90,7 +283,7 @@ const PaymentList = () => {
             item.id === selectedPayment.id
               ? {
                   ...item,
-                  main_amount: updatedAmount,
+                  pay_amount: updatedAmount,
                   status:
                     updatedAmount === 0
                       ? "Unpaid"
@@ -119,7 +312,76 @@ const PaymentList = () => {
             <FaUserSecret className="text-[#11375B] text-2xl" />
             Payment List
           </h1>
+          <div className="mt-3 md:mt-0 flex gap-2">
+            <button
+              onClick={() => setShowFilter((prev) => !prev)}
+              className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+            >
+              <FaFilter /> Filter
+            </button>
+          </div>
         </div>
+        {/* export and search */}
+        <div className="md:flex justify-between items-center">
+          <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
+            <button
+              onClick={exportToExcel}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
+              Excel
+            </button>
+            <button
+              onClick={exportToPDF}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
+              PDF
+            </button>
+            <button
+              onClick={handlePrint}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
+              Print
+            </button>
+          </div>
+          {/* search */}
+          <div className="mt-3 md:mt-0">
+            <span className="text-primary font-semibold pr-3">Search: </span>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+              }}
+              placeholder="Search list..."
+              className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
+            />
+          </div>
+        </div>
+        {showFilter && (
+          <div className="md:flex gap-6 justify-between border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
+            <div className="relative w-full">
+              <label className="block mb-1 text-sm font-medium">
+                Start Date
+              </label>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+              />
+            </div>
+            <div className="relative w-full">
+              <label className="block mb-1 text-sm font-medium">End Date</label>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+              />
+            </div>
+          </div>
+        )}
+
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
@@ -139,7 +401,7 @@ const PaymentList = () => {
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              {payment?.map((dt, index) => (
+              {filteredPaymentList?.map((dt, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-all">
                   <td className="px-1 py-4 font-bold">{index + 1}</td>
                   <td className="px-1 py-4">{dt.date}</td>
@@ -149,14 +411,14 @@ const PaymentList = () => {
                   <td className="px-1 py-4">{dt.quantity}</td>
                   <td className="px-1 py-4">{dt.unit_price}</td>
                   <td className="px-1 py-4">{dt.total_amount}</td>
-                  <td className="px-1 py-4">{dt.main_amount}</td>
+                  <td className="px-1 py-4">{dt.pay_amount}</td>
                   <td className="px-1 py-4">
-                    {dt.total_amount - dt.main_amount}
+                    {dt.total_amount - dt.pay_amount}
                   </td>
                   <td className="px-1 py-4">
                     {(() => {
                       const total = parseFloat(dt.total_amount) || 0;
-                      const paid = parseFloat(dt.main_amount) || 0;
+                      const paid = parseFloat(dt.pay_amount) || 0;
                       const due = total - paid;
 
                       let status = "Unpaid";
@@ -186,33 +448,33 @@ const PaymentList = () => {
                         onClick={() => {
                           if (
                             parseFloat(dt.total_amount) -
-                              parseFloat(dt.main_amount) <=
+                              parseFloat(dt.pay_amount) <=
                             0
                           )
                             return;
                           setSelectedPayment(dt);
                           setShowModal(true);
                           reset({
-                            due_amount: dt.total_amount - dt.main_amount,
-                            main_amount: dt.main_amount,
+                            due_amount: dt.total_amount - dt.pay_amount,
+                            pay_amount: dt.pay_amount,
                             // note: dt.item_name,
                           });
                         }}
                         className={`px-1 py-1 rounded shadow-md transition-all cursor-pointer ${
                           parseFloat(dt.total_amount) -
-                            parseFloat(dt.main_amount) >
+                            parseFloat(dt.pay_amount) >
                           0
                             ? "text-primary hover:bg-primary hover:text-white"
                             : "text-green-700 bg-gray-200 cursor-not-allowed"
                         }`}
                         disabled={
                           parseFloat(dt.total_amount) -
-                            parseFloat(dt.main_amount) <=
+                            parseFloat(dt.pay_amount) <=
                           0
                         }
                       >
                         {parseFloat(dt.total_amount) -
-                          parseFloat(dt.main_amount) >
+                          parseFloat(dt.pay_amount) >
                         0
                           ? "Pay Now"
                           : "Complete"}
@@ -241,7 +503,7 @@ const PaymentList = () => {
                   required
                   readOnly
                 />
-                <InputField name="main_amount" label="Pay Amount" required />
+                <InputField name="pay_amount" label="Pay Amount" required />
                 <InputField name="note" label="Note" required />
                 <div className="flex justify-end gap-2">
                   <button
