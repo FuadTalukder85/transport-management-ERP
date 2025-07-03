@@ -9,7 +9,7 @@ const PurchaseList = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/purchase/list")
+      .get("https://api.tramessy.com/mstrading/api/purchase/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setPurchase(response.data.data);

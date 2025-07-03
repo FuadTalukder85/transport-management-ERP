@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await fetch("https://api.dropshep.com/api/login", {
+      const res = await fetch("https://api.tramessy.com/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

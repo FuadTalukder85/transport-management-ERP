@@ -15,7 +15,7 @@ const EmployeeList = () => {
   // Fetch trips data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/employee/list")
+      .get("https://api.tramessy.com/mstrading/api/employee/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setEmployee(response.data.data);
@@ -31,7 +31,7 @@ const EmployeeList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.dropshep.com/mstrading/api/employee/delete/${id}`,
+        `https://api.tramessy.com/mstrading/api/employee/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -99,7 +99,7 @@ const EmployeeList = () => {
                     <td className="px-2 py-1 font-bold">{index + 1}.</td>
                     <td className="px-2 py-1">
                       <img
-                        src={`https://api.dropshep.com/mstrading/public/uploads/employee/${dt.image}`}
+                        src={`https://api.tramessy.com/mstrading/public/uploads/employee/${dt.image}`}
                         alt=""
                         className="w-20 h-20 rounded-full"
                       />

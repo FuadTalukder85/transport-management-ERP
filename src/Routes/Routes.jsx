@@ -123,7 +123,7 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://api.dropshep.com/mstrading/api/vehicle/show/${params.id}`
+            `https://api.tramessy.com/mstrading/api/vehicle/show/${params.id}`
           ),
       },
       {
@@ -151,7 +151,7 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://api.dropshep.com/mstrading/api/driver/show/${params.id}`
+            `https://api.tramessy.com/mstrading/api/driver/show/${params.id}`
           ),
       },
       {
@@ -178,7 +178,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://api.dropshep.com/api/trip/${params.id}`),
+          fetch(`https://api.tramessy.com/api/trip/${params.id}`),
       },
       {
         path: "/tramessy/Fuel",
@@ -204,7 +204,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://api.dropshep.com/api/fuel/${params.id}`),
+          fetch(`https://api.tramessy.com/api/fuel/${params.id}`),
       },
       {
         path: "/tramessy/Parts",
@@ -222,7 +222,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://api.dropshep.com/api/parts/${params.id}`),
+          fetch(`https://api.tramessy.com/api/parts/${params.id}`),
       },
       {
         path: "/tramessy/Maintenance",
@@ -248,7 +248,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://api.dropshep.com/api/maintenance/${params.id}`),
+          fetch(`https://api.tramessy.com/api/maintenance/${params.id}`),
       },
       {
         path: "/tramessy/VendorList",
@@ -275,7 +275,7 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://api.dropshep.com/mstrading/api/vendor/show/${params.id}`
+            `https://api.tramessy.com/mstrading/api/vendor/show/${params.id}`
           ),
       },
       {
@@ -303,7 +303,7 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://api.dropshep.com/mstrading/api/rent/show/${params.id}`
+            `https://api.tramessy.com/mstrading/api/rent/show/${params.id}`
           ),
       },
       {
@@ -346,7 +346,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://api.dropshep.com/api/users/${params.id}`),
+          fetch(`https://api.tramessy.com/api/users/${params.id}`),
       },
       {
         path: "/tramessy/Login",
@@ -364,7 +364,7 @@ export const router = createBrowserRouter([
           </AdminRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://api.dropshep.com/api/trip/${params.id}`),
+          fetch(`https://api.tramessy.com/api/trip/${params.id}`),
       },
       {
         path: "/tramessy/UpdateExpenseForm/:id",
@@ -374,7 +374,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://api.dropshep.com/api/trip/${params.id}`),
+          fetch(`https://api.tramessy.com/api/trip/${params.id}`),
       },
 
       // HR
@@ -399,7 +399,7 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://api.dropshep.com/mstrading/api/office/show/${params.id}`
+            `https://api.tramessy.com/mstrading/api/office/show/${params.id}`
           ),
       },
       {
@@ -415,7 +415,7 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://api.dropshep.com/mstrading/api/employee/show/${params.id}`
+            `https://api.tramessy.com/mstrading/api/employee/show/${params.id}`
           ),
       },
       {
@@ -461,7 +461,7 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://api.dropshep.com/mstrading/api/leave/show/${params.id}`
+            `https://api.tramessy.com/mstrading/api/leave/show/${params.id}`
           ),
       },
       {
@@ -473,11 +473,11 @@ export const router = createBrowserRouter([
         element: <PurchaseForm />,
       },
       {
-        path: "/tramessy/Purchase/UpdatePurchaseForm/:id",
+        path: "/tramessy/Purchase/UpdatePurchaseForm/:ref_id",
         element: <UpdatePurchaseForm />,
         loader: ({ params }) =>
           fetch(
-            `https://api.dropshep.com/mstrading/api/purchase/show/${params.id}`
+            `https://api.tramessy.com/mstrading/api/purchase/show/${params.ref_id}`
           ),
       },
       {
@@ -497,7 +497,7 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://api.dropshep.com/mstrading/api/supply/show/${params.id}`
+            `https://api.tramessy.com/mstrading/api/supply/show/${params.id}`
           ),
       },
       // Inventory
@@ -539,7 +539,7 @@ export const router = createBrowserRouter([
         element: <UpdateCustomerForm />,
         loader: ({ params }) =>
           fetch(
-            `https://api.dropshep.com/mstrading/api/customer/show/${params.id}`
+            `https://api.tramessy.com/mstrading/api/customer/show/${params.id}`
           ),
       },
       // Reports

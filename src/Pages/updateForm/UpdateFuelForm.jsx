@@ -42,7 +42,7 @@ const UpdateFuelForm = () => {
   // car name / registration number
   const [vehicles, setVehicles] = useState([]);
   useEffect(() => {
-    fetch("https://api.dropshep.com/api/vehicle")
+    fetch("https://api.tramessy.com/api/vehicle")
       .then((response) => response.json())
       .then((data) => setVehicles(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -54,7 +54,7 @@ const UpdateFuelForm = () => {
   }));
   // driver name
   useEffect(() => {
-    fetch("https://api.dropshep.com/api/driver")
+    fetch("https://api.tramessy.com/api/driver")
       .then((response) => response.json())
       .then((data) => setDrivers(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -68,7 +68,7 @@ const UpdateFuelForm = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.put(
-        `https://api.dropshep.com/api/fuel/${id}`,
+        `https://api.tramessy.com/api/fuel/${id}`,
         data,
         {
           headers: {

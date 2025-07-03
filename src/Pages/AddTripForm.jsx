@@ -17,7 +17,7 @@ const AddTripForm = () => {
   // select customer from api
   const [customers, setCustomers] = useState([]);
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/customer/list")
+    fetch("https://api.tramessy.com/mstrading/api/customer/list")
       .then((response) => response.json())
       .then((data) => setCustomers(data.data))
       .catch((error) => console.error("Error fetching customer data:", error));
@@ -30,7 +30,7 @@ const AddTripForm = () => {
   // select Vehicle No. from api
   const [vehicle, setVehicle] = useState([]);
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/vehicle/list")
+    fetch("https://api.tramessy.com/mstrading/api/vehicle/list")
       .then((response) => response.json())
       .then((data) => setVehicle(data.data))
       .catch((error) => console.error("Error fetching vehicle data:", error));
@@ -43,7 +43,7 @@ const AddTripForm = () => {
   // select driver from api
   const [drivers, setDrivers] = useState([]);
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/driver/list")
+    fetch("https://api.tramessy.com/mstrading/api/driver/list")
       .then((response) => response.json())
       .then((data) => setDrivers(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -136,7 +136,7 @@ const AddTripForm = () => {
       tripFormData.append("ref_id", refId);
       tripFormData.append("status", "Pending");
       const tripResponse = await axios.post(
-        "https://api.dropshep.com/mstrading/api/trip/create",
+        "https://api.tramessy.com/mstrading/api/trip/create",
         tripFormData
       );
       const tripData = tripResponse.data;
@@ -155,7 +155,7 @@ const AddTripForm = () => {
           // branchFormData.append("due", data.due_amount);
           branchFormData.append("ref_id", refId);
           await axios.post(
-            "https://api.dropshep.com/mstrading/api/branch/create",
+            "https://api.tramessy.com/mstrading/api/branch/create",
             branchFormData
           );
 
@@ -179,7 +179,7 @@ const AddTripForm = () => {
           driverLedgerFormData.append("due_amount", data.due_amount);
           driverLedgerFormData.append("ref_id", refId);
           await axios.post(
-            "https://api.dropshep.com/mstrading/api/driverLedger/create",
+            "https://api.tramessy.com/mstrading/api/driverLedger/create",
             driverLedgerFormData
           );
         }

@@ -19,7 +19,7 @@ const SupplierList = () => {
   const toggleModal = () => setIsOpen(!isOpen);
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/supply/list")
+      .get("https://api.tramessy.com/mstrading/api/supply/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setSupply(response.data.data);
@@ -35,7 +35,7 @@ const SupplierList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.dropshep.com/mstrading/api/supply/delete/${id}`,
+        `https://api.tramessy.com/mstrading/api/supply/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -65,7 +65,7 @@ const SupplierList = () => {
   const handleView = async (id) => {
     try {
       const response = await axios.get(
-        `https://api.dropshep.com/mstrading/api/supply/show/${id}`
+        `https://api.tramessy.com/mstrading/api/supply/show/${id}`
       );
       if (response.data.status === "Success") {
         setSelectedSupply(response.data.data);

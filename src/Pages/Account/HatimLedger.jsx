@@ -16,7 +16,7 @@ const HatimLedger = () => {
   // Fetch ledger data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/customerLedger/list")
+      .get("https://api.tramessy.com/mstrading/api/customerLedger/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setHatim(response.data.data);

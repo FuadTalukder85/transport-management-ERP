@@ -15,25 +15,25 @@ const StatisticsCard = () => {
   const [driver, setDriver] = useState([]);
   // trips
   useEffect(() => {
-    axios.get("https://api.dropshep.com/api/trip").then((res) => {
+    axios.get("https://api.tramessy.com/api/trip").then((res) => {
       setTrips(res.data.data);
     });
   }, []);
   // vehicle
   useEffect(() => {
-    axios.get("https://api.dropshep.com/api/vehicle").then((res) => {
+    axios.get("https://api.tramessy.com/api/vehicle").then((res) => {
       setvehicle(res.data.data);
     });
   }, []);
   // users
   useEffect(() => {
-    axios.get("https://api.dropshep.com/api/users").then((res) => {
+    axios.get("https://api.tramessy.com/api/users").then((res) => {
       setUsers(res.data.data);
     });
   }, []);
   // drivers
   useEffect(() => {
-    axios.get("https://api.dropshep.com/api/driver").then((res) => {
+    axios.get("https://api.tramessy.com/api/driver").then((res) => {
       setDriver(res.data.data);
     });
   }, []);

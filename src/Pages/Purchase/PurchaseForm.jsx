@@ -38,7 +38,7 @@ const PurchaseForm = () => {
   };
   // select driver from api
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/driver/list")
+    fetch("https://api.tramessy.com/mstrading/api/driver/list")
       .then((response) => response.json())
       .then((data) => setDrivers(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -49,7 +49,7 @@ const PurchaseForm = () => {
   }));
   // select Vehicle No. from api
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/vehicle/list")
+    fetch("https://api.tramessy.com/mstrading/api/vehicle/list")
       .then((response) => response.json())
       .then((data) => setVehicle(data.data))
       .catch((error) => console.error("Error fetching vehicle data:", error));
@@ -61,7 +61,7 @@ const PurchaseForm = () => {
   }));
   // select branch from api
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/office/list")
+    fetch("https://api.tramessy.com/mstrading/api/office/list")
       .then((response) => response.json())
       .then((data) => setBranch(data.data))
       .catch((error) => console.error("Error fetching branch data:", error));
@@ -72,7 +72,7 @@ const PurchaseForm = () => {
   }));
   // select supplier from api
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/supply/list")
+    fetch("https://api.tramessy.com/mstrading/api/supply/list")
       .then((response) => response.json())
       .then((data) => setSupplier(data.data))
       .catch((error) => console.error("Error fetching supply data:", error));
@@ -94,7 +94,7 @@ const PurchaseForm = () => {
       purchaseFormData.append("ref_id", refId);
       purchaseFormData.append("status", "Unpaid");
       const purchaseResponse = await axios.post(
-        "https://api.dropshep.com/mstrading/api/purchase/create",
+        "https://api.tramessy.com/mstrading/api/purchase/create",
         purchaseFormData
       );
       const purchaseData = purchaseResponse.data;
@@ -111,7 +111,7 @@ const PurchaseForm = () => {
         branchFormData.append("unit_price", data.unit_price);
         branchFormData.append("ref_id", refId);
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/supplierLedger/create",
+          "https://api.tramessy.com/mstrading/api/supplierLedger/create",
           branchFormData
         );
         // --- Third API: if category is engine oil then send data on inventory (only specific field) ---
@@ -123,7 +123,7 @@ const PurchaseForm = () => {
           inventoryFormData.append("quantity", data.quantity);
           inventoryFormData.append("ref_id", refId);
           await axios.post(
-            "https://api.dropshep.com/mstrading/api/stockProduct/create",
+            "https://api.tramessy.com/mstrading/api/stockProduct/create",
             inventoryFormData
           );
         }
@@ -142,7 +142,7 @@ const PurchaseForm = () => {
         paymentFormData.append("status", "Unpaid");
         paymentFormData.append("ref_id", refId);
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/payment/create",
+          "https://api.tramessy.com/mstrading/api/payment/create",
           paymentFormData
         );
         toast.success("Purchase added successfully", {

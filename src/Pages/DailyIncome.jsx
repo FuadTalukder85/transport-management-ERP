@@ -23,7 +23,7 @@ const DailyIncome = () => {
   useEffect(() => {
     const fetchTrips = async () => {
       try {
-        const res = await axios.get("https://api.dropshep.com/api/trip");
+        const res = await axios.get("https://api.tramessy.com/api/trip");
         const sorted = res.data.data.sort(
           (a, b) => new Date(b.trip_date) - new Date(a.trip_date)
         );

@@ -15,7 +15,7 @@ const Hatim = () => {
   // Fetch trips data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/trip/list")
+      .get("https://api.tramessy.com/mstrading/api/trip/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setHatim(response.data.data);
@@ -83,13 +83,13 @@ const Hatim = () => {
 
         // Step 1: Create ledger entry
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/customerLedger/create",
+          "https://api.tramessy.com/mstrading/api/customerLedger/create",
           fd
         );
 
         // Step 2: Update trip status to Approved
         await axios.post(
-          `https://api.dropshep.com/mstrading/api/trip/update/${dt.id}`,
+          `https://api.tramessy.com/mstrading/api/trip/update/${dt.id}`,
           { status: "Approved" }
         );
       }
@@ -101,7 +101,7 @@ const Hatim = () => {
 
       // Optional: refetch trips to refresh data
       const refreshed = await axios.get(
-        "https://api.dropshep.com/mstrading/api/trip/list"
+        "https://api.tramessy.com/mstrading/api/trip/list"
       );
       if (refreshed.data.status === "Success") {
         setHatim(refreshed.data.data);

@@ -17,7 +17,7 @@ const Office = () => {
   // Fetch customer ledger data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/office/list")
+      .get("https://api.tramessy.com/mstrading/api/office/list")
       .then((response) => {
         if (response.data.status === "Success") {
           const data = response.data.data;
@@ -34,7 +34,7 @@ const Office = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.dropshep.com/mstrading/api/office/delete/${id}`,
+        `https://api.tramessy.com/mstrading/api/office/delete/${id}`,
         {
           method: "DELETE",
         }

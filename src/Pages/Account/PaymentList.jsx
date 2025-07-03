@@ -18,7 +18,7 @@ const PaymentList = () => {
 
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/payment/list")
+      .get("https://api.tramessy.com/mstrading/api/payment/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setPayment(response.data.data);
@@ -46,7 +46,7 @@ const PaymentList = () => {
 
     try {
       const response = await axios.post(
-        `https://api.dropshep.com/mstrading/api/payment/update/${selectedPayment.id}`,
+        `https://api.tramessy.com/mstrading/api/payment/update/${selectedPayment.id}`,
         {
           main_amount: updatedAmount,
         }
@@ -61,7 +61,7 @@ const PaymentList = () => {
         supplierFormData.append("payment_amount", data.main_amount);
         supplierFormData.append("ref_id", refId);
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/supplierLedger/create",
+          "https://api.tramessy.com/mstrading/api/supplierLedger/create",
           supplierFormData
         );
 
@@ -76,7 +76,7 @@ const PaymentList = () => {
         branchLedgerFormData.append("cash_out", data.main_amount);
         branchLedgerFormData.append("ref_id", refId);
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/branch/create",
+          "https://api.tramessy.com/mstrading/api/branch/create",
           branchLedgerFormData
         );
 

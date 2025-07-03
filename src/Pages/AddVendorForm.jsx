@@ -30,7 +30,7 @@ const AddVendorForm = () => {
         formData.append(key, data[key]);
       }
       const response = await axios.post(
-        "https://api.dropshep.com/mstrading/api/vendor/create",
+        "https://api.tramessy.com/mstrading/api/vendor/create",
         formData
       );
       const resData = response.data;

@@ -25,7 +25,7 @@ const FuelForm = () => {
   const [vehicles, setVehicles] = useState([]);
 
   useEffect(() => {
-    fetch("https://api.dropshep.com/api/vehicle")
+    fetch("https://api.tramessy.com/api/vehicle")
       .then((response) => response.json())
       .then((data) => setVehicles(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -37,7 +37,7 @@ const FuelForm = () => {
   }));
 
   useEffect(() => {
-    fetch("https://api.dropshep.com/api/driver")
+    fetch("https://api.tramessy.com/api/driver")
       .then((response) => response.json())
       .then((data) => setDrivers(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -57,7 +57,7 @@ const FuelForm = () => {
         formData.append(key, data[key]);
       }
       const response = await axios.post(
-        "https://api.dropshep.com/api/fuel",
+        "https://api.tramessy.com/api/fuel",
         formData
       );
       const resData = response.data;

@@ -10,7 +10,7 @@ const AttendanceList = () => {
 
   useEffect(() => {
     // Fetch employee list
-    fetch("https://api.dropshep.com/mstrading/api/employee/list")
+    fetch("https://api.tramessy.com/mstrading/api/employee/list")
       .then((response) => response.json())
       .then((data) => setEmployee(data.data))
       .catch((error) => console.error("Error fetching employee data:", error));

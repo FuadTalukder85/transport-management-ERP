@@ -30,7 +30,7 @@ const CashDispatchForm = () => {
       }
       tripFormData.append("ref_id", refId);
       const tripResponse = await axios.post(
-        "https://api.dropshep.com/mstrading/api/account/create",
+        "https://api.tramessy.com/mstrading/api/account/create",
         tripFormData
       );
 
@@ -51,7 +51,7 @@ const CashDispatchForm = () => {
         branchFormData.append("ref_id", refId);
 
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/branch/create",
+          "https://api.tramessy.com/mstrading/api/branch/create",
           branchFormData
         );
 

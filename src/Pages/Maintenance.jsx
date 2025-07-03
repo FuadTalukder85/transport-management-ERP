@@ -29,7 +29,7 @@ const Maintenance = () => {
   // Fetch maintenance data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/api/maintenance")
+      .get("https://api.tramessy.com/api/maintenance")
       .then((response) => {
         if (response.data.status === "success") {
           setMaintenance(response.data.data);
@@ -48,7 +48,7 @@ const Maintenance = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.dropshep.com/api/maintenance/${id}`,
+        `https://api.tramessy.com/api/maintenance/${id}`,
         {
           method: "DELETE",
         }

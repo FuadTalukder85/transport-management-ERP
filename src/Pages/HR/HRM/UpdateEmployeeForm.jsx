@@ -34,7 +34,7 @@ const UpdateEmployeeForm = () => {
   // select branch name from api
   const [branch, setBranch] = useState([]);
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/office/list")
+    fetch("https://api.tramessy.com/mstrading/api/office/list")
       .then((response) => response.json())
       .then((data) => setBranch(data.data))
       .catch((error) => console.error("Error fetching branch data:", error));
@@ -62,7 +62,7 @@ const UpdateEmployeeForm = () => {
         }
       }
       const response = await axios.post(
-        `https://api.dropshep.com/mstrading/api/employee/update/${id}`,
+        `https://api.tramessy.com/mstrading/api/employee/update/${id}`,
         formData
       );
       const resData = response.data;
@@ -264,7 +264,7 @@ const UpdateEmployeeForm = () => {
                 src={
                   previewImage?.startsWith("blob:")
                     ? previewImage
-                    : `https://api.dropshep.com/mstrading/public/uploads/employee/${previewImage}`
+                    : `https://api.tramessy.com/mstrading/public/uploads/employee/${previewImage}`
                 }
                 alt="Image Preview"
                 className="max-w-xs h-auto rounded border border-gray-300"

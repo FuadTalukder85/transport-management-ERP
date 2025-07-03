@@ -36,7 +36,7 @@ const UpdateRentVehicleForm = () => {
         formData.append(key, data[key]);
       }
       const response = await axios.post(
-        `https://api.dropshep.com/mstrading/api/rent/update/${id}`,
+        `https://api.tramessy.com/mstrading/api/rent/update/${id}`,
         formData
       );
       const resData = response.data;

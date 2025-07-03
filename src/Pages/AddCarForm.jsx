@@ -17,7 +17,7 @@ const AddCarForm = () => {
   // select driver from api
   const [drivers, setDrivers] = useState([]);
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/driver/list")
+    fetch("https://api.tramessy.com/mstrading/api/driver/list")
       .then((response) => response.json())
       .then((data) => setDrivers(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -39,7 +39,7 @@ const AddCarForm = () => {
       }
       formData.append("ref_id", generateRefId());
       const response = await axios.post(
-        "https://api.dropshep.com/mstrading/api/vehicle/create",
+        "https://api.tramessy.com/mstrading/api/vehicle/create",
         formData
       );
       const resData = response.data;

@@ -22,7 +22,7 @@ const OfficeForm = () => {
       }
       formData.append("ref_id", generateRefId());
       const response = await axios.post(
-        "https://api.dropshep.com/mstrading/api/office/create",
+        "https://api.tramessy.com/mstrading/api/office/create",
         formData
       );
       const resData = response.data;

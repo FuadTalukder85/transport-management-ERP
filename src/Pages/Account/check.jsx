@@ -16,7 +16,7 @@ const PaymentList = () => {
   const [selectedPayment, setSelectedPayment] = useState(null);
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/payment/list")
+      .get("https://api.tramessy.com/mstrading/api/payment/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setPayment(response.data.data);
@@ -36,7 +36,7 @@ const PaymentList = () => {
   //       formData.append(key, data[key]);
   //     }
   //     const response = await axios.post(
-  //       "https://api.dropshep.com/mstrading/api/payment/update/{id}",
+  //       "https://api.tramessy.com/mstrading/api/payment/update/{id}",
   //       formData
   //     );
   //     const resData = response.data;
@@ -147,7 +147,7 @@ const PaymentList = () => {
                   // formData.append("note", data.note);
                   axios
                     .post(
-                      `https://api.dropshep.com/mstrading/api/payment/update/${selectedPayment.id}`,
+                      `https://api.tramessy.com/mstrading/api/payment/update/${selectedPayment.id}`,
                       formData
                     )
                     .then((res) => {
@@ -158,7 +158,7 @@ const PaymentList = () => {
                         setLoading(true);
                         axios
                           .get(
-                            "https://api.dropshep.com/mstrading/api/payment/list"
+                            "https://api.tramessy.com/mstrading/api/payment/list"
                           )
                           .then((response) => {
                             if (response.data.status === "Success") {

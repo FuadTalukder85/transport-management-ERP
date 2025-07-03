@@ -15,7 +15,7 @@ const OfficeLedger = () => {
   const [selectedBranch, setselectedBranch] = useState("");
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/branch/list")
+      .get("https://api.tramessy.com/mstrading/api/branch/list")
       .then((response) => {
         if (response.data.status === "Success") {
           const data = response.data.data;
@@ -32,7 +32,7 @@ const OfficeLedger = () => {
   const [officeList, setOfficeList] = useState([]);
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/office/list")
+      .get("https://api.tramessy.com/mstrading/api/office/list")
       .then((response) => {
         if (response.data.status === "Success") {
           const data = response.data.data;

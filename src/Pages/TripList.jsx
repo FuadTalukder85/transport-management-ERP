@@ -27,7 +27,7 @@ const TripList = () => {
   // Fetch trips data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/trip/list")
+      .get("https://api.tramessy.com/mstrading/api/trip/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setTrip(response.data.data);
@@ -157,7 +157,7 @@ const TripList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.dropshep.com/mstrading/api/trip/delete/${id}`,
+        `https://api.tramessy.com/mstrading/api/trip/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -187,7 +187,7 @@ const TripList = () => {
   const handleView = async (id) => {
     try {
       const response = await axios.get(
-        `https://api.dropshep.com/mstrading/api/trip/show/${id}`
+        `https://api.tramessy.com/mstrading/api/trip/show/${id}`
       );
       if (response.data.status === "Success") {
         setselectedTrip(response.data.data);

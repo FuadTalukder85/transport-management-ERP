@@ -10,7 +10,7 @@ const PaymentReceive = () => {
   // Fetch payment data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/paymentRecived/list")
+      .get("https://api.tramessy.com/mstrading/api/paymentRecived/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setPayment(response.data.data);

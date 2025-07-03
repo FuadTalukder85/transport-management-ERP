@@ -18,7 +18,7 @@ const AddRentVehicleForm = () => {
       }
       formData.append("ref_id", generateRefId());
       const response = await axios.post(
-        "https://api.dropshep.com/mstrading/api/rent/create",
+        "https://api.tramessy.com/mstrading/api/rent/create",
         formData
       );
       const resData = response.data;

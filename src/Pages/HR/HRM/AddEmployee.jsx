@@ -16,7 +16,7 @@ const AddEmployee = () => {
   const [branch, setBranch] = useState([]);
   // select branch name from api
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/office/list")
+    fetch("https://api.tramessy.com/mstrading/api/office/list")
       .then((response) => response.json())
       .then((data) => setBranch(data.data))
       .catch((error) => console.error("Error fetching branch data:", error));
@@ -37,7 +37,7 @@ const AddEmployee = () => {
       }
       formData.append("ref_id", generateRefId());
       const response = await axios.post(
-        "https://api.dropshep.com/mstrading/api/employee/create",
+        "https://api.tramessy.com/mstrading/api/employee/create",
         formData
       );
       const resData = response.data;

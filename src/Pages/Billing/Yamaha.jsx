@@ -20,7 +20,7 @@ const Yamaha = () => {
   // fetch data from server
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/trip/list")
+      .get("https://api.tramessy.com/mstrading/api/trip/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setYamaha(response.data.data);
@@ -314,11 +314,11 @@ const Yamaha = () => {
         fd.append("body_cost", dt.body_fare);
         fd.append("fuel_cost", dt.fuel_cost);
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/customerLedger/create",
+          "https://api.tramessy.com/mstrading/api/customerLedger/create",
           fd
         );
         await axios.post(
-          `https://api.dropshep.com/mstrading/api/trip/update/${dt.id}`,
+          `https://api.tramessy.com/mstrading/api/trip/update/${dt.id}`,
           { status: "Approved" }
         );
       }
@@ -328,7 +328,7 @@ const Yamaha = () => {
       });
       setSelectedRows({});
       const refreshed = await axios.get(
-        "https://api.dropshep.com/mstrading/api/trip/list"
+        "https://api.tramessy.com/mstrading/api/trip/list"
       );
       if (refreshed.data.status === "Success") {
         setYamaha(refreshed.data.data);

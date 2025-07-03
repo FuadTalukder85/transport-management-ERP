@@ -26,7 +26,7 @@ const CarList = () => {
   const toggleModal = () => setIsOpen(!isOpen);
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/vehicle/list")
+      .get("https://api.tramessy.com/mstrading/api/vehicle/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setVehicle(response.data.data);
@@ -42,7 +42,7 @@ const CarList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.dropshep.com/mstrading/api/vehicle/delete/${id}`,
+        `https://api.tramessy.com/mstrading/api/vehicle/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -182,7 +182,7 @@ const CarList = () => {
   const handleViewCar = async (id) => {
     try {
       const response = await axios.get(
-        `https://api.dropshep.com/mstrading/api/vehicle/show/${id}`
+        `https://api.tramessy.com/mstrading/api/vehicle/show/${id}`
       );
       if (response.data.status === "Success") {
         setselectedCar(response.data.data);

@@ -30,7 +30,7 @@ const VendorList = () => {
   // Fetch vendor data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/vendor/list")
+      .get("https://api.tramessy.com/mstrading/api/vendor/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setVendor(response.data.data);
@@ -173,7 +173,7 @@ const VendorList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.dropshep.com/mstrading/api/vendor/delete/${id}`,
+        `https://api.tramessy.com/mstrading/api/vendor/delete/${id}`,
         {
           method: "DELETE",
         }

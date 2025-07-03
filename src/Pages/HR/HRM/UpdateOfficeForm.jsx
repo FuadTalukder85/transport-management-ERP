@@ -23,7 +23,7 @@ const UpdateOfficeForm = () => {
         formData.append(key, data[key]);
       }
       const response = await axios.post(
-        `https://api.dropshep.com/mstrading/api/office/update/${id}`,
+        `https://api.tramessy.com/mstrading/api/office/update/${id}`,
         formData
       );
       const resData = response.data;

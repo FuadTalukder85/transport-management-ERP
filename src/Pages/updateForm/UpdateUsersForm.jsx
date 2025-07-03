@@ -31,7 +31,7 @@ const UpdateUsersForm = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.put(
-        `https://api.dropshep.com/api/users/${id}`,
+        `https://api.tramessy.com/api/users/${id}`,
         data,
         {
           headers: {

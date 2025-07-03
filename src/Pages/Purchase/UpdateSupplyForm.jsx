@@ -33,7 +33,7 @@ const UpdateSupplyForm = () => {
       }
       formData.append("ref_id", generateRefId());
       const response = await axios.post(
-        `https://api.dropshep.com/mstrading/api/supply/update/${id}`,
+        `https://api.tramessy.com/mstrading/api/supply/update/${id}`,
         formData
       );
       const resData = response.data;

@@ -55,7 +55,7 @@ const UpdateDailyIncomeForm = () => {
       };
 
       const response = await axios.post(
-        `https://api.dropshep.com/api/trip/${id}`,
+        `https://api.tramessy.com/api/trip/${id}`,
         updatedData,
         {
           headers: {

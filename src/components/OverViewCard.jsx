@@ -16,7 +16,7 @@ const OverViewCard = () => {
     const fetchVehicles = async () => {
       try {
         const response = await axios.get(
-          "https://api.dropshep.com/api/vehicle"
+          "https://api.tramessy.com/api/vehicle"
         );
         const vehicles = response.data?.data || [];
 
@@ -53,7 +53,7 @@ const OverViewCard = () => {
   useEffect(() => {
     const fetchFuelData = async () => {
       try {
-        const response = await axios.get("https://api.dropshep.com/api/fuel");
+        const response = await axios.get("https://api.tramessy.com/api/fuel");
         const fuels = response.data?.data || [];
 
         let octen = 0;

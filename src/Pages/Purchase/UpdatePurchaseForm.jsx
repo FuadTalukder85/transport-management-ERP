@@ -44,7 +44,7 @@ const UpdatePurchaseForm = () => {
   };
   // select driver from api
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/driver/list")
+    fetch("https://api.tramessy.com/mstrading/api/driver/list")
       .then((response) => response.json())
       .then((data) => setDrivers(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -55,7 +55,7 @@ const UpdatePurchaseForm = () => {
   }));
   // select Vehicle No. from api
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/vehicle/list")
+    fetch("https://api.tramessy.com/mstrading/api/vehicle/list")
       .then((response) => response.json())
       .then((data) => setVehicle(data.data))
       .catch((error) => console.error("Error fetching vehicle data:", error));
@@ -67,7 +67,7 @@ const UpdatePurchaseForm = () => {
   }));
   // select branch from api
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/office/list")
+    fetch("https://api.tramessy.com/mstrading/api/office/list")
       .then((response) => response.json())
       .then((data) => setBranch(data.data))
       .catch((error) => console.error("Error fetching branch data:", error));
@@ -78,7 +78,7 @@ const UpdatePurchaseForm = () => {
   }));
   // select supplier from api
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/supply/list")
+    fetch("https://api.tramessy.com/mstrading/api/supply/list")
       .then((response) => response.json())
       .then((data) => setSupplier(data.data))
       .catch((error) => console.error("Error fetching supply data:", error));
@@ -100,7 +100,7 @@ const UpdatePurchaseForm = () => {
       UpdatePurchaseFormData.append("ref_no", refId);
       UpdatePurchaseFormData.append("status", "Unpaid");
       const purchaseResponse = await axios.post(
-        "https://api.dropshep.com/mstrading/api/purchase/update",
+        "https://api.tramessy.com/mstrading/api/purchase/update",
         UpdatePurchaseFormData
       );
       const purchaseData = purchaseResponse.data;
@@ -117,7 +117,7 @@ const UpdatePurchaseForm = () => {
         branchFormData.append("unit_price", data.unit_price);
         branchFormData.append("ref_id", refId);
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/supplierLedger/create",
+          "https://api.tramessy.com/mstrading/api/supplierLedger/create",
           branchFormData
         );
         // --- Third API: if category is engine oil then send data on inventory (only specific field) ---
@@ -129,7 +129,7 @@ const UpdatePurchaseForm = () => {
           inventoryFormData.append("quantity", data.quantity);
           inventoryFormData.append("ref_id", refId);
           await axios.post(
-            "https://api.dropshep.com/mstrading/api/stockProduct/create",
+            "https://api.tramessy.com/mstrading/api/stockProduct/create",
             inventoryFormData
           );
         }
@@ -148,7 +148,7 @@ const UpdatePurchaseForm = () => {
         paymentFormData.append("status", "Unpaid");
         paymentFormData.append("ref_id", refId);
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/payment/create",
+          "https://api.tramessy.com/mstrading/api/payment/create",
           paymentFormData
         );
         toast.success("Purchase added successfully", {

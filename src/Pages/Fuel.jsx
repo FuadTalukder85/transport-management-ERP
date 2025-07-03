@@ -31,7 +31,7 @@ const Fuel = () => {
   // Fetch fuel data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/api/fuel")
+      .get("https://api.tramessy.com/api/fuel")
       .then((response) => {
         if (response.data.status === "success") {
           setFuel(response.data.data);
@@ -140,7 +140,7 @@ const Fuel = () => {
   // delete by id
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`https://api.dropshep.com/api/fuel/${id}`, {
+      const response = await fetch(`https://api.tramessy.com/api/fuel/${id}`, {
         method: "DELETE",
       });
 

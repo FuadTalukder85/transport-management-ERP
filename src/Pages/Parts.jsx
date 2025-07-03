@@ -37,7 +37,7 @@ const Parts = () => {
         formData.append(key, data[key]);
       }
       const response = await axios.post(
-        "https://api.dropshep.com/api/parts",
+        "https://api.tramessy.com/api/parts",
         formData
       );
       const resData = response.data;
@@ -60,7 +60,7 @@ const Parts = () => {
   // fetch all parts
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/api/parts")
+      .get("https://api.tramessy.com/api/parts")
       .then((response) => {
         if (response.data.status === "success") {
           setParts(response.data.data);
@@ -79,7 +79,7 @@ const Parts = () => {
   // delete by id
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`https://api.dropshep.com/api/parts/${id}`, {
+      const response = await fetch(`https://api.tramessy.com/api/parts/${id}`, {
         method: "DELETE",
       });
 

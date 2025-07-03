@@ -15,7 +15,7 @@ const PaymentReceiveForm = () => {
   // select customer from api
   const [customer, setCustomer] = useState([]);
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/customer/list")
+    fetch("https://api.tramessy.com/mstrading/api/customer/list")
       .then((response) => response.json())
       .then((data) => setCustomer(data.data))
       .catch((error) => console.error("Error fetching customer data:", error));
@@ -27,7 +27,7 @@ const PaymentReceiveForm = () => {
   // select branch office from api
   const [branch, setBranch] = useState([]);
   useEffect(() => {
-    fetch("https://api.dropshep.com/mstrading/api/office/list")
+    fetch("https://api.tramessy.com/mstrading/api/office/list")
       .then((response) => response.json())
       .then((data) => setBranch(data.data))
       .catch((error) => console.error("Error fetching branch data:", error));
@@ -51,7 +51,7 @@ const PaymentReceiveForm = () => {
       formData.append("ref_id", refId);
 
       const paymentResponse = await axios.post(
-        "https://api.dropshep.com/mstrading/api/paymentRecived/create",
+        "https://api.tramessy.com/mstrading/api/paymentRecived/create",
         formData
       );
 
@@ -68,7 +68,7 @@ const PaymentReceiveForm = () => {
         branchFormData.append("ref_id", refId);
 
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/branch/create",
+          "https://api.tramessy.com/mstrading/api/branch/create",
           branchFormData
         );
 
@@ -80,7 +80,7 @@ const PaymentReceiveForm = () => {
         customerFormData.append("ref_id", refId);
 
         await axios.post(
-          "https://api.dropshep.com/mstrading/api/customerLedger/create",
+          "https://api.tramessy.com/mstrading/api/customerLedger/create",
           customerFormData
         );
         toast.success("Payment saved successfully", { position: "top-right" });

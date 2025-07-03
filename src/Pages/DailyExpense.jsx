@@ -23,7 +23,7 @@ const DailyExpense = () => {
   // Fetch data
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/api/trip")
+      .get("https://api.tramessy.com/api/trip")
       .then((response) => {
         if (response.data.status === "success") {
           setTrip(response.data.data);

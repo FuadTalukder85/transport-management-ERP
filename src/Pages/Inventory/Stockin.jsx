@@ -11,7 +11,7 @@ const Stockin = () => {
   // fetch data from server
   useEffect(() => {
     axios
-      .get("https://api.dropshep.com/mstrading/api/stockProduct/list")
+      .get("https://api.tramessy.com/mstrading/api/stockProduct/list")
       .then((response) => {
         if (response.data.status === "Success") {
           setStockIn(response.data.data);
