@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEye, FaPen, FaTrashAlt } from "react-icons/fa";
 import { FaPlus, FaUserSecret } from "react-icons/fa6";
 import { Link } from "react-router-dom";
@@ -42,9 +42,8 @@ const PurchaseList = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
+                <th className="px-2 py-3">SL.</th>
                 <th className="px-2 py-3">Supplier Name</th>
-
                 <th className="px-2 py-3">Category</th>
                 <th className="px-2 py-3">Item Name</th>
                 <th className="px-2 py-3">Quantity</th>
@@ -68,7 +67,9 @@ const PurchaseList = () => {
                   <td className="px-2 py-4">Bill Image</td>
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
-                      <Link>
+                      <Link
+                        to={`/tramessy/Purchase/UpdatePurchaseForm/${dt.id}`}
+                      >
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>

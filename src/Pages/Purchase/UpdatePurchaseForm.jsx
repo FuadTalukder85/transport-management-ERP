@@ -11,11 +11,26 @@ import { useLoaderData } from "react-router-dom";
 const UpdatePurchaseForm = () => {
   //   update loader data
   const updatePurchaseLoaderData = useLoaderData();
-  const { id, date, customer_name, mobile, email, address, due, status } =
-    updatePurchaseLoaderData.data;
   console.log("updatePurchaseLoaderData", updatePurchaseLoaderData);
-  const methods = useForm();
-  const { handleSubmit, register, watch, reset, setValue, control } = methods;
+  const {
+    id,
+    date,
+    supplier_name,
+    category,
+    item_name,
+    quantity,
+    unit_price,
+    purchase_amount,
+    bill_image,
+    remarks,
+    driver_name,
+    branch_name,
+    vehicle_no,
+  } = updatePurchaseLoaderData.data;
+  const methods = useForm({
+    defaultValues: { category, branch_name, supplier_name },
+  });
+  const { handleSubmit, register, watch, setValue, control } = methods;
   const purChaseDateRef = useRef(null);
   const [drivers, setDrivers] = useState([]);
   const [vehicle, setVehicle] = useState([]);
@@ -24,15 +39,14 @@ const UpdatePurchaseForm = () => {
 
   const selectedCategory = watch("category");
   // calculate Total Expense
-  const quantity = parseFloat(watch("quantity") || 0);
+  const qty = parseFloat(watch("quantity") || 0);
   const unitPrice = parseFloat(watch("unit_price") || 0);
-  const totalPrice = quantity * unitPrice;
+  const totalPrice = qty * unitPrice;
   useEffect(() => {
-    const totalPrice = quantity * unitPrice;
-    setValue("total", totalPrice);
-  }, [quantity, unitPrice, setValue]);
-  // preview image
-  const [previewImage, setPreviewImage] = useState(null);
+    const totalPrice = qty * unitPrice;
+    setValue("purchase_amount", totalPrice);
+  }, [qty, unitPrice, setValue]);
+
   // generate ref id
   const generateRefId = () => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -87,80 +101,42 @@ const UpdatePurchaseForm = () => {
     value: supply.contact_person_name,
     label: supply.contact_person_name,
   }));
+  //  set bill image image
+  const [previewImage, setPreviewImage] = useState(bill_image);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewImage(url);
+      setValue("bill_image", file);
+    }
+  };
   // post data on server
   const onSubmit = async (data) => {
     console.log("purchase", data);
     const refId = generateRefId();
     try {
-      // --- First API: Purchase Create ---
-      const UpdatePurchaseFormData = new FormData();
+      const purchaseFormData = new FormData();
+      // Append form fields
       for (const key in data) {
-        UpdatePurchaseFormData.append(key, data[key]);
+        purchaseFormData.append(key, data[key]);
       }
-      UpdatePurchaseFormData.append("ref_no", refId);
-      UpdatePurchaseFormData.append("status", "Unpaid");
+      // Additional fields
+      purchaseFormData.append("ref_id", refId);
+      purchaseFormData.append("status", "Unpaid");
+
       const purchaseResponse = await axios.post(
-        "https://api.tramessy.com/mstrading/api/purchase/update",
-        UpdatePurchaseFormData
-      );
-      const purchaseData = purchaseResponse.data;
-      if (purchaseData.status === "Success") {
-        // --- Second API: Branch Create (only specific field) ---
-        const branchFormData = new FormData();
-        branchFormData.append("data", data.date);
-        branchFormData.append("item_name", data.item_name);
-        branchFormData.append("purchase_amount", data.total);
-        branchFormData.append("catagory", data.category);
-        branchFormData.append("remarks", data.remarks);
-        branchFormData.append("supplier_name", data.supplier_name);
-        branchFormData.append("quantity", data.quantity);
-        branchFormData.append("unit_price", data.unit_price);
-        branchFormData.append("ref_id", refId);
-        await axios.post(
-          "https://api.tramessy.com/mstrading/api/supplierLedger/create",
-          branchFormData
-        );
-        // --- Third API: if category is engine oil then send data on inventory (only specific field) ---
-        const inventoryFormData = new FormData();
-        if (selectedCategory === "Engine Oil") {
-          inventoryFormData.append("date", data.date);
-          inventoryFormData.append("category", data.category);
-          inventoryFormData.append("product_name", data.item_name);
-          inventoryFormData.append("quantity", data.quantity);
-          inventoryFormData.append("ref_id", refId);
-          await axios.post(
-            "https://api.tramessy.com/mstrading/api/stockProduct/create",
-            inventoryFormData
-          );
+        `https://api.tramessy.com/mstrading/api/purchase/update/${id}`,
+        purchaseFormData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-        // post data on payment api
-        const paymentFormData = new FormData();
-        paymentFormData.append("date", data.date);
-        paymentFormData.append("category", data.category);
-        paymentFormData.append("item_name", data.item_name);
-        paymentFormData.append("branch_name", data.branch_name);
-        paymentFormData.append("supplier_name", data.supplier_name);
-        paymentFormData.append("quantity", data.quantity);
-        paymentFormData.append("unit_price", data.unit_price);
-        paymentFormData.append("total_amount", data.total);
-        paymentFormData.append("main_amount", 0);
-        paymentFormData.append("remarks", data.remarks);
-        paymentFormData.append("status", "Unpaid");
-        paymentFormData.append("ref_id", refId);
-        await axios.post(
-          "https://api.tramessy.com/mstrading/api/payment/create",
-          paymentFormData
-        );
-        toast.success("Purchase added successfully", {
-          position: "top-right",
-        });
-        // Reset form if both succeed
-        reset();
-      } else {
-        toast.error(
-          "Purchase API failed: " + (purchaseData.message || "Unknown error")
-        );
-      }
+      );
+      // Optional: Handle successful submission
+      console.log("Purchase success", purchaseResponse.data);
+      toast.success("Purchase submitted successfully!");
     } catch (error) {
       console.error(error);
       const errorMessage =
@@ -168,7 +144,7 @@ const UpdatePurchaseForm = () => {
       toast.error("Server issue: " + errorMessage);
     }
   };
-  // todo set default status = unpaid, generate auto ref number from backend
+
   return (
     <div className="mt-10">
       <Toaster />
@@ -187,7 +163,7 @@ const UpdatePurchaseForm = () => {
                 name="date"
                 label="Purchase Date"
                 type="date"
-                required
+                defaultValue={date}
                 inputRef={(e) => {
                   register("date").ref(e);
                   purChaseDateRef.current = e;
@@ -206,7 +182,7 @@ const UpdatePurchaseForm = () => {
               <SelectField
                 name="category"
                 label="Category"
-                required
+                defaultValue={category}
                 options={[
                   { value: "Fuel", label: "Fuel" },
                   { value: "Engine Oil", label: "Engine Oil" },
@@ -219,7 +195,11 @@ const UpdatePurchaseForm = () => {
               />
             </div>
             <div className="w-full">
-              <InputField name="item_name" label="Item Name" required />
+              <InputField
+                name="item_name"
+                label="Item Name"
+                defaultValue={item_name}
+              />
             </div>
           </div>
           {/* Engine Oil category */}
@@ -229,7 +209,7 @@ const UpdatePurchaseForm = () => {
                 <SelectField
                   name="driver_name"
                   label="Driver Name"
-                  required={true}
+                  defaultValue={driver_name}
                   options={driverOptions}
                   control={control}
                 />
@@ -238,7 +218,7 @@ const UpdatePurchaseForm = () => {
                 <SelectField
                   name="vehicle_no"
                   label="Vehicle No."
-                  required={true}
+                  defaultValue={vehicle_no}
                   options={vehicleOptions}
                   control={control}
                 />
@@ -252,7 +232,7 @@ const UpdatePurchaseForm = () => {
               <SelectField
                 name="branch_name"
                 label="Branch Name"
-                required={true}
+                defaultValue={branch_name}
                 options={branchOptions}
                 control={control}
               />
@@ -261,32 +241,43 @@ const UpdatePurchaseForm = () => {
               <SelectField
                 name="supplier_name"
                 label="Supplier Name"
-                required={true}
+                defaultValue={supplier_name}
                 options={supplyOptions}
                 control={control}
               />
             </div>
             <div className="w-full">
-              <InputField name="quantity" label="Quantity" required />
+              <InputField
+                name="quantity"
+                label="Quantity"
+                defaultValue={quantity}
+              />
             </div>
           </div>
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <InputField name="unit_price" label="Unit Price" required />
-            </div>
-            <div className="w-full">
               <InputField
-                name="total"
-                label="Total"
-                readOnly
-                defaultValue={totalPrice}
-                value={totalPrice}
-                required
+                name="unit_price"
+                label="Unit Price"
+                defaultValue={unit_price}
               />
             </div>
             <div className="w-full">
-              <InputField name="remarks" label="Remark" />
+              <InputField
+                name="purchase_amount"
+                label="Total"
+                readOnly
+                defaultValue={purchase_amount}
+                value={totalPrice}
+              />
+            </div>
+            <div className="w-full">
+              <InputField
+                name="remarks"
+                label="Remark"
+                defaultValue={remarks}
+              />
             </div>
           </div>
           <div className="md:flex justify-between gap-3">
@@ -297,35 +288,21 @@ const UpdatePurchaseForm = () => {
               <Controller
                 name="bill_image"
                 control={control}
-                rules={{ required: "This field is required" }}
-                render={({
-                  field: { onChange, ref },
-                  fieldState: { error },
-                }) => (
+                render={({ fieldState: { error } }) => (
                   <div className="relative">
                     <label
                       htmlFor="bill_image"
-                      className="border p-2 rounded w-full block bg-white text-gray-300 text-sm cursor-pointer"
+                      className="border p-2 rounded w-full block bg-white text-gray-500 text-sm cursor-pointer"
                     >
                       {previewImage ? "Image selected" : "Choose image"}
                     </label>
                     <input
+                      {...register("bill_image")}
                       id="bill_image"
                       type="file"
                       accept="image/*"
-                      ref={ref}
                       className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        if (file) {
-                          const url = URL.createObjectURL(file);
-                          setPreviewImage(url);
-                          onChange(file);
-                        } else {
-                          setPreviewImage(null);
-                          onChange(null);
-                        }
-                      }}
+                      onChange={handleImageChange}
                     />
                     {error && (
                       <span className="text-red-600 text-sm">
@@ -344,7 +321,8 @@ const UpdatePurchaseForm = () => {
                 type="button"
                 onClick={() => {
                   setPreviewImage(null);
-                  document.getElementById("bill_image").value = "";
+                  document.querySelector('input[type="file"]').value = null;
+                  setValue("bill_image", null);
                 }}
                 className="absolute top-2 right-2 text-red-600 bg-white shadow rounded-sm hover:text-white hover:bg-secondary transition-all duration-300 cursor-pointer font-bold text-xl p-[2px]"
                 title="Remove image"
@@ -352,7 +330,11 @@ const UpdatePurchaseForm = () => {
                 <IoMdClose />
               </button>
               <img
-                src={previewImage}
+                src={
+                  previewImage?.startsWith("blob:")
+                    ? previewImage
+                    : `https://api.tramessy.com/mstrading/public/uploads/purchase/${previewImage}`
+                }
                 alt="License Preview"
                 className="max-w-xs h-auto rounded border border-gray-300"
               />

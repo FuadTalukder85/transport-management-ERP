@@ -85,76 +85,33 @@ const PurchaseForm = () => {
   const onSubmit = async (data) => {
     console.log("purchase", data);
     const refId = generateRefId();
+
     try {
-      // --- First API: Purchase Create ---
       const purchaseFormData = new FormData();
+
+      // Append form fields
       for (const key in data) {
         purchaseFormData.append(key, data[key]);
       }
+
+      // Additional fields
       purchaseFormData.append("ref_id", refId);
       purchaseFormData.append("status", "Unpaid");
+
       const purchaseResponse = await axios.post(
         "https://api.tramessy.com/mstrading/api/purchase/create",
-        purchaseFormData
-      );
-      const purchaseData = purchaseResponse.data;
-      if (purchaseData.status === "Success") {
-        // --- Second API: Branch Create (only specific field) ---
-        const branchFormData = new FormData();
-        branchFormData.append("data", data.date);
-        branchFormData.append("item_name", data.item_name);
-        branchFormData.append("purchase_amount", data.total);
-        branchFormData.append("catagory", data.category);
-        branchFormData.append("remarks", data.remarks);
-        branchFormData.append("supplier_name", data.supplier_name);
-        branchFormData.append("quantity", data.quantity);
-        branchFormData.append("unit_price", data.unit_price);
-        branchFormData.append("ref_id", refId);
-        await axios.post(
-          "https://api.tramessy.com/mstrading/api/supplierLedger/create",
-          branchFormData
-        );
-        // --- Third API: if category is engine oil then send data on inventory (only specific field) ---
-        const inventoryFormData = new FormData();
-        if (selectedCategory === "Engine Oil") {
-          inventoryFormData.append("date", data.date);
-          inventoryFormData.append("category", data.category);
-          inventoryFormData.append("product_name", data.item_name);
-          inventoryFormData.append("quantity", data.quantity);
-          inventoryFormData.append("ref_id", refId);
-          await axios.post(
-            "https://api.tramessy.com/mstrading/api/stockProduct/create",
-            inventoryFormData
-          );
+        purchaseFormData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-        // post data on payment api
-        const paymentFormData = new FormData();
-        paymentFormData.append("date", data.date);
-        paymentFormData.append("category", data.category);
-        paymentFormData.append("item_name", data.item_name);
-        paymentFormData.append("branch_name", data.branch_name);
-        paymentFormData.append("supplier_name", data.supplier_name);
-        paymentFormData.append("quantity", data.quantity);
-        paymentFormData.append("unit_price", data.unit_price);
-        paymentFormData.append("total_amount", data.total);
-        paymentFormData.append("main_amount", 0);
-        paymentFormData.append("remarks", data.remarks);
-        paymentFormData.append("status", "Unpaid");
-        paymentFormData.append("ref_id", refId);
-        await axios.post(
-          "https://api.tramessy.com/mstrading/api/payment/create",
-          paymentFormData
-        );
-        toast.success("Purchase added successfully", {
-          position: "top-right",
-        });
-        // Reset form if both succeed
-        reset();
-      } else {
-        toast.error(
-          "Purchase API failed: " + (purchaseData.message || "Unknown error")
-        );
-      }
+      );
+
+      // Optional: Handle successful submission
+      console.log("Purchase success", purchaseResponse.data);
+      toast.success("Purchase submitted successfully!");
+      reset();
     } catch (error) {
       console.error(error);
       const errorMessage =
@@ -162,6 +119,7 @@ const PurchaseForm = () => {
       toast.error("Server issue: " + errorMessage);
     }
   };
+
   // todo set default status = unpaid, generate auto ref number from backend
   return (
     <div className="mt-10">
@@ -271,7 +229,7 @@ const PurchaseForm = () => {
             </div>
             <div className="w-full">
               <InputField
-                name="total"
+                name="purchase_amount"
                 label="Total"
                 readOnly
                 defaultValue={totalPrice}

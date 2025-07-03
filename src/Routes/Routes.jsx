@@ -473,11 +473,11 @@ export const router = createBrowserRouter([
         element: <PurchaseForm />,
       },
       {
-        path: "/tramessy/Purchase/UpdatePurchaseForm/:ref_id",
+        path: "/tramessy/Purchase/UpdatePurchaseForm/:id",
         element: <UpdatePurchaseForm />,
         loader: ({ params }) =>
           fetch(
-            `https://api.tramessy.com/mstrading/api/purchase/show/${params.ref_id}`
+            `https://api.tramessy.com/mstrading/api/purchase/show/${params.id}`
           ),
       },
       {
