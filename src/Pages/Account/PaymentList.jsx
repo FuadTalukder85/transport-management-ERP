@@ -229,10 +229,15 @@ const PaymentList = () => {
   const onSubmit = async (data) => {
     const refId = generateRefId();
     if (!data.pay_amount || isNaN(data.pay_amount)) {
-      toast.error("Invalid payment amount");
+      toast.error("Invalid payment amount", { position: "top-right" });
       return;
     }
-
+    if (data.pay_amount > data.due_amount) {
+      toast.error("The payment amount cannot be more than the due amount", {
+        position: "top-right",
+      });
+      return;
+    }
     const previousAmount = parseFloat(selectedPayment.pay_amount) || 0;
     const newAmount = parseFloat(data.pay_amount);
     const updatedAmount = previousAmount + newAmount;
@@ -251,8 +256,7 @@ const PaymentList = () => {
         supplierFormData.append("data", new Date().toISOString().split("T")[0]);
         supplierFormData.append("supplier_name", selectedPayment.supplier_name);
         supplierFormData.append("remarks", data.note);
-        supplierFormData.append("payment_amount", data.pay_amount);
-        supplierFormData.append("ref_id", refId);
+        supplierFormData.append("pay_amount", data.pay_amount);
         await axios.post(
           "https://api.tramessy.com/mstrading/api/supplierLedger/create",
           supplierFormData
@@ -304,9 +308,9 @@ const PaymentList = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
+    <div className="bg-gradient-to-br from-gray-100 to-white md:p-2">
       <Toaster />
-      <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
+      <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-2 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaUserSecret className="text-[#11375B] text-2xl" />
