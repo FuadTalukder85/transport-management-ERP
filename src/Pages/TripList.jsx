@@ -1,7 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { FaTruck, FaPlus, FaFilter, FaEye, FaTrashAlt } from "react-icons/fa";
+import {
+  FaTruck,
+  FaPlus,
+  FaFilter,
+  FaEye,
+  FaTrashAlt,
+  FaPen,
+} from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import * as XLSX from "xlsx";
@@ -51,10 +58,10 @@ const TripList = () => {
       Commission: dt.driver_commission || "0",
       "Load Point": dt.load_point,
       "Unload Point": dt.unload_point,
-      "Trip Cost": dt.total_expense || 0,
+      "Trip Cost": dt.total_exp || 0,
       "Trip Fare": dt.total_rent || 0,
       "Total Profit":
-        parseFloat(dt.total_rent || 0) - parseFloat(dt.total_expense || 0),
+        parseFloat(dt.total_rent || 0) - parseFloat(dt.total_exp || 0),
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(tableData);
@@ -94,9 +101,9 @@ const TripList = () => {
       dt.driver_commission || "0",
       dt.load_point,
       dt.unload_point,
-      dt.total_expense || "0",
+      dt.total_exp || "0",
       dt.total_rent || "0",
-      parseFloat(dt.total_rent || 0) - parseFloat(dt.total_expense || 0),
+      parseFloat(dt.total_rent || 0) - parseFloat(dt.total_exp || 0),
     ]);
 
     autoTable(doc, {
@@ -215,9 +222,9 @@ const TripList = () => {
     }
   });
   return (
-    <main className="bg-gradient-to-br from-gray-100 to-white md:p-6">
+    <main className="bg-gradient-to-br from-gray-100 to-white md:p-2">
       <Toaster />
-      <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-md p-2 py-10 md:p-8 border border-gray-200">
+      <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-md p-2 py-10 md:p-2 border border-gray-200">
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
@@ -300,14 +307,14 @@ const TripList = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">SL.</th>
-                <th className="px-2 py-3">Date</th>
-                <th className="px-2 py-3">DriverInfo</th>
-                <th className="px-2 py-3">Trip&Destination</th>
-                <th className="px-2 py-3">TripCost</th>
-                <th className="px-2 py-3">TripFare</th>
-                <th className="px-2 py-3">TotalProfit</th>
-                <th className="px-2 py-3 action_column">Action</th>
+                <th className="p-2">SL.</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">DriverInfo</th>
+                <th className="p-2">Trip&Destination</th>
+                <th className="p-2">TripCost</th>
+                <th className="p-2">TripFare</th>
+                <th className="p-2">TotalProfit</th>
+                <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -317,30 +324,30 @@ const TripList = () => {
                     key={index}
                     className="hover:bg-gray-50 transition-all border-b border-gray-300"
                   >
-                    <td className="px-2 py-3 font-bold">{index + 1}</td>
-                    <td className="px-2 py-3">{dt?.date}</td>
-                    <td className="px-2 py-3">
+                    <td className="p-2 font-bold">{index + 1}</td>
+                    <td className="p-2">{dt?.date}</td>
+                    <td className="p-2">
                       <p>Name: {dt.driver_name}</p>
                       <p>Mobile: {dt.driver_mobile}</p>
                       <p>Commission: {dt.driver_commission}</p>
                     </td>
-                    <td className="px-2 py-4">
+                    <td className="p-2">
                       <p>Load Point: {dt.load_point}</p>
                       <p>Unload Point: {dt.unload_point}</p>
                     </td>
-                    <td className="px-2 py-3">{dt.total_expense}</td>
-                    <td className="px-2 py-3">{dt.total_rent}</td>
-                    <td className="px-2 py-3">
+                    <td className="p-2">{dt.total_exp}</td>
+                    <td className="p-2">{dt.total_rent}</td>
+                    <td className="p-2">
                       {parseFloat(dt.total_rent || 0) -
-                        parseFloat(dt.total_expense || 0)}{" "}
+                        parseFloat(dt.total_exp || 0)}{" "}
                     </td>
-                    <td className="px-2 py-3 action_column">
+                    <td className="p-2 action_column">
                       <div className="flex gap-1">
-                        {/* <Link to={`/UpdateTripForm/${dt.id}`}>
+                        <Link to={`/tramessy/UpdateTripForm/${dt.id}`}>
                           <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                             <FaPen className="text-[12px]" />
                           </button>
-                        </Link> */}
+                        </Link>
                         <button
                           onClick={() => handleView(dt.id)}
                           className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"

@@ -11,7 +11,6 @@ import { useLoaderData } from "react-router-dom";
 const UpdatePurchaseForm = () => {
   //   update loader data
   const updatePurchaseLoaderData = useLoaderData();
-  console.log("updatePurchaseLoaderData", updatePurchaseLoaderData);
   const {
     id,
     date,
@@ -20,7 +19,7 @@ const UpdatePurchaseForm = () => {
     item_name,
     quantity,
     unit_price,
-    purchase_amount,
+    total,
     bill_image,
     remarks,
     driver_name,
@@ -44,18 +43,9 @@ const UpdatePurchaseForm = () => {
   const totalPrice = qty * unitPrice;
   useEffect(() => {
     const totalPrice = qty * unitPrice;
-    setValue("purchase_amount", totalPrice);
+    setValue("total", totalPrice);
   }, [qty, unitPrice, setValue]);
 
-  // generate ref id
-  const generateRefId = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let refId = "";
-    for (let i = 0; i < 6; i++) {
-      refId += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return refId;
-  };
   // select driver from api
   useEffect(() => {
     fetch("https://api.tramessy.com/mstrading/api/driver/list")
@@ -114,18 +104,13 @@ const UpdatePurchaseForm = () => {
   // post data on server
   const onSubmit = async (data) => {
     console.log("purchase", data);
-    const refId = generateRefId();
     try {
       const purchaseFormData = new FormData();
       // Append form fields
       for (const key in data) {
         purchaseFormData.append(key, data[key]);
       }
-      // Additional fields
-      purchaseFormData.append("ref_id", refId);
-      purchaseFormData.append("status", "Unpaid");
-
-      const purchaseResponse = await axios.post(
+      await axios.post(
         `https://api.tramessy.com/mstrading/api/purchase/update/${id}`,
         purchaseFormData,
         {
@@ -134,8 +119,6 @@ const UpdatePurchaseForm = () => {
           },
         }
       );
-      // Optional: Handle successful submission
-      console.log("Purchase success", purchaseResponse.data);
       toast.success("Purchase submitted successfully!");
     } catch (error) {
       console.error(error);
@@ -265,10 +248,10 @@ const UpdatePurchaseForm = () => {
             </div>
             <div className="w-full">
               <InputField
-                name="purchase_amount"
+                name="total"
                 label="Total"
                 readOnly
-                defaultValue={purchase_amount}
+                defaultValue={total}
                 value={totalPrice}
               />
             </div>

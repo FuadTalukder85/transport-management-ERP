@@ -178,7 +178,9 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://api.tramessy.com/api/trip/${params.id}`),
+          fetch(
+            `https://api.tramessy.com/mstrading/api/trip/show/${params.id}`
+          ),
       },
       {
         path: "/tramessy/Fuel",

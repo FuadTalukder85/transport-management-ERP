@@ -58,7 +58,7 @@ const AddTripForm = () => {
   // calculate Total Expense
   const driverCommision = parseFloat(watch("driver_commission") || 0);
   const roadCost = parseFloat(watch("road_cost") || 0);
-  const labourCost = parseFloat(watch("labour_cost") || 0);
+  const labourCost = parseFloat(watch("labor") || 0);
   const parkingCost = parseFloat(watch("parking_cost") || 0);
   const guardCost = parseFloat(watch("night_guard") || 0);
   const tollCost = parseFloat(watch("toll_cost") || 0);
@@ -96,7 +96,7 @@ const AddTripForm = () => {
     // foodCost +
     // fuelCost +
     // bodyFare;
-    setValue("total_expense", total);
+    setValue("total_exp", total);
   }, [
     driverCommision,
     roadCost,
@@ -125,72 +125,105 @@ const AddTripForm = () => {
   // post data on server
   const generateRefId = useRefId();
 
+  // const onSubmit = async (data) => {
+  //   const refId = generateRefId();
+  //   try {
+  //     // --- First API: Trip Create ---
+  //     const tripFormData = new FormData();
+  //     for (const key in data) {
+  //       tripFormData.append(key, data[key]);
+  //     }
+  //     tripFormData.append("ref_id", refId);
+  //     tripFormData.append("status", "Pending");
+  //     const tripResponse = await axios.post(
+  //       "https://api.tramessy.com/mstrading/api/trip/create",
+  //       tripFormData
+  //     );
+  //     const tripData = tripResponse.data;
+  //     if (tripData.status === "Success") {
+  //       toast.success("Trip added successfully", {
+  //         position: "top-right",
+  //       });
+  //       if (selectedTransport !== "vendor_transport") {
+  //         // --- Second API: Branch Create (only specific field) ---
+  //         const branchFormData = new FormData();
+  //         branchFormData.append("trip_expense", data.total_exp);
+  //         branchFormData.append("date", data.date);
+  //         branchFormData.append("destination", data.unload_point);
+  //         branchFormData.append("customer", data.customer);
+  //         // branchFormData.append("remarks", data.remarks);
+  //         // branchFormData.append("due", data.due_amount);
+  //         branchFormData.append("ref_id", refId);
+  //         await axios.post(
+  //           "https://api.tramessy.com/mstrading/api/branch/create",
+  //           branchFormData
+  //         );
+
+  //         // --- Third API: Driver ledger Create (only specific field) ---
+  //         const driverLedgerFormData = new FormData();
+  //         driverLedgerFormData.append("date", data.date);
+  //         driverLedgerFormData.append("driver_name", data.driver_name);
+  //         driverLedgerFormData.append("load_point", data.load_point);
+  //         driverLedgerFormData.append("unload_point", data.unload_point);
+  //         driverLedgerFormData.append("commission", data.driver_commission);
+  //         driverLedgerFormData.append("trip_rent", data.total_rent);
+  //         driverLedgerFormData.append("advanced", data.driver_adv);
+  //         driverLedgerFormData.append("parking_cost", data.parking_cost);
+  //         driverLedgerFormData.append("night_guard", data.night_guard);
+  //         driverLedgerFormData.append("toll_cost", data.toll_cost);
+  //         driverLedgerFormData.append("feri_cost", data.feri_cost);
+  //         driverLedgerFormData.append("police_cost", data.police_cost);
+  //         driverLedgerFormData.append("chada", data.chada);
+  //         driverLedgerFormData.append("labor", data.labor);
+  //         driverLedgerFormData.append("total_exp", data.toll_cost);
+  //         driverLedgerFormData.append("due_amount", data.due_amount);
+  //         driverLedgerFormData.append("ref_id", refId);
+  //         await axios.post(
+  //           "https://api.tramessy.com/mstrading/api/driverLedger/create",
+  //           driverLedgerFormData
+  //         );
+  //       }
+
+  //       // Reset form if both succeed
+  //       reset();
+  //     } else {
+  //       toast.error(
+  //         "Trip API failed: " + (tripData.message || "Unknown error")
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     const errorMessage =
+  //       error.response?.data?.message || error.message || "Unknown error";
+  //     toast.error("Server issue: " + errorMessage);
+  //   }
+  // };
+  // post data on server
   const onSubmit = async (data) => {
+    console.log("purchase", data);
     const refId = generateRefId();
+
     try {
-      // --- First API: Trip Create ---
       const tripFormData = new FormData();
+
+      // Append form fields
       for (const key in data) {
         tripFormData.append(key, data[key]);
       }
+
+      // Additional fields
       tripFormData.append("ref_id", refId);
-      tripFormData.append("status", "Pending");
-      const tripResponse = await axios.post(
+      await axios.post(
         "https://api.tramessy.com/mstrading/api/trip/create",
-        tripFormData
-      );
-      const tripData = tripResponse.data;
-      if (tripData.status === "Success") {
-        toast.success("Trip added successfully", {
-          position: "top-right",
-        });
-        if (selectedTransport !== "vendor_transport") {
-          // --- Second API: Branch Create (only specific field) ---
-          const branchFormData = new FormData();
-          branchFormData.append("trip_expense", data.total_expense);
-          branchFormData.append("date", data.date);
-          branchFormData.append("destination", data.unload_point);
-          branchFormData.append("customer", data.customer);
-          // branchFormData.append("remarks", data.remarks);
-          // branchFormData.append("due", data.due_amount);
-          branchFormData.append("ref_id", refId);
-          await axios.post(
-            "https://api.tramessy.com/mstrading/api/branch/create",
-            branchFormData
-          );
-
-          // --- Third API: Driver ledger Create (only specific field) ---
-          const driverLedgerFormData = new FormData();
-          driverLedgerFormData.append("date", data.date);
-          driverLedgerFormData.append("driver_name", data.driver_name);
-          driverLedgerFormData.append("load_point", data.load_point);
-          driverLedgerFormData.append("unload_point", data.unload_point);
-          driverLedgerFormData.append("commission", data.driver_commission);
-          driverLedgerFormData.append("trip_rent", data.total_rent);
-          driverLedgerFormData.append("advanced", data.driver_adv);
-          driverLedgerFormData.append("parking_cost", data.parking_cost);
-          driverLedgerFormData.append("night_guard", data.night_guard);
-          driverLedgerFormData.append("toll_cost", data.toll_cost);
-          driverLedgerFormData.append("feri_cost", data.feri_cost);
-          driverLedgerFormData.append("police_cost", data.police_cost);
-          driverLedgerFormData.append("chada", data.chada);
-          driverLedgerFormData.append("labor", data.labour_cost);
-          driverLedgerFormData.append("total_exp", data.toll_cost);
-          driverLedgerFormData.append("due_amount", data.due_amount);
-          driverLedgerFormData.append("ref_id", refId);
-          await axios.post(
-            "https://api.tramessy.com/mstrading/api/driverLedger/create",
-            driverLedgerFormData
-          );
+        tripFormData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-
-        // Reset form if both succeed
-        reset();
-      } else {
-        toast.error(
-          "Trip API failed: " + (tripData.message || "Unknown error")
-        );
-      }
+      );
+      toast.success("Trip submitted successfully!", { position: "top-right" });
+      reset();
     } catch (error) {
       console.error(error);
       const errorMessage =
@@ -198,7 +231,6 @@ const AddTripForm = () => {
       toast.error("Server issue: " + errorMessage);
     }
   };
-
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />
@@ -699,16 +731,9 @@ const AddTripForm = () => {
                       type="number"
                     />
                   </div>
-                  {/* <div className="w-full">
-                    <InputField
-                      name="road_cost"
-                      label="Road Cost"
-                      type="number"
-                    />
-                  </div> */}
                   <div className="w-full">
                     <InputField
-                      name="labour_cost"
+                      name="labor"
                       label="Labour Cost"
                       type="number"
                     />
@@ -755,16 +780,10 @@ const AddTripForm = () => {
                   <div className="w-full">
                     <InputField name="chada" label="Chada" type="number" />
                   </div>
-                  {/* <div className="w-full">
-                    <InputField
-                      name="food_cost"
-                      label="Food Cost"
-                      type="number"
-                    />
-                  </div> */}
+
                   <div className="w-full">
                     <InputField
-                      name="total_expense"
+                      name="total_exp"
                       label="Total Expense"
                       readOnly
                       defaultValue={totalExpense}

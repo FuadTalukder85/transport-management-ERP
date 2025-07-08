@@ -390,36 +390,39 @@ const PaymentList = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-1 py-3">SL.</th>
-                <th className="px-1 py-3">Date</th>
-                <th className="px-1 py-3">SupplierName</th>
-                <th className="px-1 py-3">Category</th>
-                <th className="px-1 py-3">ItemName</th>
-                <th className="px-1 py-3">Quantity</th>
-                <th className="px-1 py-3">UnitPrice</th>
-                <th className="px-1 py-3">TotalAmount</th>
-                <th className="px-1 py-3">PayAmount</th>
-                <th className="px-1 py-3">DueAmount</th>
-                <th className="px-1 py-3">Status</th>
-                <th className="px-1 py-3">Action</th>
+                <th className="px-1 py-2">SL.</th>
+                <th className="px-1 py-2">Date</th>
+                <th className="px-1 py-2">SupplierName</th>
+                <th className="px-1 py-2">Category</th>
+                <th className="px-1 py-2">ItemName</th>
+                <th className="px-1 py-2">Quantity</th>
+                <th className="px-1 py-2">UnitPrice</th>
+                <th className="px-1 py-2">TotalAmount</th>
+                <th className="px-1 py-2">PayAmount</th>
+                <th className="px-1 py-2">DueAmount</th>
+                <th className="px-1 py-2">Status</th>
+                <th className="px-1 py-2">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
               {filteredPaymentList?.map((dt, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="px-1 py-4 font-bold">{index + 1}</td>
-                  <td className="px-1 py-4">{dt.date}</td>
-                  <td className="px-1 py-4">{dt.supplier_name}</td>
-                  <td className="px-1 py-4">{dt.category}</td>
-                  <td className="px-1 py-4">{dt.item_name}</td>
-                  <td className="px-1 py-4">{dt.quantity}</td>
-                  <td className="px-1 py-4">{dt.unit_price}</td>
-                  <td className="px-1 py-4">{dt.total_amount}</td>
-                  <td className="px-1 py-4">{dt.pay_amount}</td>
-                  <td className="px-1 py-4">
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50 transition-all border border-gray-200"
+                >
+                  <td className="px-1 py-2 font-bold">{index + 1}</td>
+                  <td className="px-1 py-2">{dt.date}</td>
+                  <td className="px-1 py-2">{dt.supplier_name}</td>
+                  <td className="px-1 py-2">{dt.category}</td>
+                  <td className="px-1 py-2">{dt.item_name}</td>
+                  <td className="px-1 py-2">{dt.quantity}</td>
+                  <td className="px-1 py-2">{dt.unit_price}</td>
+                  <td className="px-1 py-2">{dt.total_amount}</td>
+                  <td className="px-1 py-2">{dt.pay_amount}</td>
+                  <td className="px-1 py-2">
                     {dt.total_amount - dt.pay_amount}
                   </td>
-                  <td className="px-1 py-4">
+                  <td className="px-1 py-2">
                     {(() => {
                       const total = parseFloat(dt.total_amount) || 0;
                       const paid = parseFloat(dt.pay_amount) || 0;

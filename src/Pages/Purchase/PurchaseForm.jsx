@@ -98,7 +98,7 @@ const PurchaseForm = () => {
       purchaseFormData.append("ref_id", refId);
       purchaseFormData.append("status", "Unpaid");
 
-      const purchaseResponse = await axios.post(
+      await axios.post(
         "https://api.tramessy.com/mstrading/api/purchase/create",
         purchaseFormData,
         {
@@ -109,8 +109,10 @@ const PurchaseForm = () => {
       );
 
       // Optional: Handle successful submission
-      console.log("Purchase success", purchaseResponse.data);
-      toast.success("Purchase submitted successfully!");
+      // console.log("Purchase success", purchaseResponse.data);
+      toast.success("Purchase submitted successfully!", {
+        position: "top-right",
+      });
       reset();
     } catch (error) {
       console.error(error);
