@@ -28,14 +28,14 @@ const PurchaseForm = () => {
   // preview image
   const [previewImage, setPreviewImage] = useState(null);
   // generate ref id
-  const generateRefId = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let refId = "";
-    for (let i = 0; i < 6; i++) {
-      refId += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return refId;
-  };
+  // const generateRefId = () => {
+  //   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  //   let refId = "";
+  //   for (let i = 0; i < 6; i++) {
+  //     refId += chars.charAt(Math.floor(Math.random() * chars.length));
+  //   }
+  //   return refId;
+  // };
   // select driver from api
   useEffect(() => {
     fetch("https://api.tramessy.com/mstrading/api/driver/list")
@@ -84,7 +84,7 @@ const PurchaseForm = () => {
   // post data on server
   const onSubmit = async (data) => {
     console.log("purchase", data);
-    const refId = generateRefId();
+    // const refId = generateRefId();
 
     try {
       const purchaseFormData = new FormData();
@@ -95,7 +95,7 @@ const PurchaseForm = () => {
       }
 
       // Additional fields
-      purchaseFormData.append("ref_id", refId);
+      // purchaseFormData.append("ref_id", refId);
       purchaseFormData.append("status", "Unpaid");
 
       await axios.post(

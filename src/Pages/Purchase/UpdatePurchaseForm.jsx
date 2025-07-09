@@ -119,7 +119,9 @@ const UpdatePurchaseForm = () => {
           },
         }
       );
-      toast.success("Purchase submitted successfully!");
+      toast.success("Purchase submitted successfully!", {
+        position: "top-right",
+      });
     } catch (error) {
       console.error(error);
       const errorMessage =

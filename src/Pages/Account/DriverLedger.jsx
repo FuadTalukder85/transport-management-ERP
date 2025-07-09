@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { MdOutlineArrowDropDown } from "react-icons/md";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const DriverLedger = () => {
   const [driver, setDriver] = useState([]);
@@ -35,9 +39,9 @@ const DriverLedger = () => {
 
   const footerTotals = filteredDriver.reduce(
     (totals, item) => {
-      const sales = Number(item.trip_rent || 0);
-      const commission = Number(item.commission || 0);
-      const advance = Number(item.advanced || 0);
+      const sales = Number(item.total_rent || 0);
+      const commission = Number(item.driver_commission || 0);
+      const advance = Number(item.driver_adv || 0);
       const totalExpense =
         Number(item.labor || 0) +
         Number(item.parking_cost || 0) +
@@ -64,6 +68,166 @@ const DriverLedger = () => {
       balance: 0,
     }
   );
+  // Excel
+  const exportDriversToExcel = () => {
+    const dataToExport = filteredDriver.map((item) => ({
+      Date: item.date,
+      Driver: item.driver_name,
+      Load: item.load_point,
+      Unload: item.unload_point,
+      Sales: item.total_rent,
+      Commission: item.driver_commission,
+      Advance: item.driver_adv,
+      Labor: item.labor,
+      Parking: item.parking_cost,
+      Night: item.night_guard,
+      Toll: item.toll_cost,
+      Ferry: item.feri_cost,
+      Police: item.police_cost,
+      Chada: item.chada,
+      Total_Expense:
+        Number(item.labor) +
+        Number(item.parking_cost) +
+        Number(item.night_guard) +
+        Number(item.toll_cost) +
+        Number(item.feri_cost) +
+        Number(item.police_cost) +
+        Number(item.chada),
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Driver Ledger");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(data, `Driver_Ledger_${selectedDriver || "All"}.xlsx`);
+  };
+  // PDF
+  const exportDriversToPDF = () => {
+    const doc = new jsPDF("landscape");
+
+    const tableColumn = [
+      "SL.",
+      "Date",
+      "Load",
+      "Unload",
+      "Sales",
+      "Commission",
+      "Advance",
+      "Labor",
+      "Parking",
+      "Night",
+      "Toll",
+      "Ferry",
+      "Police",
+      "Chada",
+      "Total Expense",
+      "Balance",
+    ];
+
+    let pdfRows = [];
+    let runningBalance = openingBalance;
+
+    filteredDriver.forEach((item, index) => {
+      const {
+        labor = 0,
+        parking_cost = 0,
+        night_guard = 0,
+        toll_cost = 0,
+        feri_cost = 0,
+        police_cost = 0,
+        chada = 0,
+        driver_adv = 0,
+      } = item;
+
+      const totalExpense =
+        Number(labor) +
+        Number(parking_cost) +
+        Number(night_guard) +
+        Number(toll_cost) +
+        Number(feri_cost) +
+        Number(police_cost) +
+        Number(chada);
+
+      runningBalance += Number(driver_adv) - totalExpense;
+
+      pdfRows.push([
+        index + 1,
+        item.date || "",
+        item.load_point || "",
+        item.unload_point || "",
+        item.total_rent || "0",
+        item.driver_commission || "0",
+        item.driver_adv || "0",
+        labor || "0",
+        parking_cost || "0",
+        night_guard || "0",
+        toll_cost || "0",
+        feri_cost || "0",
+        police_cost || "0",
+        chada || "0",
+        totalExpense || "0",
+        runningBalance < 0 ? `(${Math.abs(runningBalance)})` : runningBalance,
+      ]);
+    });
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: pdfRows,
+      startY: 20,
+      styles: {
+        fontSize: 9,
+        cellPadding: 3,
+      },
+      headStyles: {
+        fillColor: [17, 55, 91],
+        textColor: [255, 255, 255],
+        halign: "left",
+      },
+      bodyStyles: {
+        textColor: [17, 55, 91],
+      },
+      alternateRowStyles: {
+        fillColor: [245, 245, 245],
+      },
+      theme: "grid",
+    });
+
+    doc.save(`Driver_Ledger_${selectedDriver || "All"}.pdf`);
+  };
+
+  // Print
+  const printDriversTable = () => {
+    const content = document.getElementById("driver-ledger-table").innerHTML;
+    const printWindow = window.open("", "", "width=900,height=700");
+    printWindow.document.write(`
+    <html>
+      <head>
+        <title>Print Driver Ledger</title>
+        <style>
+          table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+          }
+          th, td {
+            padding: 4px;
+            font-size: 12px;
+          }
+          table {
+            width: 100%;
+          }
+        </style>
+      </head>
+      <body>${content}</body>
+    </html>
+  `);
+    printWindow.document.close();
+    printWindow.print();
+  };
 
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
@@ -79,13 +243,22 @@ const DriverLedger = () => {
         {/* Export and Driver Dropdown */}
         <div className="md:flex items-center justify-between mb-4">
           <div className="flex gap-1 md:gap-3 flex-wrap">
-            <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
+            <button
+              onClick={exportDriversToExcel}
+              className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
+            >
               Excel
             </button>
-            <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
+            <button
+              onClick={exportDriversToPDF}
+              className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
+            >
               PDF
             </button>
-            <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
+            <button
+              onClick={printDriversTable}
+              className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
+            >
               Print
             </button>
           </div>
@@ -114,39 +287,39 @@ const DriverLedger = () => {
         </div>
 
         {/* Table with scroll */}
-        <div className="overflow-x-auto">
+        <div id="driver-ledger-table" className="overflow-x-auto">
           <table className="min-w-full text-sm text-left text-gray-900">
             <thead>
               <tr>
-                <th rowSpan="2" className="border border-black px-2 py-1">
+                <th rowSpan="2" className="border px-2 py-1">
                   Date
                 </th>
-                <th colSpan="4" className="border border-black py-1">
+                <th colSpan="4" className="border py-1">
                   Particulars
                 </th>
-                <th rowSpan="2" className="border border-black px-2 py-1">
+                <th rowSpan="2" className="border px-2 py-1">
                   Advance
                 </th>
-                <th colSpan="8" className="border border-black px-2 py-1">
+                <th colSpan="8" className="border px-2 py-1">
                   Expense
                 </th>
-                <th rowSpan="2" className="border border-black py-1">
+                <th rowSpan="2" className="border py-1">
                   <p className="border-b">OpeningBalance : 2000</p> Balance
                 </th>
               </tr>
               <tr>
-                <th className="border border-black px-2 py-1">Load</th>
-                <th className="border border-black px-2 py-1">Unload</th>
-                <th className="border border-black px-2 py-1">Sales</th>
-                <th className="border border-black px-2 py-1">Commission</th>
-                <th className="border border-black px-2 py-1">Labor</th>
-                <th className="border border-black px-2 py-1">Parking</th>
-                <th className="border border-black px-2 py-1">Night</th>
-                <th className="border border-black px-2 py-1">Toll</th>
-                <th className="border border-black px-2 py-1">Ferry</th>
-                <th className="border border-black px-2 py-1">Police</th>
-                <th className="border border-black px-2 py-1">Chada</th>
-                <th className="border border-black px-2 py-1">Total</th>
+                <th className="border px-2 py-1">Load</th>
+                <th className="border px-2 py-1">Unload</th>
+                <th className="border px-2 py-1">Sales</th>
+                <th className="border px-2 py-1">Commission</th>
+                <th className="border px-2 py-1">Labor</th>
+                <th className="border px-2 py-1">Parking</th>
+                <th className="border px-2 py-1">Night</th>
+                <th className="border px-2 py-1">Toll</th>
+                <th className="border px-2 py-1">Ferry</th>
+                <th className="border px-2 py-1">Police</th>
+                <th className="border px-2 py-1">Chada</th>
+                <th className="border px-2 py-1">Total</th>
               </tr>
             </thead>
             <tbody className="overflow-x-auto">
@@ -178,49 +351,23 @@ const DriverLedger = () => {
 
                 return (
                   <tr key={index}>
-                    <td className="border border-black px-2 py-1">
-                      {item.date}
+                    <td className="border px-2 py-1">{item.date}</td>
+                    <td className="border px-2 py-1">{item.load_point}</td>
+                    <td className="border px-2 py-1">{item.unload_point}</td>
+                    <td className="border px-2 py-1">{item.total_rent}</td>
+                    <td className="border px-2 py-1">
+                      {item.driver_commission}
                     </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.load_point}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.unload_point}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.trip_rent}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.commission}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.advanced}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.labor}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.parking_cost}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.night_guard}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.toll_cost}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.feri_cost}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.police_cost}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {item.chada}
-                    </td>
-                    <td className="border border-black px-2 py-1">
-                      {totalExpense}
-                    </td>
-                    <td className="border border-black px-2 py-1">
+                    <td className="border px-2 py-1">{item.driver_adv}</td>
+                    <td className="border px-2 py-1">{item.labor}</td>
+                    <td className="border px-2 py-1">{item.parking_cost}</td>
+                    <td className="border px-2 py-1">{item.night_guard}</td>
+                    <td className="border px-2 py-1">{item.toll_cost}</td>
+                    <td className="border px-2 py-1">{item.feri_cost}</td>
+                    <td className="border px-2 py-1">{item.police_cost}</td>
+                    <td className="border px-2 py-1">{item.chada}</td>
+                    <td className="border px-2 py-1">{totalExpense}</td>
+                    <td className="border px-2 py-1">
                       {balance < 0 ? `(${Math.abs(balance)})` : balance}
                     </td>
                   </tr>
@@ -229,40 +376,23 @@ const DriverLedger = () => {
             </tbody>
             <tfoot>
               <tr className="font-bold bg-gray-100">
-                <td
-                  colSpan={3}
-                  className="border border-black px-2 py-1 text-right"
-                >
+                <td colSpan={3} className="border px-2 py-1 text-right">
                   Total:
                 </td>
-                <td className="border border-black px-2 py-1">
-                  {footerTotals.sales}
-                </td>
-                <td className="border border-black px-2 py-1">
-                  {footerTotals.commission}
-                </td>
-                <td className="border border-black px-2 py-1">
-                  {footerTotals.advance}
-                </td>
-                <td colSpan={7} className="border border-black px-2 py-1"></td>
-                <td className="border border-black px-2 py-1">
-                  {footerTotals.total}
-                </td>
-                <td className="border border-black px-2 py-1">
+                <td className="border px-2 py-1">{footerTotals.sales}</td>
+                <td className="border px-2 py-1">{footerTotals.commission}</td>
+                <td className="border px-2 py-1">{footerTotals.advance}</td>
+                <td colSpan={7} className="border px-2 py-1"></td>
+                <td className="border px-2 py-1">{footerTotals.total}</td>
+                <td className="border px-2 py-1">
                   {footerTotals.balance + openingBalance}
                 </td>
               </tr>
               <tr className="font-bold bg-gray-100">
-                <td
-                  colSpan={3}
-                  className="border border-black px-2 py-1 text-right"
-                >
+                <td colSpan={3} className="border px-2 py-1 text-right">
                   Monthly report :
                 </td>
-                <td
-                  colSpan={12}
-                  className="border border-black px-8 py-1 text-right"
-                >
+                <td colSpan={12} className="border px-8 py-1 text-right">
                   {footerTotals.balance +
                     openingBalance -
                     footerTotals.commission <

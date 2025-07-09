@@ -64,7 +64,7 @@ const PaymentList = () => {
       dt.category?.toLowerCase().includes(term) ||
       dt.quantity?.toLowerCase().includes(term) ||
       dt.unit_price?.toLowerCase().includes(term) ||
-      dt.total_amount?.toLowerCase().includes(term) ||
+      dt.total?.toLowerCase().includes(term) ||
       dt.due_amount?.toLowerCase().includes(term) ||
       dt.pay_amount?.toLowerCase().includes(term) ||
       dt.branch_name?.toLowerCase().includes(term)
@@ -82,13 +82,13 @@ const PaymentList = () => {
       ItemName: dt.item_name,
       Quantity: dt.quantity,
       UnitPrice: dt.unit_price,
-      TotalAmount: dt.total_amount,
+      TotalAmount: dt.total,
       PayAmount: dt.pay_amount,
-      DueAmount: parseFloat(dt.total_amount) - parseFloat(dt.pay_amount),
+      DueAmount: parseFloat(dt.total) - parseFloat(dt.pay_amount),
       Status:
         parseFloat(dt.pay_amount) === 0
           ? "Unpaid"
-          : parseFloat(dt.pay_amount) >= parseFloat(dt.total_amount)
+          : parseFloat(dt.pay_amount) >= parseFloat(dt.total)
           ? "Paid"
           : "Partial",
     }));
@@ -130,12 +130,12 @@ const PaymentList = () => {
       dt.item_name,
       dt.quantity,
       dt.unit_price,
-      dt.total_amount,
+      dt.total,
       dt.pay_amount,
-      parseFloat(dt.total_amount) - parseFloat(dt.pay_amount),
+      parseFloat(dt.total) - parseFloat(dt.pay_amount),
       parseFloat(dt.pay_amount) === 0
         ? "Unpaid"
-        : parseFloat(dt.pay_amount) >= parseFloat(dt.total_amount)
+        : parseFloat(dt.pay_amount) >= parseFloat(dt.total)
         ? "Paid"
         : "Partial",
     ]);
@@ -161,13 +161,13 @@ const PaymentList = () => {
         <td>${dt.item_name}</td>
         <td>${dt.quantity}</td>
         <td>${dt.unit_price}</td>
-        <td>${dt.total_amount}</td>
+        <td>${dt.total}</td>
         <td>${dt.pay_amount}</td>
-        <td>${parseFloat(dt.total_amount) - parseFloat(dt.pay_amount)}</td>
+        <td>${parseFloat(dt.total) - parseFloat(dt.pay_amount)}</td>
         <td>${
           parseFloat(dt.pay_amount) === 0
             ? "Unpaid"
-            : parseFloat(dt.pay_amount) >= parseFloat(dt.total_amount)
+            : parseFloat(dt.pay_amount) >= parseFloat(dt.total)
             ? "Paid"
             : "Partial"
         }</td>
@@ -253,7 +253,7 @@ const PaymentList = () => {
       if (response.data.status === "Success") {
         // --- Second API: Supplier Ledger Create ---
         const supplierFormData = new FormData();
-        supplierFormData.append("data", new Date().toISOString().split("T")[0]);
+        supplierFormData.append("date", new Date().toISOString().split("T")[0]);
         supplierFormData.append("supplier_name", selectedPayment.supplier_name);
         supplierFormData.append("remarks", data.note);
         supplierFormData.append("pay_amount", data.pay_amount);
@@ -291,7 +291,7 @@ const PaymentList = () => {
                   status:
                     updatedAmount === 0
                       ? "Unpaid"
-                      : updatedAmount < parseFloat(item.total_amount)
+                      : updatedAmount < parseFloat(item.total)
                       ? "Partial"
                       : "Paid",
                 }
@@ -417,14 +417,12 @@ const PaymentList = () => {
                   <td className="px-1 py-2">{dt.item_name}</td>
                   <td className="px-1 py-2">{dt.quantity}</td>
                   <td className="px-1 py-2">{dt.unit_price}</td>
-                  <td className="px-1 py-2">{dt.total_amount}</td>
+                  <td className="px-1 py-2">{dt.total}</td>
                   <td className="px-1 py-2">{dt.pay_amount}</td>
-                  <td className="px-1 py-2">
-                    {dt.total_amount - dt.pay_amount}
-                  </td>
+                  <td className="px-1 py-2">{dt.total - dt.pay_amount}</td>
                   <td className="px-1 py-2">
                     {(() => {
-                      const total = parseFloat(dt.total_amount) || 0;
+                      const total = parseFloat(dt.total) || 0;
                       const paid = parseFloat(dt.pay_amount) || 0;
                       const due = total - paid;
 
@@ -454,35 +452,28 @@ const PaymentList = () => {
                       <button
                         onClick={() => {
                           if (
-                            parseFloat(dt.total_amount) -
-                              parseFloat(dt.pay_amount) <=
+                            parseFloat(dt.total) - parseFloat(dt.pay_amount) <=
                             0
                           )
                             return;
                           setSelectedPayment(dt);
                           setShowModal(true);
                           reset({
-                            due_amount: dt.total_amount - dt.pay_amount,
+                            due_amount: dt.total - dt.pay_amount,
                             pay_amount: dt.pay_amount,
                             // note: dt.item_name,
                           });
                         }}
                         className={`px-1 py-1 rounded shadow-md transition-all cursor-pointer ${
-                          parseFloat(dt.total_amount) -
-                            parseFloat(dt.pay_amount) >
-                          0
+                          parseFloat(dt.total) - parseFloat(dt.pay_amount) > 0
                             ? "text-primary hover:bg-primary hover:text-white"
                             : "text-green-700 bg-gray-200 cursor-not-allowed"
                         }`}
                         disabled={
-                          parseFloat(dt.total_amount) -
-                            parseFloat(dt.pay_amount) <=
-                          0
+                          parseFloat(dt.total) - parseFloat(dt.pay_amount) <= 0
                         }
                       >
-                        {parseFloat(dt.total_amount) -
-                          parseFloat(dt.pay_amount) >
-                        0
+                        {parseFloat(dt.total) - parseFloat(dt.pay_amount) > 0
                           ? "Pay Now"
                           : "Complete"}
                       </button>

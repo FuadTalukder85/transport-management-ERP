@@ -27,7 +27,7 @@ const AllUsers = () => {
     axios
       .get("https://api.tramessy.com/api/users")
       .then((response) => {
-        if (response.data.status === "success") {
+        if (response.data.status === "Success") {
           setUsers(response.data.data);
         }
         setLoading(false);
