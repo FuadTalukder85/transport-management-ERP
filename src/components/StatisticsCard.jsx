@@ -9,15 +9,23 @@ import {
 } from "react-icons/fa";
 
 const StatisticsCard = () => {
-  const [trips, setTrips] = useState([]);
+  const [todayTripCount, setTodayTripCount] = useState(0);
   const [vehicle, setvehicle] = useState([]);
   const [users, setUsers] = useState([]);
   const [driver, setDriver] = useState([]);
   // trips
   useEffect(() => {
-    axios.get("https://api.tramessy.com/api/trip").then((res) => {
-      setTrips(res.data.data);
-    });
+    axios
+      .get("https://api.tramessy.com/mstrading/api/trip/list")
+      .then((res) => {
+        const allTrips = res.data.data;
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split("T")[0];
+        // Filter trips matching today's date
+        const todayTrips = allTrips.filter((trip) => trip.date === today);
+        // Set today's trip count
+        setTodayTripCount(todayTrips.length);
+      });
   }, []);
   // vehicle
   useEffect(() => {
@@ -48,9 +56,9 @@ const StatisticsCard = () => {
               <FaTruck className="text-white text-3xl" />
             </span>
             <div>
-              <h3 className="text-[#11375B] md:font-semibold">Total Trip</h3>
+              <h3 className="text-[#11375B] md:font-semibold">Today Trip</h3>
               <span className="text-gray-500 font-semibold">
-                {trips.length}
+                {todayTripCount}
               </span>
             </div>
           </div>

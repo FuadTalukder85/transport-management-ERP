@@ -4,19 +4,15 @@ import dayjs from "dayjs";
 
 const OverViewCard = () => {
   const [expiringDocs, setExpiringDocs] = useState([]);
-  const [octenCost, setOctenCost] = useState(0);
-  const [dieselCost, setDieselCost] = useState(0);
-  const [petrolCost, setPetrolCost] = useState(0);
-  const [gasCost, setGasCost] = useState(0);
+  const [todayExpenses, setTodayExpenses] = useState([]);
+  const [totalTodayExpense, setTotalTodayExpense] = useState(0);
 
-  const today = dayjs().format("YYYY-MM-DD");
-
-  // রিমাইন্ডার ফেচ
+  // remainder papers
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
         const response = await axios.get(
-          "https://api.tramessy.com/api/vehicle"
+          "https://api.tramessy.com/mstrading/api/vehicle/list"
         );
         const vehicles = response.data?.data || [];
 
@@ -24,20 +20,22 @@ const OverViewCard = () => {
         const expiring = [];
 
         vehicles.forEach((vehicle) => {
-          ["fitness_date", "road_permit_date", "text_date"].forEach((type) => {
-            const date = dayjs(vehicle[type]);
-            if (
-              date.isValid() &&
-              date.diff(todayDate, "day") <= 7 &&
-              date.diff(todayDate, "day") >= 0
-            ) {
-              expiring.push({
-                vehicle: vehicle.registration_number,
-                document: type.replace(/_/g, " ").toUpperCase(),
-                expireDate: date.format("DD-MM-YYYY"),
-              });
+          ["fitness_date", "road_permit_date", "registration_date"].forEach(
+            (type) => {
+              const date = dayjs(vehicle[type]);
+              if (
+                date.isValid() &&
+                date.diff(todayDate, "day") <= 7 &&
+                date.diff(todayDate, "day") >= 0
+              ) {
+                expiring.push({
+                  vehicle: vehicle.registration_number,
+                  document: type.replace(/_/g, " ").toUpperCase(),
+                  expireDate: date.format("DD-MM-YYYY"),
+                });
+              }
             }
-          });
+          );
         });
 
         setExpiringDocs(expiring);
@@ -49,109 +47,132 @@ const OverViewCard = () => {
     fetchVehicles();
   }, []);
 
-  // আজকের ফুয়েল এবং গ্যাস Cost
+  // today expense
   useEffect(() => {
-    const fetchFuelData = async () => {
+    const fetchTodayExpenses = async () => {
       try {
-        const response = await axios.get("https://api.tramessy.com/api/fuel");
-        const fuels = response.data?.data || [];
+        const today = dayjs().format("YYYY-MM-DD");
 
-        let octen = 0;
-        let diesel = 0;
-        let petrol = 0;
-        let gas = 0;
+        // Fetch purchase
+        const purchaseRes = await axios.get(
+          "https://api.tramessy.com/mstrading/api/purchase/list"
+        );
+        const purchases = purchaseRes.data?.data || [];
+        const todayPurchases = purchases.filter((item) => item.date === today);
 
-        fuels.forEach((fuel) => {
-          if (fuel.date_time === today) {
-            const totalPrice = parseFloat(fuel.total_price) || 0;
-            const type = (fuel.type || "").toLowerCase();
-
-            if (type === "octen") {
-              octen += totalPrice;
-            } else if (type === "diesel") {
-              diesel += totalPrice;
-            } else if (type === "petroll" || type === "petrol") {
-              petrol += totalPrice;
-            } else if (type === "gas") {
-              gas += totalPrice;
-            }
-          }
+        // Group purchase by category
+        const purchaseTotals = {};
+        todayPurchases.forEach((item) => {
+          const category = item.category || "Others";
+          const cost = parseFloat(item.quantity) * parseFloat(item.unit_price);
+          if (!purchaseTotals[category]) purchaseTotals[category] = 0;
+          purchaseTotals[category] += cost;
         });
 
-        setOctenCost(octen);
-        setDieselCost(diesel);
-        setPetrolCost(petrol);
-        setGasCost(gas);
-      } catch (error) {
-        console.error("Error fetching fuel data:", error);
+        // Fetch trips
+        const tripRes = await axios.get(
+          "https://api.tramessy.com/mstrading/api/trip/list"
+        );
+        const trips = tripRes.data?.data || [];
+        const todayTrips = trips.filter((item) => item.date === today);
+
+        const tripTotals = {};
+        const costFields = [
+          "fuel_cost",
+          "driver_commission",
+          "road_cost",
+          "food_cost",
+          "body_fare",
+          "toll_cost",
+          "feri_cost",
+          "police_cost",
+          "driver_adv",
+          "chada",
+          "labor",
+          "parking_cost",
+          "night_guard",
+          "unload_charge",
+          "extra_fare",
+          "vehicle_rent",
+        ];
+
+        todayTrips.forEach((trip) => {
+          costFields.forEach((field) => {
+            const value = parseFloat(trip[field]);
+            if (!isNaN(value)) {
+              if (!tripTotals[field]) tripTotals[field] = 0;
+              tripTotals[field] += value;
+            }
+          });
+        });
+
+        // Merge all
+        const combined = { ...purchaseTotals, ...tripTotals };
+        const totalExpense = Object.values(combined).reduce((a, b) => a + b, 0);
+
+        setTodayExpenses(combined);
+        setTotalTodayExpense(totalExpense);
+      } catch (err) {
+        console.error("Error fetching expenses:", err);
       }
     };
 
-    fetchFuelData();
-  }, [today]);
+    fetchTodayExpenses();
+  }, []);
 
-  const totalCost = octenCost + dieselCost + petrolCost + gasCost;
+  const formatTitle = (str) => {
+    return str
+      .replace(/_/g, " ")
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
 
   return (
     <div className="md:p-5">
       <ul className="md:flex gap-3">
-        {/* আয় কার্ড */}
         <li className="bg-white rounded-md p-3 w-full md:w-full mb-3">
           <div className="text-primary border-b pb-3 border-gray-300">
-            <h3 className="font-semibold">Today Income</h3>
+            <h3 className="font-semibold">Today Sales</h3>
           </div>
           <div className="p-3 text-primary font-semibold text-sm space-y-2">
             <div className="flex items-center gap-3">
               <p className="flex justify-between w-full border-t mt-3 pt-3">
                 <span>Total Profit</span> - <span>1595</span>
-                {/* চাইলে ডাইনামিক করতে পারো */}
               </p>
             </div>
           </div>
         </li>
-
-        {/* ব্যয় কার্ড */}
+        {/* Today expense */}
         <li className="bg-white rounded-md p-3 w-full md:w-full mb-3">
           <div className="text-primary border-b pb-3 border-gray-300">
             <h3 className="font-semibold">Today Expense</h3>
           </div>
           <div className="p-3 text-primary font-semibold text-sm space-y-2">
-            <div className="flex items-center gap-3">
-              <div className="bg-primary w-[6px] h-[6px] rounded-full" />
-              <p className="flex justify-between w-full">
-                <span>Octen Cost</span> - <span>{octenCost.toFixed(2)} TK</span>
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="bg-primary w-[6px] h-[6px] rounded-full" />
-              <p className="flex justify-between w-full">
-                <span>Diesel Cost</span> -{" "}
-                <span>{dieselCost.toFixed(2)} TK</span>
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="bg-primary w-[6px] h-[6px] rounded-full" />
-              <p className="flex justify-between w-full">
-                <span>Petrol Cost</span> -{" "}
-                <span>{petrolCost.toFixed(2)} TK</span>
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="bg-primary w-[6px] h-[6px] rounded-full" />
-              <p className="flex justify-between w-full">
-                <span>Gas Cost</span> - <span>{gasCost.toFixed(2)} TK</span>
-              </p>
-            </div>
+            {Object.entries(todayExpenses).length > 0 ? (
+              Object.entries(todayExpenses).map(([title, amount], i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="bg-primary w-[6px] h-[6px] rounded-full" />
+                  <p className="flex justify-between w-full">
+                    <span>{formatTitle(title)}</span> -{" "}
+                    <span>{amount.toFixed(2)} TK</span>
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-sm text-gray-500">No expenses today.</p>
+            )}
             <div className="flex items-center gap-3">
               <p className="flex justify-between w-full border-t mt-3 pt-3">
                 <span>Total Expense</span> -{" "}
-                <span>{totalCost.toFixed(2)} TK</span>
+                <span>{totalTodayExpense.toFixed(2)} TK</span>
               </p>
             </div>
           </div>
         </li>
 
-        {/* রিমাইন্ডার কার্ড */}
+        {/* Remainder card */}
         <li className="bg-white rounded-md p-3 w-full md:w-full mb-3">
           <div className="text-primary border-b pb-3 border-gray-300">
             <h3 className="font-semibold">Remainder</h3>
