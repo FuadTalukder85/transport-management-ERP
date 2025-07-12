@@ -1,83 +1,33 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
-
 const OverViewCard = () => {
-  const [expiringDocs, setExpiringDocs] = useState([]);
-  const [todayExpenses, setTodayExpenses] = useState([]);
+  const [otherExpense, setOtherExpense] = useState(0);
+  const [tripCost, setTripCost] = useState(0);
   const [totalTodayExpense, setTotalTodayExpense] = useState(0);
-
-  // remainder papers
-  useEffect(() => {
-    const fetchVehicles = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.tramessy.com/mstrading/api/vehicle/list"
-        );
-        const vehicles = response.data?.data || [];
-
-        const todayDate = dayjs();
-        const expiring = [];
-
-        vehicles.forEach((vehicle) => {
-          ["fitness_date", "road_permit_date", "registration_date"].forEach(
-            (type) => {
-              const date = dayjs(vehicle[type]);
-              if (
-                date.isValid() &&
-                date.diff(todayDate, "day") <= 7 &&
-                date.diff(todayDate, "day") >= 0
-              ) {
-                expiring.push({
-                  vehicle: vehicle.registration_number,
-                  document: type.replace(/_/g, " ").toUpperCase(),
-                  expireDate: date.format("DD-MM-YYYY"),
-                });
-              }
-            }
-          );
-        });
-
-        setExpiringDocs(expiring);
-      } catch (error) {
-        console.error("Error fetching vehicle data:", error);
-      }
-    };
-
-    fetchVehicles();
-  }, []);
-
-  // today expense
+  const [dailySales, setDailySales] = useState({});
+  const today = dayjs().format("YYYY-MM-DD");
+  const [todayTripCount, setTodayTripCount] = useState(0);
   useEffect(() => {
     const fetchTodayExpenses = async () => {
       try {
-        const today = dayjs().format("YYYY-MM-DD");
-
-        // Fetch purchase
         const purchaseRes = await axios.get(
           "https://api.tramessy.com/mstrading/api/purchase/list"
         );
         const purchases = purchaseRes.data?.data || [];
+
         const todayPurchases = purchases.filter((item) => item.date === today);
-
-        // Group purchase by category
-        const purchaseTotals = {};
-        todayPurchases.forEach((item) => {
-          const category = item.category || "Others";
-          const cost = parseFloat(item.quantity) * parseFloat(item.unit_price);
-          if (!purchaseTotals[category]) purchaseTotals[category] = 0;
-          purchaseTotals[category] += cost;
-        });
-
-        // Fetch trips
+        const purchaseTotal = todayPurchases.reduce((sum, item) => {
+          const qty = parseFloat(item.quantity);
+          const price = parseFloat(item.unit_price);
+          return sum + (isNaN(qty) || isNaN(price) ? 0 : qty * price);
+        }, 0);
         const tripRes = await axios.get(
           "https://api.tramessy.com/mstrading/api/trip/list"
         );
         const trips = tripRes.data?.data || [];
         const todayTrips = trips.filter((item) => item.date === today);
-
-        const tripTotals = {};
-        const costFields = [
+        const tripFields = [
           "fuel_cost",
           "driver_commission",
           "road_cost",
@@ -96,21 +46,20 @@ const OverViewCard = () => {
           "vehicle_rent",
         ];
 
+        let tripTotal = 0;
         todayTrips.forEach((trip) => {
-          costFields.forEach((field) => {
-            const value = parseFloat(trip[field]);
-            if (!isNaN(value)) {
-              if (!tripTotals[field]) tripTotals[field] = 0;
-              tripTotals[field] += value;
+          tripFields.forEach((field) => {
+            const val = parseFloat(trip[field]);
+            if (!isNaN(val)) {
+              tripTotal += val;
             }
           });
         });
 
-        // Merge all
-        const combined = { ...purchaseTotals, ...tripTotals };
-        const totalExpense = Object.values(combined).reduce((a, b) => a + b, 0);
+        const totalExpense = purchaseTotal + tripTotal;
 
-        setTodayExpenses(combined);
+        setOtherExpense(purchaseTotal);
+        setTripCost(tripTotal);
         setTotalTodayExpense(totalExpense);
       } catch (err) {
         console.error("Error fetching expenses:", err);
@@ -118,82 +67,84 @@ const OverViewCard = () => {
     };
 
     fetchTodayExpenses();
+  }, [today]);
+
+  useEffect(() => {
+    axios
+      .get("https://api.tramessy.com/mstrading/api/trip/list")
+      .then((response) => {
+        const data = response.data.data;
+        const today = new Date().toISOString().split("T")[0];
+        const sale = data
+          .filter((item) => item.date === today)
+          .reduce((sum, trip) => sum + parseFloat(trip.total_rent || 0), 0);
+
+        setDailySales(sale);
+      })
+      .catch((error) => {
+        console.error("Error fetching trip data:", error);
+      });
   }, []);
-
-  const formatTitle = (str) => {
-    return str
-      .replace(/_/g, " ")
-      .toLowerCase()
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-
+  useEffect(() => {
+    axios
+      .get("https://api.tramessy.com/mstrading/api/trip/list")
+      .then((res) => {
+        const allTrips = res.data.data;
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split("T")[0];
+        // Filter trips matching today's date
+        const todayTrips = allTrips.filter((trip) => trip.date === today);
+        // Set today's trip count
+        setTodayTripCount(todayTrips.length);
+      });
+  }, []);
   return (
     <div className="md:p-5">
-      <ul className="md:flex gap-3">
-        <li className="bg-white rounded-md p-3 w-full md:w-full mb-3">
-          <div className="text-primary border-b pb-3 border-gray-300">
-            <h3 className="font-semibold">Today Sales</h3>
-          </div>
-          <div className="p-3 text-primary font-semibold text-sm space-y-2">
-            <div className="flex items-center gap-3">
-              <p className="flex justify-between w-full border-t mt-3 pt-3">
-                <span>Total Profit</span> - <span>1595</span>
-              </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {/* Sales */}
+        <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 cursor-pointer">
+          <h3 className="text-lg font-bold text-primary border-b pb-2 mb-4">
+            Daily Sales
+          </h3>
+          <div className="text-gray-700 text-sm space-y-2">
+            <div className="flex justify-between font-semibold">
+              <span>Total Sale</span>-
+              <span>{dailySales.toLocaleString()} TK</span>
             </div>
           </div>
-        </li>
-        {/* Today expense */}
-        <li className="bg-white rounded-md p-3 w-full md:w-full mb-3">
-          <div className="text-primary border-b pb-3 border-gray-300">
-            <h3 className="font-semibold">Today Expense</h3>
-          </div>
-          <div className="p-3 text-primary font-semibold text-sm space-y-2">
-            {Object.entries(todayExpenses).length > 0 ? (
-              Object.entries(todayExpenses).map(([title, amount], i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="bg-primary w-[6px] h-[6px] rounded-full" />
-                  <p className="flex justify-between w-full">
-                    <span>{formatTitle(title)}</span> -{" "}
-                    <span>{amount.toFixed(2)} TK</span>
-                  </p>
-                </div>
-              ))
-            ) : (
-              <p className="text-sm text-gray-500">No expenses today.</p>
-            )}
-            <div className="flex items-center gap-3">
-              <p className="flex justify-between w-full border-t mt-3 pt-3">
-                <span>Total Expense</span> -{" "}
-                <span>{totalTodayExpense.toFixed(2)} TK</span>
-              </p>
-            </div>
-          </div>
-        </li>
+        </div>
 
-        {/* Remainder card */}
-        <li className="bg-white rounded-md p-3 w-full md:w-full mb-3">
-          <div className="text-primary border-b pb-3 border-gray-300">
-            <h3 className="font-semibold">Remainder</h3>
+        {/* Expense */}
+        <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 cursor-pointer">
+          <h3 className="text-lg font-bold text-primary border-b pb-2 mb-4">
+            Daily Expense
+          </h3>
+          <div className="text-gray-700 text-sm space-y-3">
+            <div className="flex justify-between font-semibold">
+              <span>Trip Cost</span>-<span>{tripCost.toFixed(2)} TK</span>
+            </div>
+            <div className="flex justify-between font-semibold">
+              <span>Others Expense</span>-
+              <span>{otherExpense.toFixed(2)} TK</span>
+            </div>
+            <div className="border-t pt-2 mt-2 flex justify-between font-bold">
+              <span>Total Expense</span>-
+              <span>{totalTodayExpense.toFixed(2)} TK</span>
+            </div>
           </div>
-          <div className="py-3 text-primary font-semibold text-sm space-y-2">
-            {expiringDocs.length > 0 ? (
-              expiringDocs.map((item, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-full">
-                    <p>Vehicle No: {item.vehicle}</p>
-                    <p>Document's Name: {item.document}</p>
-                    <p>Expired Date: {item.expireDate}</p>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-sm text-gray-500">No expiration date.</p>
-            )}
+        </div>
+        {/* daily trip */}
+        <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 cursor-pointer">
+          <h3 className="text-lg font-bold text-primary border-b pb-2 mb-4">
+            Daily Trip
+          </h3>
+          <div className="text-gray-700 text-sm space-y-2">
+            <div className="flex justify-between font-semibold">
+              <span>Today Trip</span>-<span> {todayTripCount}</span>
+            </div>
           </div>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   );
 };

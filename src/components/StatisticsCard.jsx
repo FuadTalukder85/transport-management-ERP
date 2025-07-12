@@ -1,139 +1,67 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import {
-  FaTruck,
-  FaChartPie,
-  FaUsers,
-  FaUserPlus,
-  FaArrowUp,
-} from "react-icons/fa";
-
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 const StatisticsCard = () => {
-  const [todayTripCount, setTodayTripCount] = useState(0);
-  const [vehicle, setvehicle] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [driver, setDriver] = useState([]);
-  // trips
+  const [expiringDocs, setExpiringDocs] = useState([]);
+  // document expiring
   useEffect(() => {
-    axios
-      .get("https://api.tramessy.com/mstrading/api/trip/list")
-      .then((res) => {
-        const allTrips = res.data.data;
-        // Get today's date in YYYY-MM-DD format
-        const today = new Date().toISOString().split("T")[0];
-        // Filter trips matching today's date
-        const todayTrips = allTrips.filter((trip) => trip.date === today);
-        // Set today's trip count
-        setTodayTripCount(todayTrips.length);
-      });
-  }, []);
-  // vehicle
-  useEffect(() => {
-    axios.get("https://api.tramessy.com/api/vehicle").then((res) => {
-      setvehicle(res.data.data);
-    });
-  }, []);
-  // users
-  useEffect(() => {
-    axios.get("https://api.tramessy.com/api/users").then((res) => {
-      setUsers(res.data.data);
-    });
-  }, []);
-  // drivers
-  useEffect(() => {
-    axios.get("https://api.tramessy.com/api/driver").then((res) => {
-      setDriver(res.data.data);
-    });
+    const fetchVehicles = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.tramessy.com/mstrading/api/vehicle/list"
+        );
+        const vehicles = response.data?.data || [];
+        const todayDate = dayjs();
+        const expiring = [];
+        vehicles.forEach((vehicle) => {
+          ["fitness_date", "road_permit_date", "registration_date"].forEach(
+            (type) => {
+              const date = dayjs(vehicle[type]);
+              if (
+                date.isValid() &&
+                date.diff(todayDate, "day") <= 7 &&
+                date.diff(todayDate, "day") >= 0
+              ) {
+                expiring.push({
+                  vehicle: vehicle.registration_number,
+                  document: type.replace(/_/g, " ").toUpperCase(),
+                  expireDate: date.format("DD-MM-YYYY"),
+                });
+              }
+            }
+          );
+        });
+        setExpiringDocs(expiring);
+      } catch (error) {
+        console.error("Error fetching vehicle data:", error);
+      }
+    };
+    fetchVehicles();
   }, []);
 
   return (
-    <div className="px-1 md:px-5 py-6">
-      <ul className="grid grid-cols-2 md:flex gap-3 justify-between">
-        {/* Total Trips Card */}
-        <li className="bg-white p-2 md:p-3 rounded-md drop-shadow-lg w-full">
-          <div className="bg-gray-100 rounded-r-md flex gap-2 md:gap-10 items-center md:pr-7 p-3 md:p-0">
-            <span className="hidden md:flex bg-[#11375B] p-3 rounded-md">
-              <FaTruck className="text-white text-3xl" />
-            </span>
-            <div>
-              <h3 className="text-[#11375B] md:font-semibold">Today Trip</h3>
-              <span className="text-gray-500 font-semibold">
-                {todayTripCount}
-              </span>
-            </div>
-          </div>
-          <button className="w-full mt-3 md:mt-7 text-white font-semibold text-sm bg-[#11375B] md:px-3 py-1 rounded-md hover:bg-[#062238] transition-all duration-700 cursor-pointer hover:scale-105">
-            <span className="pr-1 md:pr-3">More info</span>
-            <FaArrowUp className="inline-block" />
-          </button>
-        </li>
-
-        {/* Total vehicle Card */}
-        <li className="bg-white p-2 md:p-3 rounded-md drop-shadow-lg w-full">
-          <div className="bg-gray-100 rounded-r-md flex gap-2 md:gap-10 items-center md:pr-7 p-3 md:p-0">
-            <span className="hidden md:flex bg-[#11375B] p-3 rounded-md">
-              <FaChartPie className="text-white text-3xl" />
-            </span>
-            <div>
-              <h3 className="text-[#11375B] md:font-semibold">Total Vehicle</h3>
-              <span className="text-gray-500 font-semibold">
-                {vehicle.length}
-              </span>
-            </div>
-          </div>
-          <button className="w-full mt-3 md:mt-7 text-white font-semibold text-sm bg-[#11375B] md:px-3 py-1 rounded-md hover:bg-[#062238] transition-all duration-700 cursor-pointer hover:scale-105">
-            <span className="pr-1 md:pr-3">More info</span>
-            <FaArrowUp className="inline-block" />
-          </button>
-        </li>
-
-        {/* Total Customers Card */}
-        <li className="bg-white p-2 md:p-3 rounded-md drop-shadow-lg w-full">
-          <div className="bg-gray-100 rounded-r-md flex gap-2 md:gap-10 items-center md:pr-0 p-3 md:p-0">
-            <span className="hidden md:flex bg-[#11375B] p-3 rounded-md">
-              <FaUsers className="text-white text-3xl" />
-            </span>
-            <div>
-              {/* todo */}
-              <h3 className="text-[#11375B] md:font-semibold">
-                Total Customer
-              </h3>
-              <span className="text-gray-500 font-semibold">
-                {users.length}
-              </span>
-            </div>
-          </div>
-          <button className="w-full mt-3 md:mt-7 text-white font-semibold text-sm bg-[#11375B] md:px-3 py-1 rounded-md hover:bg-[#062238] transition-all duration-700 cursor-pointer hover:scale-105">
-            <span className="pr-1 md:pr-3">
-              {" "}
-              <span className="pr-1 md:pr-3">More info</span>
-            </span>
-            <FaArrowUp className="inline-block" />
-          </button>
-        </li>
-
-        {/* Drivers Card */}
-        <li className="bg-white p-2 md:p-3 rounded-md drop-shadow-lg w-full">
-          <div className="bg-gray-100 rounded-r-md flex gap-2 md:gap-10 items-center md:pr-7 p-3 md:p-0">
-            <span className="hidden md:flex bg-[#11375B] p-3 rounded-md">
-              <FaUserPlus className="text-white text-3xl" />
-            </span>
-            <div>
-              <h3 className="text-[#11375B] md:font-semibold">Driver</h3>
-              <span className="text-gray-500 font-semibold">
-                {driver.length}
-              </span>
-            </div>
-          </div>
-          <button className="w-full mt-3 md:mt-7 text-white font-semibold text-sm bg-[#11375B] md:px-3 py-1 rounded-md hover:bg-[#062238] transition-all duration-700 cursor-pointer hover:scale-105">
-            <span className="pr-1 md:pr-3">
-              {" "}
-              <span className="pr-1 md:pr-3">More info</span>
-            </span>
-            <FaArrowUp className="inline-block" />
-          </button>
-        </li>
-      </ul>
+    <div className="md:px-5">
+      <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 cursor-pointer">
+        <h3 className="text-lg font-bold text-primary border-b pb-2 mb-4">
+          Document Remainder
+        </h3>
+        <div className="space-y-3 text-sm text-gray-700 max-h-48 overflow-y-auto pr-2">
+          {expiringDocs.length > 0 ? (
+            expiringDocs.map((item, i) => (
+              <div
+                key={i}
+                className="bg-yellow-100 p-3 rounded-md border-l-4 border-yellow-500"
+              >
+                <p className="font-semibold">Vehicle: {item.vehicle}</p>
+                <p>{item.document}</p>
+                <p>Expires: {item.expireDate}</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">No documents expiring soon.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
