@@ -55,14 +55,14 @@ const SalesChart = () => {
   if (chartData.length === 0) return <p>No data for current month.</p>;
 
   return (
-    <div className="">
+    <div className="bg-white rounded-xl mt-5 pt-5 border border-gray-200 shadow-md">
       <h3 className="text-lg font-bold text-primary border-b border-gray-200 md:mx-5 pb-2">
         Monthly Sales Chart By Customer
       </h3>
       <ResponsiveContainer width="100%" height={400}>
         <ComposedChart
           data={chartData}
-          margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+          margin={{ top: 50, right: 20, bottom: 20, left: 20 }}
         >
           <CartesianGrid stroke="#f5f5f5" />
           <XAxis dataKey="name" scale="band" />

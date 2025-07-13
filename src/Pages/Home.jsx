@@ -5,10 +5,10 @@ import SalesChart from "../components/Charts/SalesChart";
 
 const Home = () => {
   return (
-    <div className="bg-gray-100 rounded-xl">
+    <div className="bg-gray-100 rounded-xl p-5">
       <OverViewCard />
-      <div className="grid grid-cols-2">
-        <div className="">
+      <div className="grid grid-cols-2  pt-5">
+        <div className="pr-5">
           <StatisticsCard />
         </div>
         <div className="">
