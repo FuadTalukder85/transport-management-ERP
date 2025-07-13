@@ -3,13 +3,37 @@ import { InputField, SelectField } from "../../components/Form/FormFields";
 import BtnSubmit from "../../components/Button/BtnSubmit";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiCalendar } from "react-icons/fi";
 
 const CashDispatchForm = () => {
+  const [branch, setBranch] = useState([]);
+  const [employee, setEmployee] = useState([]);
   const dateRef = useRef(null);
   const methods = useForm();
-  const { handleSubmit, reset, register } = methods;
+  // select branch from api
+  useEffect(() => {
+    fetch("https://api.tramessy.com/mstrading/api/office/list")
+      .then((response) => response.json())
+      .then((data) => setBranch(data.data))
+      .catch((error) => console.error("Error fetching branch name:", error));
+  }, []);
+  const branchOptions = branch.map((dt) => ({
+    value: dt.branch_name,
+    label: dt.branch_name,
+  }));
+  // select branch from api
+  useEffect(() => {
+    fetch("https://api.tramessy.com/mstrading/api/employee/list")
+      .then((response) => response.json())
+      .then((data) => setEmployee(data.data))
+      .catch((error) => console.error("Error fetching employee name:", error));
+  }, []);
+  const employeeOptions = employee.map((dt) => ({
+    value: dt.full_name,
+    label: dt.full_name,
+  }));
+  const { handleSubmit, reset, register, control } = methods;
   // generate ref id
   const generateRefId = () => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -104,12 +128,24 @@ const CashDispatchForm = () => {
                 />
               </div>
               <div className="w-full">
-                <InputField name="branch" label="Branch Name" required />
+                <SelectField
+                  name="branch"
+                  label="Branch Name"
+                  required={true}
+                  options={branchOptions}
+                  control={control}
+                />
               </div>
             </div>
             <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
               <div className="w-full">
-                <InputField name="person_name" label="Person Name" required />
+                <SelectField
+                  name="person_name"
+                  label="Person Name"
+                  required={true}
+                  options={employeeOptions}
+                  control={control}
+                />
               </div>
               <div className="w-full">
                 <SelectField

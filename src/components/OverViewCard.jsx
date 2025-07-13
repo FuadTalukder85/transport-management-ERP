@@ -103,7 +103,7 @@ const OverViewCard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Sales */}
         <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 cursor-pointer">
-          <h3 className="text-lg font-bold text-primary border-b pb-2 mb-4">
+          <h3 className="text-lg font-bold text-primary border-b border-gray-200 pb-2 mb-4">
             Daily Sales
           </h3>
           <div className="text-gray-700 text-sm space-y-2">
@@ -116,7 +116,7 @@ const OverViewCard = () => {
 
         {/* Expense */}
         <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 cursor-pointer">
-          <h3 className="text-lg font-bold text-primary border-b pb-2 mb-4">
+          <h3 className="text-lg font-bold text-primary border-b border-gray-200 pb-2 mb-4">
             Daily Expense
           </h3>
           <div className="text-gray-700 text-sm space-y-3">
@@ -127,7 +127,7 @@ const OverViewCard = () => {
               <span>Others Expense</span>-
               <span>{otherExpense.toFixed(2)} TK</span>
             </div>
-            <div className="border-t pt-2 mt-2 flex justify-between font-bold">
+            <div className="border-t border-gray-200 pt-2 mt-2 flex justify-between font-bold">
               <span>Total Expense</span>-
               <span>{totalTodayExpense.toFixed(2)} TK</span>
             </div>
@@ -135,7 +135,7 @@ const OverViewCard = () => {
         </div>
         {/* daily trip */}
         <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 cursor-pointer">
-          <h3 className="text-lg font-bold text-primary border-b pb-2 mb-4">
+          <h3 className="text-lg font-bold text-primary border-b border-gray-200 pb-2 mb-4">
             Daily Trip
           </h3>
           <div className="text-gray-700 text-sm space-y-2">

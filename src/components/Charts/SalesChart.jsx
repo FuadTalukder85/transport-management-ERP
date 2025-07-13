@@ -56,7 +56,7 @@ const SalesChart = () => {
 
   return (
     <div className="">
-      <h3 className="text-lg font-bold text-primary border-b md:mx-5 pb-2">
+      <h3 className="text-lg font-bold text-primary border-b border-gray-200 md:mx-5 pb-2">
         Monthly Sales Chart By Customer
       </h3>
       <ResponsiveContainer width="100%" height={400}>

@@ -14,7 +14,7 @@ const Office = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOfficeId, setSelectedOfficeId] = useState(null);
   const toggleModal = () => setIsOpen(!isOpen);
-  // Fetch customer ledger data
+  // Fetch office data
   useEffect(() => {
     axios
       .get("https://api.tramessy.com/mstrading/api/office/list")

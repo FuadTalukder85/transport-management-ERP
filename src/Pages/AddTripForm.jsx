@@ -200,19 +200,16 @@ const AddTripForm = () => {
   // };
   // post data on server
   const onSubmit = async (data) => {
-    console.log("purchase", data);
     const refId = generateRefId();
-
     try {
       const tripFormData = new FormData();
-
       // Append form fields
       for (const key in data) {
         tripFormData.append(key, data[key]);
       }
-
       // Additional fields
       tripFormData.append("ref_id", refId);
+      // tripFormData.append("status", "Pending");
       await axios.post(
         "https://api.tramessy.com/mstrading/api/trip/create",
         tripFormData,

@@ -21,20 +21,28 @@ const Header = ({ setMobileSidebarOpen }) => {
       <div className="flex justify-between items-center px-5 py-2.5 border-b border-gray-300 relative z-40 bg-white">
         {/* Title */}
         <div className="flex items-center gap-3 cursor-pointer">
+          {/* Toggle sidebar on mobile */}
           <h3
             className="text-primary md:hidden"
-            onClick={() => setMobileSidebarOpen(true)} // Toggle sidebar on mobile
+            onClick={() => setMobileSidebarOpen(true)}
           >
             <FaBars />
           </h3>
-
-          <Link to="/tramessy" className="font-semibold text-primary">
+          <div>
+            <h1 className="text-xl font-bold text-primary">
+              Transport Management Software
+            </h1>
+            <p className="text-xs text-gray-600">
+              Smart solutions in a changing world
+            </p>
+          </div>
+          {/* <Link to="/tramessy" className="font-semibold text-primary">
             Home
-          </Link>
+          </Link> */}
         </div>
 
         {/* Search */}
-        <div className="hidden md:block relative">
+        {/* <div className="hidden md:block relative">
           <input
             type="text"
             className="border border-gray-300 rounded-md outline-none w-96 h-9 px-5"
@@ -43,7 +51,7 @@ const Header = ({ setMobileSidebarOpen }) => {
           <div className="absolute top-0 right-0 bg-primary py-2.5 w-10 flex items-center justify-center rounded-r-md text-white hover:bg-secondary cursor-pointer">
             <FaMagnifyingGlass />
           </div>
-        </div>
+        </div> */}
 
         {/* Admin Dropdown */}
         <div className="relative bg-white p-2 rounded-md flex gap-2 items-center">

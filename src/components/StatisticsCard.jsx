@@ -1,9 +1,11 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { HiOutlineBellAlert } from "react-icons/hi2";
+
 const StatisticsCard = () => {
   const [expiringDocs, setExpiringDocs] = useState([]);
-  // document expiring
+
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
@@ -11,56 +13,89 @@ const StatisticsCard = () => {
           "https://api.tramessy.com/mstrading/api/vehicle/list"
         );
         const vehicles = response.data?.data || [];
-        const todayDate = dayjs();
+        const today = dayjs();
         const expiring = [];
+
         vehicles.forEach((vehicle) => {
           ["fitness_date", "road_permit_date", "registration_date"].forEach(
             (type) => {
-              const date = dayjs(vehicle[type]);
-              if (
-                date.isValid() &&
-                date.diff(todayDate, "day") <= 7 &&
-                date.diff(todayDate, "day") >= 0
-              ) {
-                expiring.push({
-                  vehicle: vehicle.registration_number,
-                  document: type.replace(/_/g, " ").toUpperCase(),
-                  expireDate: date.format("DD-MM-YYYY"),
-                });
+              const rawDate = vehicle[type];
+              if (rawDate) {
+                const date = dayjs(rawDate);
+                const remaining = date.diff(today, "day");
+
+                if (date.isValid() && remaining >= 0 && remaining <= 7) {
+                  expiring.push({
+                    vehicle: `${vehicle.registration_zone}-${vehicle.registration_number}`,
+                    document: type
+                      .replace(/_/g, " ")
+                      .replace(/\b\w/g, (char) => char.toUpperCase()),
+                    expireDate: date.format("DD-MM-YYYY"),
+                    remaining,
+                  });
+                }
               }
             }
           );
         });
+
         setExpiringDocs(expiring);
       } catch (error) {
-        console.error("Error fetching vehicle data:", error);
+        console.error("Error fetching vehicles:", error);
       }
     };
+
     fetchVehicles();
   }, []);
 
   return (
-    <div className="md:px-5">
-      <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 cursor-pointer">
-        <h3 className="text-lg font-bold text-primary border-b pb-2 mb-4">
-          Document Remainder
+    <div className="px-4">
+      <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
+        <h3 className="text-xl font-bold text-primary border-b border-gray-200 pb-2 mb-4">
+          Document Reminder
         </h3>
-        <div className="space-y-3 text-sm text-gray-700 max-h-48 overflow-y-auto pr-2">
-          {expiringDocs.length > 0 ? (
-            expiringDocs.map((item, i) => (
-              <div
-                key={i}
-                className="bg-yellow-100 p-3 rounded-md border-l-4 border-yellow-500"
-              >
-                <p className="font-semibold">Vehicle: {item.vehicle}</p>
-                <p>{item.document}</p>
-                <p>Expires: {item.expireDate}</p>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500">No documents expiring soon.</p>
-          )}
-        </div>
+        {expiringDocs.length > 0 ? (
+          <div className="overflow-x-auto max-h-56 overflow-y-auto hide-scrollbar">
+            <table className="min-w-full text-sm text-left border border-gray-200">
+              <thead className="bg-gray-100 text-primary">
+                <tr>
+                  <th className="p-2">SL.</th>
+                  <th className="p-2">Vehicle Number</th>
+                  <th className="p-2">Document</th>
+                  <th className="p-2">Remaining</th>
+                </tr>
+              </thead>
+              <tbody>
+                {expiringDocs.map((item, i) => (
+                  <tr
+                    key={i}
+                    className="text-gray-700 font-semibold text-sm border-b border-gray-200"
+                  >
+                    <td className="p-2">{i + 1}</td>
+                    <td className="p-2">{item.vehicle}</td>
+                    <td className="p-2">{item.document}</td>
+                    <td className="p-2">
+                      <span
+                        className={`px-2 py-1 rounded text-white text-xs font-semibold ${
+                          item.remaining === 0 ? "bg-red-500" : "bg-yellow-500"
+                        }`}
+                      >
+                        {item.remaining} {item.remaining === 1 ? "day" : "days"}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center text-gray-500">
+            <span className="text-9xl flex justify-center">
+              <HiOutlineBellAlert />
+            </span>
+            <p className="text-lg">No documents expiring soon.</p>
+          </div>
+        )}
       </div>
     </div>
   );
