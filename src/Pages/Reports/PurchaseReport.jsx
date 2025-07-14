@@ -9,7 +9,7 @@ const PurchaseReport = () => {
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
             <FaUserSecret className="text-[#11375B] text-2xl" />
-            Purchase List
+            Purchase Report
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <button
@@ -23,12 +23,6 @@ const PurchaseReport = () => {
         {/* Export */}
         <div className="md:flex justify-between mb-4">
           <div className="flex gap-1 md:gap-3 flex-wrap">
-            <div
-              filename="drivers.csv"
-              className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all"
-            >
-              CSV
-            </div>
             <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
               Excel
             </button>

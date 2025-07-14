@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
-import { FaBars, FaMagnifyingGlass } from "react-icons/fa6";
-import avatar from "../../assets/avatar.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { FaBars } from "react-icons/fa6";
+import avatar from "../../assets/ms.png";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const Header = ({ setMobileSidebarOpen }) => {

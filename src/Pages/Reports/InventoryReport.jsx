@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaTruck, FaFilter } from "react-icons/fa";
+import { FaFilter } from "react-icons/fa";
 
 const InventoryReport = () => {
   const [showFilter, setShowFilter] = useState(false);
@@ -9,8 +9,7 @@ const InventoryReport = () => {
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <FaTruck className="text-[#11375B] text-2xl" />
-            Fuel Account
+            Inventory Reports
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <button
@@ -24,12 +23,6 @@ const InventoryReport = () => {
         {/* export */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
-            <div
-              filename={"fuel_data.csv"}
-              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
-            >
-              CSV
-            </div>
             <button className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer">
               Excel
             </button>

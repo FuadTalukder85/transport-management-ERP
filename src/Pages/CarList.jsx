@@ -316,7 +316,8 @@ const CarList = () => {
                   <td className="px-2 py-4">{vehicle.vehicle_category}</td>
                   <td className="px-2 py-4">{vehicle.vehicle_size}</td>
                   <td className="px-2 py-4">
-                    {vehicle.registration_zone} {vehicle.registration_number}
+                    {vehicle.registration_zone} - {vehicle.registration_serial}{" "}
+                    {vehicle.registration_number}
                   </td>
                   {/* <td className="px-2 py-4">0</td> */}
                   {/* <td className="px-2 py-4">{vehicle.registration_number}</td> */}

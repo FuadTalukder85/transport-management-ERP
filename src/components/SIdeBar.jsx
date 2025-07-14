@@ -12,7 +12,7 @@ import {
 import { FaUsersCog } from "react-icons/fa";
 import { MdShop } from "react-icons/md";
 import logo from "../assets/tramessy.png";
-import avatar from "../assets/avatar.png";
+import avatar from "../assets/ms.png";
 import { Link, useLocation } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
 import { FaUsers } from "react-icons/fa";

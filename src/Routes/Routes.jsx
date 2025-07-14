@@ -49,7 +49,7 @@ import AdvanceSalary from "../Pages/HR/Payroll/AdvanceSalary";
 import AdvanceSalaryForm from "../Pages/HR/Payroll/AdvanceSalaryForm";
 import Customer from "../Pages/Customer/Customer";
 import AddCustomer from "../Pages/Customer/AddCustomer";
-import ExployeeReport from "../Pages/Reports/ExployeeReport";
+import EmployeeReport from "../Pages/Reports/EmployeeReport";
 import DriverReport from "../Pages/Reports/DriverReport";
 import FuelReport from "../Pages/Reports/FuelReport";
 import PurchaseReport from "../Pages/Reports/PurchaseReport";
@@ -547,7 +547,7 @@ export const router = createBrowserRouter([
       // Reports
       {
         path: "/tramessy/Reports/Employee-Report",
-        element: <ExployeeReport />,
+        element: <EmployeeReport />,
       },
       {
         path: "/tramessy/Reports/Driver-Report",

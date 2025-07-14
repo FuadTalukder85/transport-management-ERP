@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaFilter, FaUserSecret } from "react-icons/fa6";
 
-const ExployeeReport = () => {
+const EmployeeReport = () => {
   const [showFilter, setShowFilter] = useState(false);
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
@@ -22,12 +22,6 @@ const ExployeeReport = () => {
         {/* export and search */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
-            <div
-              filename={"trip_data.csv"}
-              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
-            >
-              CSV
-            </div>
             <button className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer">
               Excel
             </button>
@@ -105,4 +99,4 @@ const ExployeeReport = () => {
   );
 };
 
-export default ExployeeReport;
+export default EmployeeReport;

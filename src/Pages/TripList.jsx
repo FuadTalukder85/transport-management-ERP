@@ -15,6 +15,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 const TripList = () => {
   const [trip, setTrip] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,10 +27,13 @@ const TripList = () => {
   // Date filter state
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
   // get single trip info by id
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedTrip, setselectedTrip] = useState(null);
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  // search
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch trips data
   useEffect(() => {
@@ -221,6 +225,39 @@ const TripList = () => {
       return true; // no filter applied
     }
   });
+  // search
+  const filteredTripList = trip.filter((dt) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      dt.customer?.toLowerCase().includes(term) ||
+      dt.date?.toLowerCase().includes(term) ||
+      dt.driver_name?.toLowerCase().includes(term) ||
+      dt.driver_mobile?.toLowerCase().includes(term) ||
+      dt.registration_number?.toLowerCase().includes(term) ||
+      dt.registration_serial?.toLowerCase().includes(term) ||
+      dt.registration_zone?.toLowerCase().includes(term) ||
+      dt.registration_date?.toLowerCase().includes(term) ||
+      dt.text_date?.toLowerCase().includes(term) ||
+      dt.road_permit_date?.toLowerCase().includes(term) ||
+      dt.fitness_date?.toLowerCase().includes(term)
+    );
+  });
+  // pagination
+  const itemsPerPage = 10;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentTrip = filteredTripList.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(trip.length / itemsPerPage);
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages)
+      setCurrentPage((currentPage) => currentPage + 1);
+  };
+  const handlePageClick = (number) => {
+    setCurrentPage(number);
+  };
   return (
     <main className="bg-gradient-to-br from-gray-100 to-white md:p-2">
       <Toaster />
@@ -271,6 +308,10 @@ const TripList = () => {
           <div className="mt-3 md:mt-0">
             <span className="text-primary font-semibold pr-3">Search: </span>
             <input
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
               type="text"
               placeholder="Search..."
               className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
@@ -318,13 +359,15 @@ const TripList = () => {
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              {filteredTrips?.map((dt, index) => {
+              {currentTrip?.map((dt, index) => {
                 return (
                   <tr
                     key={index}
                     className="hover:bg-gray-50 transition-all border-b border-gray-300"
                   >
-                    <td className="p-2 font-bold">{index + 1}</td>
+                    <td className="p-2 font-bold">
+                      {indexOfFirstItem + index + 1}
+                    </td>
                     <td className="p-2">{dt?.date}</td>
                     <td className="p-2">
                       <p>Name: {dt.driver_name}</p>
@@ -361,6 +404,44 @@ const TripList = () => {
               })}
             </tbody>
           </table>
+        </div>
+      </div>
+      {/* pagination */}
+      <div className="mt-10 flex justify-center">
+        <div className="space-x-2 flex items-center">
+          <button
+            onClick={handlePrevPage}
+            className={`p-2 ${
+              currentPage === 1 ? "bg-gray-300" : "bg-primary text-white"
+            } rounded-sm`}
+            disabled={currentPage === 1}
+          >
+            <GrFormPrevious />
+          </button>
+          {[...Array(totalPages).keys()].map((number) => (
+            <button
+              key={number + 1}
+              onClick={() => handlePageClick(number + 1)}
+              className={`px-3 py-1 rounded-sm ${
+                currentPage === number + 1
+                  ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                  : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
+              }`}
+            >
+              {number + 1}
+            </button>
+          ))}
+          <button
+            onClick={handleNextPage}
+            className={`p-2 ${
+              currentPage === totalPages
+                ? "bg-gray-300"
+                : "bg-primary text-white"
+            } rounded-sm`}
+            disabled={currentPage === totalPages}
+          >
+            <GrFormNext />
+          </button>
         </div>
       </div>
       {/* Delete Modal */}

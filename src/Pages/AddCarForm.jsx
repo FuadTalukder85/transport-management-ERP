@@ -140,13 +140,26 @@ const AddCarForm = () => {
                 label="Registration Serial"
                 required
                 options={[
-                  { value: "Ta", label: "Ta" },
-                  { value: "Tha", label: "Tha" },
-                  { value: "Da", label: "Da" },
-                  { value: "Dha", label: "Dha" },
-                  { value: "Na", label: "Na" },
-                  { value: "M", label: "M" },
-                  { value: "Sh", label: "Sh" },
+                  { value: "KA", label: "KA" },
+                  { value: "KHA", label: "KHA" },
+                  { value: "GA", label: "GA" },
+                  { value: "GHA", label: "GHA" },
+                  { value: "CHA", label: "CHA" },
+                  { value: "JA", label: "JA" },
+                  { value: "JHA", label: "JHA" },
+                  { value: "TA", label: "TA" },
+                  { value: "THA", label: "THA" },
+                  { value: "DA", label: "DA" },
+                  { value: "DHA", label: "DHA" },
+                  { value: "NA", label: "NA" },
+                  { value: "PA", label: "PA" },
+                  { value: "FA", label: "FA" },
+                  { value: "BA", label: "BA" },
+                  { value: "MA", label: "MA" },
+                  { value: "SHA", label: "SHA" },
+                  { value: "LA", label: "LA" },
+                  { value: "RA", label: "RA" },
+                  { value: "HA", label: "HA" },
                 ]}
               />
             </div>
