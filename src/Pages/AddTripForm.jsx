@@ -35,12 +35,23 @@ const AddTripForm = () => {
       .then((data) => setVehicle(data.data))
       .catch((error) => console.error("Error fetching vehicle data:", error));
   }, []);
-
   const vehicleOptions = vehicle.map((dt) => ({
     value: `${dt.registration_zone} ${dt.registration_serial} ${dt.registration_number} `,
     label: `${dt.registration_zone} ${dt.registration_serial} ${dt.registration_number} `,
   }));
-  // select driver from api
+  // select vendor Vehicle No. from api
+  const [vendorVehicle, setVendorVehicle] = useState([]);
+  useEffect(() => {
+    fetch("https://api.tramessy.com/mstrading/api/rent/list")
+      .then((response) => response.json())
+      .then((data) => setVendorVehicle(data.data))
+      .catch((error) => console.error("Error fetching vehicle data:", error));
+  }, []);
+  const vendorVehicleOptions = vendorVehicle.map((dt) => ({
+    value: `${dt.registration_zone} ${dt.registration_serial} ${dt.registration_number} `,
+    label: `${dt.registration_zone} ${dt.registration_serial} ${dt.registration_number} `,
+  }));
+  // select own driver from api
   const [drivers, setDrivers] = useState([]);
   useEffect(() => {
     fetch("https://api.tramessy.com/mstrading/api/driver/list")
@@ -48,11 +59,23 @@ const AddTripForm = () => {
       .then((data) => setDrivers(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
   }, []);
-
-  const driverOptions = drivers.map((driver) => ({
+  const ownDriverOptions = drivers.map((driver) => ({
     value: driver.driver_name,
     label: driver.driver_name,
     contact: driver.driver_mobile,
+  }));
+  // select own driver from api
+  const [vendor, setVendorDrivers] = useState([]);
+  useEffect(() => {
+    fetch("https://api.tramessy.com/mstrading/api/rent/list")
+      .then((response) => response.json())
+      .then((data) => setVendorDrivers(data.data))
+      .catch((error) => console.error("Error fetching vendor data:", error));
+  }, []);
+  const vendorDriverOptions = vendor.map((dt) => ({
+    value: dt.vendor_name,
+    label: dt.vendor_name,
+    contact: dt.mobile,
   }));
 
   // calculate Total Expense
@@ -65,9 +88,7 @@ const AddTripForm = () => {
   const feriCost = parseFloat(watch("feri_cost") || 0);
   const policeCost = parseFloat(watch("police_cost") || 0);
   const chadaCost = parseFloat(watch("chada") || 0);
-  // const foodCost = parseFloat(watch("food_cost") || 0);
-  // const fuelCost = parseFloat(watch("fuel_cost") || 0);
-  // const bodyFare = parseFloat(watch("body_fare") || 0);
+
   const totalExpense =
     driverCommision +
     roadCost +
@@ -78,9 +99,6 @@ const AddTripForm = () => {
     feriCost +
     policeCost +
     chadaCost;
-  // foodCost +
-  // fuelCost +
-  // bodyFare;
 
   useEffect(() => {
     const total =
@@ -93,9 +111,6 @@ const AddTripForm = () => {
       feriCost +
       policeCost +
       chadaCost;
-    // foodCost +
-    // fuelCost +
-    // bodyFare;
     setValue("total_exp", total);
   }, [
     driverCommision,
@@ -107,13 +122,9 @@ const AddTripForm = () => {
     feriCost,
     policeCost,
     chadaCost,
-    // foodCost,
-    // fuelCost,
-    // bodyFare,
     setValue,
   ]);
   // calculate Total Expense of honda
-
   const noOfTrip = watch("no_of_trip") || 0;
   const perTruckRent = watch("per_truck_rent") || 0;
   const totalRentHonda = Number(noOfTrip) * Number(perTruckRent);
@@ -323,28 +334,77 @@ const AddTripForm = () => {
                       />
                     </div>
                     <div className="w-full">
-                      <SelectField
-                        name="vehicle_no"
-                        label="Vehicle No."
-                        required={true}
-                        options={vehicleOptions}
-                        control={control}
-                      />
+                      {selectedTransport === "own_transport" ? (
+                        <SelectField
+                          name="vehicle_no"
+                          label="Vehicle No."
+                          required={true}
+                          options={vehicleOptions}
+                          control={control}
+                        />
+                      ) : selectedTransport === "vendor_transport" ? (
+                        <SelectField
+                          name="vehicle_no"
+                          label="Vehicle No."
+                          required={true}
+                          options={vendorVehicleOptions}
+                          control={control}
+                        />
+                      ) : (
+                        <SelectField
+                          name="vehicle_no"
+                          label="Vehicle No."
+                          defaultValue={"Please select transport first"}
+                          required={true}
+                          options={[
+                            {
+                              label: "Please select transport first",
+                              value: "",
+                              disabled: true,
+                            },
+                          ]}
+                          control={control}
+                        />
+                      )}
                     </div>
                     <div className="w-full">
-                      <SelectField
-                        name="driver_name"
-                        label="Driver Name"
-                        required
-                        control={control}
-                        options={driverOptions}
-                        onSelectChange={(selectedOption) => {
-                          setValue(
-                            "driver_mobile",
-                            selectedOption?.contact || ""
-                          );
-                        }}
-                      />
+                      {selectedTransport === "own_transport" ? (
+                        <SelectField
+                          name="driver_name"
+                          label="Driver Name"
+                          required
+                          control={control}
+                          options={ownDriverOptions}
+                          onSelectChange={(selectedOption) => {
+                            setValue(
+                              "driver_mobile",
+                              selectedOption?.contact || ""
+                            );
+                          }}
+                        />
+                      ) : selectedTransport === "vendor_transport" ? (
+                        <SelectField
+                          name="driver_name"
+                          label="Driver Name"
+                          required
+                          control={control}
+                          options={vendorDriverOptions}
+                        />
+                      ) : (
+                        <SelectField
+                          name="driver_name"
+                          label="Driver Name"
+                          required
+                          control={control}
+                          options={[
+                            {
+                              label: "Please select transport first",
+                              value: "",
+                              disabled: true,
+                            },
+                          ]}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
@@ -358,9 +418,6 @@ const AddTripForm = () => {
                     <div className="w-full">
                       <InputField name="challan" label="Challan" required />
                     </div>
-                    {/* <div className="w-full">
-                      <InputField name="sti" label="STI" required />
-                    </div> */}
                   </div>
                 </div>
                 <div className="border border-gray-300 p-5 rounded-md mt-3">
@@ -438,30 +495,78 @@ const AddTripForm = () => {
                     />
                   </div>
                   <div className="w-full">
-                    <SelectField
-                      name="vehicle_no"
-                      label="Vehicle No."
-                      required={true}
-                      options={vehicleOptions}
-                      control={control}
-                    />
+                    {selectedTransport === "own_transport" ? (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        required={true}
+                        options={vehicleOptions}
+                        control={control}
+                      />
+                    ) : selectedTransport === "vendor_transport" ? (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        required={true}
+                        options={vendorVehicleOptions}
+                        control={control}
+                      />
+                    ) : (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        required={true}
+                        options={[
+                          {
+                            label: "Please select transport first",
+                            value: "",
+                            disabled: true,
+                          },
+                        ]}
+                        control={control}
+                      />
+                    )}
                   </div>
                   <div className="w-full">
-                    <SelectField
-                      name="driver_name"
-                      label="Driver Name"
-                      required
-                      control={control}
-                      options={driverOptions}
-                      onSelectChange={(selectedOption) => {
-                        setValue(
-                          "driver_mobile",
-                          selectedOption?.contact || ""
-                        );
-                      }}
-                    />
+                    {selectedTransport === "own_transport" ? (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={ownDriverOptions}
+                        onSelectChange={(selectedOption) => {
+                          setValue(
+                            "driver_mobile",
+                            selectedOption?.contact || ""
+                          );
+                        }}
+                      />
+                    ) : selectedTransport === "vendor_transport" ? (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={vendorDriverOptions}
+                      />
+                    ) : (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={[
+                          {
+                            label: "Please select transport first",
+                            value: "",
+                            disabled: true,
+                          },
+                        ]}
+                      />
+                    )}
                   </div>
-                </div>{" "}
+                </div>
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     <InputField
@@ -526,30 +631,79 @@ const AddTripForm = () => {
                     />
                   </div>
                   <div className="w-full">
-                    <SelectField
-                      name="vehicle_no"
-                      label="Vehicle No."
-                      required={true}
-                      options={vehicleOptions}
-                      control={control}
-                    />
+                    {selectedTransport === "own_transport" ? (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        required={true}
+                        options={vehicleOptions}
+                        control={control}
+                      />
+                    ) : selectedTransport === "vendor_transport" ? (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        required={true}
+                        options={vendorVehicleOptions}
+                        control={control}
+                      />
+                    ) : (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        defaultValue={"Please select transport first"}
+                        required={true}
+                        options={[
+                          {
+                            label: "Please select transport first",
+                            value: "",
+                            disabled: true,
+                          },
+                        ]}
+                        control={control}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
-                    <SelectField
-                      name="driver_name"
-                      label="Driver Name"
-                      required
-                      control={control}
-                      options={driverOptions}
-                      onSelectChange={(selectedOption) => {
-                        setValue(
-                          "driver_mobile",
-                          selectedOption?.contact || ""
-                        );
-                      }}
-                    />
+                    {selectedTransport === "own_transport" ? (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={ownDriverOptions}
+                        onSelectChange={(selectedOption) => {
+                          setValue(
+                            "driver_mobile",
+                            selectedOption?.contact || ""
+                          );
+                        }}
+                      />
+                    ) : selectedTransport === "vendor_transport" ? (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={vendorDriverOptions}
+                      />
+                    ) : (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={[
+                          {
+                            label: "Please select transport first",
+                            value: "",
+                            disabled: true,
+                          },
+                        ]}
+                      />
+                    )}
                   </div>
                   <div className="w-full">
                     <InputField name="do_si" label="Do(SI)" required />
@@ -621,30 +775,79 @@ const AddTripForm = () => {
                     />
                   </div>
                   <div className="w-full">
-                    <SelectField
-                      name="vehicle_no"
-                      label="Vehicle No."
-                      required={true}
-                      options={vehicleOptions}
-                      control={control}
-                    />
+                    {selectedTransport === "own_transport" ? (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        required={true}
+                        options={vehicleOptions}
+                        control={control}
+                      />
+                    ) : selectedTransport === "vendor_transport" ? (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        required={true}
+                        options={vendorVehicleOptions}
+                        control={control}
+                      />
+                    ) : (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        defaultValue={"Please select transport first"}
+                        required={true}
+                        options={[
+                          {
+                            label: "Please select transport first",
+                            value: "",
+                            disabled: true,
+                          },
+                        ]}
+                        control={control}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
-                    <SelectField
-                      name="driver_name"
-                      label="Driver Name"
-                      required
-                      control={control}
-                      options={driverOptions}
-                      onSelectChange={(selectedOption) => {
-                        setValue(
-                          "driver_mobile",
-                          selectedOption?.contact || ""
-                        );
-                      }}
-                    />
+                    {selectedTransport === "own_transport" ? (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={ownDriverOptions}
+                        onSelectChange={(selectedOption) => {
+                          setValue(
+                            "driver_mobile",
+                            selectedOption?.contact || ""
+                          );
+                        }}
+                      />
+                    ) : selectedTransport === "vendor_transport" ? (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={vendorDriverOptions}
+                      />
+                    ) : (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={[
+                          {
+                            label: "Please select transport first",
+                            value: "",
+                            disabled: true,
+                          },
+                        ]}
+                      />
+                    )}
                   </div>
                   <div className="w-full">
                     <InputField
@@ -721,22 +924,79 @@ const AddTripForm = () => {
                     />
                   </div>
                   <div className="w-full">
-                    <SelectField
-                      name="vehicle_no"
-                      label="Vehicle No."
-                      required={true}
-                      options={vehicleOptions}
-                      control={control}
-                    />
+                    {selectedTransport === "own_transport" ? (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        required={true}
+                        options={vehicleOptions}
+                        control={control}
+                      />
+                    ) : selectedTransport === "vendor_transport" ? (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        required={true}
+                        options={vendorVehicleOptions}
+                        control={control}
+                      />
+                    ) : (
+                      <SelectField
+                        name="vehicle_no"
+                        label="Vehicle No."
+                        defaultValue={"Please select transport first"}
+                        required={true}
+                        options={[
+                          {
+                            label: "Please select transport first",
+                            value: "",
+                            disabled: true,
+                          },
+                        ]}
+                        control={control}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
-                    <InputField
-                      name="driver_name"
-                      label="Driver Name"
-                      required
-                    />
+                    {selectedTransport === "own_transport" ? (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={ownDriverOptions}
+                        onSelectChange={(selectedOption) => {
+                          setValue(
+                            "driver_mobile",
+                            selectedOption?.contact || ""
+                          );
+                        }}
+                      />
+                    ) : selectedTransport === "vendor_transport" ? (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={vendorDriverOptions}
+                      />
+                    ) : (
+                      <SelectField
+                        name="driver_name"
+                        label="Driver Name"
+                        required
+                        control={control}
+                        options={[
+                          {
+                            label: "Please select transport first",
+                            value: "",
+                            disabled: true,
+                          },
+                        ]}
+                      />
+                    )}
                   </div>
                   <div className="w-full">
                     <InputField

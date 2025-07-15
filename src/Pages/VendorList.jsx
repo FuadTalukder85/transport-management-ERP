@@ -327,29 +327,32 @@ const VendorList = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Date</th>
-                <th className="px-2 py-3">Name</th>
-                <th className="px-2 py-3">Mobile</th>
-                <th className="px-2 py-3">RentCate</th>
-                <th className="px-2 py-3">Work Area</th>
-                <th className="px-2 py-3">Status</th>
-                <th className="px-2 py-3 action_column">Action</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">Name</th>
+                <th className="p-2">Mobile</th>
+                <th className="p-2">RentCate</th>
+                <th className="p-2">Work Area</th>
+                <th className="p-2">Status</th>
+                <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
               {currentVendor?.map((dt, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="px-4 py-4 font-bold">
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50 transition-all border border-gray-200"
+                >
+                  <td className="p-2 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-2 py-4">{dt.date}</td>
-                  <td className="px-2 py-4">{dt.vendor_name}</td>
-                  <td className="px-2 py-4">{dt.mobile}</td>
-                  <td className="px-2 py-4">{dt.rent_category}</td>
-                  <td className="px-2 py-4">{dt.work_area}</td>
-                  <td className="px-2 py-4">{dt.status}</td>
-                  <td className="px-2 py-4 action_column">
+                  <td className="p-2">{dt.date}</td>
+                  <td className="p-2">{dt.vendor_name}</td>
+                  <td className="p-2">{dt.mobile}</td>
+                  <td className="p-2">{dt.rent_category}</td>
+                  <td className="p-2">{dt.work_area}</td>
+                  <td className="p-2">{dt.status}</td>
+                  <td className="p-2 action_column">
                     <div className="flex gap-2">
                       <Link to={`/tramessy/UpdateVendorForm/${dt.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">

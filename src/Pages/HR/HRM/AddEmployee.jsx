@@ -98,10 +98,26 @@ const AddEmployee = () => {
                 label="Gender"
                 required
                 options={[
-                  { value: "", label: "Gender..." },
                   { value: "Male", label: "Male" },
                   { value: "Female", label: "Female" },
                   { value: "Others", label: "Others" },
+                ]}
+              />
+            </div>
+            <div className="w-full relative">
+              <SelectField
+                name="blood_group"
+                label="Blood Group"
+                required
+                options={[
+                  { value: "A+", label: "A+" },
+                  { value: "A-", label: "A-" },
+                  { value: "B+", label: "B+" },
+                  { value: "B-", label: "B-" },
+                  { value: "AB+", label: "AB+" },
+                  { value: "AB-", label: "AB-" },
+                  { value: "O+", label: "O+" },
+                  { value: "O-", label: "O-" },
                 ]}
               />
             </div>
@@ -148,6 +164,9 @@ const AddEmployee = () => {
                   </span>
                 }
               />
+            </div>
+            <div className="w-full">
+              <InputField name="nid" label="Nid" required type="number" />
             </div>
             <div className="w-full">
               <InputField name="designation" label="Designation" required />

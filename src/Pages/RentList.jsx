@@ -47,33 +47,10 @@ const RentList = () => {
 
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
 
-  console.log("fuel", fuel);
-  // export functionality
-  const headers = [
-    { label: "#", key: "index" },
-    { label: "ড্রাইভারের নাম", key: "driver_name" },
-    { label: "গাড়ির নাম", key: "vehicle_name" },
-    { label: "ফুয়েলের ধরন", key: "type" },
-    { label: "ফুয়েলিং তারিখ", key: "date_time" },
-    { label: "গ্যালন/লিটার", key: "quantity" },
-    { label: "লিটার প্রতি খরচ", key: "price" },
-    { label: "সকল খরচ", key: "total" },
-  ];
-  const csvData = fuel.map((dt, index) => ({
-    index: index + 1,
-    driver_name: dt.driver_name,
-    vehicle_name: dt.vehicle_number,
-    type: dt.type,
-    date_time: dt.date_time,
-    quantity: dt.quantity,
-    price: dt.price,
-    total: dt.quantity * dt.price,
-  }));
   // export
   const exportExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(csvData);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Fuel Data");
+    XLSX.utils.book_append_sheet(workbook, "Fuel Data");
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
@@ -233,14 +210,6 @@ const RentList = () => {
         {/* export */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
-            <CSVLink
-              data={csvData}
-              headers={headers}
-              filename={"fuel_data.csv"}
-              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
-            >
-              CSV
-            </CSVLink>
             <button
               onClick={exportExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
