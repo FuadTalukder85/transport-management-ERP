@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaPen, FaPlus, FaTrashAlt } from "react-icons/fa";
-import { MdOutlineAirplaneTicket } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const PaymentReceive = () => {
@@ -28,8 +27,7 @@ const PaymentReceive = () => {
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <MdOutlineAirplaneTicket className="text-[#11375B] text-2xl" />
-            payment List
+            Payment Receive
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/tramessy/account/PaymentReceiveForm">

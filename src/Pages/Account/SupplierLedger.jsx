@@ -91,10 +91,6 @@ const SupplierLedger = () => {
         {/* Export and Supplier Filter */}
         <div className="md:flex items-center justify-between mb-4">
           <div className="flex gap-1 md:gap-3 flex-wrap">
-            <div className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
-              CSV
-            </div>
-
             <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
               Excel
             </button>
@@ -152,7 +148,7 @@ const SupplierLedger = () => {
             <tbody className="text-black font-semibold">
               {supplierLedger?.map((dt, index) => {
                 const purchase = parseFloat(dt.purchase_amount) || 0;
-                const payment = parseFloat(dt.payment_amount) || 0;
+                const payment = parseFloat(dt.pay_amount) || 0;
                 currentBalance += purchase - payment;
                 return (
                   <tr key={index} className="hover:bg-gray-50 transition-all">
@@ -172,7 +168,7 @@ const SupplierLedger = () => {
                       {dt.purchase_amount}
                     </td>
                     <td className="border border-gray-700 px-2 py-1">
-                      {dt.payment_amount}
+                      {dt.pay_amount}
                     </td>
                     <td className="border border-gray-700 px-2 py-1">
                       {currentBalance}
@@ -185,7 +181,7 @@ const SupplierLedger = () => {
                 let currentBalance = openingBalance;
                 return supplierLedger.map((dt, index) => {
                   const purchase = parseFloat(dt.purchase_amount) || 0;
-                  const payment = parseFloat(dt.payment_amount) || 0;
+                  const payment = parseFloat(dt.pay_amount) || 0;
                   currentBalance += purchase - payment;
 
                   return (
@@ -206,7 +202,7 @@ const SupplierLedger = () => {
                         {dt.purchase_amount}
                       </td>
                       <td className="border border-gray-700 px-2 py-1">
-                        {dt.payment_amount}
+                        {dt.pay_amount}
                       </td>
                       <td className="border border-gray-700 px-2 py-1">
                         {currentBalance}

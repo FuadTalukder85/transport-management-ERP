@@ -202,9 +202,9 @@ const VendorList = () => {
   // search
   const filteredvendor = vendor.filter((dt) => {
     const term = searchTerm.toLowerCase();
-    const vendorDate = dt.date_time;
+    const vendorDate = dt.date;
     const matchesSearch =
-      dt.date_time?.toLowerCase().includes(term) ||
+      dt.vendor_name?.toLowerCase().includes(term) ||
       dt.vehicle_number?.toLowerCase().includes(term) ||
       dt.driver_name?.toLowerCase().includes(term) ||
       dt.trip_id_invoice_no?.toLowerCase().includes(term) ||

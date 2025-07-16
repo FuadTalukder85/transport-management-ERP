@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { FaCheck, FaTrashAlt } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 import { FaEye, FaPen, FaPlus, FaUserSecret } from "react-icons/fa6";
 import { IoCloseOutline, IoCloseSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const AttendanceList = () => {
   const [employee, setEmployee] = useState([]);
+  const [attendanceList, setAttendanceList] = useState([]);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
 
   useEffect(() => {
@@ -14,6 +15,14 @@ const AttendanceList = () => {
       .then((response) => response.json())
       .then((data) => setEmployee(data.data))
       .catch((error) => console.error("Error fetching employee data:", error));
+
+    // Fetch attendance list
+    fetch("https://api.tramessy.com/mstrading/api/attendance/list")
+      .then((response) => response.json())
+      .then((data) => setAttendanceList(data.data))
+      .catch((error) =>
+        console.error("Error fetching attendance data:", error)
+      );
   }, []);
 
   const handleViewClick = (id) => {
@@ -36,6 +45,7 @@ const AttendanceList = () => {
             </Link>
           </div>
         </div>
+
         <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
@@ -65,9 +75,6 @@ const AttendanceList = () => {
                       >
                         <FaEye className="text-[12px]" />
                       </button>
-                      {/* <button className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer">
-                        <FaTrashAlt className="text-[12px]" />
-                      </button> */}
                     </div>
                   </td>
                 </tr>
@@ -77,7 +84,7 @@ const AttendanceList = () => {
         </div>
       </div>
 
-      {/* Conditional Modal Content (Filtered by ID) */}
+      {/* Modal */}
       {selectedEmployeeId && (
         <div className="fixed inset-0 bg-[#00000065] flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-5 max-w-3xl w-full relative overflow-x-auto shadow-2xl border border-gray-300">
@@ -90,7 +97,10 @@ const AttendanceList = () => {
             </button>
 
             {/* Modal Table */}
-            <table className="min-w-full text-sm text-left text-gray-900 mt-10">
+            <h2 className="text-lg font-bold text-center mb-4 text-primary">
+              Attendance Details
+            </h2>
+            <table className="min-w-full text-sm text-left text-gray-900 mt-2">
               <thead className="capitalize text-sm">
                 <tr>
                   <th className="border border-gray-700 px-2 py-1">SL.</th>
@@ -107,31 +117,49 @@ const AttendanceList = () => {
                 </tr>
               </thead>
               <tbody className="font-semibold">
-                {employee
-                  .filter((emp) => emp.id === selectedEmployeeId)
-                  .map((dt, index) => (
-                    <tr key={dt.id} className="hover:bg-gray-50 transition-all">
-                      <td className="border border-gray-700 p-1 font-bold">
-                        {index + 1}.
-                      </td>
-                      <td className="border border-gray-700 p-1">
-                        {dt.join_date}
-                      </td>
-                      <td className="border border-gray-700 p-1">
-                        {dt.full_name}
-                      </td>
-                      <td className="border border-gray-700 p-1 text-center">
-                        <span className="text-green-600">
-                          <FaCheck />
-                        </span>
-                      </td>
-                      <td className="border border-gray-700 p-1 text-center">
-                        <span className="text-red-600">
-                          <IoCloseOutline />
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                {attendanceList
+                  .filter(
+                    (att) => att.employee_id === String(selectedEmployeeId)
+                  )
+                  .map((att, index) => {
+                    const emp = employee.find(
+                      (e) => String(e.id) === String(att.employee_id)
+                    );
+                    return (
+                      <tr
+                        key={att.id}
+                        className="hover:bg-gray-50 transition-all"
+                      >
+                        <td className="border border-gray-700 p-1 font-bold">
+                          {index + 1}.
+                        </td>
+                        <td className="border border-gray-700 p-1">
+                          {att.date}
+                        </td>
+                        <td className="border border-gray-700 p-1">
+                          {emp?.full_name || "N/A"}
+                        </td>
+                        <td className="border border-gray-700 p-1 text-center">
+                          {att.present === "1" ? (
+                            <span className="text-green-600">
+                              <FaCheck />
+                            </span>
+                          ) : (
+                            "-"
+                          )}
+                        </td>
+                        <td className="border border-gray-700 p-1 text-center">
+                          {att.absent === "1" ? (
+                            <span className="text-red-600">
+                              <IoCloseOutline />
+                            </span>
+                          ) : (
+                            "-"
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

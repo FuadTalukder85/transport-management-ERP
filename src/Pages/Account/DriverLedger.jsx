@@ -310,7 +310,7 @@ const DriverLedger = () => {
               <tr>
                 <th className="border px-2 py-1">Load</th>
                 <th className="border px-2 py-1">Unload</th>
-                <th className="border px-2 py-1">Sales</th>
+                {/* <th className="border px-2 py-1">Sales</th> */}
                 <th className="border px-2 py-1">Commission</th>
                 <th className="border px-2 py-1">Labor</th>
                 <th className="border px-2 py-1">Parking</th>

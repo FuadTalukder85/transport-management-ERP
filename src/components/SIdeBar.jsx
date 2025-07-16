@@ -12,7 +12,7 @@ import {
 import { FaUsersCog } from "react-icons/fa";
 import { MdShop } from "react-icons/md";
 import logo from "../assets/tramessy.png";
-import avatar from "../assets/ms.png";
+// import avatar from "../assets/ms.png";
 import { Link, useLocation } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
 import { FaUsers } from "react-icons/fa";
@@ -50,7 +50,7 @@ const Sidebar = () => {
         </div>
 
         {/* Admin Info */}
-        <div className="p-3 border-b border-gray-300">
+        {/* <div className="p-3 border-b border-gray-300">
           <div className="bg-white p-2 rounded-md flex gap-2 items-center">
             <img
               src={avatar}
@@ -59,7 +59,7 @@ const Sidebar = () => {
             />
             <h3 className="text-primary font-semibold">Admin</h3>
           </div>
-        </div>
+        </div> */}
 
         {/* Navigation */}
         <div className="mt-3 px-2">

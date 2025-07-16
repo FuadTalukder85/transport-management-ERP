@@ -93,10 +93,6 @@ const OfficeLedger = () => {
         {/* Export */}
         <div className="md:flex items-center justify-between mb-4">
           <div className="flex gap-1 md:gap-3 flex-wrap">
-            <div className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all">
-              CSV
-            </div>
-
             <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
               Excel
             </button>
