@@ -293,34 +293,37 @@ const CarList = () => {
         </div>
 
         {/* Table */}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">SL.</th>
-                <th className="px-2 py-3">Name</th>
-                <th className="px-2 py-3">Mobile</th>
-                <th className="px-2 py-3">Address</th>
-                <th className="px-2 py-3">Emergency</th>
-                <th className="px-2 py-3">License</th>
-                <th className="px-2 py-3">Expired</th>
-                <th className="px-2 py-3">Status</th>
-                <th className="px-2 py-3 action_column">Action</th>
+                <th className="p-2">SL.</th>
+                <th className="p-2">Name</th>
+                <th className="p-2">Mobile</th>
+                <th className="p-2">Address</th>
+                <th className="p-2">Emergency</th>
+                <th className="p-2">License</th>
+                <th className="p-2">Expired</th>
+                <th className="p-2">Status</th>
+                <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
               {currentDrivers?.map((driver, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="px-2 py-4 font-bold">
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50 transition-all border border-gray-200"
+                >
+                  <td className="p-2 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-2 py-4">{driver.driver_name}</td>
-                  <td className="px-2 py-4">{driver.driver_mobile}</td>
-                  <td className="px-2 py-4">{driver.address}</td>
-                  <td className="px-2 py-4">{driver.emergency_contact}</td>
-                  <td className="px-2 py-4">{driver.license}</td>
-                  <td className="px-2 py-4">{driver.license_expire_date}</td>
-                  <td className="px-2 py-4">
+                  <td className="p-2">{driver.driver_name}</td>
+                  <td className="p-2">{driver.driver_mobile}</td>
+                  <td className="p-2">{driver.address}</td>
+                  <td className="p-2">{driver.emergency_contact}</td>
+                  <td className="p-2">{driver.license}</td>
+                  <td className="p-2">{driver.license_expire_date}</td>
+                  <td className="p-2">
                     <span className="text-white bg-green-700 px-3 py-1 rounded-md text-xs font-semibold">
                       {driver.status}
                     </span>

@@ -273,29 +273,29 @@ const RentList = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Vendor/Driver Name</th>
-                <th className="px-2 py-3">Vehicle Name/Model</th>
-                <th className="px-2 py-3">Vehicle Category</th>
-                <th className="px-2 py-3">Vehicle Size/Capacity</th>
-                <th className="px-2 py-3">Regi.No</th>
-                <th className="px-2 py-3">Status</th>
-                <th className="px-2 py-3 action_column">Action</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Vendor/Driver Name</th>
+                <th className="p-2">Vehicle Name/Model</th>
+                <th className="p-2">Vehicle Category</th>
+                <th className="p-2">Vehicle Size/Capacity</th>
+                <th className="p-2">Regi.No</th>
+                <th className="p-2">Status</th>
+                <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
               {currentFuel?.map((dt, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="px-4 py-4 font-bold">
+                  <td className="p-2 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-2 py-4">{dt.vendor_name}</td>
-                  <td className="px-2 py-4">{dt.vehicle_name_model}</td>
-                  <td className="px-2 py-4">{dt.vehicle_category}</td>
-                  <td className="px-2 py-4">{dt.vehicle_size_capacity}</td>
-                  <td className="px-2 py-4">{dt.registration_number}</td>
-                  <td className="px-2 py-4">{dt.status}</td>
-                  <td className="px-2 py-4 action_column">
+                  <td className="p-2">{dt.vendor_name}</td>
+                  <td className="p-2">{dt.vehicle_name_model}</td>
+                  <td className="p-2">{dt.vehicle_category}</td>
+                  <td className="p-2">{dt.vehicle_size_capacity}</td>
+                  <td className="p-2">{dt.registration_number}</td>
+                  <td className="p-2">{dt.status}</td>
+                  <td className="p-2 action_column">
                     <div className="flex gap-2">
                       <Link to={`/tramessy/UpdateRentVehicleForm/${dt.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">

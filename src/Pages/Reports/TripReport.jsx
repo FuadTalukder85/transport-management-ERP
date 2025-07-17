@@ -76,37 +76,37 @@ const TripReport = () => {
         )}
 
         {/* Table */}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Date</th>
-                <th className="px-2 py-3">Driver Info</th>
-                <th className="px-2 py-3">Trip & Destination</th>
-                <th className="px-2 py-3">Trip Cost</th>
-                <th className="px-2 py-3">Trip Fare</th>
-                <th className="px-2 py-3">Total Profit</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">Driver Info</th>
+                <th className="p-2">Trip & Destination</th>
+                <th className="p-2">Trip Cost</th>
+                <th className="p-2">Trip Fare</th>
+                <th className="p-2">Total Profit</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all border-b border-gray-300">
-                <td className="px-2 py-3 font-bold">1</td>
-                <td className="px-2 py-3">05-05-2025</td>
-                <td className="px-2 py-3">
+              <tr className="hover:bg-gray-50 transition-all border border-gray-200">
+                <td className="p-2 font-bold">1</td>
+                <td className="p-2">05-05-2025</td>
+                <td className="p-2">
                   <p>Name: Korim Mia</p>
                   <p>Mobile: 01750000000</p>
                   <p>Commission: 200</p>
                 </td>
-                <td className="px-2 py-4">
+                <td className="p-2">
                   <p>Date: 05-05-2025</p>
                   <p>Load Point: Dhaka</p>
                   <p>Unload Point: Faridpur</p>
                   <p>Trip Time: 10 am</p>
                 </td>
-                <td className="px-2 py-3">250</td>
-                <td className="px-2 py-3">80</td>
-                <td className="px-2 py-3">20000.00</td>
+                <td className="p-2">250</td>
+                <td className="p-2">80</td>
+                <td className="p-2">20000.00</td>
               </tr>
             </tbody>
           </table>

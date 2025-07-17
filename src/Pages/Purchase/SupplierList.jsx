@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaPen, FaTrashAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { IoMdClose } from "react-icons/io";
 import { MdShop } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -13,6 +14,8 @@ const SupplierList = () => {
   // delete modal
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSupplyId, setSelectedSupplyId] = useState(null);
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
   // get single driver info by id
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedSupply, setSelectedSupply] = useState(null);
@@ -78,6 +81,22 @@ const SupplierList = () => {
       toast.error("There was a problem retrieving driver information.");
     }
   };
+  // pagination
+  const itemsPerPage = 10;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentSupplier = supply.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(supply.length / itemsPerPage);
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages)
+      setCurrentPage((currentPage) => currentPage + 1);
+  };
+  const handlePageClick = (number) => {
+    setCurrentPage(number);
+  };
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
@@ -96,33 +115,35 @@ const SupplierList = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">SL.</th>
-                <th className="px-2 py-3">Date</th>
-                <th className="px-2 py-3">Business Name</th>
-                <th className="px-2 py-3">Phone</th>
-                <th className="px-2 py-3">Address</th>
-                <th className="px-2 py-3">Due Balance</th>
-                <th className="px-2 py-3">Status</th>
-                <th className="px-2 py-3">Action</th>
+                <th className="p-2">SL.</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">Business Name</th>
+                <th className="p-2">Phone</th>
+                <th className="p-2">Address</th>
+                <th className="p-2">Due Balance</th>
+                <th className="p-2">Status</th>
+                <th className="p-2">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              {supply?.map((dt, index) => (
+              {currentSupplier?.map((dt, index) => (
                 <tr
                   key={index}
                   className="hover:bg-gray-50 transition-all border border-gray-200"
                 >
-                  <td className="px-2 py-4 font-bold">{index + 1}.</td>
-                  <td className="px-2 py-4">{dt.date}</td>
-                  <td className="px-2 py-4">{dt.business_name}</td>
-                  <td className="px-2 py-4">{dt.phone}</td>
-                  <td className="px-2 py-4">{dt.address}</td>
-                  <td className="px-2 py-4">{dt.due_amount}</td>
-                  <td className="px-2 py-4">{dt.status}</td>
+                  <td className="p-2 font-bold">
+                    {indexOfFirstItem + index + 1}.
+                  </td>
+                  <td className="p-2">{dt.date}</td>
+                  <td className="p-2">{dt.business_name}</td>
+                  <td className="p-2">{dt.phone}</td>
+                  <td className="p-2">{dt.address}</td>
+                  <td className="p-2">{dt.due_amount}</td>
+                  <td className="p-2">{dt.status}</td>
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
                       <Link to={`/tramessy/UpdateSupplyForm/${dt.id}`}>
@@ -151,6 +172,44 @@ const SupplierList = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        {/* pagination */}
+        <div className="mt-10 flex justify-center">
+          <div className="space-x-2 flex items-center">
+            <button
+              onClick={handlePrevPage}
+              className={`p-2 ${
+                currentPage === 1 ? "bg-gray-300" : "bg-primary text-white"
+              } rounded-sm`}
+              disabled={currentPage === 1}
+            >
+              <GrFormPrevious />
+            </button>
+            {[...Array(totalPages).keys()].map((number) => (
+              <button
+                key={number + 1}
+                onClick={() => handlePageClick(number + 1)}
+                className={`px-3 py-1 rounded-sm ${
+                  currentPage === number + 1
+                    ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                    : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
+                }`}
+              >
+                {number + 1}
+              </button>
+            ))}
+            <button
+              onClick={handleNextPage}
+              className={`p-2 ${
+                currentPage === totalPages
+                  ? "bg-gray-300"
+                  : "bg-primary text-white"
+              } rounded-sm`}
+              disabled={currentPage === totalPages}
+            >
+              <GrFormNext />
+            </button>
+          </div>
         </div>
       </div>
       {/* Delete Modal */}

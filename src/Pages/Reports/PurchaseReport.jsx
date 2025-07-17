@@ -62,32 +62,32 @@ const PurchaseReport = () => {
             </div>
           </div>
         )}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Supplier Name</th>
-                <th className="px-2 py-3">Rate</th>
-                <th className="px-2 py-3">Category</th>
-                <th className="px-2 py-3">Item Name</th>
-                <th className="px-2 py-3">Quantity</th>
-                <th className="px-2 py-3">Unit Price</th>
-                <th className="px-2 py-3">Total</th>
-                <th className="px-2 py-3">Bill Image</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Supplier Name</th>
+                <th className="p-2">Rate</th>
+                <th className="p-2">Category</th>
+                <th className="p-2">Item Name</th>
+                <th className="p-2">Quantity</th>
+                <th className="p-2">Unit Price</th>
+                <th className="p-2">Total</th>
+                <th className="p-2">Bill Image</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="px-2 py-4 font-bold">01</td>
-                <td className="px-2 py-4">Korim Ali</td>
-                <td className="px-2 py-4">250.00</td>
-                <td className="px-2 py-4">Parts</td>
-                <td className="px-2 py-4">Piston</td>
-                <td className="px-2 py-4">5</td>
-                <td className="px-2 py-4">250</td>
-                <td className="px-2 py-4">1050</td>
-                <td className="px-2 py-4">Bill Image</td>
+              <tr className="hover:bg-gray-50 transition-all border border-gray-200">
+                <td className="p-2 font-bold">01</td>
+                <td className="p-2">Korim Ali</td>
+                <td className="p-2">250.00</td>
+                <td className="p-2">Parts</td>
+                <td className="p-2">Piston</td>
+                <td className="p-2">5</td>
+                <td className="p-2">250</td>
+                <td className="p-2">1050</td>
+                <td className="p-2">Bill Image</td>
               </tr>
             </tbody>
           </table>

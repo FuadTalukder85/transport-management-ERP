@@ -62,34 +62,34 @@ const EmployeeReport = () => {
             </div>
           </div>
         )}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
-              <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Full Name</th>
-                <th className="px-2 py-3">Email</th>
-                <th className="px-2 py-3">Join Date</th>
-                <th className="px-2 py-3">Designation</th>
-                <th className="px-2 py-3">Gender</th>
-                <th className="px-2 py-3">Mobile</th>
-                <th className="px-2 py-3">Birth Date</th>
-                <th className="px-2 py-3">Address</th>
-                <th className="px-2 py-3">Image</th>
+              <tr className="">
+                <th className="p-2">#</th>
+                <th className="p-2">Full Name</th>
+                <th className="p-2">Email</th>
+                <th className="p-2">Join Date</th>
+                <th className="p-2">Designation</th>
+                <th className="p-2">Gender</th>
+                <th className="p-2">Mobile</th>
+                <th className="p-2">Birth Date</th>
+                <th className="p-2">Address</th>
+                <th className="p-2">Image</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="px-2 py-4 font-bold">01</td>
-                <td className="px-2 py-4">Korim Ali</td>
-                <td className="px-2 py-4">korim@gmail.com</td>
-                <td className="px-2 py-4">01-01-2024</td>
-                <td className="px-2 py-4">Driver</td>
-                <td className="px-2 py-4">Male</td>
-                <td className="px-2 py-4">01756000000</td>
-                <td className="px-2 py-4">01-01-1990</td>
-                <td className="px-2 py-4">Nikunja-02</td>
-                <td className="px-2 py-4">Image</td>
+              <tr className="hover:bg-white transition-all border border-gray-200">
+                <td className="p-2 font-bold">01</td>
+                <td className="p-2">Korim Ali</td>
+                <td className="p-2">korim@gmail.com</td>
+                <td className="p-2">01-01-2024</td>
+                <td className="p-2">Driver</td>
+                <td className="p-2">Male</td>
+                <td className="p-2">01756000000</td>
+                <td className="p-2">01-01-1990</td>
+                <td className="p-2">Nikunja-02</td>
+                <td className="p-2">Image</td>
               </tr>
             </tbody>
           </table>

@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaPen, FaPlus, FaTrashAlt, FaUserSecret } from "react-icons/fa";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 
@@ -12,6 +13,10 @@ const EmployeeList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleModal = () => setIsOpen(!isOpen);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  // search
+  // const [searchTerm, setSearchTerm] = useState("");
   // Fetch trips data
   useEffect(() => {
     axios
@@ -57,7 +62,22 @@ const EmployeeList = () => {
     }
   };
   if (loading) return <p className="text-center mt-16">Loading employee...</p>;
-  console.log("employee:", employee);
+  // pagination
+  const itemsPerPage = 10;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentEmployee = employee.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(employee.length / itemsPerPage);
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages)
+      setCurrentPage((currentPage) => currentPage + 1);
+  };
+  const handlePageClick = (number) => {
+    setCurrentPage(number);
+  };
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
       <Toaster />
@@ -90,13 +110,15 @@ const EmployeeList = () => {
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              {employee?.map((dt, index) => {
+              {currentEmployee?.map((dt, index) => {
                 return (
                   <tr
                     key={index}
                     className="hover:bg-gray-50 transition-all border border-gray-200"
                   >
-                    <td className="px-2 py-1 font-bold">{index + 1}.</td>
+                    <td className="px-2 py-1 font-bold">
+                      {indexOfFirstItem + index + 1}.
+                    </td>
                     <td className="px-2 py-1">
                       <img
                         src={`https://api.tramessy.com/mstrading/public/uploads/employee/${dt.image}`}
@@ -138,6 +160,44 @@ const EmployeeList = () => {
               })}
             </tbody>
           </table>
+        </div>
+        {/* pagination */}
+        <div className="mt-10 flex justify-center">
+          <div className="space-x-2 flex items-center">
+            <button
+              onClick={handlePrevPage}
+              className={`p-2 ${
+                currentPage === 1 ? "bg-gray-300" : "bg-primary text-white"
+              } rounded-sm`}
+              disabled={currentPage === 1}
+            >
+              <GrFormPrevious />
+            </button>
+            {[...Array(totalPages).keys()].map((number) => (
+              <button
+                key={number + 1}
+                onClick={() => handlePageClick(number + 1)}
+                className={`px-3 py-1 rounded-sm ${
+                  currentPage === number + 1
+                    ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                    : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
+                }`}
+              >
+                {number + 1}
+              </button>
+            ))}
+            <button
+              onClick={handleNextPage}
+              className={`p-2 ${
+                currentPage === totalPages
+                  ? "bg-gray-300"
+                  : "bg-primary text-white"
+              } rounded-sm`}
+              disabled={currentPage === totalPages}
+            >
+              <GrFormNext />
+            </button>
+          </div>
         </div>
       </div>
       {/* Delete modal */}

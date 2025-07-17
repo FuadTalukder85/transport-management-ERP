@@ -64,30 +64,30 @@ const FuelReport = () => {
           </div>
         )}
         {/* Table */}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Driver's Name</th>
-                <th className="px-2 py-3">Vehicle No.</th>
-                <th className="px-2 py-3">Fuel Type</th>
-                <th className="px-2 py-3">Fueling Date</th>
-                <th className="px-2 py-3">Gallon/Liter</th>
-                <th className="px-2 py-3">Cost per Liter</th>
-                <th className="px-2 py-3">Total Cost</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Driver's Name</th>
+                <th className="p-2">Vehicle No.</th>
+                <th className="p-2">Fuel Type</th>
+                <th className="p-2">Fueling Date</th>
+                <th className="p-2">Gallon/Liter</th>
+                <th className="p-2">Cost per Liter</th>
+                <th className="p-2">Total Cost</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="px-4 py-4 font-bold">1</td>
-                <td className="px-2 py-4">Driver Name</td>
-                <td className="px-2 py-4">12-1526</td>
-                <td className="px-2 py-4">Octan</td>
-                <td className="px-2 py-4">05-05-2025</td>
-                <td className="px-2 py-4">15</td>
-                <td className="px-2 py-4">20</td>
-                <td className="px-2 py-4">300.00</td>
+              <tr className="hover:bg-gray-50 transition-all border border-gray-200">
+                <td className="p-2 font-bold">1</td>
+                <td className="p-2">Driver Name</td>
+                <td className="p-2">12-1526</td>
+                <td className="p-2">Octan</td>
+                <td className="p-2">05-05-2025</td>
+                <td className="p-2">15</td>
+                <td className="p-2">20</td>
+                <td className="p-2">300.00</td>
               </tr>
             </tbody>
           </table>

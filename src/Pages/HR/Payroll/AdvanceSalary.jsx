@@ -19,23 +19,23 @@ const AdvanceSalary = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Name</th>
-                <th className="px-2 py-3">Amount</th>
-                <th className="px-2 py-3">Salary Month</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Name</th>
+                <th className="p-2">Amount</th>
+                <th className="p-2">Salary Month</th>
                 {/* <th className="px-2 py-3">Action</th> */}
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="px-2 py-4 font-bold">01</td>
-                <td className="px-2 py-4">Korim Ali</td>
-                <td className="px-2 py-4">10,000</td>
-                <td className="px-2 py-4">5 April 2025</td>
+              <tr className="hover:bg-gray-50 transition-all border border-gray-200">
+                <td className="p-2 font-bold">01</td>
+                <td className="p-2">Korim Ali</td>
+                <td className="p-2">10,000</td>
+                <td className="p-2">5 April 2025</td>
               </tr>
             </tbody>
           </table>

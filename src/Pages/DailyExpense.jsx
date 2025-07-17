@@ -184,14 +184,6 @@ const DailyExpense = () => {
         {/* export */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
-            <CSVLink
-              data={csvData}
-              headers={headers}
-              filename={"dailyExpense_data.csv"}
-              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
-            >
-              CSV
-            </CSVLink>
             <button
               onClick={exportExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
@@ -250,18 +242,18 @@ const DailyExpense = () => {
           </div>
         )}
         {/* Table */}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-4 py-3">#</th>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Vehicle No.</th>
-                <th className="px-4 py-3">Driver's Name</th>
-                <th className="px-4 py-3">Trip Cost</th>
-                <th className="px-4 py-3">Other Expenses</th>
-                <th className="px-4 py-3">Total Cost</th>
-                <th className="px-4 py-3 action_column">Action</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">Vehicle No.</th>
+                <th className="p-2">Driver's Name</th>
+                <th className="p-2">Trip Cost</th>
+                <th className="p-2">Other Expenses</th>
+                <th className="p-2">Total Cost</th>
+                <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
@@ -274,18 +266,21 @@ const DailyExpense = () => {
                 const totalCost = (fuel + gas + others + commission).toFixed(2);
 
                 return (
-                  <tr key={item.id} className="hover:bg-gray-50 transition-all">
-                    <td className="px-4 py-4 font-bold">
+                  <tr
+                    key={item.id}
+                    className="hover:bg-gray-50 transition-all border border-gray-200"
+                  >
+                    <td className="p-2 font-bold">
                       {indexOfFirstItem + index + 1}
                     </td>
-                    <td className="px-4 py-4">{item.trip_date}</td>
-                    <td className="px-4 py-4">{item.vehicle_number}</td>
-                    <td className="px-4 py-4">{item.driver_name}</td>
-                    <td className="px-4 py-4">
+                    <td className="p-2">{item.trip_date}</td>
+                    <td className="p-2">{item.vehicle_number}</td>
+                    <td className="p-2">{item.driver_name}</td>
+                    <td className="p-2">
                       {parseFloat(item.trip_price ?? "0").toFixed(2)}
                     </td>
-                    <td className="px-4 py-4">{totalCost}</td>
-                    <td className="px-4 py-4">
+                    <td className="p-2">{totalCost}</td>
+                    <td className="p-2">
                       {(
                         parseFloat(item.trip_price ?? "0") +
                         parseFloat(totalCost)

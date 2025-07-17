@@ -21,29 +21,29 @@ const StockOut = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Date</th>
-                <th className="px-2 py-3">Product Category</th>
-                <th className="px-2 py-3">Quantity</th>
-                <th className="px-2 py-3">Vehicle Name</th>
-                <th className="px-2 py-3">Driver Name</th>
-                <th className="px-2 py-3">Current Stock</th>
-                <th className="px-2 py-3">Action</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">Product Category</th>
+                <th className="p-2">Quantity</th>
+                <th className="p-2">Vehicle Name</th>
+                <th className="p-2">Driver Name</th>
+                <th className="p-2">Current Stock</th>
+                <th className="p-2">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="px-2 py-4 font-bold">01</td>
-                <td className="px-2 py-4">Parts</td>
-                <td className="px-2 py-4">Piston</td>
-                <td className="px-2 py-4">3</td>
-                <td className="px-2 py-4">Pickup</td>
-                <td className="px-2 py-4">Korim Mia</td>
-                <td className="px-2 py-4">0</td>
+              <tr className="hover:bg-gray-50 transition-all border border-gray-200">
+                <td className="p-2 font-bold">01</td>
+                <td className="p-2">Parts</td>
+                <td className="p-2">Piston</td>
+                <td className="p-2">3</td>
+                <td className="p-2">Pickup</td>
+                <td className="p-2">Korim Mia</td>
+                <td className="p-2">0</td>
                 <td className="px-2 action_column">
                   <div className="flex gap-1">
                     <Link>

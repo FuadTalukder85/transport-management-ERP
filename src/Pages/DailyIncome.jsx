@@ -186,14 +186,6 @@ const DailyIncome = () => {
         {/* Export & Search */}
         <div className="md:flex justify-between items-center">
           <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
-            <CSVLink
-              data={csvData}
-              headers={headers}
-              filename={"dailyincome_data.csv"}
-              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
-            >
-              CSV
-            </CSVLink>
             <button
               onClick={exportExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
@@ -253,40 +245,38 @@ const DailyIncome = () => {
           </div>
         )}
         {/* Table */}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-4 py-3">#</th>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Vehicle</th>
-                <th className="px-4 py-3">Load</th>
-                <th className="px-4 py-3">Unload</th>
-                {/* <th className="px-4 py-3">Customer</th> */}
-                <th className="px-4 py-3">Trip Price</th>
-                {/* <th className="px-4 py-3">Fine</th> */}
-                <th className="px-4 py-3">Ongoing Expense</th>
-                <th className="px-4 py-3">Profit</th>
-                <th className="px-4 py-3 action_column">Action</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">Vehicle</th>
+                <th className="p-2">Load</th>
+                <th className="p-2">Unload</th>
+                <th className="p-2">Trip Price</th>
+                <th className="p-2">Ongoing Expense</th>
+                <th className="p-2">Profit</th>
+                <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
               {currentTrips.map((trip, index) => (
                 <tr
                   key={trip.id || index}
-                  className="hover:bg-gray-50 transition-all"
+                  className="hover:bg-gray-50 transition-all border border-gray-200"
                 >
-                  <td className="px-4 py-4 font-bold">
+                  <td className="p-2 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-4 py-4">
+                  <td className="p-2">
                     {new Date(trip.trip_date).toLocaleDateString("en-GB")}
                   </td>
-                  <td className="px-4 py-4">{trip.vehicle_number}</td>
-                  <td className="px-4 py-4">{trip.load_point}</td>
-                  <td className="px-4 py-4">{trip.unload_point}</td>
-                  <td className="px-4 py-4">{trip.trip_price}</td>
-                  <td className="px-4 py-4">
+                  <td className="p-2">{trip.vehicle_number}</td>
+                  <td className="p-2">{trip.load_point}</td>
+                  <td className="p-2">{trip.unload_point}</td>
+                  <td className="p-2">{trip.trip_price}</td>
+                  <td className="p-2">
                     {(
                       Number(trip.other_expenses || 0) +
                       Number(trip.gas_price || 0) +
@@ -295,7 +285,7 @@ const DailyIncome = () => {
                     ).toFixed(2)}
                     00
                   </td>
-                  <td className="px-4 py-4">
+                  <td className="p-2">
                     {Number(trip.trip_price || 0) -
                       (
                         Number(trip.other_expenses || 0) +

@@ -344,7 +344,7 @@ const TripList = () => {
         )}
 
         {/* Table */}
-        <div className="mt-5 overflow-x-auto rounded-md border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-md">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaPen, FaTrashAlt } from "react-icons/fa";
 import { FaPlus, FaUsers } from "react-icons/fa6";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 
@@ -13,6 +14,8 @@ const Customer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
   const toggleModal = () => setIsOpen(!isOpen);
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
   // Fetch customer data
   useEffect(() => {
     axios
@@ -56,8 +59,23 @@ const Customer = () => {
       });
     }
   };
-
   if (loading) return <p className="text-center mt-16">Loading customer...</p>;
+  // pagination
+  const itemsPerPage = 10;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCustomer = customer.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(customer.length / itemsPerPage);
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages)
+      setCurrentPage((currentPage) => currentPage + 1);
+  };
+  const handlePageClick = (number) => {
+    setCurrentPage(number);
+  };
   return (
     <main className="bg-gradient-to-br from-gray-100 to-white md:p-6">
       <Toaster />
@@ -78,30 +96,35 @@ const Customer = () => {
         </div>
 
         {/* Table */}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">SL.</th>
-                <th className="px-2 py-3">Name</th>
-                <th className="px-2 py-3">Mobile</th>
-                <th className="px-2 py-3">Email</th>
-                <th className="px-2 py-3">Address</th>
-                <th className="px-2 py-3">DueBalance</th>
-                <th className="px-2 py-3">Status</th>
-                <th className="px-2 py-3 action_column">Action</th>
+                <th className="p-2">SL.</th>
+                <th className="p-2">Name</th>
+                <th className="p-2">Mobile</th>
+                <th className="p-2">Email</th>
+                <th className="p-2">Address</th>
+                <th className="p-2">DueBalance</th>
+                <th className="p-2">Status</th>
+                <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              {customer?.map((dt, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="px-4 py-4 font-bold">{index + 1}</td>
-                  <td className="px-2 py-4">{dt.customer_name}</td>
-                  <td className="px-2 py-4">{dt.mobile}</td>
-                  <td className="px-2 py-4">{dt.email}</td>
-                  <td className="px-2 py-4">{dt.address}</td>
-                  <td className="px-2 py-4">{dt.due}</td>
-                  <td className="px-2 py-4">{dt.status}</td>
+              {currentCustomer?.map((dt, index) => (
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50 transition-all border border-gray-200"
+                >
+                  <td className="p-2 font-bold">
+                    {indexOfFirstItem + index + 1}
+                  </td>
+                  <td className="p-2">{dt.customer_name}</td>
+                  <td className="p-2">{dt.mobile}</td>
+                  <td className="p-2">{dt.email}</td>
+                  <td className="p-2">{dt.address}</td>
+                  <td className="p-2">{dt.due}</td>
+                  <td className="p-2">{dt.status}</td>
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
                       <Link to={`/tramessy/UpdateCustomerForm/${dt.id}`}>
@@ -127,6 +150,44 @@ const Customer = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        {/* pagination */}
+        <div className="mt-10 flex justify-center">
+          <div className="space-x-2 flex items-center">
+            <button
+              onClick={handlePrevPage}
+              className={`p-2 ${
+                currentPage === 1 ? "bg-gray-300" : "bg-primary text-white"
+              } rounded-sm`}
+              disabled={currentPage === 1}
+            >
+              <GrFormPrevious />
+            </button>
+            {[...Array(totalPages).keys()].map((number) => (
+              <button
+                key={number + 1}
+                onClick={() => handlePageClick(number + 1)}
+                className={`px-3 py-1 rounded-sm ${
+                  currentPage === number + 1
+                    ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                    : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
+                }`}
+              >
+                {number + 1}
+              </button>
+            ))}
+            <button
+              onClick={handleNextPage}
+              className={`p-2 ${
+                currentPage === totalPages
+                  ? "bg-gray-300"
+                  : "bg-primary text-white"
+              } rounded-sm`}
+              disabled={currentPage === totalPages}
+            >
+              <GrFormNext />
+            </button>
+          </div>
         </div>
       </div>
       {/* Delete Modal */}

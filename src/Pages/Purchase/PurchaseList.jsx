@@ -2,11 +2,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaEye, FaPen, FaTrashAlt } from "react-icons/fa";
 import { FaPlus, FaUserSecret } from "react-icons/fa6";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { Link } from "react-router-dom";
 
 const PurchaseList = () => {
   const [purchase, setPurchase] = useState([]);
   const [loading, setLoading] = useState(true);
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     axios
       .get("https://api.tramessy.com/mstrading/api/purchase/list")
@@ -22,6 +25,22 @@ const PurchaseList = () => {
       });
   }, []);
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
+  // pagination
+  const itemsPerPage = 10;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentPurchase = purchase.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(purchase.length / itemsPerPage);
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages)
+      setCurrentPage((currentPage) => currentPage + 1);
+  };
+  const handlePageClick = (number) => {
+    setCurrentPage(number);
+  };
   return (
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-2">
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-2 border border-gray-200">
@@ -38,36 +57,37 @@ const PurchaseList = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm border border-gray-600">
               <tr>
-                <th className="px-2 py-2">SL.</th>
-                <th className="px-2 py-2">Supplier Name</th>
-                <th className="px-2 py-2">Category</th>
-                <th className="px-2 py-2">Item Name</th>
-                <th className="px-2 py-2">Quantity</th>
-                <th className="px-2 py-2">Unit Price</th>
-                <th className="px-2 py-2">Total</th>
-                <th className="px-2 py-2">Bill Image</th>
-                <th className="px-2 py-2">Action</th>
+                <th className="p-2">SL.</th>
+                <th className="p-2">Supplier Name</th>
+                <th className="p-2">Category</th>
+                <th className="p-2">Item Name</th>
+                <th className="p-2">Quantity</th>
+                <th className="p-2">Unit Price</th>
+                <th className="p-2">Total</th>
+                <th className="p-2">Bill Image</th>
+                <th className="p-2">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              {purchase?.map((dt, index) => (
+              {currentPurchase?.map((dt, index) => (
                 <tr
                   key={index}
                   className="hover:bg-gray-50 transition-all border border-gray-200"
                 >
-                  <td className="px-2 py-2 font-bold">{index + 1}</td>
-                  <td className="px-2 py-2">{dt.supplier_name}</td>
-                  <td className="px-2 py-2">{dt.category}</td>
-                  <td className="px-2 py-2">{dt.item_name}</td>
-
-                  <td className="px-2 py-2">{dt.quantity}</td>
-                  <td className="px-2 py-2">{dt.unit_price}</td>
-                  <td className="px-2 py-2">{dt.total}</td>
-                  <td className="px-2 py-2">
+                  <td className="p-2 font-bold">
+                    {indexOfFirstItem + index + 1}
+                  </td>
+                  <td className="p-2">{dt.supplier_name}</td>
+                  <td className="p-2">{dt.category}</td>
+                  <td className="p-2">{dt.item_name}</td>
+                  <td className="p-2">{dt.quantity}</td>
+                  <td className="p-2">{dt.unit_price}</td>
+                  <td className="p-2">{dt.total}</td>
+                  <td className="p-2">
                     <img
                       src={`https://api.tramessy.com/mstrading/public/uploads/purchase/${dt.bill_image}`}
                       alt=""
@@ -95,6 +115,44 @@ const PurchaseList = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        {/* pagination */}
+        <div className="mt-10 flex justify-center">
+          <div className="space-x-2 flex items-center">
+            <button
+              onClick={handlePrevPage}
+              className={`p-2 ${
+                currentPage === 1 ? "bg-gray-300" : "bg-primary text-white"
+              } rounded-sm`}
+              disabled={currentPage === 1}
+            >
+              <GrFormPrevious />
+            </button>
+            {[...Array(totalPages).keys()].map((number) => (
+              <button
+                key={number + 1}
+                onClick={() => handlePageClick(number + 1)}
+                className={`px-3 py-1 rounded-sm ${
+                  currentPage === number + 1
+                    ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                    : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
+                }`}
+              >
+                {number + 1}
+              </button>
+            ))}
+            <button
+              onClick={handleNextPage}
+              className={`p-2 ${
+                currentPage === totalPages
+                  ? "bg-gray-300"
+                  : "bg-primary text-white"
+              } rounded-sm`}
+              disabled={currentPage === totalPages}
+            >
+              <GrFormNext />
+            </button>
+          </div>
         </div>
       </div>
     </div>

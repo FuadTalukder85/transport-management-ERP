@@ -39,32 +39,32 @@ const Leave = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Name</th>
-                <th className="px-2 py-3">Apply Date</th>
-                <th className="px-2 py-3">Leave Form</th>
-                <th className="px-2 py-3">Leave To</th>
-                <th className="px-2 py-3">Leave Type</th>
-                <th className="px-2 py-3">Remark</th>
-                <th className="px-2 py-3">Status</th>
-                <th className="px-2 py-3">Action</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Name</th>
+                <th className="p-2">Apply Date</th>
+                <th className="p-2">Leave Form</th>
+                <th className="p-2">Leave To</th>
+                <th className="p-2">Leave Type</th>
+                <th className="p-2">Remark</th>
+                <th className="p-2">Status</th>
+                <th className="p-2">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
               {leave?.map((dt, index) => (
-                <tr className="hover:bg-gray-50 transition-all">
-                  <td className="px-2 py-4 font-bold">{index + 1}.</td>
-                  <td className="px-2 py-4">{dt.name}</td>
-                  <td className="px-2 py-4">{dt.apply_date}</td>
-                  <td className="px-2 py-4">{dt.leave_from}</td>
-                  <td className="px-2 py-4">{dt.leave_to}</td>
-                  <td className="px-2 py-4">{dt.leave_type}</td>
-                  <td className="px-2 py-4">{dt.remark}</td>
-                  <td className="px-2 py-4">{dt.status}</td>
+                <tr className="hover:bg-gray-50 transition-all border border-gray-200">
+                  <td className="p-2 font-bold">{index + 1}.</td>
+                  <td className="p-2">{dt.name}</td>
+                  <td className="p-2">{dt.apply_date}</td>
+                  <td className="p-2">{dt.leave_from}</td>
+                  <td className="p-2">{dt.leave_to}</td>
+                  <td className="p-2">{dt.leave_type}</td>
+                  <td className="p-2">{dt.remark}</td>
+                  <td className="p-2">{dt.status}</td>
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
                       <Link to={`/tramessy/UpdateLeaveForm/${dt.id}`}>

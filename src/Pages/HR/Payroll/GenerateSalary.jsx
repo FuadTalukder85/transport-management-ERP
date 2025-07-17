@@ -19,24 +19,24 @@ const GenerateSalary = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Employee Name</th>
-                <th className="px-2 py-3">Generate Salary</th>
-                <th className="px-2 py-3">Generate By</th>
-                <th className="px-2 py-3">Status</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Employee Name</th>
+                <th className="p-2">Generate Salary</th>
+                <th className="p-2">Generate By</th>
+                <th className="p-2">Status</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
-              <tr className="hover:bg-gray-50 transition-all">
-                <td className="px-2 py-4 font-bold">01</td>
-                <td className="px-2 py-4">Korim Ali</td>
-                <td className="px-2 py-4">10,000</td>
-                <td className="px-2 py-4">Mofiz</td>
-                <td className="px-2 py-4">Approved</td>
+              <tr className="hover:bg-gray-50 transition-all border border-gray-200">
+                <td className="p-2 font-bold">01</td>
+                <td className="p-2">Korim Ali</td>
+                <td className="p-2">10,000</td>
+                <td className="p-2">Mofiz</td>
+                <td className="p-2">Approved</td>
               </tr>
             </tbody>
           </table>

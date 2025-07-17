@@ -289,44 +289,47 @@ const CarList = () => {
         </div>
 
         {/* Table */}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Driver Name</th>
-                <th className="px-2 py-3">Vehicle Name</th>
-                <th className="px-2 py-3">Vehicle Category</th>
-                <th className="px-2 py-3">Vehicle size</th>
-                <th className="px-2 py-3">Vehicle No</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Driver Name</th>
+                <th className="p-2">Vehicle Name</th>
+                <th className="p-2">Vehicle Category</th>
+                <th className="p-2">Vehicle size</th>
+                <th className="p-2">Vehicle No</th>
                 {/* <th className="px-2 py-3">Trip</th> */}
                 {/* <th className="px-2 py-3">Registration No</th> */}
-                <th className="px-2 py-3">Status</th>
-                <th className="px-2 py-3 action_column">Action</th>
+                <th className="p-2">Status</th>
+                <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
               {currentVehicles?.map((vehicle, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="px-2 py-4 font-bold">
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50 transition-all border border-gray-200"
+                >
+                  <td className="p-2 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-2 py-4">{vehicle.driver_name}</td>
-                  <td className="px-2 py-4">{vehicle.vehicle_name}</td>
-                  <td className="px-2 py-4">{vehicle.vehicle_category}</td>
-                  <td className="px-2 py-4">{vehicle.vehicle_size}</td>
-                  <td className="px-2 py-4">
+                  <td className="p-2">{vehicle.driver_name}</td>
+                  <td className="p-2">{vehicle.vehicle_name}</td>
+                  <td className="p-2">{vehicle.vehicle_category}</td>
+                  <td className="p-2">{vehicle.vehicle_size}</td>
+                  <td className="p-2">
                     {vehicle.registration_zone} - {vehicle.registration_serial}{" "}
                     {vehicle.registration_number}
                   </td>
                   {/* <td className="px-2 py-4">0</td> */}
                   {/* <td className="px-2 py-4">{vehicle.registration_number}</td> */}
-                  <td className="px-2 py-4">
+                  <td className="p-2">
                     <span className="text-white bg-green-700 px-3 py-1 rounded-md text-xs font-semibold">
                       Active
                     </span>
                   </td>
-                  <td className="px-2 py-4 action_column">
+                  <td className="p-2 action_column">
                     <div className="flex gap-1">
                       <Link to={`/tramessy/UpdateCarForm/${vehicle.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">

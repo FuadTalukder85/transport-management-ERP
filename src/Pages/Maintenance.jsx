@@ -215,14 +215,6 @@ const Maintenance = () => {
         {/* Export */}
         <div className="md:flex justify-between mb-4">
           <div className="flex gap-1 md:gap-3 flex-wrap">
-            <CSVLink
-              data={csvData}
-              headers={headers}
-              filename="maintenance.csv"
-              className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all"
-            >
-              CSV
-            </CSVLink>
             <button
               onClick={exportExcel}
               className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
@@ -282,34 +274,37 @@ const Maintenance = () => {
           </div>
         )}
         {/* Table */}
-        <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
+        <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">#</th>
-                <th className="px-2 py-3">Service Type</th>
-                <th className="px-2 py-3">Vehicle No</th>
-                <th className="px-2 py-3">Maintenance Type</th>
-                <th className="px-2 py-3">Parts and Spares</th>
-                <th className="px-2 py-3">Maintenance Date</th>
-                <th className="px-2 py-3">Priority</th>
-                <th className="px-2 py-3">Total Cost</th>
-                <th className="px-2 py-3 action_column">Actions</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Service Type</th>
+                <th className="p-2">Vehicle No</th>
+                <th className="p-2">Maintenance Type</th>
+                <th className="p-2">Parts and Spares</th>
+                <th className="p-2">Maintenance Date</th>
+                <th className="p-2">Priority</th>
+                <th className="p-2">Total Cost</th>
+                <th className="p-2 action_column">Actions</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
               {currentMaintenance?.map((dt, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="px-2 py-4 font-bold">
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50 transition-all border border-gray-200"
+                >
+                  <td className="p-2 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-2 py-4">{dt.service_type}</td>
-                  <td className="px-2 py-4">{dt.vehicle_no}</td>
-                  <td className="px-2 py-4">{dt.service_for}</td>
-                  <td className="px-2 py-4">{dt.parts_and_spairs}</td>
-                  <td className="px-2 py-4">{dt.date}</td>
-                  <td className="px-2 py-4">{dt.dignifies}</td>
-                  <td className="px-2 py-4">{dt.total_cost}</td>
+                  <td className="p-2">{dt.service_type}</td>
+                  <td className="p-2">{dt.vehicle_no}</td>
+                  <td className="p-2">{dt.service_for}</td>
+                  <td className="p-2">{dt.parts_and_spairs}</td>
+                  <td className="p-2">{dt.date}</td>
+                  <td className="p-2">{dt.dignifies}</td>
+                  <td className="p-2">{dt.total_cost}</td>
                   <td className="action_column">
                     <div className="flex gap-2">
                       <Link to={`/UpdateMaintenanceForm/${dt.id}`}>

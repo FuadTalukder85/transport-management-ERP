@@ -41,17 +41,17 @@ const PaymentReceive = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-2 py-3">SL.</th>
-                <th className="px-2 py-3">Date</th>
-                <th className="px-2 py-3">CustomerName</th>
-                <th className="px-2 py-3">BranchName</th>
-                <th className="px-2 py-3">BillRef</th>
-                <th className="px-2 py-3">Amount</th>
-                <th className="px-2 py-3">CashType</th>
-                <th className="px-2 py-3">Note</th>
-                <th className="px-2 py-3">CreatedBy</th>
-                <th className="px-2 py-3">Status</th>
-                <th className="px-2 py-3">Action</th>
+                <th className="p-2">SL.</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">CustomerName</th>
+                <th className="p-2">BranchName</th>
+                <th className="p-2">BillRef</th>
+                <th className="p-2">Amount</th>
+                <th className="p-2">CashType</th>
+                <th className="p-2">Note</th>
+                <th className="p-2">CreatedBy</th>
+                <th className="p-2">Status</th>
+                <th className="p-2">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
