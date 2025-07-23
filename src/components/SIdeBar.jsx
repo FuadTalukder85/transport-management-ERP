@@ -43,7 +43,7 @@ const Sidebar = () => {
     <div className="overflow-y-scroll hide-scrollbar">
       <main>
         {/* Logo */}
-        <div className="py-[15.5px] flex justify-center border-b border-gray-300">
+        <div className="py-[15px] flex justify-center border-b border-gray-300">
           <Link to="/tramessy">
             <img src={logo} alt="Logo" className="w-28" />
           </Link>
@@ -150,44 +150,6 @@ const Sidebar = () => {
                       </li>
                       {/* <li>
                         <Link
-                          to="/tramessy/Fuel"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Fuel")
-                              ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/Fuel")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Fuel</span>
-                        </Link>
-                      </li> */}
-                      {/* <li>
-                        <Link
-                          to="/tramessy/Parts"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Parts")
-                              ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/Parts")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Spare & Parts List</span>
-                        </Link>
-                      </li> */}
-                      <li>
-                        <Link
                           to="/tramessy/Maintenance"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/tramessy/Maintenance")
@@ -204,7 +166,7 @@ const Sidebar = () => {
                           ></div>
                           <span>Maintenance</span>
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </li>
@@ -673,7 +635,7 @@ const Sidebar = () => {
                     }`}
                   >
                     <ul className="space-y-3 px-2 text-sm mt-2">
-                      <li>
+                      {/* <li>
                         <Link
                           to="/tramessy/Inventory/Stockin"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
@@ -691,7 +653,7 @@ const Sidebar = () => {
                           ></div>
                           <span>Stock in</span>
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link
                           to="/tramessy/Inventory/StockOut"

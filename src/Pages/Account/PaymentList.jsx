@@ -24,7 +24,7 @@ const PaymentList = () => {
   const [endDate, setEndDate] = useState("");
   // search
   const [searchTerm, setSearchTerm] = useState("");
-
+  // fetch data
   useEffect(() => {
     axios
       .get("https://api.tramessy.com/mstrading/api/payment/list")
@@ -71,7 +71,6 @@ const PaymentList = () => {
     );
   });
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
-
   // excel
   const exportToExcel = () => {
     const exportData = filteredPaymentList.map((dt, index) => ({
@@ -417,7 +416,7 @@ const PaymentList = () => {
                   <td className="px-1 py-2">{dt.item_name}</td>
                   <td className="px-1 py-2">{dt.quantity}</td>
                   <td className="px-1 py-2">{dt.unit_price}</td>
-                  <td className="px-1 py-2">{dt.total}</td>
+                  <td className="px-1 py-2">{dt.total_amount}</td>
                   <td className="px-1 py-2">{dt.pay_amount}</td>
                   <td className="px-1 py-2">{dt.total - dt.pay_amount}</td>
                   <td className="px-1 py-2">
@@ -461,7 +460,6 @@ const PaymentList = () => {
                           reset({
                             due_amount: dt.total - dt.pay_amount,
                             pay_amount: dt.pay_amount,
-                            // note: dt.item_name,
                           });
                         }}
                         className={`px-1 py-1 rounded shadow-md transition-all cursor-pointer ${

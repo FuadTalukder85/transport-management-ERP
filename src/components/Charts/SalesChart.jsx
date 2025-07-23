@@ -17,7 +17,10 @@ import dayjs from "dayjs";
 const SalesChart = () => {
   const [chartData, setChartData] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const currentMonth = dayjs().format("YYYY-MM");
+  const previousMonth = dayjs().subtract(1, "month").format("YYYY-MM");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,22 +28,42 @@ const SalesChart = () => {
           "https://api.tramessy.com/mstrading/api/trip/list"
         );
         const trips = res.data.data;
-        const tripsThisMonth = trips.filter((trip) =>
+
+        // Filter by current and previous month
+        const tripsCurrentMonth = trips.filter((trip) =>
           trip.date.startsWith(currentMonth)
         );
-        const grouped = tripsThisMonth.reduce((acc, trip) => {
-          const customer = trip.customer || "Unknown";
-          const rent = parseFloat(trip.total_rent) || 0;
-          if (!acc[customer]) {
-            acc[customer] = { name: customer, total_rent: 0 };
-          }
-          acc[customer].total_rent += rent;
-          return acc;
-        }, {});
-        const formatted = Object.values(grouped).map((entry) => ({
-          name: entry.name,
-          "Monthly Sales": entry.total_rent,
+        const tripsPreviousMonth = trips.filter((trip) =>
+          trip.date.startsWith(previousMonth)
+        );
+
+        // Group by customer for current month
+        const groupByCustomer = (data) =>
+          data.reduce((acc, trip) => {
+            const customer = trip.customer || "Unknown";
+            const rent = parseFloat(trip.total_rent) || 0;
+            if (!acc[customer]) {
+              acc[customer] = 0;
+            }
+            acc[customer] += rent;
+            return acc;
+          }, {});
+
+        const currentSales = groupByCustomer(tripsCurrentMonth);
+        const previousSales = groupByCustomer(tripsPreviousMonth);
+
+        // Merge both datasets
+        const allCustomers = new Set([
+          ...Object.keys(currentSales),
+          ...Object.keys(previousSales),
+        ]);
+
+        const formatted = Array.from(allCustomers).map((customer) => ({
+          name: customer,
+          "Monthly Sales": currentSales[customer] || 0,
+          "Previous Month Sales": previousSales[customer] || 0,
         }));
+
         setChartData(formatted);
       } catch (error) {
         console.error("Error fetching chart data:", error);
@@ -49,7 +72,7 @@ const SalesChart = () => {
       }
     };
     fetchData();
-  }, [currentMonth]);
+  }, [currentMonth, previousMonth]);
 
   if (loading) return <p>Loading chart...</p>;
   if (chartData.length === 0) return <p>No data for current month.</p>;
@@ -96,7 +119,13 @@ const SalesChart = () => {
               }}
             />
           </Bar>
-          <Line type="monotone" dataKey="Monthly Sales" stroke="#ff7300" />
+          <Line
+            type="monotone"
+            dataKey="Previous Month Sales"
+            stroke="#ff7300"
+            strokeWidth={2}
+            dot={{ r: 4 }}
+          />
         </ComposedChart>
       </ResponsiveContainer>
     </div>

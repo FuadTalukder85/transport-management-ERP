@@ -119,7 +119,7 @@ const UpdatePurchaseForm = () => {
           },
         }
       );
-      toast.success("Purchase submitted successfully!", {
+      toast.success("Purchase updated successfully!", {
         position: "top-right",
       });
     } catch (error) {
@@ -134,7 +134,7 @@ const UpdatePurchaseForm = () => {
     <div className="mt-10">
       <Toaster />
       <h3 className="px-6 py-2 bg-primary text-white font-semibold rounded-t-md">
-        Add Purchase Information
+        Update Purchase Information
       </h3>
       <FormProvider {...methods} className="">
         <form
@@ -170,7 +170,7 @@ const UpdatePurchaseForm = () => {
                 defaultValue={category}
                 options={[
                   { value: "Fuel", label: "Fuel" },
-                  { value: "Engine Oil", label: "Engine Oil" },
+                  { value: "engine_oil", label: "Engine Oil" },
                   { value: "Parts", label: "Parts" },
                   { value: "Stationary", label: "Stationary" },
                   { value: "Snacks", label: "Snacks" },

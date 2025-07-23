@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaEye, FaPen, FaTrashAlt } from "react-icons/fa";
+import { FaEye, FaFilter, FaPen, FaTrashAlt } from "react-icons/fa";
 import { FaPlus, FaUserSecret } from "react-icons/fa6";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { Link } from "react-router-dom";
@@ -8,6 +8,9 @@ import { Link } from "react-router-dom";
 const PurchaseList = () => {
   const [purchase, setPurchase] = useState([]);
   const [loading, setLoading] = useState(true);
+  // search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showFilter, setShowFilter] = useState(false);
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
@@ -24,13 +27,21 @@ const PurchaseList = () => {
         setLoading(false);
       });
   }, []);
+  // search
+  const filteredPurchase = purchase.filter((dt) => {
+    const term = searchTerm.toLowerCase();
+    return dt.id?.toString().toLowerCase().includes(term);
+  });
   if (loading) return <p className="text-center mt-16">Loading data...</p>;
   // pagination
   const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentPurchase = purchase.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(purchase.length / itemsPerPage);
+  const currentPurchase = filteredPurchase.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(filteredPurchase.length / itemsPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
   };
@@ -50,6 +61,12 @@ const PurchaseList = () => {
             Purchase List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
+            <button
+              onClick={() => setShowFilter((prev) => !prev)}
+              className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+            >
+              <FaFilter /> Filter
+            </button>
             <Link to="/tramessy/Purchase/PurchaseForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <FaPlus /> Purchase
@@ -57,11 +74,73 @@ const PurchaseList = () => {
             </Link>
           </div>
         </div>
+        {/* export */}
+        <div className="md:flex justify-between items-center">
+          <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
+            <button
+              // onClick={exportExcel}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
+              Excel
+            </button>
+            <button
+              // onClick={exportPDF}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
+              PDF
+            </button>
+            <button
+              // onClick={printTable}
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+            >
+              Print
+            </button>
+          </div>
+          {/* search */}
+          <div className="mt-3 md:mt-0">
+            <span className="text-primary font-semibold pr-3">Search: </span>
+            <input
+              type="text"
+              // value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+              placeholder="Search by Product ID..."
+              className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
+            />
+          </div>
+        </div>
+        {/* Conditional Filter Section */}
+        {showFilter && (
+          <div className="md:flex gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
+            <div className="relative w-full">
+              <input
+                type="date"
+                // value={startDate}
+                // onChange={(e) => setStartDate(e.target.value)}
+                placeholder="Start date"
+                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+              />
+            </div>
+
+            <div className="relative w-full">
+              <input
+                type="date"
+                // value={endDate}
+                // onChange={(e) => setEndDate(e.target.value)}
+                placeholder="End date"
+                className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
+              />
+            </div>
+          </div>
+        )}
         <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm border border-gray-600">
               <tr>
                 <th className="p-2">SL.</th>
+                <th className="p-2">Product ID</th>
                 <th className="p-2">Supplier Name</th>
                 <th className="p-2">Category</th>
                 <th className="p-2">Item Name</th>
@@ -79,14 +158,15 @@ const PurchaseList = () => {
                   className="hover:bg-gray-50 transition-all border border-gray-200"
                 >
                   <td className="p-2 font-bold">
-                    {indexOfFirstItem + index + 1}
+                    {indexOfFirstItem + index + 1}.
                   </td>
+                  <td className="p-2">{dt.id}</td>
                   <td className="p-2">{dt.supplier_name}</td>
                   <td className="p-2">{dt.category}</td>
                   <td className="p-2">{dt.item_name}</td>
                   <td className="p-2">{dt.quantity}</td>
                   <td className="p-2">{dt.unit_price}</td>
-                  <td className="p-2">{dt.total}</td>
+                  <td className="p-2">{dt.quantity * dt.unit_price}</td>
                   <td className="p-2">
                     <img
                       src={`https://api.tramessy.com/mstrading/public/uploads/purchase/${dt.bill_image}`}

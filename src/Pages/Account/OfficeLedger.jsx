@@ -161,7 +161,7 @@ const OfficeLedger = () => {
                 <th className="border border-gray-700 px-2 py-1">
                   Destination
                 </th>
-                <th className="border border-gray-700 px-2 py-1">TripExp</th>
+                {/* <th className="border border-gray-700 px-2 py-1">TripExp</th> */}
                 <th className="border border-gray-700 px-2 py-1">Due</th>
                 <th className="border border-gray-700 px-2 py-1">CashIn</th>
                 <th className="border border-gray-700 px-2 py-1">CashOut</th>
@@ -203,15 +203,15 @@ const OfficeLedger = () => {
                       )}
                     </td>
                     <td className="border border-gray-700 px-2 py-1">
-                      {dt.destination ? (
-                        dt.destination
+                      {dt.unload_point ? (
+                        dt.unload_point
                       ) : (
                         <span className="flex justify-center items-center">
                           --
                         </span>
                       )}
                     </td>
-                    <td className="border border-gray-700 px-2 py-1">
+                    {/* <td className="border border-gray-700 px-2 py-1">
                       {dt.trip_expense ? (
                         dt.trip_expense
                       ) : (
@@ -219,7 +219,7 @@ const OfficeLedger = () => {
                           --
                         </span>
                       )}
-                    </td>
+                    </td> */}
                     <td className="border border-gray-700 px-2 py-1">
                       {dt.due}
                     </td>

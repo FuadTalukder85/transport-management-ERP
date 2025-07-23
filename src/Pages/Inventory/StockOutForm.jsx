@@ -1,17 +1,42 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BtnSubmit from "../../components/Button/BtnSubmit";
 import { FormProvider, useForm } from "react-hook-form";
-import { InputField } from "../../components/Form/FormFields";
+import { InputField, SelectField } from "../../components/Form/FormFields";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import useRefId from "../../hooks/useRef";
 import { FiCalendar } from "react-icons/fi";
 
 const StockOutForm = () => {
+  const [vehicle, setVehicle] = useState([]);
+  const [driver, setDriver] = useState([]);
   const methods = useForm();
-  const { handleSubmit, reset, register } = methods;
+  const { handleSubmit, reset, register, control } = methods;
   const dateRef = useRef(null);
   const generateRefId = useRefId();
+  // select vehicle from api
+  useEffect(() => {
+    fetch("https://api.tramessy.com/mstrading/api/vehicle/list")
+      .then((response) => response.json())
+      .then((data) => setVehicle(data.data))
+      .catch((error) => console.error("Error fetching vehicle data:", error));
+  }, []);
+  const vehicleOptions = vehicle.map((dt) => ({
+    value: dt.vehicle_name,
+    label: dt.vehicle_name,
+  }));
+  // select driver from api
+  useEffect(() => {
+    fetch("https://api.tramessy.com/mstrading/api/driver/list")
+      .then((response) => response.json())
+      .then((data) => setDriver(data.data))
+      .catch((error) => console.error("Error fetching driver data:", error));
+  }, []);
+  const driverOptions = driver.map((dt) => ({
+    value: dt.driver_name,
+    label: dt.driver_name,
+  }));
+  // post on server
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -90,17 +115,29 @@ const StockOutForm = () => {
               <InputField name="quantity" label="Quantity" required />
             </div>
             <div className="w-full">
-              <InputField name="vehicle_name" label="Vehicle Name" required />
+              <SelectField
+                name="vehicle_name"
+                label="Vehicle Name"
+                required={true}
+                options={vehicleOptions}
+                control={control}
+              />
             </div>
           </div>
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <InputField name="driver_name" label="Driver Name" required />
+              <SelectField
+                name="driver_name"
+                label="Driver Name"
+                required={true}
+                options={driverOptions}
+                control={control}
+              />
             </div>
-            <div className="w-full">
+            {/* <div className="w-full">
               <InputField name="current_stock" label="Current Stock" required />
-            </div>
+            </div> */}
           </div>
           <BtnSubmit>Submit</BtnSubmit>
         </form>

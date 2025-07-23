@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BtnSubmit from "../../components/Button/BtnSubmit";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { InputField, SelectField } from "../../components/Form/FormFields";
@@ -84,20 +84,12 @@ const PurchaseForm = () => {
   // post data on server
   const onSubmit = async (data) => {
     console.log("purchase", data);
-    // const refId = generateRefId();
-
     try {
       const purchaseFormData = new FormData();
-
-      // Append form fields
       for (const key in data) {
         purchaseFormData.append(key, data[key]);
       }
-
-      // Additional fields
-      // purchaseFormData.append("ref_id", refId);
-      purchaseFormData.append("status", "Unpaid");
-
+      // purchaseFormData.append("status", "Unpaid");
       await axios.post(
         "https://api.tramessy.com/mstrading/api/purchase/create",
         purchaseFormData,
@@ -107,9 +99,6 @@ const PurchaseForm = () => {
           },
         }
       );
-
-      // Optional: Handle successful submission
-      // console.log("Purchase success", purchaseResponse.data);
       toast.success("Purchase submitted successfully!", {
         position: "top-right",
       });
@@ -122,7 +111,6 @@ const PurchaseForm = () => {
     }
   };
 
-  // todo set default status = unpaid, generate auto ref number from backend
   return (
     <div className="mt-10">
       <Toaster />
@@ -163,7 +151,7 @@ const PurchaseForm = () => {
                 required
                 options={[
                   { value: "Fuel", label: "Fuel" },
-                  { value: "Engine Oil", label: "Engine Oil" },
+                  { value: "engine_oil", label: "Engine Oil" },
                   { value: "Parts", label: "Parts" },
                   { value: "Stationary", label: "Stationary" },
                   { value: "Snacks", label: "Snacks" },
@@ -177,7 +165,7 @@ const PurchaseForm = () => {
             </div>
           </div>
           {/* Engine Oil category */}
-          {selectedCategory === "Engine Oil" && (
+          {selectedCategory === "engine_oil" && (
             <div className="md:flex justify-between gap-3">
               <div className="w-full">
                 <SelectField
@@ -241,6 +229,9 @@ const PurchaseForm = () => {
             </div>
             <div className="w-full">
               <InputField name="remarks" label="Remark" />
+            </div>
+            <div className="w-full">
+              <InputField name="priority" label="priority" />
             </div>
           </div>
           <div className="md:flex justify-between gap-3">

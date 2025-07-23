@@ -16,33 +16,32 @@ const Header = ({ setMobileSidebarOpen }) => {
   };
 
   return (
-    <>
-      {/* Header */}
-      <div className="flex justify-between items-center px-5 py-2.5 border-b border-gray-300 relative z-40 bg-white">
-        {/* Title */}
-        <div className="flex items-center gap-3 cursor-pointer">
-          {/* Toggle sidebar on mobile */}
-          <h3
-            className="text-primary md:hidden"
-            onClick={() => setMobileSidebarOpen(true)}
-          >
-            <FaBars />
-          </h3>
-          <div>
-            <h1 className="text-xl font-bold text-primary">
-              Transport Management Software
-            </h1>
-            <p className="text-xs text-gray-600">
-              Smart solutions in a changing world
-            </p>
-          </div>
-          {/* <Link to="/tramessy" className="font-semibold text-primary">
+    // Header
+    <div className="flex justify-between items-center px-5 py-2 border-b border-gray-300 relative z-40 bg-white">
+      {/* Title */}
+      <div className="flex items-center gap-3 cursor-pointer">
+        {/* Toggle sidebar on mobile */}
+        <h3
+          className="text-primary md:hidden"
+          onClick={() => setMobileSidebarOpen(true)}
+        >
+          <FaBars />
+        </h3>
+        <div>
+          <h1 className="text-xl font-bold text-primary">
+            Transport Management Software
+          </h1>
+          <p className="text-xs text-gray-600">
+            Smart solutions in a changing world
+          </p>
+        </div>
+        {/* <Link to="/tramessy" className="font-semibold text-primary">
             Home
           </Link> */}
-        </div>
+      </div>
 
-        {/* Search */}
-        {/* <div className="hidden md:block relative">
+      {/* Search */}
+      {/* <div className="hidden md:block relative">
           <input
             type="text"
             className="border border-gray-300 rounded-md outline-none w-96 h-9 px-5"
@@ -53,43 +52,42 @@ const Header = ({ setMobileSidebarOpen }) => {
           </div>
         </div> */}
 
-        {/* Admin Dropdown */}
-        <div className="relative bg-white p-2 rounded-md flex gap-2 items-center">
-          <div
-            className="flex items-center gap-2 cursor-pointer"
-            onClick={() => setIsAdminOpen(!isAdminOpen)}
-          >
-            <img
-              src={avatar}
-              alt="Admin"
-              className="w-8 rounded-2xl drop-shadow"
-            />
-            <h3 className="font-semibold text-primary">
-              {user?.data?.user?.role}
-            </h3>
-          </div>
-          {isAdminOpen && (
-            <div className="absolute right-0 top-14 w-52 bg-white drop-shadow p-5 rounded-md shadow-lg z-50">
-              <p className="font-semibold text-primary">
-                {user?.data?.user?.role}
-              </p>
-              <span className="text-sm text-gray-600">
-                {user?.data?.user?.email}
-              </span>
-              <p className="text-sm text-gray-600">{user?.data?.user?.phone}</p>
-              <p className="mt-4">
-                <button
-                  onClick={handleSignout}
-                  className="text-red-500 font-medium hover:underline cursor-pointer"
-                >
-                  Logout
-                </button>
-              </p>
-            </div>
-          )}
+      {/* Admin Dropdown */}
+      <div className="relative bg-white p-2 rounded-md flex gap-2 items-center">
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => setIsAdminOpen(!isAdminOpen)}
+        >
+          <img
+            src={avatar}
+            alt="Admin"
+            className="w-8 rounded-2xl drop-shadow"
+          />
+          <h3 className="font-semibold text-primary">
+            {user?.data?.user?.role}
+          </h3>
         </div>
+        {isAdminOpen && (
+          <div className="absolute right-0 top-14 w-52 bg-white drop-shadow p-5 rounded-md shadow-lg z-50">
+            <p className="font-semibold text-primary">
+              {user?.data?.user?.role}
+            </p>
+            <span className="text-sm text-gray-600">
+              {user?.data?.user?.email}
+            </span>
+            <p className="text-sm text-gray-600">{user?.data?.user?.phone}</p>
+            <p className="mt-4">
+              <button
+                onClick={handleSignout}
+                className="text-red-500 font-medium hover:underline cursor-pointer"
+              >
+                Logout
+              </button>
+            </p>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

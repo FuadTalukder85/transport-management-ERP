@@ -47,7 +47,6 @@ const CashDispatchForm = () => {
   const onSubmit = async (data) => {
     const refId = generateRefId();
     try {
-      // --- First API: Trip Create ---
       const tripFormData = new FormData();
       for (const key in data) {
         tripFormData.append(key, data[key]);
@@ -83,7 +82,7 @@ const CashDispatchForm = () => {
         reset();
       } else {
         toast.error(
-          "Trip API failed: " + (tripData.message || "Unknown error")
+          "Branch API failed: " + (tripData.message || "Unknown error")
         );
       }
     } catch (error) {
