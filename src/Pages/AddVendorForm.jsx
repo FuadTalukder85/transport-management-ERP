@@ -11,21 +11,9 @@ const AddVendorForm = () => {
   const { handleSubmit, register, reset } = methods;
   const dateRef = useRef(null);
 
-  // generate ref id
-  const generateRefId = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let refId = "";
-    for (let i = 0; i < 6; i++) {
-      refId += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return refId;
-  };
-
   const onSubmit = async (data) => {
-    const refId = generateRefId();
     try {
       const formData = new FormData();
-      formData.append("ref_id", refId);
       for (const key in data) {
         formData.append(key, data[key]);
       }
@@ -34,7 +22,6 @@ const AddVendorForm = () => {
         formData
       );
       const resData = response.data;
-      console.log("resData", resData);
       if (resData.status === "Success") {
         toast.success("Vendor saved successfully!", {
           position: "top-right",

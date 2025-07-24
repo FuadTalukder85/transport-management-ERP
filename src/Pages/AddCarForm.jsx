@@ -91,7 +91,7 @@ const AddCarForm = () => {
                 label="Vehicle Category"
                 required
                 options={[
-                  { value: "", label: "Select Vehicle category..." },
+                  // { value: "", label: "Select Vehicle category..." },
                   { value: "Pickup", label: "Pickup" },
                   { value: "Covered Van", label: "Covered Van" },
                   { value: "Open Truck", label: "Open Truck" },

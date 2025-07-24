@@ -62,7 +62,7 @@ const Main = () => {
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
         {/* Pass toggleSidebar function to Header */}
         <Header setMobileSidebarOpen={setMobileSidebarOpen} />
-        <main className="flex-1 overflow-hidden md:p-4">
+        <main className="flex-1 overflow-hidden md:p-2">
           <Outlet />
         </main>
         <Footer />

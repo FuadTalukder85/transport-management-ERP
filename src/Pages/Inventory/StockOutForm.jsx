@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BtnSubmit from "../../components/Button/BtnSubmit";
 import { FormProvider, useForm } from "react-hook-form";
 import { InputField, SelectField } from "../../components/Form/FormFields";
@@ -10,8 +10,9 @@ import { FiCalendar } from "react-icons/fi";
 const StockOutForm = () => {
   const [vehicle, setVehicle] = useState([]);
   const [driver, setDriver] = useState([]);
+  const [lastTotalStock, setLastTotalStock] = useState(null);
   const methods = useForm();
-  const { handleSubmit, reset, register, control } = methods;
+  const { handleSubmit, reset, register, control, watch } = methods;
   const dateRef = useRef(null);
   const generateRefId = useRefId();
   // select vehicle from api
@@ -36,10 +37,31 @@ const StockOutForm = () => {
     value: dt.driver_name,
     label: dt.driver_name,
   }));
+  // get total stock
+  useEffect(() => {
+    fetch("https://api.tramessy.com/mstrading/api/stockOutProduct/list")
+      .then((response) => response.json())
+      .then((data) => {
+        const stockData = data.data;
+        if (stockData.length > 0) {
+          const lastStockItem = stockData[stockData.length - 1];
+          setLastTotalStock(lastStockItem.total_stock);
+        }
+      })
+      .catch((error) => console.error("Error fetching stock data:", error));
+  }, []);
+  // console.log("lastTotalStock", lastTotalStock);
   // post on server
   const onSubmit = async (data) => {
+    const qty = Number(watch("quantity"));
     try {
       const formData = new FormData();
+      if (qty > lastTotalStock) {
+        toast.error("Quantity cannot be greater than the available stock.", {
+          position: "top-right",
+        });
+        return;
+      }
       for (const key in data) {
         formData.append(key, data[key]);
       }
@@ -49,7 +71,6 @@ const StockOutForm = () => {
         formData
       );
       const resData = response.data;
-      console.log("resData", resData);
       if (resData.status === "Success") {
         toast.success("Stock out product saved successfully!", {
           position: "top-right",
@@ -99,10 +120,11 @@ const StockOutForm = () => {
               />
             </div>
             <div className="w-full">
-              <InputField
+              <SelectField
                 name="product_category"
                 label="Product Category"
                 required
+                options={[{ value: "engine_oil", label: "Engine Oil" }]}
               />
             </div>
             <div className="w-full">
@@ -112,7 +134,12 @@ const StockOutForm = () => {
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <InputField name="quantity" label="Quantity" required />
+              <InputField
+                name="quantity"
+                label="Quantity"
+                required
+                type="number"
+              />
             </div>
             <div className="w-full">
               <SelectField
@@ -135,9 +162,6 @@ const StockOutForm = () => {
                 control={control}
               />
             </div>
-            {/* <div className="w-full">
-              <InputField name="current_stock" label="Current Stock" required />
-            </div> */}
           </div>
           <BtnSubmit>Submit</BtnSubmit>
         </form>
