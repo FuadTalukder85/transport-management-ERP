@@ -121,15 +121,15 @@ const CarList = () => {
         cellPadding: 3,
       },
       headStyles: {
-        fillColor: [17, 55, 91], // Dark blue like your table header: #11375B
-        textColor: [255, 255, 255], // White text
+        fillColor: [17, 55, 91],
+        textColor: [255, 255, 255],
         halign: "left",
       },
       bodyStyles: {
-        textColor: [17, 55, 91], // Dark text color (same as text-[#11375B])
+        textColor: [17, 55, 91],
       },
       alternateRowStyles: {
-        fillColor: [240, 240, 240], // Light gray for alternate rows (like bg-gray-100)
+        fillColor: [240, 240, 240],
       },
       theme: "grid",
     });

@@ -3,6 +3,9 @@ import { FaCheck } from "react-icons/fa";
 import { FaEye, FaPen, FaPlus, FaUserSecret } from "react-icons/fa6";
 import { IoCloseOutline, IoCloseSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 
 const AttendanceList = () => {
   const [employee, setEmployee] = useState([]);
@@ -10,13 +13,11 @@ const AttendanceList = () => {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
 
   useEffect(() => {
-    // Fetch employee list
     fetch("https://api.tramessy.com/mstrading/api/employee/list")
       .then((response) => response.json())
       .then((data) => setEmployee(data.data))
       .catch((error) => console.error("Error fetching employee data:", error));
 
-    // Fetch attendance list
     fetch("https://api.tramessy.com/mstrading/api/attendance/list")
       .then((response) => response.json())
       .then((data) => setAttendanceList(data.data))
@@ -27,6 +28,99 @@ const AttendanceList = () => {
 
   const handleViewClick = (id) => {
     setSelectedEmployeeId(id === selectedEmployeeId ? null : id);
+  };
+
+  const selectedEmployee = employee.find(
+    (e) => String(e.id) === String(selectedEmployeeId)
+  );
+
+  const attendanceData = attendanceList.filter(
+    (att) => att.employee_id === String(selectedEmployeeId)
+  );
+
+  const totalPresent = attendanceData.filter((a) => a.present === "1").length;
+  const totalAbsent = attendanceData.filter((a) => a.absent === "1").length;
+
+  const printTable = () => {
+    const printContent = document.getElementById("print-section").innerHTML;
+    const newWindow = window.open("", "", "width=900,height=600");
+    newWindow.document.write(`
+      <html>
+        <head>
+          <title>Attendance Report</title>
+          <style>
+            @media print {
+              table, th, td {
+                border: 1px solid black !important;
+                border-collapse: collapse !important;
+              }
+              th, td {
+                padding: 6px;
+                text-align: left;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          ${printContent}
+        </body>
+      </html>
+    `);
+    newWindow.document.close();
+    newWindow.focus();
+    newWindow.print();
+  };
+
+  const exportPDF = () => {
+    if (!selectedEmployee || attendanceData.length === 0) {
+      alert("No data to export.");
+      return;
+    }
+
+    const doc = new jsPDF("landscape");
+    doc.setFontSize(16);
+    doc.text("Attendance Report", 14, 20);
+
+    doc.setFontSize(12);
+    doc.text(`Employee: ${selectedEmployee.full_name}`, 14, 30);
+
+    const rows = attendanceData.map((att, index) => [
+      index + 1,
+      att.date,
+      att.present === "1" ? "1" : "-",
+      att.absent === "1" ? "1" : "-",
+    ]);
+
+    // Add total row at the end
+    rows.push([
+      "", // SL
+      "Total",
+      totalPresent.toString().padStart(2, "0"),
+      totalAbsent.toString().padStart(2, "0"),
+    ]);
+
+    autoTable(doc, {
+      head: [["SL", "Date", "Present", "Absent"]],
+      body: rows,
+      startY: 40,
+      theme: "grid",
+      styles: { halign: "center" },
+
+      // No background fill color in header
+      headStyles: {
+        fillColor: "#CDCDCD", // disables background color
+        textColor: 0,
+        fontStyle: "bold",
+      },
+
+      didParseCell: (data) => {
+        if (data.row.index === rows.length - 1) {
+          data.cell.styles.fontStyle = "bold";
+        }
+      },
+    });
+
+    doc.save("attendance_report.pdf");
   };
 
   return (
@@ -50,9 +144,9 @@ const AttendanceList = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="p-2">#</th>
+                <th className="p-2">SL.</th>
                 <th className="p-2">Name</th>
-                <th className="p-2">Date</th>
+                <th className="p-2">Join Date</th>
                 <th className="p-2">Action</th>
               </tr>
             </thead>
@@ -91,80 +185,108 @@ const AttendanceList = () => {
       {selectedEmployeeId && (
         <div className="fixed inset-0 bg-[#00000065] flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-5 max-w-3xl w-full relative overflow-x-auto shadow-2xl border border-gray-300">
-            {/* Close Button */}
             <button
               onClick={() => setSelectedEmployeeId(null)}
-              className="absolute top-2 right-2 text-white bg-primary hover:text-white hover:bg-red-500 rounded-md w-5 h-5 flex items-center justify-center transition-all cursor-pointer"
+              className="absolute top-2 right-2 text-white bg-red-500 hover:text-white hover:bg-primary rounded-md w-5 h-5 flex items-center justify-center transition-all cursor-pointer"
             >
               <IoCloseSharp />
             </button>
 
-            {/* Modal Table */}
-            <h2 className="text-lg font-bold text-center mb-4 text-primary">
-              Attendance Details
-            </h2>
-            <table className="min-w-full text-sm text-left text-gray-900 mt-2">
-              <thead className="capitalize text-sm">
-                <tr>
-                  <th className="border border-gray-700 px-2 py-1">SL.</th>
-                  <th className="border border-gray-700 px-2 py-1">Date</th>
-                  <th className="border border-gray-700 px-2 py-1">
-                    Employee Name
-                  </th>
-                  <th className="border border-gray-700 px-2 py-1 text-center">
-                    Present
-                  </th>
-                  <th className="border border-gray-700 px-2 py-1 text-center">
-                    Absent
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="font-semibold">
-                {attendanceList
-                  .filter(
-                    (att) => att.employee_id === String(selectedEmployeeId)
-                  )
-                  .map((att, index) => {
-                    const emp = employee.find(
-                      (e) => String(e.id) === String(att.employee_id)
-                    );
-                    return (
-                      <tr
-                        key={att.id}
-                        className="hover:bg-gray-50 transition-all"
-                      >
-                        <td className="border border-gray-700 p-1 font-bold">
-                          {index + 1}.
-                        </td>
-                        <td className="border border-gray-700 p-1">
-                          {att.date}
-                        </td>
-                        <td className="border border-gray-700 p-1">
-                          {emp?.full_name || "N/A"}
-                        </td>
-                        <td className="border border-gray-700 p-1 text-center">
-                          {att.present === "1" ? (
-                            <span className="text-green-600">
-                              <FaCheck />
-                            </span>
-                          ) : (
-                            "-"
-                          )}
-                        </td>
-                        <td className="border border-gray-700 p-1 text-center">
-                          {att.absent === "1" ? (
-                            <span className="text-red-600">
-                              <IoCloseOutline />
-                            </span>
-                          ) : (
-                            "-"
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
+            <div className="md:flex justify-between items-center mb-2">
+              <h2 className="text-lg font-bold text-primary">
+                Employee Name: {selectedEmployee?.full_name || "N/A"}
+              </h2>
+              <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md pr-5">
+                <button
+                  onClick={exportPDF}
+                  className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+                >
+                  PDF
+                </button>
+                <button
+                  onClick={printTable}
+                  className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+                >
+                  Print
+                </button>
+              </div>
+            </div>
+
+            <div id="print-section">
+              <div className="mb-4 text-center">
+                <h2 className="text-xl font-bold">Attendance Report</h2>
+                <p className="text-md">
+                  Employee: {selectedEmployee?.full_name || "N/A"}
+                </p>
+              </div>
+              <table className="min-w-full text-sm text-left text-gray-900 mt-2">
+                <thead className="capitalize text-sm">
+                  <tr>
+                    <th className="border border-gray-700 px-2 py-1">SL.</th>
+                    <th className="border border-gray-700 px-2 py-1">Date</th>
+                    {/* <th className="border border-gray-700 px-2 py-1">
+                      Employee Name
+                    </th> */}
+                    <th className="border border-gray-700 px-2 py-1 text-center">
+                      Present
+                    </th>
+                    <th className="border border-gray-700 px-2 py-1 text-center">
+                      Absent
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="font-semibold">
+                  {attendanceData.map((att, index) => (
+                    <tr
+                      key={att.id}
+                      className="hover:bg-gray-50 transition-all"
+                    >
+                      <td className="border border-gray-700 p-1 font-bold">
+                        {index + 1}.
+                      </td>
+                      <td className="border border-gray-700 p-1">{att.date}</td>
+                      {/* <td className="border border-gray-700 p-1">
+                        {selectedEmployee?.full_name || "N/A"}
+                      </td> */}
+                      <td className="border border-gray-700 p-1 text-center">
+                        {att.present === "1" ? (
+                          <span className="text-green-600">
+                            <FaCheck />
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td className="border border-gray-700 p-1 text-center">
+                        {att.absent === "1" ? (
+                          <span className="text-red-600">
+                            <IoCloseOutline />
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr className="font-bold">
+                    <td
+                      colSpan={2}
+                      className="border border-black px-2 py-1 text-right"
+                    >
+                      Total
+                    </td>
+                    <td className="border border-black px-2 py-1 text-center">
+                      {totalPresent.toString().padStart(2, "0")}
+                    </td>
+                    <td className="border border-black px-2 py-1 text-center">
+                      {totalAbsent.toString().padStart(2, "0")}
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
           </div>
         </div>
       )}

@@ -15,6 +15,8 @@ const Office = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOfficeId, setSelectedOfficeId] = useState(null);
   const toggleModal = () => setIsOpen(!isOpen);
+  // search
+  const [searchTerm, setSearchTerm] = useState("");
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   // Fetch office data
@@ -63,11 +65,19 @@ const Office = () => {
     }
   };
   if (loading) return <p className="text-center mt-16">Loading office...</p>;
+  // search
+  const filteredOfficeList = office.filter((dt) => {
+    const term = searchTerm.toLowerCase();
+    return dt.branch_name?.toLowerCase().includes(term);
+  });
   // pagination
   const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentVehicles = office.slice(indexOfFirstItem, indexOfLastItem);
+  const currentVehicles = filteredOfficeList.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
   const totalPages = Math.ceil(office.length / itemsPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
@@ -96,7 +106,23 @@ const Office = () => {
             </Link>
           </div>
         </div>
-
+        <div className="md:flex justify-between items-center">
+          <div></div>
+          {/* search */}
+          <div className="mt-3 md:mt-0">
+            <span className="text-primary font-semibold pr-3">Search: </span>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+              placeholder="Search Office..."
+              className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
+            />
+          </div>
+        </div>
         <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">

@@ -13,6 +13,8 @@ const EmployeeList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleModal = () => setIsOpen(!isOpen);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+  // search
+  const [searchTerm, setSearchTerm] = useState("");
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   // search
@@ -61,12 +63,20 @@ const EmployeeList = () => {
       });
     }
   };
+  // search
+  const filteredEmployeeList = employee.filter((dt) => {
+    const term = searchTerm.toLowerCase();
+    return dt.full_name?.toLowerCase().includes(term);
+  });
   if (loading) return <p className="text-center mt-16">Loading employee...</p>;
   // pagination
   const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentEmployee = employee.slice(indexOfFirstItem, indexOfLastItem);
+  const currentEmployee = filteredEmployeeList.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
   const totalPages = Math.ceil(employee.length / itemsPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
@@ -93,6 +103,23 @@ const EmployeeList = () => {
                 <FaPlus /> Employee
               </button>
             </Link>
+          </div>
+        </div>
+        <div className="md:flex justify-between items-center">
+          <div></div>
+          {/* search */}
+          <div className="mt-3 md:mt-0">
+            <span className="text-primary font-semibold pr-3">Search: </span>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+              placeholder="Search Employee..."
+              className="border border-gray-300 rounded-md outline-none text-xs py-2 ps-2 pr-5"
+            />
           </div>
         </div>
         <div className="mt-5 overflow-x-auto rounded-xl">
