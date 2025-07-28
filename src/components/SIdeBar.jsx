@@ -360,6 +360,25 @@ const Sidebar = () => {
                             </li>
                             <li>
                               <Link
+                                to="/tramessy/HelperList"
+                                className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                                  isActive("/tramessy/HelperList")
+                                    ? "text-white bg-primary"
+                                    : "text-gray-500 hover:text-primary"
+                                }`}
+                              >
+                                <div
+                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                    isActive("/tramessy/HelperList")
+                                      ? "bg-white"
+                                      : "bg-primary"
+                                  }`}
+                                ></div>
+                                <span>Helper List</span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
                                 to="/tramessy/HR/HRM/Office"
                                 className={`flex gap-2 items-center p-2 rounded-sm ${
                                   isActive("/tramessy/HR/HRM/Office")
@@ -444,19 +463,6 @@ const Sidebar = () => {
                                   ></div>
                                   <span>Attendance</span>
                                 </span>
-                              </Link>
-                            </li>
-
-                            <li>
-                              <Link
-                                to="/tramessy/HRM/attendance-report"
-                                className={`block p-2 rounded-sm ${
-                                  isActive("/HRM/attendance-report")
-                                    ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
-                                }`}
-                              >
-                                Attendance Report
                               </Link>
                             </li>
                           </ul>

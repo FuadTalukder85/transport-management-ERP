@@ -85,6 +85,8 @@ import UpdateRentVehicleForm from "../Pages/UpdateRentVehicleForm";
 import UpdateOfficeForm from "../Pages/HR/HRM/UpdateOfficeForm";
 import UpdateVendorForm from "../Pages/UpdateVendorForm";
 import UpdateLeaveForm from "../Pages/HR/UpdateLeaveForm";
+import HelperList from "../Pages/HelperList";
+import AddHelper from "../Pages/AddHelper";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -131,6 +133,22 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <DriverList />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/tramessy/HelperList",
+        element: (
+          <PrivateRoute>
+            <HelperList />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/tramessy/AddHelper",
+        element: (
+          <PrivateRoute>
+            <AddHelper />
           </PrivateRoute>
         ),
       },

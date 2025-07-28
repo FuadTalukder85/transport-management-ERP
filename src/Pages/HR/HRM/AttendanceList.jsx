@@ -213,7 +213,7 @@ const AttendanceList = () => {
             </div>
 
             <div id="print-section">
-              <div className="mb-4 text-center">
+              <div className="mb-4 text-center hidden print:block">
                 <h2 className="text-xl font-bold">Attendance Report</h2>
                 <p className="text-md">
                   Employee: {selectedEmployee?.full_name || "N/A"}
