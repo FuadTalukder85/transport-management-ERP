@@ -11,7 +11,7 @@ const CustomerLedger = () => {
   return (
     <main className="bg-gradient-to-br from-gray-100 to-white md:p-2 overflow-hidden">
       <Toaster />
-      <div className="w-xs md:w-full overflow-hidden max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 border border-gray-200">
+      <div className="w-xs md:w-full overflow-hidden max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10">
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold text-[#11375B] capitalize flex items-center gap-3">
@@ -45,7 +45,7 @@ const CustomerLedger = () => {
         </div>
 
         {/* Table */}
-        <div className="w-[1030px] mt-5 overflow-x-auto border border-gray-200">
+        <div className="w-[1030px] mt-5 overflow-x-auto">
           <div>{selectedCustomer === "Yamaha" && <YamahaLedger />}</div>
           <div>{selectedCustomer === "Hatim Rupgonj" && <HatimLedger />}</div>
           <div>{selectedCustomer === "Hatim Pubail" && <HondaLedger />}</div>

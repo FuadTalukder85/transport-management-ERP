@@ -9,7 +9,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 //
 import toast, { Toaster } from "react-hot-toast";
-import { IoMdClose } from "react-icons/io";
+import { IoIosRemoveCircle, IoMdClose } from "react-icons/io";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 const VendorList = () => {
@@ -238,9 +238,9 @@ const VendorList = () => {
     setCurrentPage(number);
   };
   return (
-    <main className="bg-gradient-to-br from-gray-100 to-white md:p-6">
+    <main className="bg-gradient-to-br from-gray-100 to-white md:p-2">
       <Toaster />
-      <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-8 border border-gray-200">
+      <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-2 border border-gray-200">
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
           <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
@@ -248,17 +248,17 @@ const VendorList = () => {
             All vender information
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
+            <button
+              onClick={() => setShowFilter((prev) => !prev)}
+              className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+            >
+              <FaFilter /> Filter
+            </button>
             <Link to="/tramessy/AddVendorForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <FaPlus /> Add Vendor
               </button>
             </Link>
-            <button
-              onClick={() => setShowFilter((prev) => !prev)} // Toggle filter
-              className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
-            >
-              <FaFilter /> Filter
-            </button>
           </div>
         </div>
         {/* export */}
@@ -300,7 +300,7 @@ const VendorList = () => {
         </div>
         {/* Conditional Filter Section */}
         {showFilter && (
-          <div className="md:flex justify-between gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
+          <div className="md:flex items-center justify-between gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
             <div className="relative w-full">
               <input
                 type="date"
@@ -310,7 +310,6 @@ const VendorList = () => {
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
-
             <div className="relative w-full">
               <input
                 type="date"
@@ -319,6 +318,18 @@ const VendorList = () => {
                 placeholder="End date"
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
+            </div>
+            <div className="w-xs">
+              <button
+                onClick={() => {
+                  setStartDate("");
+                  setEndDate("");
+                  setShowFilter(false);
+                }}
+                className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1.5 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+              >
+                <IoIosRemoveCircle /> Clear Filter
+              </button>
             </div>
           </div>
         )}

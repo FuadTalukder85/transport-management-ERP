@@ -10,6 +10,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { IoIosRemoveCircle } from "react-icons/io";
 
 const PaymentList = () => {
   const generateRefId = useRefId();
@@ -361,7 +362,7 @@ const PaymentList = () => {
           </div>
         </div>
         {showFilter && (
-          <div className="md:flex gap-6 justify-between border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
+          <div className="md:flex items-center gap-6 justify-between border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
             <div className="relative w-full">
               <label className="block mb-1 text-sm font-medium">
                 Start Date
@@ -381,6 +382,18 @@ const PaymentList = () => {
                 onChange={(e) => setEndDate(e.target.value)}
                 className="w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
+            </div>
+            <div className="w-xs mt-5">
+              <button
+                onClick={() => {
+                  setStartDate("");
+                  setEndDate("");
+                  setShowFilter(false);
+                }}
+                className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1.5 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+              >
+                <IoIosRemoveCircle /> Clear Filter
+              </button>
             </div>
           </div>
         )}

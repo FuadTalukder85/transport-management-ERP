@@ -25,9 +25,9 @@ const AllUsers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/api/users")
+      .get("https://api.tramessy.com/mstrading/api/users")
       .then((response) => {
-        if (response.data.status === "Success") {
+        if (response.data.status === "success") {
           setUsers(response.data.data);
         }
         setLoading(false);
@@ -54,7 +54,7 @@ const AllUsers = () => {
       }
       // Remove car from local list
       setUsers((prev) => prev.filter((driver) => driver.id !== id));
-      toast.success("ইউজার সফলভাবে ডিলিট হয়েছে", {
+      toast.success("User successfully deleted.", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -63,7 +63,7 @@ const AllUsers = () => {
       setSelectedUserId(null);
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("ডিলিট করতে সমস্যা হয়েছে!", {
+      toast.error("There was a problem deleting!", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -231,26 +231,26 @@ const AllUsers = () => {
           <table className="min-w-full text-sm text-left">
             <thead className="bg-[#11375B] text-white capitalize text-sm">
               <tr>
-                <th className="px-4 py-3">#</th>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Mobile</th>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Role</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3 action_column">Action</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Name</th>
+                <th className="p-2">Mobile</th>
+                <th className="p-2">Email</th>
+                <th className="p-2">Role</th>
+                <th className="p-2">Status</th>
+                <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
             <tbody className="text-[#11375B] font-semibold bg-gray-100">
               {currentUsers?.map((user, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="px-4 py-4 font-bold">
+                  <td className="p-2 font-bold">
                     {indexOfFirstItem + index + 1}
                   </td>
-                  <td className="px-4 py-4">{user.name}</td>
-                  <td className="px-4 py-4">{user.phone}</td>
-                  <td className="px-4 py-4">{user.email}</td>
-                  <td className="px-4 py-4">{user.role}</td>
-                  <td className="px-4 py-4">{user.status}</td>
+                  <td className="p-2">{user.name}</td>
+                  <td className="p-2">{user.phone}</td>
+                  <td className="p-2">{user.email}</td>
+                  <td className="p-2">{user.role}</td>
+                  <td className="p-2">{user.status}</td>
                   <td className="action_column">
                     <div className="flex gap-1 justify-center">
                       <Link to={`/UpdateUsersForm/${user.id}`}>

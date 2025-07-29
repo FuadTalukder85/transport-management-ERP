@@ -8,6 +8,7 @@ import { saveAs } from "file-saver";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { toWords } from "number-to-words";
+import { IoIosRemoveCircle } from "react-icons/io";
 pdfMake.vfs = pdfFonts.vfs;
 
 const Yamaha = () => {
@@ -386,7 +387,7 @@ const Yamaha = () => {
         </div>
 
         {showFilter && (
-          <div className="md:flex gap-6 justify-between border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
+          <div className="md:flex items-center gap-5 justify-between border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
             <div className="relative w-full">
               <label className="block mb-1 text-sm font-medium">
                 Start Date
@@ -406,6 +407,18 @@ const Yamaha = () => {
                 onChange={(e) => setEndDate(e.target.value)}
                 className="w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
+            </div>
+            <div className="w-xs mt-5">
+              <button
+                onClick={() => {
+                  setStartDate("");
+                  setEndDate("");
+                  setShowFilter(false);
+                }}
+                className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1.5 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+              >
+                <IoIosRemoveCircle /> Clear Filter
+              </button>
             </div>
           </div>
         )}

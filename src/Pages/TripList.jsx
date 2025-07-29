@@ -9,7 +9,7 @@ import {
   FaTrashAlt,
   FaPen,
 } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
+import { IoIosRemoveCircle, IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -216,7 +216,6 @@ const TripList = () => {
     const tripDate = new Date(trip.date);
     const start = startDate ? new Date(startDate) : null;
     const end = endDate ? new Date(endDate) : null;
-
     if (start && end) {
       return tripDate >= start && tripDate <= end;
     } else if (start) {
@@ -226,7 +225,7 @@ const TripList = () => {
     }
   });
   // search
-  const filteredTripList = trip.filter((dt) => {
+  const filteredTripList = filteredTrips.filter((dt) => {
     const term = searchTerm.toLowerCase();
     return (
       dt.customer?.toLowerCase().includes(term) ||
@@ -269,17 +268,17 @@ const TripList = () => {
             Trip Records
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
-            <Link to="/tramessy/AddTripForm">
-              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
-                <FaPlus /> Trip
-              </button>
-            </Link>
             <button
               onClick={() => setShowFilter((prev) => !prev)}
               className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
               <FaFilter /> Filter
             </button>
+            <Link to="/tramessy/AddTripForm">
+              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
+                <FaPlus /> Trip
+              </button>
+            </Link>
           </div>
         </div>
         {/* export and search */}
@@ -320,7 +319,7 @@ const TripList = () => {
         </div>
         {/* Conditional Filter Section */}
         {showFilter && (
-          <div className="md:flex gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
+          <div className="md:flex items-center gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
             <div className="relative w-full">
               <input
                 type="date"
@@ -339,6 +338,18 @@ const TripList = () => {
                 placeholder="End date"
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
+            </div>
+            <div className="w-xs">
+              <button
+                onClick={() => {
+                  setStartDate("");
+                  setEndDate("");
+                  setShowFilter(false);
+                }}
+                className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1.5 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+              >
+                <IoIosRemoveCircle /> Clear Filter
+              </button>
             </div>
           </div>
         )}

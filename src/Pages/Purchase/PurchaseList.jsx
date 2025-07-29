@@ -3,11 +3,15 @@ import { useEffect, useState } from "react";
 import { FaEye, FaFilter, FaPen, FaTrashAlt } from "react-icons/fa";
 import { FaPlus, FaUserSecret } from "react-icons/fa6";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { IoIosRemoveCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const PurchaseList = () => {
   const [purchase, setPurchase] = useState([]);
   const [loading, setLoading] = useState(true);
+  // Date filter state
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   // search
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilter, setShowFilter] = useState(false);
@@ -27,8 +31,21 @@ const PurchaseList = () => {
         setLoading(false);
       });
   }, []);
+  // Filter by date
+  const filtered = purchase.filter((dt) => {
+    const dtDate = new Date(dt.date);
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
+    if (start && end) {
+      return dtDate >= start && dtDate <= end;
+    } else if (start) {
+      return dtDate.toDateString() === start.toDateString();
+    } else {
+      return true; // no filter applied
+    }
+  });
   // search
-  const filteredPurchase = purchase.filter((dt) => {
+  const filteredPurchase = filtered.filter((dt) => {
     const term = searchTerm.toLowerCase();
     return dt.id?.toString().toLowerCase().includes(term);
   });
@@ -113,25 +130,36 @@ const PurchaseList = () => {
         </div>
         {/* Conditional Filter Section */}
         {showFilter && (
-          <div className="md:flex gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
+          <div className="md:flex items-center gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
             <div className="relative w-full">
               <input
                 type="date"
-                // value={startDate}
-                // onChange={(e) => setStartDate(e.target.value)}
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
                 placeholder="Start date"
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
             </div>
-
             <div className="relative w-full">
               <input
                 type="date"
-                // value={endDate}
-                // onChange={(e) => setEndDate(e.target.value)}
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
                 placeholder="End date"
                 className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
               />
+            </div>
+            <div className="w-xs">
+              <button
+                onClick={() => {
+                  setStartDate("");
+                  setEndDate("");
+                  setShowFilter(false);
+                }}
+                className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1.5 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+              >
+                <IoIosRemoveCircle /> Clear Filter
+              </button>
             </div>
           </div>
         )}
