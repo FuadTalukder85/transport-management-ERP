@@ -64,15 +64,29 @@ const AddTripForm = () => {
     label: driver.driver_name,
     contact: driver.driver_mobile,
   }));
-  // select own driver from api
-  const [vendor, setVendorDrivers] = useState([]);
+  // select vendor from api
+  const [vendor, setVendor] = useState([]);
+  useEffect(() => {
+    fetch("https://api.tramessy.com/mstrading/api/vendor/list")
+      .then((response) => response.json())
+      .then((data) => setVendor(data.data))
+      .catch((error) => console.error("Error fetching vendor data:", error));
+  }, []);
+  const vendorOptions = vendor.map((dt) => ({
+    value: dt.vendor_name,
+    label: dt.vendor_name,
+  }));
+  // select vendor driver from api
+  const [vendorDriver, setVendorDrivers] = useState([]);
   useEffect(() => {
     fetch("https://api.tramessy.com/mstrading/api/rent/list")
       .then((response) => response.json())
       .then((data) => setVendorDrivers(data.data))
-      .catch((error) => console.error("Error fetching vendor data:", error));
+      .catch((error) =>
+        console.error("Error fetching vendor driver data:", error)
+      );
   }, []);
-  const vendorDriverOptions = vendor.map((dt) => ({
+  const vendorDriverOptions = vendorDriver.map((dt) => ({
     value: dt.vendor_name,
     label: dt.vendor_name,
     contact: dt.mobile,
@@ -333,6 +347,19 @@ const AddTripForm = () => {
                         ]}
                       />
                     </div>
+                    {selectedTransport === "vendor_transport" ? (
+                      <div className="w-full">
+                        <SelectField
+                          name="vendor_name"
+                          label="Vendor Name"
+                          required={true}
+                          options={vendorOptions}
+                          control={control}
+                        />
+                      </div>
+                    ) : (
+                      ""
+                    )}
                     <div className="w-full">
                       {selectedTransport === "own_transport" ? (
                         <SelectField
@@ -367,6 +394,8 @@ const AddTripForm = () => {
                         />
                       )}
                     </div>
+                  </div>
+                  <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                     <div className="w-full">
                       {selectedTransport === "own_transport" ? (
                         <SelectField
@@ -406,8 +435,6 @@ const AddTripForm = () => {
                         />
                       )}
                     </div>
-                  </div>
-                  <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                     <div className="w-full">
                       <InputField
                         name="driver_mobile"
@@ -494,6 +521,19 @@ const AddTripForm = () => {
                       ]}
                     />
                   </div>
+                  {selectedTransport === "vendor_transport" ? (
+                    <div className="w-full">
+                      <SelectField
+                        name="vendor_name"
+                        label="Vendor Name"
+                        required={true}
+                        options={vendorOptions}
+                        control={control}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   <div className="w-full">
                     {selectedTransport === "own_transport" ? (
                       <SelectField
@@ -527,6 +567,8 @@ const AddTripForm = () => {
                       />
                     )}
                   </div>
+                </div>
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     {selectedTransport === "own_transport" ? (
                       <SelectField
@@ -566,8 +608,6 @@ const AddTripForm = () => {
                       />
                     )}
                   </div>
-                </div>
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     <InputField
                       name="driver_mobile"
@@ -623,6 +663,19 @@ const AddTripForm = () => {
                       ]}
                     />
                   </div>
+                  {selectedTransport === "vendor_transport" ? (
+                    <div className="w-full">
+                      <SelectField
+                        name="vendor_name"
+                        label="Vendor Name"
+                        required={true}
+                        options={vendorOptions}
+                        control={control}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   <div className="w-full">
                     <InputField
                       name="dealer_name"
@@ -630,6 +683,8 @@ const AddTripForm = () => {
                       required
                     />
                   </div>
+                </div>
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     {selectedTransport === "own_transport" ? (
                       <SelectField
@@ -664,8 +719,6 @@ const AddTripForm = () => {
                       />
                     )}
                   </div>
-                </div>
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     {selectedTransport === "own_transport" ? (
                       <SelectField
@@ -767,6 +820,19 @@ const AddTripForm = () => {
                       ]}
                     />
                   </div>
+                  {selectedTransport === "vendor_transport" ? (
+                    <div className="w-full">
+                      <SelectField
+                        name="vendor_name"
+                        label="Vendor Name"
+                        required={true}
+                        options={vendorOptions}
+                        control={control}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   <div className="w-full">
                     <InputField
                       name="dealer_name"
@@ -774,6 +840,8 @@ const AddTripForm = () => {
                       required
                     />
                   </div>
+                </div>
+                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     {selectedTransport === "own_transport" ? (
                       <SelectField
@@ -808,8 +876,6 @@ const AddTripForm = () => {
                       />
                     )}
                   </div>
-                </div>
-                <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
                     {selectedTransport === "own_transport" ? (
                       <SelectField

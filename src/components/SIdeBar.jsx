@@ -1166,6 +1166,25 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
+                          to="/tramessy/account/VendorLedger"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/tramessy/account/VendorLedger")
+                              ? "text-white bg-primary"
+                              : "text-gray-500 hover:text-primary"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/tramessy/account/VendorLedger")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Vendor Ledger</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
                           to="/tramessy/account/CustomerLedger"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/tramessy/account/CustomerLedger")

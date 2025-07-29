@@ -87,6 +87,7 @@ import UpdateVendorForm from "../Pages/UpdateVendorForm";
 import UpdateLeaveForm from "../Pages/HR/UpdateLeaveForm";
 import HelperList from "../Pages/HelperList";
 import AddHelper from "../Pages/AddHelper";
+import VendorLedger from "../Pages/Account/VendorLedger";
 export const router = createBrowserRouter([
   {
     path: "/tramessy",
@@ -640,6 +641,10 @@ export const router = createBrowserRouter([
       {
         path: "/tramessy/account/DriverLedger",
         element: <DriverLedger />,
+      },
+      {
+        path: "/tramessy/account/VendorLedger",
+        element: <VendorLedger />,
       },
       {
         path: "/tramessy/account/OfficeLedger",

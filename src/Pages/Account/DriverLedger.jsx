@@ -5,7 +5,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { FaFileExcel, FaFilePdf, FaFilter, FaPrint } from "react-icons/fa";
+import { FaFilter } from "react-icons/fa";
 
 const DriverLedger = () => {
   const [driver, setDriver] = useState([]);
@@ -373,7 +373,7 @@ const DriverLedger = () => {
           <div className="mt-3 md:mt-0 flex gap-2">
             <button
               onClick={() => setShowFilter((prev) => !prev)}
-              className="text-primary border border-primary px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+              className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
               <FaFilter /> Filter
             </button>
@@ -382,26 +382,23 @@ const DriverLedger = () => {
 
         {/* Export and Driver Dropdown */}
         <div className="md:flex items-center justify-between mb-4">
-          <div className="flex gap-1 md:gap-3 flex-wrap">
+          <div className="flex gap-1 md:gap-3 flex-wrap font-semibold text-primary">
             <button
               onClick={exportDriversToExcel}
-              className="flex items-center gap-2 py-2 px-5 hover:bg-primary bg-gray-50 shadow-md shadow-green-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
             >
-              <FaFileExcel className="" />
               Excel
             </button>
             <button
               onClick={exportDriversToPDF}
-              className="flex items-center gap-2 py-2 px-5 hover:bg-primary bg-gray-50 shadow-md shadow-amber-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
             >
-              <FaFilePdf className="" />
               PDF
             </button>
             <button
               onClick={printDriversTable}
-              className="flex items-center gap-2 py-2 px-5 hover:bg-primary bg-gray-50 shadow-md shadow-blue-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
+              className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
             >
-              <FaPrint className="" />
               Print
             </button>
           </div>
