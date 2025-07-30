@@ -946,7 +946,7 @@ const Sidebar = () => {
                           <span>Employee Report</span>
                         </Link>
                       </li>
-                      {/* <li>
+                      <li>
                         <Link
                           to="/tramessy/Reports/Driver-Report"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
@@ -964,7 +964,7 @@ const Sidebar = () => {
                           ></div>
                           <span>Driver Report</span>
                         </Link>
-                      </li> */}
+                      </li>
                       <li>
                         <Link
                           to="/tramessy/Reports/Fuel-Report"
