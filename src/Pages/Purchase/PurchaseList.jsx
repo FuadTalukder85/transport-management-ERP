@@ -199,7 +199,7 @@ const PurchaseList = () => {
                     <img
                       src={`https://api.tramessy.com/mstrading/public/uploads/purchase/${dt.bill_image}`}
                       alt=""
-                      className="w-20 h-20 rounded-full"
+                      className="w-20 h-20 rounded-xl"
                     />
                   </td>
                   <td className="px-2 action_column">

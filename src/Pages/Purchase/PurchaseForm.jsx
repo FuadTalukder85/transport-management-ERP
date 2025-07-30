@@ -78,8 +78,8 @@ const PurchaseForm = () => {
       .catch((error) => console.error("Error fetching supply data:", error));
   }, []);
   const supplyOptions = supplier.map((supply) => ({
-    value: supply.contact_person_name,
-    label: supply.contact_person_name,
+    value: supply.business_name,
+    label: supply.business_name,
   }));
   // post data on server
   const onSubmit = async (data) => {

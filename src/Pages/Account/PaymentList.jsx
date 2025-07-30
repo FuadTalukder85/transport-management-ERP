@@ -5,7 +5,7 @@ import { InputField } from "../../components/Form/FormFields";
 import { FormProvider, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import BtnSubmit from "../../components/Button/BtnSubmit";
-import useRefId from "../../hooks/useRef";
+// import useRefId from "../../hooks/useRef";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
@@ -13,7 +13,7 @@ import autoTable from "jspdf-autotable";
 import { IoIosRemoveCircle } from "react-icons/io";
 
 const PaymentList = () => {
-  const generateRefId = useRefId();
+  // const generateRefId = useRefId();
   const methods = useForm();
   const { handleSubmit, reset } = methods;
   const [payment, setPayment] = useState([]);
@@ -227,83 +227,120 @@ const PaymentList = () => {
   };
   // onsubmit
   const onSubmit = async (data) => {
-    const refId = generateRefId();
+    // const refId = generateRefId();
+
+    // Validation
     if (!data.pay_amount || isNaN(data.pay_amount)) {
       toast.error("Invalid payment amount", { position: "top-right" });
       return;
     }
+
     if (data.pay_amount > data.due_amount) {
       toast.error("The payment amount cannot be more than the due amount", {
         position: "top-right",
       });
       return;
     }
+
+    // Calculate updated amount
     const previousAmount = parseFloat(selectedPayment.pay_amount) || 0;
     const newAmount = parseFloat(data.pay_amount);
     const updatedAmount = previousAmount + newAmount;
 
     try {
+      // Prepare the complete payment payload
+      const paymentPayload = {
+        supplier_name: selectedPayment.supplier_name,
+        category: selectedPayment.category,
+        item_name: selectedPayment.item_name,
+        quantity: selectedPayment.quantity,
+        unit_price: selectedPayment.unit_price,
+        total_amount: selectedPayment.total_amount,
+        pay_amount: updatedAmount,
+        remarks: data.note || "Partial payment",
+        driver_name: selectedPayment.driver_name,
+        branch_name: selectedPayment.branch_name,
+        vehicle_no: selectedPayment.vehicle_no,
+        created_by: selectedPayment.created_by || "admin",
+      };
+
+      // 1. Update Payment
       const response = await axios.post(
         `https://api.tramessy.com/mstrading/api/payment/update/${selectedPayment.id}`,
-        {
-          pay_amount: updatedAmount,
-        }
+        paymentPayload
       );
 
-      if (response.data.status === "Success") {
-        // --- Second API: Supplier Ledger Create ---
-        const supplierFormData = new FormData();
-        supplierFormData.append("date", new Date().toISOString().split("T")[0]);
-        supplierFormData.append("supplier_name", selectedPayment.supplier_name);
-        supplierFormData.append("remarks", data.note);
-        supplierFormData.append("pay_amount", data.pay_amount);
+      if (response.data.success) {
+        // 2. Create Supplier Ledger Entry
+        const supplierLedgerPayload = {
+          date: new Date().toISOString().split("T")[0],
+          supplier_name: selectedPayment.supplier_name,
+          remarks: data.note || `Payment for ${selectedPayment.item_name}`,
+          pay_amount: data.pay_amount,
+          // ref_id: refId
+        };
+
         await axios.post(
-          "https://api.tramessy.com/mstrading/api/supplierLedger/create",
-          supplierFormData
+          `https://api.tramessy.com/mstrading/api/supplierLedger/create`,
+          supplierLedgerPayload
         );
 
-        // --- Third API: Branch Ledger Create ---
-        const branchLedgerFormData = new FormData();
-        branchLedgerFormData.append(
-          "date",
-          new Date().toISOString().split("T")[0]
-        );
-        branchLedgerFormData.append("branch_name", selectedPayment.branch_name);
-        branchLedgerFormData.append("remarks", data.note);
-        branchLedgerFormData.append("cash_out", data.pay_amount);
-        branchLedgerFormData.append("ref_id", refId);
+        // 3. Create Branch Ledger Entry
+        const branchLedgerPayload = {
+          date: new Date().toISOString().split("T")[0],
+          branch_name: selectedPayment.branch_name,
+          remarks: data.note || `Payment to ${selectedPayment.supplier_name}`,
+          cash_out: data.pay_amount,
+          // ref_id: refId
+        };
+
         await axios.post(
-          "https://api.tramessy.com/mstrading/api/branch/create",
-          branchLedgerFormData
+          `https://api.tramessy.com/mstrading/api/branch/create`,
+          branchLedgerPayload
         );
 
-        toast.success("Payment updated successfully!", {
-          position: "top-right",
-        });
-
-        // UI update
+        // Update UI state
         setPayment((prevList) =>
           prevList.map((item) =>
             item.id === selectedPayment.id
               ? {
                   ...item,
                   pay_amount: updatedAmount,
+                  due_amount: parseFloat(item.total_amount) - updatedAmount,
                   status:
                     updatedAmount === 0
                       ? "Unpaid"
-                      : updatedAmount < parseFloat(item.total)
-                      ? "Partial"
-                      : "Paid",
+                      : updatedAmount >= parseFloat(item.total_amount)
+                      ? "Paid"
+                      : "Partial",
                 }
               : item
           )
         );
+
+        // Refresh payment list
+        const refreshResponse = await axios.get(
+          `https://api.tramessy.com/mstrading/api/payment/list`
+        );
+        if (refreshResponse.data.status === "Success") {
+          setPayment(refreshResponse.data.data);
+        }
+
+        toast.success("Payment updated successfully!", {
+          position: "top-right",
+        });
         setShowModal(false);
+        reset();
       } else {
-        toast.error(response.data.message || "Failed to update.");
+        toast.error(response.data.message || "Failed to update payment");
       }
-    } catch (err) {
-      toast.error(err.response?.data?.message || err.message || "Server error");
+    } catch (error) {
+      console.error("Payment update error:", error);
+      toast.error(
+        error.response?.data?.message ||
+          error.message ||
+          "An error occurred while updating payment"
+      );
     }
   };
 
@@ -429,12 +466,15 @@ const PaymentList = () => {
                   <td className="px-1 py-2">{dt.item_name}</td>
                   <td className="px-1 py-2">{dt.quantity}</td>
                   <td className="px-1 py-2">{dt.unit_price}</td>
-                  <td className="px-1 py-2">{dt.total_amount}</td>
+                  <td className="px-1 py-2">{dt.quantity * dt.unit_price}</td>
                   <td className="px-1 py-2">{dt.pay_amount}</td>
-                  <td className="px-1 py-2">{dt.total - dt.pay_amount}</td>
+                  <td className="px-1 py-2">
+                    {dt.quantity * dt.unit_price - dt.pay_amount}
+                  </td>
                   <td className="px-1 py-2">
                     {(() => {
-                      const total = parseFloat(dt.total) || 0;
+                      const total =
+                        parseFloat(dt.quantity * dt.unit_price) || 0;
                       const paid = parseFloat(dt.pay_amount) || 0;
                       const due = total - paid;
 
@@ -464,27 +504,35 @@ const PaymentList = () => {
                       <button
                         onClick={() => {
                           if (
-                            parseFloat(dt.total) - parseFloat(dt.pay_amount) <=
+                            parseFloat(dt.quantity * dt.unit_price) -
+                              parseFloat(dt.pay_amount) <=
                             0
                           )
                             return;
                           setSelectedPayment(dt);
                           setShowModal(true);
                           reset({
-                            due_amount: dt.total - dt.pay_amount,
+                            due_amount:
+                              dt.quantity * dt.unit_price - dt.pay_amount,
                             pay_amount: dt.pay_amount,
                           });
                         }}
                         className={`px-1 py-1 rounded shadow-md transition-all cursor-pointer ${
-                          parseFloat(dt.total) - parseFloat(dt.pay_amount) > 0
+                          parseFloat(dt.total_amount) -
+                            parseFloat(dt.pay_amount) >
+                          0
                             ? "text-primary hover:bg-primary hover:text-white"
                             : "text-green-700 bg-gray-200 cursor-not-allowed"
                         }`}
                         disabled={
-                          parseFloat(dt.total) - parseFloat(dt.pay_amount) <= 0
+                          parseFloat(dt.quantity * dt.unit_price) -
+                            parseFloat(dt.pay_amount) <=
+                          0
                         }
                       >
-                        {parseFloat(dt.total) - parseFloat(dt.pay_amount) > 0
+                        {parseFloat(dt.quantity * dt.unit_price) -
+                          parseFloat(dt.pay_amount) >
+                        0
                           ? "Pay Now"
                           : "Complete"}
                       </button>
