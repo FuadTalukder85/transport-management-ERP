@@ -56,7 +56,12 @@ const AddVendorForm = () => {
             {/*  */}
             <div className="mt-1 md:flex justify-between gap-3">
               <div className="mt-3 md:mt-0 w-full relative">
-                <InputField name="mobile" label="Mobile" required />
+                <InputField
+                  name="mobile"
+                  label="Mobile"
+                  type="number"
+                  required
+                />
               </div>
               <div className="mt-3 md:mt-0 w-full relative">
                 <InputField name="email" label="Email" />

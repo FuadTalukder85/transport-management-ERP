@@ -90,7 +90,7 @@ const AddEmployee = () => {
           {/* Row 2: Gender, Birth Date, Join Date */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <InputField name="mobile" label="Mobile" required />
+              <InputField name="mobile" label="Mobile" type="number" required />
             </div>
             <div className="w-full relative">
               <SelectField
@@ -172,7 +172,7 @@ const AddEmployee = () => {
               <InputField name="designation" label="Designation" required />
             </div>
             <div className="w-full">
-              <InputField name="salary" label="Salary" required />
+              <InputField name="salary" label="Salary" type="number" required />
             </div>
           </div>
 

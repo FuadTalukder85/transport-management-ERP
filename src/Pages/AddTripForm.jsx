@@ -439,6 +439,7 @@ const AddTripForm = () => {
                       <InputField
                         name="driver_mobile"
                         label="Driver Mobile"
+                        type="number"
                         required
                       />
                     </div>
@@ -612,6 +613,7 @@ const AddTripForm = () => {
                     <InputField
                       name="driver_mobile"
                       label="Driver Mobile"
+                      type="number"
                       required
                     />
                   </div>
@@ -781,13 +783,19 @@ const AddTripForm = () => {
                     <InputField
                       name="unload_charge"
                       label="Unload Charge"
+                      type="number"
                       required
                     />
                   </div>
                 </div>
                 <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
                   <div className="w-full">
-                    <InputField name="extra_fare" label="Extra Fare" required />
+                    <InputField
+                      name="extra_fare"
+                      label="Extra Fare"
+                      type="number"
+                      required
+                    />
                   </div>
 
                   <div className="w-full">
@@ -919,6 +927,7 @@ const AddTripForm = () => {
                     <InputField
                       name="driver_mobile"
                       label="Driver Mobile"
+                      type="number"
                       required
                     />
                   </div>
@@ -951,6 +960,7 @@ const AddTripForm = () => {
                     <InputField
                       name="per_truck_rent"
                       label="Per Truck Rent"
+                      type="number"
                       required
                     />
                   </div>
@@ -966,7 +976,7 @@ const AddTripForm = () => {
                     />
                   </div>
                   <div className="w-full">
-                    <InputField name="vat" label="Vat" required />
+                    <InputField name="vat" label="Vat" type="number" required />
                   </div>
                 </div>
               </div>
@@ -1169,10 +1179,20 @@ const AddTripForm = () => {
                   />
                 </div>
                 <div className="w-full">
-                  <InputField name="advance" label="Advance" required />
+                  <InputField
+                    name="advance"
+                    label="Advance"
+                    type="number"
+                    required
+                  />
                 </div>
                 <div className="w-full">
-                  <InputField name="due_amount" label="Due Amount" required />
+                  <InputField
+                    name="due_amount"
+                    label="Due Amount"
+                    type="number"
+                    required
+                  />
                 </div>
               </div>
             )}

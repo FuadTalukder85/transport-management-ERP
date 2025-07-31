@@ -157,7 +157,12 @@ const PaymentReceiveForm = () => {
                 <InputField name="bill_ref" label="Bill Ref" required />
               </div>
               <div className="w-full">
-                <InputField name="amount" label="Amount" required />
+                <InputField
+                  name="amount"
+                  label="Amount"
+                  type="number"
+                  required
+                />
               </div>
               <div className="w-full">
                 <SelectField

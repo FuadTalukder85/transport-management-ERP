@@ -54,7 +54,12 @@ const AddHelper = () => {
                 <InputField name="helper_name" label="Helper Name" required />
               </div>
               <div className="mt-2 md:mt-0 w-full">
-                <InputField name="phone" label="Helper Mobile" required />
+                <InputField
+                  name="phone"
+                  label="Helper Mobile"
+                  type="number"
+                  required
+                />
               </div>
             </div>
 
@@ -64,7 +69,12 @@ const AddHelper = () => {
                 <InputField name="address" label="Address" required />
               </div>
               <div className="mt-2 md:mt-0 w-full">
-                <InputField name="salary" label="Salary" />
+                <InputField
+                  name="salary"
+                  label="Salary"
+                  type="number"
+                  required
+                />
               </div>
             </div>
 

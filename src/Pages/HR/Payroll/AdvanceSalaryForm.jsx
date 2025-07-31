@@ -24,7 +24,7 @@ const AdvanceSalaryForm = () => {
               <InputField name="name" label="Full Name" required />
             </div>
             <div className="w-full">
-              <InputField name="amount" label="Amount" required />
+              <InputField name="amount" label="Amount" type="number" required />
             </div>
           </div>
           {/*  */}

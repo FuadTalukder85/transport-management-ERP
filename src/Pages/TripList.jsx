@@ -365,7 +365,7 @@ const TripList = () => {
                 <th className="p-2">Trip&Destination</th>
                 <th className="p-2">TripCost</th>
                 <th className="p-2">TripFare</th>
-                <th className="p-2">TotalProfit</th>
+                {/* <th className="p-2">TotalProfit</th> */}
                 <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
@@ -391,10 +391,10 @@ const TripList = () => {
                     </td>
                     <td className="p-2">{dt.total_exp}</td>
                     <td className="p-2">{dt.total_rent}</td>
-                    <td className="p-2">
+                    {/* <td className="p-2">
                       {parseFloat(dt.total_rent || 0) -
-                        parseFloat(dt.total_exp || 0)}{" "}
-                    </td>
+                        parseFloat(dt.total_exp || 0)}
+                    </td> */}
                     <td className="p-2 action_column">
                       <div className="flex gap-1">
                         <Link to={`/tramessy/UpdateTripForm/${dt.id}`}>

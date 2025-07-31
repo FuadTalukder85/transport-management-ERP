@@ -23,19 +23,11 @@ const PurchaseForm = () => {
   const totalPrice = quantity * unitPrice;
   useEffect(() => {
     const totalPrice = quantity * unitPrice;
-    setValue("total", totalPrice);
+    setValue("purchase_amount", totalPrice);
   }, [quantity, unitPrice, setValue]);
   // preview image
   const [previewImage, setPreviewImage] = useState(null);
-  // generate ref id
-  // const generateRefId = () => {
-  //   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  //   let refId = "";
-  //   for (let i = 0; i < 6; i++) {
-  //     refId += chars.charAt(Math.floor(Math.random() * chars.length));
-  //   }
-  //   return refId;
-  // };
+
   // select driver from api
   useEffect(() => {
     fetch("https://api.tramessy.com/mstrading/api/driver/list")
@@ -209,13 +201,23 @@ const PurchaseForm = () => {
               />
             </div>
             <div className="w-full">
-              <InputField name="quantity" label="Quantity" required />
+              <InputField
+                name="quantity"
+                label="Quantity"
+                type="number"
+                required
+              />
             </div>
           </div>
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <InputField name="unit_price" label="Unit Price" required />
+              <InputField
+                name="unit_price"
+                label="Unit Price"
+                type="number"
+                required
+              />
             </div>
             <div className="w-full">
               <InputField

@@ -560,7 +560,12 @@ const PaymentList = () => {
                   required
                   readOnly
                 />
-                <InputField name="pay_amount" label="Pay Amount" required />
+                <InputField
+                  name="pay_amount"
+                  label="Pay Amount"
+                  type="number"
+                  required
+                />
                 <InputField name="note" label="Note" required />
                 <div className="flex justify-end gap-2">
                   <button

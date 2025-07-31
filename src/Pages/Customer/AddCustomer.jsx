@@ -1,5 +1,4 @@
 import BtnSubmit from "../../components/Button/BtnSubmit";
-import { MdOutlineArrowDropDown } from "react-icons/md";
 import { FiCalendar } from "react-icons/fi";
 import { FormProvider, useForm } from "react-hook-form";
 import { InputField, SelectField } from "../../components/Form/FormFields";
@@ -83,7 +82,12 @@ const AddCustomer = () => {
             {/*  */}
             <div className="mt-1 md:flex justify-between gap-3">
               <div className="mt-3 md:mt-0 w-full relative">
-                <InputField name="mobile" label="Mobile" required />
+                <InputField
+                  name="mobile"
+                  label="Mobile"
+                  type="number"
+                  required
+                />
               </div>
               <div className="mt-3 md:mt-0 w-full relative">
                 <InputField name="email" label="Email" />
@@ -95,7 +99,12 @@ const AddCustomer = () => {
                 <InputField name="address" label="Address" required />
               </div>
               <div className="w-full relative">
-                <InputField name="due" label="Due Balance" required />
+                <InputField
+                  name="due"
+                  label="Due Balance"
+                  type="number"
+                  required
+                />
               </div>
               <div className="w-full">
                 <SelectField

@@ -194,7 +194,7 @@ const PurchaseList = () => {
                   <td className="p-2">{dt.item_name}</td>
                   <td className="p-2">{dt.quantity}</td>
                   <td className="p-2">{dt.unit_price}</td>
-                  <td className="p-2">{dt.quantity * dt.unit_price}</td>
+                  <td className="p-2">{dt.purchase_amount}</td>
                   <td className="p-2">
                     <img
                       src={`https://api.tramessy.com/mstrading/public/uploads/purchase/${dt.bill_image}`}

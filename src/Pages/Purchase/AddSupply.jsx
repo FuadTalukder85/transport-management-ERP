@@ -77,7 +77,7 @@ const AddSupply = () => {
               <InputField name="business_name" label="Business Name" required />
             </div>
             <div className="w-full">
-              <InputField name="phone" label="Phone" required />
+              <InputField name="phone" label="Phone" type="number" required />
             </div>
           </div>
           {/*  */}
@@ -86,7 +86,12 @@ const AddSupply = () => {
               <InputField name="address" label="Address" required />
             </div>
             <div className="w-full">
-              <InputField name="due_amount" label="Due Balance" required />
+              <InputField
+                name="due_amount"
+                label="Due Balance"
+                type="number"
+                required
+              />
             </div>
             <div className="w-full">
               <InputField

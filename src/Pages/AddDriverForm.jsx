@@ -61,6 +61,7 @@ const AddDriverForm = () => {
                 <InputField
                   name="driver_mobile"
                   label="Driver Mobile"
+                  type="number"
                   required
                 />
               </div>
@@ -75,6 +76,7 @@ const AddDriverForm = () => {
                 <InputField
                   name="emergency_contact"
                   label="Emergency Contact"
+                  type="number"
                 />
               </div>
             </div>
@@ -82,7 +84,12 @@ const AddDriverForm = () => {
             {/* Address & Note */}
             <div className="md:flex justify-between gap-3">
               <div className="w-full">
-                <InputField name="nid" label="NID Number" required />
+                <InputField
+                  name="nid"
+                  label="NID Number"
+                  type="number"
+                  required
+                />
               </div>
               <div className="mt-2 md:mt-0 w-full">
                 <InputField name="license" label="License No" required />

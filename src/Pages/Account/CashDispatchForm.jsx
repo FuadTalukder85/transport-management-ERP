@@ -159,7 +159,12 @@ const CashDispatchForm = () => {
                 />
               </div>
               <div className="w-full">
-                <InputField name="amount" label="Amount" required />
+                <InputField
+                  name="amount"
+                  label="Amount"
+                  type="number"
+                  required
+                />
               </div>
             </div>
             <div className="mt-5 md:mt-1 md:flex justify-between gap-3">
