@@ -243,8 +243,8 @@ const CarList = () => {
             Vehicle List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
-            <Link to="/tramessy/AddCarForm">
-              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
+            <Link to="/AddCarForm">
+              <button className="bg-gradient-to-r from-[#055F77] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <FaPlus /> Vehicle
               </button>
             </Link>
@@ -291,7 +291,7 @@ const CarList = () => {
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white capitalize text-sm">
+            <thead className="bg-[#087096] text-white capitalize text-sm">
               <tr>
                 <th className="p-2">#</th>
                 <th className="p-2">Driver Name</th>
@@ -331,7 +331,7 @@ const CarList = () => {
                   </td>
                   <td className="p-2 action_column">
                     <div className="flex gap-1">
-                      <Link to={`/tramessy/UpdateCarForm/${vehicle.id}`}>
+                      <Link to={`/UpdateCarForm/${vehicle.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>

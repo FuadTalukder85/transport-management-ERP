@@ -14,7 +14,7 @@ const Login = () => {
     const result = await login(email, password);
 
     if (result.success) {
-      navigate("/tramessy");
+      navigate("");
     } else {
       alert(result.message || "Login failed");
     }
@@ -70,7 +70,7 @@ const Login = () => {
             </ReusableForm>
 
             <div className="mt-4 text-center">
-              <Link to="/tramessy/ResetPass">
+              <Link to="/ResetPass">
                 <span className="text-sm text-[#11375B] underline hover:text-red-500 transition-all duration-700">
                   Forget password?
                 </span>

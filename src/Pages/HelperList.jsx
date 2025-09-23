@@ -245,7 +245,7 @@ const HelperList = () => {
             Helper List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
-            <Link to="/tramessy/AddHelper">
+            <Link to="/AddHelper">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <FaPlus /> Add Helper
               </button>
@@ -326,7 +326,7 @@ const HelperList = () => {
                   </td>
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
-                      <Link to={`/tramessy/UpdateHelperForm/${helper.id}`}>
+                      <Link to={`/UpdateHelperForm/${helper.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>

@@ -30,7 +30,7 @@ const PaymentReceive = () => {
             Payment Receive
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
-            <Link to="/tramessy/account/PaymentReceiveForm">
+            <Link to="/account/PaymentReceiveForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <FaPlus /> payment
               </button>
@@ -69,7 +69,7 @@ const PaymentReceive = () => {
                   <td className="px-2 py-1">{dt.status}</td>
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
-                      <Link to={`/tramessy/UpdatepaymentForm/${dt.id}`}>
+                      <Link to={`/UpdatepaymentForm/${dt.id}`}>
                         <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>

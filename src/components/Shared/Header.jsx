@@ -12,7 +12,7 @@ const Header = ({ setMobileSidebarOpen }) => {
   // handle signout
   const handleSignout = () => {
     logout();
-    navigate("/tramessy");
+    navigate("");
   };
 
   return (
@@ -35,7 +35,7 @@ const Header = ({ setMobileSidebarOpen }) => {
             Smart solutions in a changing world
           </p>
         </div>
-        {/* <Link to="/tramessy" className="font-semibold text-primary">
+        {/* <Link to="" className="font-semibold text-primary">
             Home
           </Link> */}
       </div>

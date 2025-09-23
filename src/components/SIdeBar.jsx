@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa6";
 import { FaUsersCog } from "react-icons/fa";
 import { MdShop } from "react-icons/md";
-import logo from "../assets/tramessy.png";
+import logo from "../assets/logo.png";
 // import avatar from "../assets/ms.png";
 import { Link, useLocation } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
@@ -44,7 +44,7 @@ const Sidebar = () => {
       <main>
         {/* Logo */}
         <div className="py-[15px] flex justify-center border-b border-gray-300">
-          <Link to="/tramessy">
+          <Link to="/">
             <img src={logo} alt="Logo" className="w-28" />
           </Link>
         </div>
@@ -67,15 +67,10 @@ const Sidebar = () => {
             {/* Dashboard */}
             <li
               className={`py-3 px-2 rounded-sm cursor-pointer ${
-                isActive("/tramessy")
-                  ? "bg-primary text-white"
-                  : "text-white bg-primary"
+                isActive("") ? "bg-primary text-white" : "text-white bg-primary"
               }`}
             >
-              <Link
-                to="/tramessy"
-                className="flex items-center gap-2 font-semibold"
-              >
+              <Link to="" className="flex items-center gap-2 font-semibold">
                 <FaBars />
                 <span className="ps-2">Dashboard</span>
               </Link>
@@ -112,18 +107,16 @@ const Sidebar = () => {
                     <ul className="px-2 text-sm mt-2">
                       <li>
                         <Link
-                          to="/tramessy/CarList"
+                          to="/CarList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/CarList")
+                            isActive("/CarList")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/CarList")
-                                ? "bg-white"
-                                : "bg-primary"
+                              isActive("/CarList") ? "bg-white" : "bg-primary"
                             }`}
                           ></div>
                           <span>Vehicle List</span>
@@ -131,18 +124,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/TripList"
+                          to="/TripList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/TripList")
+                            isActive("/TripList")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/TripList")
-                                ? "bg-white"
-                                : "bg-primary"
+                              isActive("/TripList") ? "bg-white" : "bg-primary"
                             }`}
                           ></div>
                           <span>Trip List</span>
@@ -150,16 +141,16 @@ const Sidebar = () => {
                       </li>
                       {/* <li>
                         <Link
-                          to="/tramessy/Maintenance"
+                          to="/Maintenance"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Maintenance")
+                            isActive("/Maintenance")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/Maintenance")
+                              isActive("/Maintenance")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -197,16 +188,16 @@ const Sidebar = () => {
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
-                          to="/tramessy/VendorList"
+                          to="/VendorList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/VendorList")
+                            isActive("/VendorList")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/VendorList")
+                              isActive("/VendorList")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -244,18 +235,16 @@ const Sidebar = () => {
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
-                          to="/tramessy/RentList"
+                          to="/RentList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/RentList")
+                            isActive("/RentList")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/RentList")
-                                ? "bg-white"
-                                : "bg-primary"
+                              isActive("/RentList") ? "bg-white" : "bg-primary"
                             }`}
                           ></div>
                           <span>Rent Vehicle List</span>
@@ -322,16 +311,16 @@ const Sidebar = () => {
                           <ul className="pl-6 space-y-2 mt-1">
                             <li>
                               <Link
-                                to="/tramessy/HR/HRM/employee-list"
+                                to="/HR/HRM/employee-list"
                                 className={`flex gap-2 items-center block p-2 rounded-sm ${
-                                  isActive("/tramessy/HR/HRM/employee-list")
+                                  isActive("/HR/HRM/employee-list")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
                                 <div
                                   className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive("/tramessy/HR/HRM/employee-list")
+                                    isActive("/HR/HRM/employee-list")
                                       ? "bg-white"
                                       : "bg-primary"
                                   }`}
@@ -341,16 +330,16 @@ const Sidebar = () => {
                             </li>
                             <li>
                               <Link
-                                to="/tramessy/DriverList"
+                                to="/DriverList"
                                 className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                                  isActive("/tramessy/DriverList")
+                                  isActive("/DriverList")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
                                 <div
                                   className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive("/tramessy/DriverList")
+                                    isActive("/DriverList")
                                       ? "bg-white"
                                       : "bg-primary"
                                   }`}
@@ -360,16 +349,16 @@ const Sidebar = () => {
                             </li>
                             <li>
                               <Link
-                                to="/tramessy/HelperList"
+                                to="/HelperList"
                                 className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                                  isActive("/tramessy/HelperList")
+                                  isActive("/HelperList")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
                                 <div
                                   className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive("/tramessy/HelperList")
+                                    isActive("/HelperList")
                                       ? "bg-white"
                                       : "bg-primary"
                                   }`}
@@ -379,16 +368,16 @@ const Sidebar = () => {
                             </li>
                             <li>
                               <Link
-                                to="/tramessy/HR/HRM/Office"
+                                to="/HR/HRM/Office"
                                 className={`flex gap-2 items-center p-2 rounded-sm ${
-                                  isActive("/tramessy/HR/HRM/Office")
+                                  isActive("/HR/HRM/Office")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
                                 <div
                                   className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive("/tramessy/HR/HRM/Office")
+                                    isActive("/HR/HRM/Office")
                                       ? "bg-white"
                                       : "bg-primary"
                                   }`}
@@ -442,11 +431,9 @@ const Sidebar = () => {
                           <ul className="pl-6 space-y-2 mt-1">
                             <li>
                               <Link
-                                to="/tramessy/HR/Attendance/AttendanceList"
+                                to="/HR/Attendance/AttendanceList"
                                 className={`block p-2 rounded-sm ${
-                                  isActive(
-                                    "/tramessy/HR/Attendance/AttendanceList"
-                                  )
+                                  isActive("/HR/Attendance/AttendanceList")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
@@ -454,9 +441,7 @@ const Sidebar = () => {
                                 <span className="flex gap-2 items-center">
                                   <div
                                     className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                      isActive(
-                                        "/tramessy/HR/Attendance/AttendanceList"
-                                      )
+                                      isActive("/HR/Attendance/AttendanceList")
                                         ? "bg-white"
                                         : "bg-primary"
                                     }`}
@@ -485,16 +470,16 @@ const Sidebar = () => {
                         >
                           <li>
                             <Link
-                              to="/tramessy/HR/HRM/Leave"
+                              to="/HR/HRM/Leave"
                               className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                                isActive("/tramessy/HR/HRM/Leave")
+                                isActive("/HR/HRM/Leave")
                                   ? "text-white bg-primary"
                                   : "text-gray-500 hover:text-primary"
                               }`}
                             >
                               <div
                                 className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                  isActive("/tramessy/HR/HRM/Leave")
+                                  isActive("/HR/HRM/Leave")
                                     ? "bg-white"
                                     : "bg-primary"
                                 }`}
@@ -504,16 +489,16 @@ const Sidebar = () => {
                           </li>
                           {/* <li>
                             <Link
-                              to="/tramessy/HR/HRM/MonthAttendance"
+                              to="/HR/HRM/MonthAttendance"
                               className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                                isActive("/tramessy/HR/HRM/MonthAttendance")
+                                isActive("/HR/HRM/MonthAttendance")
                                   ? "text-white bg-primary"
                                   : "text-gray-500 hover:text-primary"
                               }`}
                             >
                               <div
                                 className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                  isActive("/tramessy/HR/HRM/MonthAttendance")
+                                  isActive("/HR/HRM/MonthAttendance")
                                     ? "bg-white"
                                     : "bg-primary"
                                 }`}
@@ -563,20 +548,16 @@ const Sidebar = () => {
                           <ul className="pl-6 space-y-2 mt-1">
                             <li>
                               <Link
-                                to="/tramessy/HRM/Payroll/Advance-Salary"
+                                to="/HRM/Payroll/Advance-Salary"
                                 className={`flex items-center gap-2 p-2 rounded-sm ${
-                                  isActive(
-                                    "/tramessy/HRM/Payroll/Advance-Salary"
-                                  )
+                                  isActive("/HRM/Payroll/Advance-Salary")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
                                 <div
                                   className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive(
-                                      "/tramessy/HRM/Payroll/Advance-Salary"
-                                    )
+                                    isActive("/HRM/Payroll/Advance-Salary")
                                       ? "bg-white"
                                       : "bg-primary"
                                   }`}
@@ -586,7 +567,7 @@ const Sidebar = () => {
                             </li>
                             <li>
                               <Link
-                                to="/tramessy/HRM/attendance-report"
+                                to="/HRM/attendance-report"
                                 className={`block p-2 rounded-sm ${
                                   isActive("/HRM/attendance-report")
                                     ? "text-white bg-primary"
@@ -598,11 +579,9 @@ const Sidebar = () => {
                             </li>
                             <li>
                               <Link
-                                to="/tramessy/HRM/payroll/generate-salary"
+                                to="/HRM/payroll/generate-salary"
                                 className={`block p-2 rounded-sm ${
-                                  isActive(
-                                    "/tramessy/HRM/payroll/generate-salary"
-                                  )
+                                  isActive("/HRM/payroll/generate-salary")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
@@ -643,16 +622,16 @@ const Sidebar = () => {
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       {/* <li>
                         <Link
-                          to="/tramessy/Inventory/Stockin"
+                          to="/Inventory/Stockin"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Inventory/Stockin")
+                            isActive("/Inventory/Stockin")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/Inventory/Stockin")
+                              isActive("/Inventory/Stockin")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -662,16 +641,16 @@ const Sidebar = () => {
                       </li> */}
                       <li>
                         <Link
-                          to="/tramessy/Inventory/StockOut"
+                          to="/Inventory/StockOut"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Inventory/StockOut")
+                            isActive("/Inventory/StockOut")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/Inventory/StockOut")
+                              isActive("/Inventory/StockOut")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -681,16 +660,16 @@ const Sidebar = () => {
                       </li>
                       {/* <li>
                         <Link
-                          to="/tramessy/Inventory/Inventory-supplier"
+                          to="/Inventory/Inventory-supplier"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Inventory/Inventory-supplier")
+                            isActive("/Inventory/Inventory-supplier")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/Inventory/Inventory-supplier")
+                              isActive("/Inventory/Inventory-supplier")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -729,16 +708,16 @@ const Sidebar = () => {
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
-                          to="/tramessy/Purchase/PurchaseList"
+                          to="/Purchase/PurchaseList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Purchase/PurchaseList")
+                            isActive("/Purchase/PurchaseList")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/Purchase/PurchaseList")
+                              isActive("/Purchase/PurchaseList")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -748,16 +727,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/Purchase/SupplierList"
+                          to="/Purchase/SupplierList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Purchase/SupplierList")
+                            isActive("/Purchase/SupplierList")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/Purchase/SupplierList")
+                              isActive("/Purchase/SupplierList")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -802,18 +781,16 @@ const Sidebar = () => {
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
-                          to="/tramessy/Customer"
+                          to="/Customer"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Customer")
+                            isActive("/Customer")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/Customer")
-                                ? "bg-white"
-                                : "bg-primary"
+                              isActive("/Customer") ? "bg-white" : "bg-primary"
                             }`}
                           ></div>
                           <span>Customer List</span>
@@ -856,16 +833,16 @@ const Sidebar = () => {
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
-                          to="/tramessy/DailyIncome"
+                          to="/DailyIncome"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/DailyIncome")
+                            isActive("/DailyIncome")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/DailyIncome")
+                              isActive("/DailyIncome")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -875,16 +852,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/DailyExpense"
+                          to="/DailyExpense"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/DailyExpense")
+                            isActive("/DailyExpense")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/DailyExpense")
+                              isActive("/DailyExpense")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -929,16 +906,16 @@ const Sidebar = () => {
                     <ul className="mt-2 space-y-3 px-2 text-sm">
                       <li>
                         <Link
-                          to="/tramessy/Reports/Employee-Report"
+                          to="/Reports/Employee-Report"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Reports/Employee-Report")
+                            isActive("/Reports/Employee-Report")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/Reports/Employee-Report")
+                              isActive("/Reports/Employee-Report")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -948,16 +925,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/Reports/Driver-Report"
+                          to="/Reports/Driver-Report"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Reports/Driver-Report")
+                            isActive("/Reports/Driver-Report")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/Reports/Driver-Report")
+                              isActive("/Reports/Driver-Report")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -967,16 +944,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/Reports/Fuel-Report"
+                          to="/Reports/Fuel-Report"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Reports/Fuel-Report")
+                            isActive("/Reports/Fuel-Report")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/Reports/Fuel-Report")
+                              isActive("/Reports/Fuel-Report")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -986,16 +963,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/Reports/Purchase-Report"
+                          to="/Reports/Purchase-Report"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Reports/Purchase-Report")
+                            isActive("/Reports/Purchase-Report")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/Reports/Purchase-Report")
+                              isActive("/Reports/Purchase-Report")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1005,16 +982,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/Reports/Inventory-Report"
+                          to="/Reports/Inventory-Report"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Reports/Inventory-Report")
+                            isActive("/Reports/Inventory-Report")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/Reports/Inventory-Report")
+                              isActive("/Reports/Inventory-Report")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1024,16 +1001,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/Reports/Trip-Report"
+                          to="/Reports/Trip-Report"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/Reports/Trip-Report")
+                            isActive("/Reports/Trip-Report")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/tramessy/Reports/Trip-Report")
+                              isActive("/Reports/Trip-Report")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1071,16 +1048,16 @@ const Sidebar = () => {
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
-                          to="/tramessy/account/CashDispatch"
+                          to="/account/CashDispatch"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/account/CashDispatch")
+                            isActive("/account/CashDispatch")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/account/CashDispatch")
+                              isActive("/account/CashDispatch")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1090,16 +1067,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/account/PaymentList"
+                          to="/account/PaymentList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/account/PaymentList")
+                            isActive("/account/PaymentList")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/account/PaymentList")
+                              isActive("/account/PaymentList")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1109,16 +1086,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/account/PaymentReceive"
+                          to="/account/PaymentReceive"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/account/PaymentReceive")
+                            isActive("/account/PaymentReceive")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/account/PaymentReceive")
+                              isActive("/account/PaymentReceive")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1128,16 +1105,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/account/SupplierLedger"
+                          to="/account/SupplierLedger"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/account/SupplierLedger")
+                            isActive("/account/SupplierLedger")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/account/SupplierLedger")
+                              isActive("/account/SupplierLedger")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1147,16 +1124,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/account/DriverLedger"
+                          to="/account/DriverLedger"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/account/DriverLedger")
+                            isActive("/account/DriverLedger")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/account/DriverLedger")
+                              isActive("/account/DriverLedger")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1166,16 +1143,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/account/VendorLedger"
+                          to="/account/VendorLedger"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/account/VendorLedger")
+                            isActive("/account/VendorLedger")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/account/VendorLedger")
+                              isActive("/account/VendorLedger")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1185,16 +1162,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/account/CustomerLedger"
+                          to="/account/CustomerLedger"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/account/CustomerLedger")
+                            isActive("/account/CustomerLedger")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/account/CustomerLedger")
+                              isActive("/account/CustomerLedger")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1204,16 +1181,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/account/OfficeLedger"
+                          to="/account/OfficeLedger"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/account/OfficeLedger")
+                            isActive("/account/OfficeLedger")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/account/OfficeLedger")
+                              isActive("/account/OfficeLedger")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1250,16 +1227,16 @@ const Sidebar = () => {
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
-                          to="/tramessy/billing/Yamaha"
+                          to="/billing/Yamaha"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/billing/Yamaha")
+                            isActive("/billing/Yamaha")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/billing/Yamaha")
+                              isActive("/billing/Yamaha")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1300,16 +1277,16 @@ const Sidebar = () => {
                           <ul className="pl-6 space-y-2 mt-1">
                             <li>
                               <Link
-                                to="/tramessy/billing/Hatim"
+                                to="/billing/Hatim"
                                 className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                                  isActive("/tramessy/billing/Hatim")
+                                  isActive("/billing/Hatim")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
                                 <div
                                   className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive("/tramessy/billing/Hatim")
+                                    isActive("/billing/Hatim")
                                       ? "bg-white"
                                       : "bg-primary"
                                   }`}
@@ -1319,16 +1296,16 @@ const Sidebar = () => {
                             </li>
                             <li>
                               <Link
-                                to="/tramessy/billing/HatimPubail"
+                                to="/billing/HatimPubail"
                                 className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                                  isActive("/tramessy/billing/HatimPubail")
+                                  isActive("/billing/HatimPubail")
                                     ? "text-white bg-primary"
                                     : "text-gray-500 hover:text-primary"
                                 }`}
                               >
                                 <div
                                   className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive("/tramessy/billing/HatimPubail")
+                                    isActive("/billing/HatimPubail")
                                       ? "bg-white"
                                       : "bg-primary"
                                   }`}
@@ -1341,16 +1318,16 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/tramessy/billing/Suzuki"
+                          to="/billing/Suzuki"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/billing/Suzuki")
+                            isActive("/billing/Suzuki")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/billing/Suzuki")
+                              isActive("/billing/Suzuki")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1360,16 +1337,16 @@ const Sidebar = () => {
                       </li>
                       {/* <li>
                         <Link
-                          to="/tramessy/billing/Sonalika"
+                          to="/billing/Sonalika"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/billing/Sonalika")
+                            isActive("/billing/Sonalika")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/billing/Sonalika")
+                              isActive("/billing/Sonalika")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1379,16 +1356,16 @@ const Sidebar = () => {
                       </li> */}
                       <li>
                         <Link
-                          to="/tramessy/billing/Honda"
+                          to="/billing/Honda"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/billing/Honda")
+                            isActive("/billing/Honda")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/billing/Honda")
+                              isActive("/billing/Honda")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1398,16 +1375,16 @@ const Sidebar = () => {
                       </li>
                       {/* <li>
                         <Link
-                          to="/tramessy/billing/Meghdona"
+                          to="/billing/Meghdona"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/billing/Meghdona")
+                            isActive("/billing/Meghdona")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/billing/Meghdona")
+                              isActive("/billing/Meghdona")
                                 ? "bg-white"
                                 : "bg-primary"
                             }`}
@@ -1444,18 +1421,16 @@ const Sidebar = () => {
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
-                          to="/tramessy/AllUsers"
+                          to="/AllUsers"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/tramessy/AllUsers")
+                            isActive("/AllUsers")
                               ? "text-white bg-primary"
                               : "text-gray-500 hover:text-primary"
                           }`}
                         >
                           <div
                             className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/tramessy/AllUsers")
-                                ? "bg-white"
-                                : "bg-primary"
+                              isActive("/AllUsers") ? "bg-white" : "bg-primary"
                             }`}
                           ></div>
                           <span>All Users</span>

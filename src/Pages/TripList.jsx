@@ -274,7 +274,7 @@ const TripList = () => {
             >
               <FaFilter /> Filter
             </button>
-            <Link to="/tramessy/AddTripForm">
+            <Link to="/AddTripForm">
               <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <FaPlus /> Trip
               </button>
@@ -357,7 +357,7 @@ const TripList = () => {
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-md">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white capitalize text-sm">
+            <thead className="bg-primary text-white capitalize text-sm">
               <tr>
                 <th className="p-2">SL.</th>
                 <th className="p-2">Date</th>
@@ -369,7 +369,7 @@ const TripList = () => {
                 <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
-            <tbody className="text-[#11375B] font-semibold bg-gray-100">
+            <tbody className="text-[#333333] text-lg bg-gray-100">
               {currentTrip?.map((dt, index) => {
                 return (
                   <tr
@@ -397,7 +397,7 @@ const TripList = () => {
                     </td> */}
                     <td className="p-2 action_column">
                       <div className="flex gap-1">
-                        <Link to={`/tramessy/UpdateTripForm/${dt.id}`}>
+                        <Link to={`/UpdateTripForm/${dt.id}`}>
                           <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                             <FaPen className="text-[12px]" />
                           </button>
