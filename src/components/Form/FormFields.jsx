@@ -28,7 +28,7 @@ export const InputField = ({
       {label && (
         <label
           htmlFor={name}
-          className="block text-sm font-medium text-primary"
+          className="block text-sm font-medium text-secondary"
         >
           {label} {required && <span className="text-red-500">*</span>}
         </label>
@@ -78,7 +78,7 @@ export const SelectField = ({
   return (
     <div className="mb-4">
       {label && (
-        <label className="block text-sm font-medium mb-1 text-primary">
+        <label className="block text-sm font-medium mb-1 text-secondary">
           {label} {required && <span className="text-red-500">*</span>}
         </label>
       )}

@@ -16,6 +16,7 @@ import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import BtnCmn from "../components/Button/BtnCmn";
 const TripList = () => {
   const [trip, setTrip] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -263,27 +264,26 @@ const TripList = () => {
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-md p-2 py-10 md:p-2 border border-gray-200">
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <FaTruck className="text-[#11375B] text-2xl" />
+          <h1 className="text-xl font-extrabold text-secondary flex items-center gap-3">
+            <FaTruck className="text-2xl" />
             Trip Records
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
-            <button
-              onClick={() => setShowFilter((prev) => !prev)}
-              className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
-            >
-              <FaFilter /> Filter
-            </button>
+            <div onClick={() => setShowFilter((prev) => !prev)}>
+              <BtnCmn>
+                <FaFilter /> Filter
+              </BtnCmn>
+            </div>
             <Link to="/AddTripForm">
-              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
+              <BtnCmn>
                 <FaPlus /> Trip
-              </button>
+              </BtnCmn>
             </Link>
           </div>
         </div>
         {/* export and search */}
         <div className="md:flex justify-between items-center">
-          <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
+          <div className="flex gap-1 md:gap-3 text-secondary font-semibold rounded-md">
             <button
               onClick={exportTripsToExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
@@ -305,7 +305,7 @@ const TripList = () => {
           </div>
           {/* search */}
           <div className="mt-3 md:mt-0">
-            <span className="text-primary font-semibold pr-3">Search: </span>
+            <span className="text-secondary font-semibold pr-3">Search: </span>
             <input
               onChange={(e) => {
                 setSearchTerm(e.target.value);
@@ -340,16 +340,17 @@ const TripList = () => {
               />
             </div>
             <div className="w-xs">
-              <button
+              <div
                 onClick={() => {
                   setStartDate("");
                   setEndDate("");
                   setShowFilter(false);
                 }}
-                className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1.5 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
-                <IoIosRemoveCircle /> Clear Filter
-              </button>
+                <BtnCmn>
+                  <IoIosRemoveCircle /> Clear Filter
+                </BtnCmn>
+              </div>
             </div>
           </div>
         )}
@@ -357,7 +358,7 @@ const TripList = () => {
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-md">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-primary text-white capitalize text-sm">
+            <thead className="bg-gray-200 text-secondary capitalize">
               <tr>
                 <th className="p-2">SL.</th>
                 <th className="p-2">Date</th>
@@ -369,7 +370,7 @@ const TripList = () => {
                 <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
-            <tbody className="text-[#333333] text-lg bg-gray-100">
+            <tbody className="text-secondary bg-gray-100">
               {currentTrip?.map((dt, index) => {
                 return (
                   <tr
@@ -398,13 +399,13 @@ const TripList = () => {
                     <td className="p-2 action_column">
                       <div className="flex gap-1">
                         <Link to={`/UpdateTripForm/${dt.id}`}>
-                          <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                          <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                             <FaPen className="text-[12px]" />
                           </button>
                         </Link>
                         <button
                           onClick={() => handleView(dt.id)}
-                          className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
+                          className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
                         >
                           <FaEye className="text-[12px]" />
                         </button>
@@ -435,7 +436,7 @@ const TripList = () => {
               onClick={() => handlePageClick(number + 1)}
               className={`px-3 py-1 rounded-sm ${
                 currentPage === number + 1
-                  ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                  ? "bg-primary text-white hover:bg-gray-200 hover:text-secondary transition-all duration-300 cursor-pointer"
                   : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
               }`}
             >
@@ -494,82 +495,82 @@ const TripList = () => {
       {viewModalOpen && selectedTrip && (
         <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-[#000000ad] z-50">
           <div className="w-4xl p-5 bg-gray-100 rounded-xl mt-10">
-            <h3 className="text-primary font-semibold">Trip Info</h3>
+            <h3 className="text-secondary font-semibold">Trip Info</h3>
             <div className="mt-5">
               <ul className="flex border border-gray-300">
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Customer</p>{" "}
                   <p>{selectedTrip.customer}</p>
                 </li>
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2">
                   <p className="w-48">Trip Date</p> <p>{selectedTrip.date}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Load Point</p>{" "}
                   <p>{selectedTrip.load_point}</p>
                 </li>
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2">
                   <p className="w-48">Unload Point</p>{" "}
                   <p>{selectedTrip.unload_point}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Driver Name</p>{" "}
                   <p>{selectedTrip.driver_name}</p>
                 </li>
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2">
                   <p className="w-48">Driver Mobile</p>{" "}
                   <p>{selectedTrip.driver_mobile}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Driver Commission</p>{" "}
                   <p>{selectedTrip.driver_commission}</p>
                 </li>
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Fuel Cost</p>{" "}
                   <p>{selectedTrip.fuel_cost}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Total Rent</p>{" "}
                   <p>{selectedTrip.total_rent}</p>
                 </li>
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Vehicle Number</p>{" "}
                   <p>{selectedTrip.vehicle_no}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Model No</p>{" "}
                   <p>{selectedTrip.model_no}</p>
                 </li>
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Unload Charge</p>{" "}
                   <p>{selectedTrip.unload_charge} </p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Total Rent/Bill Amount</p>{" "}
                   <p>{selectedTrip.total_rent}</p>
                 </li>
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Distribution Name</p>{" "}
                   <p>{selectedTrip.distribution_name}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Goods</p> <p>{selectedTrip.goods}</p>
                 </li>
-                <li className="w-[428px] flex text-primary text-sm font-semibold px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary text-sm font-semibold px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Advance</p> <p>{selectedTrip.advance}</p>
                 </li>
               </ul>

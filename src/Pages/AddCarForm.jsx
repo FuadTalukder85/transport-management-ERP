@@ -310,7 +310,7 @@ const AddCarForm = () => {
                   </span>
                 }
               />
-              <label className="text-primary text-sm font-semibold"></label>
+              <label className="text-secondary text-sm font-semibold"></label>
             </div>
           </div>
 

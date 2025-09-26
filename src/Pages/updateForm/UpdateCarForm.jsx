@@ -91,7 +91,7 @@ const UpdateCarForm = () => {
         {/* Vehicle & Driver Name */}
         <div className="md:flex justify-between gap-3">
           <div className="w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Vehicle Name
             </label>
             <input
@@ -102,7 +102,7 @@ const UpdateCarForm = () => {
             />
           </div>
           <div className="relative mt-2 md:mt-0 w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Driver's Name
             </label>
             <Controller
@@ -127,7 +127,7 @@ const UpdateCarForm = () => {
         {/* Category & Size */}
         <div className="md:flex justify-between gap-3">
           <div className="relative w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Vehicle Type
             </label>
             <select
@@ -145,7 +145,7 @@ const UpdateCarForm = () => {
             <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
           </div>
           <div className="relative mt-2 md:mt-0 w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Vehicle Size
             </label>
             <select
@@ -169,7 +169,7 @@ const UpdateCarForm = () => {
         {/* Registration Number & Serial */}
         <div className="md:flex justify-between gap-3">
           <div className="w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Registration Number
             </label>
             <input
@@ -181,7 +181,7 @@ const UpdateCarForm = () => {
             />
           </div>
           <div className="relative mt-2 md:mt-0 w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Registration Serial
             </label>
             <select
@@ -204,7 +204,7 @@ const UpdateCarForm = () => {
         {/* Registration Zone */}
         <div className="md:flex justify-between gap-3">
           <div className="relative w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Registration Zone
             </label>
             <select
@@ -297,7 +297,7 @@ const UpdateCarForm = () => {
           </div>
 
           <div className="relative w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Registration Date
             </label>
             <div className="relative">
@@ -321,7 +321,7 @@ const UpdateCarForm = () => {
           </div>
 
           <div className="mt-2 md:mt-0 w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Tax Expiry Date
             </label>
             <div className="relative">
@@ -348,7 +348,7 @@ const UpdateCarForm = () => {
         {/* Date Fields */}
         <div className="md:flex justify-between gap-3">
           <div className="w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Road Permit Date
             </label>
             <div className="relative">
@@ -371,7 +371,7 @@ const UpdateCarForm = () => {
             </div>
           </div>
           <div className="mt-2 md:mt-0 w-full">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Fitness Expiry Date
             </label>
             <div className="relative">
@@ -394,7 +394,9 @@ const UpdateCarForm = () => {
             </div>
           </div>
           <div className="mt-2 md:mt-0 w-full">
-            <label className="text-primary text-sm font-semibold">Status</label>
+            <label className="text-secondary text-sm font-semibold">
+              Status
+            </label>
             <select
               {...register("status")}
               className="mt-1 w-full text-gray-500 text-sm border border-gray-300 bg-white p-2 rounded appearance-none outline-none"

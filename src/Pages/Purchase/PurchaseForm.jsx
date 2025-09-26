@@ -238,7 +238,7 @@ const PurchaseForm = () => {
           </div>
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Bill Image
               </label>
               <Controller

@@ -106,7 +106,9 @@ const UpdateFuelForm = () => {
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">Date</label>
+              <label className="text-secondary text-sm font-semibold">
+                Date
+              </label>
               <div className="relative">
                 <input
                   type="date"
@@ -127,7 +129,7 @@ const UpdateFuelForm = () => {
               </div>
             </div>
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Vehicle Number
               </label>
               <Controller
@@ -154,7 +156,7 @@ const UpdateFuelForm = () => {
           {/*  */}
           <div className="mt-1 md:flex justify-between gap-3">
             <div className="mt-3 md:mt-1 w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Driver Name
               </label>
               <Controller
@@ -175,7 +177,7 @@ const UpdateFuelForm = () => {
               />
             </div>
             <div className="mt-3 md:mt-1 w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Trip ID / Invoice Number
               </label>
               <input
@@ -190,7 +192,7 @@ const UpdateFuelForm = () => {
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="mt-3 md:mt-1 w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Pump Name & Address
               </label>
               <input
@@ -202,7 +204,7 @@ const UpdateFuelForm = () => {
               />
             </div>
             <div className="mt-1 w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Fuel Capacity
               </label>
               <input
@@ -217,7 +219,7 @@ const UpdateFuelForm = () => {
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="mt-3 md:mt-1 w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Fuel Type
               </label>
               <select
@@ -233,7 +235,7 @@ const UpdateFuelForm = () => {
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="mt-1 w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Fuel Quantity
               </label>
               <div className="relative">
@@ -250,7 +252,7 @@ const UpdateFuelForm = () => {
           {/*  */}
           <div className="md:flex justify-between gap-3">
             <div className="mt-3 md:mt-1 w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Price per Liter
               </label>
               <input
@@ -262,7 +264,7 @@ const UpdateFuelForm = () => {
               />
             </div>
             <div className="mt-1 w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Total Price
               </label>
               <input

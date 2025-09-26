@@ -10,6 +10,7 @@ import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import BtnCmn from "../components/Button/BtnCmn";
 const CarList = () => {
   const [vehicles, setVehicle] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -238,21 +239,21 @@ const CarList = () => {
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <FaTruck className="text-[#11375B] text-2xl" />
+          <h1 className="text-xl font-extrabold text-secondary flex items-center gap-3">
+            <FaTruck className="text-2xl" />
             Vehicle List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/AddCarForm">
-              <button className="bg-gradient-to-r from-[#055F77] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
+              <BtnCmn>
                 <FaPlus /> Vehicle
-              </button>
+              </BtnCmn>
             </Link>
           </div>
         </div>
         {/* export */}
         <div className="md:flex justify-between items-center">
-          <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
+          <div className="flex gap-1 md:gap-3 text-secondary font-semibold rounded-md">
             <button
               onClick={exportExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
@@ -274,7 +275,7 @@ const CarList = () => {
           </div>
           {/* search */}
           <div className="mt-3 md:mt-0">
-            <span className="text-primary font-semibold pr-3">Search: </span>
+            <span className="text-secondary font-semibold pr-3">Search: </span>
             <input
               type="text"
               value={searchTerm}
@@ -290,10 +291,10 @@ const CarList = () => {
 
         {/* Table */}
         <div className="mt-5 overflow-x-auto rounded-xl">
-          <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#087096] text-white capitalize text-sm">
+          <table className="min-w-full text-left">
+            <thead className="bg-gray-200 text-secondary capitalize">
               <tr>
-                <th className="p-2">#</th>
+                <th className="p-2">SL</th>
                 <th className="p-2">Driver Name</th>
                 <th className="p-2">Vehicle Name</th>
                 <th className="p-2">Vehicle Category</th>
@@ -305,7 +306,7 @@ const CarList = () => {
                 <th className="p-2 action_column">Action</th>
               </tr>
             </thead>
-            <tbody className="text-[#11375B] font-semibold bg-gray-100">
+            <tbody className="text-secondary bg-gray-100">
               {currentVehicles?.map((vehicle, index) => (
                 <tr
                   key={index}
@@ -332,13 +333,13 @@ const CarList = () => {
                   <td className="p-2 action_column">
                     <div className="flex gap-1">
                       <Link to={`/UpdateCarForm/${vehicle.id}`}>
-                        <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
                       <button
                         onClick={() => handleViewCar(vehicle.id)}
-                        className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
+                        className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
                       >
                         <FaEye className="text-[12px]" />
                       </button>
@@ -377,7 +378,7 @@ const CarList = () => {
               onClick={() => handlePageClick(number + 1)}
               className={`px-3 py-1 rounded-sm ${
                 currentPage === number + 1
-                  ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                  ? "bg-primary text-white hover:bg-gray-200 hover:text-secondary transition-all duration-300 cursor-pointer"
                   : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
               }`}
             >
@@ -436,64 +437,66 @@ const CarList = () => {
       {viewModalOpen && selectedCar && (
         <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-[#000000ad] z-50">
           <div className="w-4xl p-5 bg-gray-100 rounded-xl mt-10">
-            <h3 className="text-primary font-semibold">Vehicle Information</h3>
+            <h3 className="text-secondary font-semibold">
+              Vehicle Information
+            </h3>
             <div className="mt-5">
               <ul className="flex border border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Driver Name</p>{" "}
                   <p>{selectedCar.driver_name}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2">
                   <p className="w-48">Vehicle Name</p>{" "}
                   <p>{selectedCar.vehicle_name}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Vehicle Category</p>{" "}
                   <p>{selectedCar.vehicle_category}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2">
                   <p className="w-48">Vehicle Size</p>{" "}
                   <p>{selectedCar.vehicle_size}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Registration Number</p>{" "}
                   <p>{selectedCar.registration_number}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2">
                   <p className="w-48">Registration Serial</p>{" "}
                   <p>{selectedCar.registration_serial}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Registration Area</p>{" "}
                   <p>{selectedCar.registration_zone}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2">
                   <p className="w-48">Registration Date</p>{" "}
                   <p>{selectedCar.registration_date}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Tax Expiry Date</p>{" "}
                   <p>{selectedCar.text_date || "N/A"}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2">
                   <p className="w-48">Road Permit Date</p>{" "}
                   <p>{selectedCar.road_permit_date}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Fitness Expiry Date</p>{" "}
                   <p>{selectedCar.fitness_date}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Insurance Expiry Date</p>{" "}
                   <p>{selectedCar.insurance_date}</p>
                 </li>

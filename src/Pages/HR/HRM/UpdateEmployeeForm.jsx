@@ -211,7 +211,7 @@ const UpdateEmployeeForm = () => {
               />
             </div>
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Image
               </label>
               <div className="relative">

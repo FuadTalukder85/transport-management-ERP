@@ -119,7 +119,7 @@ const PaymentList = () => {
                             note: "",
                           });
                         }}
-                        className="text-primary hover:bg-primary hover:text-white px-1 py-1 rounded shadow-md transition-all cursor-pointer"
+                        className="text-secondary hover:bg-primary hover:text-white px-1 py-1 rounded shadow-md transition-all cursor-pointer"
                       >
                         Payment
                       </button>

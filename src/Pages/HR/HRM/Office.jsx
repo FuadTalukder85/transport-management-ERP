@@ -7,6 +7,7 @@ import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { IoMdClose } from "react-icons/io";
 import { RiHomeOfficeLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import BtnCmn from "../../../components/Button/BtnCmn";
 
 const Office = () => {
   const [office, setOffice] = useState([]);
@@ -94,15 +95,15 @@ const Office = () => {
       <Toaster />
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <RiHomeOfficeLine className="text-[#11375B] text-2xl" />
+          <h1 className="text-xl font-extrabold text-secondary flex items-center gap-3">
+            <RiHomeOfficeLine className="text-2xl" />
             Office
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/HR/HRM/OfficeForm">
-              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
+              <BtnCmn>
                 <FaPlus /> Office
-              </button>
+              </BtnCmn>
             </Link>
           </div>
         </div>
@@ -110,7 +111,7 @@ const Office = () => {
           <div></div>
           {/* search */}
           <div className="mt-3 md:mt-0">
-            <span className="text-primary font-semibold pr-3">Search: </span>
+            <span className="text-secondary font-semibold pr-3">Search: </span>
             <input
               type="text"
               value={searchTerm}
@@ -125,7 +126,7 @@ const Office = () => {
         </div>
         <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white capitalize text-sm">
+            <thead className="bg-gray-200 text-secondary capitalize">
               <tr>
                 <th className="p-2">SL.</th>
                 <th className="p-2">Date</th>
@@ -135,7 +136,7 @@ const Office = () => {
                 <th className="p-2">Action</th>
               </tr>
             </thead>
-            <tbody className="text-[#11375B] font-semibold">
+            <tbody className="text-secondary font-semibold">
               {currentVehicles?.map((dt, index) => (
                 <tr
                   key={index}
@@ -151,7 +152,7 @@ const Office = () => {
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
                       <Link to={`/HR/HRM/UpdateOfficeForm/${dt.id}`}>
-                        <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
@@ -189,7 +190,7 @@ const Office = () => {
                 onClick={() => handlePageClick(number + 1)}
                 className={`px-3 py-1 rounded-sm ${
                   currentPage === number + 1
-                    ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                    ? "bg-primary text-white hover:bg-gray-200 hover:text-secondary transition-all duration-300 cursor-pointer"
                     : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
                 }`}
               >

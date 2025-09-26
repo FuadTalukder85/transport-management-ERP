@@ -135,13 +135,13 @@ const VendorLedger = () => {
     <div className="border border-gray-200 md:p-4 rounded-xl">
       <div className="overflow-x-auto max-w-5xl mx-auto">
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-bold text-[#11375B] capitalize">
+          <h1 className="text-xl font-bold text-secondary capitalize">
             Vendor Ledger: {selectedVendor || "All Vendors"}
           </h1>
         </div>
 
         <div className="md:flex items-center justify-between mb-4">
-          <div className="flex gap-2 flex-wrap text-primary font-semibold">
+          <div className="flex gap-2 flex-wrap text-secondary font-semibold">
             <button
               onClick={exportToExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
@@ -164,7 +164,7 @@ const VendorLedger = () => {
             </button>
           </div>
           <div className="mt-3 md:mt-0 relative">
-            <label className="text-primary text-sm font-semibold">
+            <label className="text-secondary text-sm font-semibold">
               Select Vendor
             </label>
             <select
@@ -184,7 +184,7 @@ const VendorLedger = () => {
         </div>
 
         <div id="vendor-ledger-table" className="overflow-x-auto">
-          <table className="min-w-full text-sm text-left text-gray-900">
+          <table className="min-w-full text-sm text-left text-secondary">
             <thead className="bg-gray-100">
               <tr>
                 <th className="border px-2 py-1">Date</th>

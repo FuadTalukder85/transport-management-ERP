@@ -107,7 +107,7 @@ const AddRentVehicleForm = () => {
 
             {/* Vehicle and Driver Info */}
             <div className="border border-gray-300 p-5 rounded-md">
-              <h5 className="text-primary font-semibold text-center pb-5">
+              <h5 className="text-secondary font-semibold text-center pb-5">
                 <span className="py-2 border-b-2 border-primary">
                   Transport Registration Number
                 </span>

@@ -67,7 +67,7 @@ const UpdateUsersForm = () => {
           {/* Row 1 */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Name *
               </label>
               <input
@@ -79,7 +79,7 @@ const UpdateUsersForm = () => {
               />
             </div>
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Phone *
               </label>
               <input
@@ -95,7 +95,7 @@ const UpdateUsersForm = () => {
           {/* Row 2 */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Email *
               </label>
               <input
@@ -107,7 +107,7 @@ const UpdateUsersForm = () => {
               />
             </div>
             <div className="mt-3 md:mt-0 w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Password
               </label>
               <input
@@ -124,7 +124,7 @@ const UpdateUsersForm = () => {
               )}
             </div>
             <div className="mt-3 md:mt-0 w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Confirm Password
               </label>
               <input
@@ -148,7 +148,7 @@ const UpdateUsersForm = () => {
           {/* Row 3 */}
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 User Role
               </label>
               <select
@@ -162,7 +162,7 @@ const UpdateUsersForm = () => {
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="mt-3 md:mt-0 relative w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Status
               </label>
               <select

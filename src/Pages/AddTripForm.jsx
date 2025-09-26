@@ -271,7 +271,7 @@ const AddTripForm = () => {
             {/* Common Input Fields */}
             <div>
               <div className="border border-gray-300 p-5 rounded-md mt-3">
-                <h5 className="text-primary font-semibold text-center pb-5">
+                <h5 className="text-secondary font-semibold text-center pb-5">
                   <span className="py-2 border-b-2 border-primary">
                     Customer and Destination
                   </span>
@@ -327,7 +327,7 @@ const AddTripForm = () => {
             {selectedCustomer === "Yamaha" && (
               <div className="">
                 <div className="border border-gray-300 p-5 rounded-md mt-3">
-                  <h5 className="text-primary font-semibold text-center pb-5">
+                  <h5 className="text-secondary font-semibold text-center pb-5">
                     <span className="py-2 border-b-2 border-primary">
                       Transport and Driver section
                     </span>
@@ -449,7 +449,7 @@ const AddTripForm = () => {
                   </div>
                 </div>
                 <div className="border border-gray-300 p-5 rounded-md mt-3">
-                  <h5 className="text-primary font-semibold text-center pb-5">
+                  <h5 className="text-secondary font-semibold text-center pb-5">
                     <span className="py-2 border-b-2 border-primary">
                       Product and Expense
                     </span>
@@ -502,7 +502,7 @@ const AddTripForm = () => {
             {(selectedCustomer === "Hatim Pubail" ||
               selectedCustomer === "Hatim Rupgonj") && (
               <div className="border border-gray-300 p-5 rounded-md mt-3">
-                <h5 className="text-primary font-semibold text-center pb-5">
+                <h5 className="text-secondary font-semibold text-center pb-5">
                   <span className="py-2 border-b-2 border-primary">
                     Transport and Driver section
                   </span>

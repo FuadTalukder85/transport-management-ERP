@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import autoTable from "jspdf-autotable";
+import BtnCmn from "../../../components/Button/BtnCmn";
 
 const AttendanceList = () => {
   const [employee, setEmployee] = useState([]);
@@ -127,22 +128,22 @@ const AttendanceList = () => {
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <FaUserSecret className="text-[#11375B] text-2xl" />
+          <h1 className="text-xl font-extrabold text-secondary flex items-center gap-3">
+            <FaUserSecret className="text-2xl" />
             Attendance List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/HR/HRM/Attendance/AttendanceForm">
-              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
+              <BtnCmn>
                 <FaPlus /> Attendance
-              </button>
+              </BtnCmn>
             </Link>
           </div>
         </div>
 
         <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white capitalize text-sm">
+            <thead className="bg-gray-200 text-secondary capitalize">
               <tr>
                 <th className="p-2">SL.</th>
                 <th className="p-2">Name</th>
@@ -150,7 +151,7 @@ const AttendanceList = () => {
                 <th className="p-2">Action</th>
               </tr>
             </thead>
-            <tbody className="text-[#11375B] font-semibold bg-gray-100">
+            <tbody className="text-secondary font-semibold bg-gray-100">
               {employee.map((emp, index) => (
                 <tr
                   key={emp.id}
@@ -162,13 +163,13 @@ const AttendanceList = () => {
                   <td className="p-2">
                     <div className="flex gap-1">
                       <Link>
-                        <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
                       <button
                         onClick={() => handleViewClick(emp.id)}
-                        className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
+                        className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
                       >
                         <FaEye className="text-[12px]" />
                       </button>
@@ -193,10 +194,10 @@ const AttendanceList = () => {
             </button>
 
             <div className="md:flex justify-between items-center mb-2">
-              <h2 className="text-lg font-bold text-primary">
+              <h2 className="text-lg font-bold text-secondary">
                 Employee Name: {selectedEmployee?.full_name || "N/A"}
               </h2>
-              <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md pr-5">
+              <div className="flex gap-1 md:gap-3 text-secondary font-semibold rounded-md pr-5">
                 <button
                   onClick={exportPDF}
                   className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"

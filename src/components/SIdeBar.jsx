@@ -57,7 +57,7 @@ const Sidebar = () => {
               alt="Admin Avatar"
               className="w-8 rounded-2xl drop-shadow"
             />
-            <h3 className="text-primary font-semibold">Admin</h3>
+            <h3 className="text-gray-700 font-semibold">Admin</h3>
           </div>
         </div> */}
 
@@ -79,7 +79,7 @@ const Sidebar = () => {
             {isAdmin ? (
               <>
                 {/* Fleet Management */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     role="button"
                     tabIndex={0}
@@ -111,7 +111,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/CarList")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -128,7 +128,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/TripList")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -145,7 +145,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Maintenance")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -162,7 +162,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* Vendor management */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     onClick={() => toggleMenu("vendor")}
                     className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
@@ -192,7 +192,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/VendorList")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -209,7 +209,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* Rent management */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     onClick={() => toggleMenu("rentVehicle")}
                     className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
@@ -239,7 +239,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/RentList")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -254,7 +254,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* HR management */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   {/* HR main toggle */}
                   <div
                     onClick={() => toggleMenu("hrManagement")}
@@ -284,7 +284,7 @@ const Sidebar = () => {
                         {/* HRM toggle inside HR */}
                         <div
                           onClick={() => toggleMenu("hrm")}
-                          className="flex justify-between items-center p-2 cursor-pointer hover:text-primary rounded-sm"
+                          className="flex justify-between items-center p-2 cursor-pointer hover:text-gray-700 rounded-sm"
                         >
                           <span className="flex gap-2 items-center">
                             <div
@@ -315,7 +315,7 @@ const Sidebar = () => {
                                 className={`flex gap-2 items-center block p-2 rounded-sm ${
                                   isActive("/HR/HRM/employee-list")
                                     ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    : "text-gray-700 hover:text-gray-700"
                                 }`}
                               >
                                 <div
@@ -334,7 +334,7 @@ const Sidebar = () => {
                                 className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                                   isActive("/DriverList")
                                     ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    : "text-gray-700 hover:text-gray-700"
                                 }`}
                               >
                                 <div
@@ -353,7 +353,7 @@ const Sidebar = () => {
                                 className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                                   isActive("/HelperList")
                                     ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    : "text-gray-700 hover:text-gray-700"
                                 }`}
                               >
                                 <div
@@ -372,7 +372,7 @@ const Sidebar = () => {
                                 className={`flex gap-2 items-center p-2 rounded-sm ${
                                   isActive("/HR/HRM/Office")
                                     ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    : "text-gray-700 hover:text-gray-700"
                                 }`}
                               >
                                 <div
@@ -402,7 +402,7 @@ const Sidebar = () => {
                         {/* Attendance toggle inside HR */}
                         <div
                           onClick={() => toggleMenu("attendance")}
-                          className="flex justify-between items-center p-2 cursor-pointer hover:text-primary rounded-sm"
+                          className="flex justify-between items-center p-2 cursor-pointer hover:text-gray-700 rounded-sm"
                         >
                           <span className="flex gap-2 items-center">
                             <div
@@ -435,7 +435,7 @@ const Sidebar = () => {
                                 className={`block p-2 rounded-sm ${
                                   isActive("/HR/Attendance/AttendanceList")
                                     ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    : "text-gray-700 hover:text-gray-700"
                                 }`}
                               >
                                 <span className="flex gap-2 items-center">
@@ -466,7 +466,7 @@ const Sidebar = () => {
                         {/* Attendance toggle inside HR */}
                         <div
                           onClick={() => toggleMenu("leave")}
-                          className="p-2 cursor-pointer hover:text-primary rounded-sm"
+                          className="p-2 cursor-pointer hover:text-gray-700 rounded-sm"
                         >
                           <li>
                             <Link
@@ -474,7 +474,7 @@ const Sidebar = () => {
                               className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                                 isActive("/HR/HRM/Leave")
                                   ? "text-white bg-primary"
-                                  : "text-gray-500 hover:text-primary"
+                                  : "text-gray-700 hover:text-gray-700"
                               }`}
                             >
                               <div
@@ -493,7 +493,7 @@ const Sidebar = () => {
                               className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                                 isActive("/HR/HRM/MonthAttendance")
                                   ? "text-white bg-primary"
-                                  : "text-gray-500 hover:text-primary"
+                                  : "text-gray-700 hover:text-gray-700"
                               }`}
                             >
                               <div
@@ -521,7 +521,7 @@ const Sidebar = () => {
                         {/* Payroll toggle inside HR */}
                         <div
                           onClick={() => toggleMenu("payroll")}
-                          className="flex justify-between items-center p-2 cursor-pointer hover:text-primary rounded-sm"
+                          className="flex justify-between items-center p-2 cursor-pointer hover:text-gray-700 rounded-sm"
                         >
                           <span className="flex gap-2 items-center">
                             <div
@@ -552,7 +552,7 @@ const Sidebar = () => {
                                 className={`flex items-center gap-2 p-2 rounded-sm ${
                                   isActive("/HRM/Payroll/Advance-Salary")
                                     ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    : "text-gray-700 hover:text-gray-700"
                                 }`}
                               >
                                 <div
@@ -571,7 +571,7 @@ const Sidebar = () => {
                                 className={`block p-2 rounded-sm ${
                                   isActive("/HRM/attendance-report")
                                     ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    : "text-gray-700 hover:text-gray-700"
                                 }`}
                               >
                                 Manage Employee salary
@@ -583,7 +583,7 @@ const Sidebar = () => {
                                 className={`block p-2 rounded-sm ${
                                   isActive("/HRM/payroll/generate-salary")
                                     ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    : "text-gray-700 hover:text-gray-700"
                                 }`}
                               >
                                 Generate Salary
@@ -597,7 +597,7 @@ const Sidebar = () => {
                 </li>
 
                 {/* Inventory management */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     onClick={() => toggleMenu("inventory")}
                     className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-900"
@@ -626,7 +626,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Inventory/Stockin")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -645,7 +645,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Inventory/StockOut")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -664,7 +664,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Inventory/Inventory-supplier")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -681,7 +681,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* Purchase */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     onClick={() => toggleMenu("purchase")}
                     className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-900 outline-none"
@@ -712,7 +712,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Purchase/PurchaseList")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -731,7 +731,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Purchase/SupplierList")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -748,7 +748,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* Customer */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     role="button"
                     tabIndex={0}
@@ -785,7 +785,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Customer")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -800,7 +800,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* Business */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     role="button"
                     tabIndex={0}
@@ -837,7 +837,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/DailyIncome")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -856,7 +856,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/DailyExpense")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -873,7 +873,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* Reports */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     role="button"
                     tabIndex={0}
@@ -910,7 +910,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Reports/Employee-Report")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -929,7 +929,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Reports/Driver-Report")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -948,7 +948,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Reports/Fuel-Report")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -967,7 +967,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Reports/Purchase-Report")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -986,7 +986,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Reports/Inventory-Report")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1005,7 +1005,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Reports/Trip-Report")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1022,7 +1022,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* Accounts */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     onClick={() => toggleMenu("accounts")}
                     className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
@@ -1052,7 +1052,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/account/CashDispatch")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1071,7 +1071,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/account/PaymentList")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1090,7 +1090,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/account/PaymentReceive")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1109,7 +1109,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/account/SupplierLedger")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1128,7 +1128,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/account/DriverLedger")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1147,7 +1147,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/account/VendorLedger")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1166,7 +1166,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/account/CustomerLedger")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1185,7 +1185,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/account/OfficeLedger")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1202,7 +1202,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* Billing Control */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     onClick={() => toggleMenu("billing")}
                     className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
@@ -1231,7 +1231,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/billing/Yamaha")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1248,7 +1248,7 @@ const Sidebar = () => {
                         {/* hatim toggle inside billing */}
                         <div
                           onClick={() => toggleMenu("hatimMenu")}
-                          className="flex justify-between items-center p-2 cursor-pointer hover:text-primary rounded-sm"
+                          className="flex justify-between items-center p-2 cursor-pointer hover:text-gray-700 rounded-sm"
                         >
                           <span className="flex gap-2 items-center">
                             <div
@@ -1281,7 +1281,7 @@ const Sidebar = () => {
                                 className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                                   isActive("/billing/Hatim")
                                     ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    : "text-gray-700 hover:text-gray-700"
                                 }`}
                               >
                                 <div
@@ -1300,7 +1300,7 @@ const Sidebar = () => {
                                 className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                                   isActive("/billing/HatimPubail")
                                     ? "text-white bg-primary"
-                                    : "text-gray-500 hover:text-primary"
+                                    : "text-gray-700 hover:text-gray-700"
                                 }`}
                               >
                                 <div
@@ -1322,7 +1322,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/billing/Suzuki")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1341,7 +1341,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/billing/Sonalika")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1360,7 +1360,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/billing/Honda")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1379,7 +1379,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/billing/Meghdona")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1396,7 +1396,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* User Control */}
-                <li className="text-primary font-medium rounded-sm mb-10">
+                <li className="text-gray-700 font-medium rounded-sm mb-10">
                   <div
                     onClick={() => toggleMenu("user")}
                     className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
@@ -1425,7 +1425,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/AllUsers")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1444,7 +1444,7 @@ const Sidebar = () => {
               <>
                 {/* private route */}
                 {/* Fleet Management */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     onClick={() => toggleMenu("fleet")}
                     className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-900"
@@ -1464,7 +1464,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/CarList")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1481,7 +1481,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/DriverList")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1500,7 +1500,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/TripList")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1517,7 +1517,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Fuel")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1534,7 +1534,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Parts")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1551,7 +1551,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/Maintenance")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
@@ -1569,7 +1569,7 @@ const Sidebar = () => {
                 </li>
 
                 {/* Business Reports */}
-                <li className="text-primary font-medium rounded-sm">
+                <li className="text-gray-700 font-medium rounded-sm">
                   <div
                     onClick={() => toggleMenu("business")}
                     className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
@@ -1589,7 +1589,7 @@ const Sidebar = () => {
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/DailyExpense")
                               ? "text-white bg-primary"
-                              : "text-gray-500 hover:text-primary"
+                              : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div

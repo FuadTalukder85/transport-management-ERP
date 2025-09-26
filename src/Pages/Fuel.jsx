@@ -228,7 +228,7 @@ const Fuel = () => {
         </div>
         {/* export */}
         <div className="md:flex justify-between items-center">
-          <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
+          <div className="flex gap-1 md:gap-3 text-secondary font-semibold rounded-md">
             <CSVLink
               data={csvData}
               headers={headers}
@@ -258,7 +258,7 @@ const Fuel = () => {
           </div>
           {/*  */}
           <div className="mt-3 md:mt-0">
-            <span className="text-primary font-semibold pr-3">Search: </span>
+            <span className="text-secondary font-semibold pr-3">Search: </span>
             <input
               type="text"
               value={searchTerm}
@@ -336,7 +336,7 @@ const Fuel = () => {
                   <td className="px-2 py-4 action_column">
                     <div className="flex gap-2">
                       <Link to={`/UpdateFuelForm/${dt.id}`}>
-                        <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
@@ -374,7 +374,7 @@ const Fuel = () => {
                 onClick={() => handlePageClick(number + 1)}
                 className={`px-3 py-1 rounded-sm ${
                   currentPage === number + 1
-                    ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                    ? "bg-primary text-white hover:bg-gray-200 hover:text-secondary transition-all duration-300 cursor-pointer"
                     : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
                 }`}
               >

@@ -39,7 +39,7 @@ const Main = () => {
   return (
     <div className="flex md:max-w-7xl lg:max-w-[1920px] hide-scrollbar mx-auto">
       {/* Fixed Sidebar (Desktop) */}
-      <div className="hidden md:flex flex-col w-64 h-screen fixed bg-gray-200 border-r border-gray-300">
+      <div className="hidden md:flex flex-col w-64 h-screen fixed bg-gray-50 border-r border-gray-300">
         <SIdeBar />
       </div>
 

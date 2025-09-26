@@ -48,8 +48,8 @@ const CashDispatch = () => {
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <HiCurrencyBangladeshi className="text-[#11375B] text-2xl" />
+          <h1 className="text-xl font-extrabold text-secondary flex items-center gap-3">
+            <HiCurrencyBangladeshi className="text-2xl" />
             Fund Transfer
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
@@ -63,7 +63,7 @@ const CashDispatch = () => {
 
         <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white capitalize text-sm">
+            <thead className="bg-gray-200 text-secondary capitalize">
               <tr>
                 <th className="p-2">SL</th>
                 <th className="p-2">Date</th>
@@ -76,7 +76,7 @@ const CashDispatch = () => {
                 <th className="p-2">Action</th>
               </tr>
             </thead>
-            <tbody className="text-[#11375B] font-semibold bg-gray-100">
+            <tbody className="text-secondary font-semibold bg-gray-100">
               {currentCash?.map((dt, i) => (
                 <tr
                   key={i}
@@ -93,11 +93,11 @@ const CashDispatch = () => {
                   <td className="p-2 action_column">
                     <div className="flex gap-1">
                       <Link>
-                        <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
-                      <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                      <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                         <FaEye className="text-[12px]" />
                       </button>
                       <button className="text-red-900 hover:text-white hover:bg-red-900 px-2 py-1 rounded shadow-md transition-all cursor-pointer">
@@ -128,7 +128,7 @@ const CashDispatch = () => {
                 onClick={() => handlePageClick(number + 1)}
                 className={`px-3 py-1 rounded-sm ${
                   currentPage === number + 1
-                    ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                    ? "bg-primary text-white hover:bg-gray-200 hover:text-secondary transition-all duration-300 cursor-pointer"
                     : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
                 }`}
               >

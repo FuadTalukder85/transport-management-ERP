@@ -149,7 +149,7 @@ const Parts = () => {
         {/* Export + Search */}
         <div className="md:flex justify-end items-center">
           <div className="mt-3 md:mt-0">
-            <span className="text-primary font-semibold pr-3">Search: </span>
+            <span className="text-secondary font-semibold pr-3">Search: </span>
             <input
               type="text"
               value={searchTerm}
@@ -187,7 +187,7 @@ const Parts = () => {
                   <td className="px-2 md:px-4 py-4">
                     <div className="flex gap-2">
                       <Link to={`/UpdatePartsForm/${part.id}`}>
-                        <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
@@ -226,7 +226,7 @@ const Parts = () => {
               onClick={() => handlePageClick(number + 1)}
               className={`px-3 py-1 rounded-sm ${
                 currentPage === number + 1
-                  ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                  ? "bg-primary text-white hover:bg-gray-200 hover:text-secondary transition-all duration-300 cursor-pointer"
                   : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
               }`}
             >
@@ -300,7 +300,7 @@ const Parts = () => {
             <form action="" onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">
                 <div className="w-full relative">
-                  <label className="text-primary text-sm font-semibold">
+                  <label className="text-secondary text-sm font-semibold">
                     Part Name
                   </label>
                   <input
@@ -319,7 +319,7 @@ const Parts = () => {
 
               <div className="mb-4">
                 <div className="w-full">
-                  <label className="text-primary text-sm font-semibold">
+                  <label className="text-secondary text-sm font-semibold">
                     Part Validity
                   </label>
                   <div className="relative">

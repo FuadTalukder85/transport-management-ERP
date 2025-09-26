@@ -121,8 +121,8 @@ const Hatim = () => {
       <Toaster />
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-2 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <HiCurrencyBangladeshi className="text-[#11375B] text-2xl" />
+          <h1 className="text-xl font-extrabold text-secondary flex items-center gap-3">
+            <HiCurrencyBangladeshi className="text-2xl" />
             Billing Hatim Rupgonj
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
@@ -173,46 +173,48 @@ const Hatim = () => {
           </div>
         )}
         <div className="mt-5 overflow-x-auto">
-          <table className="min-w-full text-sm text-left">
+          <table className="min-w-full text-sm text-left text-secondary">
             <thead className="capitalize text-sm">
               <tr>
-                <th className="border border-gray-700 p-1">SL.</th>
-                <th className="border border-gray-700 p-1">Date</th>
-                <th className="border border-gray-700 p-1">VehicleNo.</th>
-                <th className="border border-gray-700 p-1">Goods</th>
-                <th className="border border-gray-700 p-1">DistributorName</th>
-                <th className="border border-gray-700 p-1">Destination</th>
-                <th className="border border-gray-700 p-1">Amount</th>
-                <th className="border border-gray-700 px-2 py-1">BillStatus</th>
+                <th className="border border-secondary p-1">SL.</th>
+                <th className="border border-secondary p-1">Date</th>
+                <th className="border border-secondary p-1">VehicleNo.</th>
+                <th className="border border-secondary p-1">Goods</th>
+                <th className="border border-secondary p-1">DistributorName</th>
+                <th className="border border-secondary p-1">Destination</th>
+                <th className="border border-secondary p-1">Amount</th>
+                <th className="border border-secondary px-2 py-1">
+                  BillStatus
+                </th>
               </tr>
             </thead>
             <tbody className="font-semibold">
               {filteredTrips?.map((dt, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="border border-gray-700 p-1 font-bold">
+                  <td className="border border-secondary p-1 font-bold">
                     {index + 1}.
                   </td>
-                  <td className="border border-gray-700 p-1">{dt.date}</td>
-                  <td className="border border-gray-700 p-1">
+                  <td className="border border-secondary p-1">{dt.date}</td>
+                  <td className="border border-secondary p-1">
                     {dt.vehicle_no}
                   </td>
-                  <td className="border border-gray-700 p-1">{dt.goods}</td>
-                  <td className="border border-gray-700 p-1 whitespace-pre-line">
+                  <td className="border border-secondary p-1">{dt.goods}</td>
+                  <td className="border border-secondary p-1 whitespace-pre-line">
                     {dt.distribution_name
                       ?.split(",")
                       .map((point) => point.trim())
                       .join("\n")}
                   </td>
-                  <td className="border border-gray-700 p-1 whitespace-pre-line">
+                  <td className="border border-secondary p-1 whitespace-pre-line">
                     {dt.unload_point
                       ?.split(",")
                       .map((point) => point.trim())
                       .join("\n")}
                   </td>
-                  <td className="border border-gray-700 p-1">
+                  <td className="border border-secondary p-1">
                     {dt.total_rent}
                   </td>
-                  <td className="border border-gray-700 p-1 text-center">
+                  <td className="border border-secondary p-1 text-center">
                     {dt.status === "Pending" ? (
                       <input
                         type="checkbox"

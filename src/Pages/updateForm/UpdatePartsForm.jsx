@@ -52,7 +52,7 @@ const UpdatePartsForm = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <div className="w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Part Name
                 </label>
                 <input
@@ -67,7 +67,7 @@ const UpdatePartsForm = () => {
 
             <div className="mb-4">
               <div className="w-full">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Part Validity Date
                 </label>
                 <div className="relative">

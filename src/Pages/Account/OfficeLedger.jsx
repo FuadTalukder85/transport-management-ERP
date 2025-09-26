@@ -78,7 +78,7 @@ const OfficeLedger = () => {
       <div className="w-xs md:w-full overflow-hidden  max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 border border-gray-200">
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-bold text-[#11375B] capitalize flex items-center gap-3">
+          <h1 className="text-xl font-bold text-secondary capitalize flex items-center gap-3">
             OFFICE ledger : {selectedBranch}
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
@@ -94,21 +94,21 @@ const OfficeLedger = () => {
         {/* Export */}
         <div className="md:flex items-center justify-between mb-4">
           <div className="flex gap-1 md:gap-3 flex-wrap">
-            <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
+            <button className="py-2 px-5 bg-gray-200 text-secondary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
               Excel
             </button>
 
-            <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
+            <button className="py-2 px-5 bg-gray-200 text-secondary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
               PDF
             </button>
 
-            <button className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
+            <button className="py-2 px-5 bg-gray-200 text-secondary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer">
               Print
             </button>
           </div>
           <div className="mt-3 md:mt-0">
             <div className="relative w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Select Branch Ledger
               </label>
               <select
@@ -167,41 +167,41 @@ const OfficeLedger = () => {
         {/* Table */}
         <div className="w-full mt-5 overflow-x-auto border border-gray-200">
           <table className="w-full text-sm text-left">
-            <thead className="text-black capitalize font-bold">
+            <thead className="text-secondary capitalize font-bold">
               <tr>
-                <th className="border border-gray-700 px-2 py-1">SL</th>
-                <th className="border border-gray-700 px-2 py-1">Date</th>
-                <th className="border border-gray-700 px-2 py-1">
+                <th className="border border-secondary px-2 py-1">SL</th>
+                <th className="border border-secondary px-2 py-1">Date</th>
+                <th className="border border-secondary px-2 py-1">
                   Particulars
                 </th>
-                <th className="border border-gray-700 px-2 py-1">Mode</th>
-                <th className="border border-gray-700 px-2 py-1">
+                <th className="border border-secondary px-2 py-1">Mode</th>
+                <th className="border border-secondary px-2 py-1">
                   Destination
                 </th>
-                {/* <th className="border border-gray-700 px-2 py-1">TripExp</th> */}
-                <th className="border border-gray-700 px-2 py-1">Due</th>
-                <th className="border border-gray-700 px-2 py-1">CashIn</th>
-                <th className="border border-gray-700 px-2 py-1">CashOut</th>
-                <th className="border border-gray-700 py-1 text-center">
+                {/* <th className="border border-secondary px-2 py-1">TripExp</th> */}
+                <th className="border border-secondary px-2 py-1">Due</th>
+                <th className="border border-secondary px-2 py-1">CashIn</th>
+                <th className="border border-secondary px-2 py-1">CashOut</th>
+                <th className="border border-secondary py-1 text-center">
                   <p className="border-b">OpeningBalance 2000</p>Balance
                 </th>
-                <th className="border border-gray-700 px-2 py-1">Ref</th>
+                <th className="border border-secondary px-2 py-1">Ref</th>
               </tr>
             </thead>
-            <tbody className="text-black font-semibold">
+            <tbody className="text-secondary font-semibold">
               {filteredBranch?.map((dt, index) => {
                 const expense = parseFloat(dt.trip_expense) || 0;
                 const cashOut = parseFloat(dt.cash_out) || 0;
                 currentBalance += expense - cashOut;
                 return (
                   <tr key={index} className="hover:bg-gray-50 transition-all">
-                    <td className="border border-gray-700 px-2 py-1 font-bold">
+                    <td className="border border-secondary px-2 py-1 font-bold">
                       {index + 1}.
                     </td>
-                    <td className="border border-gray-700 px-2 py-1">
+                    <td className="border border-secondary px-2 py-1">
                       {dt.date}
                     </td>
-                    <td className="border border-gray-700 px-2 py-1">
+                    <td className="border border-secondary px-2 py-1">
                       {dt.remarks ? (
                         dt.remarks
                       ) : (
@@ -210,7 +210,7 @@ const OfficeLedger = () => {
                         </span>
                       )}
                     </td>
-                    <td className="border border-gray-700 px-2 py-1">
+                    <td className="border border-secondary px-2 py-1">
                       {dt.mode ? (
                         dt.mode
                       ) : (
@@ -219,7 +219,7 @@ const OfficeLedger = () => {
                         </span>
                       )}
                     </td>
-                    <td className="border border-gray-700 px-2 py-1">
+                    <td className="border border-secondary px-2 py-1">
                       {dt.unload_point ? (
                         dt.unload_point
                       ) : (
@@ -228,7 +228,7 @@ const OfficeLedger = () => {
                         </span>
                       )}
                     </td>
-                    {/* <td className="border border-gray-700 px-2 py-1">
+                    {/* <td className="border border-secondary px-2 py-1">
                       {dt.trip_expense ? (
                         dt.trip_expense
                       ) : (
@@ -237,23 +237,23 @@ const OfficeLedger = () => {
                         </span>
                       )}
                     </td> */}
-                    <td className="border border-gray-700 px-2 py-1">
+                    <td className="border border-secondary px-2 py-1">
                       {dt.due}
                     </td>
-                    <td className="border border-gray-700 px-2 py-1">
+                    <td className="border border-secondary px-2 py-1">
                       {dt.cash_in}
                     </td>
-                    <td className="border border-gray-700 px-2 py-1">
+                    <td className="border border-secondary px-2 py-1">
                       {dt.cash_out}
                     </td>
-                    <td className="border border-gray-700 px-2 py-1">
+                    <td className="border border-secondary px-2 py-1">
                       <span>
                         {currentBalance < 0
                           ? `(${Math.abs(currentBalance)})`
                           : currentBalance}
                       </span>
                     </td>
-                    <td className="border border-gray-700 px-2 py-1">
+                    <td className="border border-secondary px-2 py-1">
                       {dt.ref}
                     </td>
                   </tr>

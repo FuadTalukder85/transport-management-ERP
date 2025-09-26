@@ -6,6 +6,8 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { BiTrip } from "react-icons/bi";
+import BtnCmn from "../../components/Button/BtnCmn";
+import { IoIosRemoveCircle } from "react-icons/io";
 
 const TripReport = () => {
   const [trips, setTrips] = useState([]);
@@ -157,7 +159,7 @@ const TripReport = () => {
 
   return (
     <div className="p-4 max-w-7xl mx-auto bg-white shadow rounded-xl border border-gray-200">
-      <h2 className="text-xl font-bold text-primary flex items-center gap-2 ">
+      <h2 className="text-xl font-bold text-secondary flex items-center gap-2 ">
         <BiTrip className="text-lg" />
         Monthly Trip Report
       </h2>
@@ -185,16 +187,15 @@ const TripReport = () => {
             Print
           </button>
         </div>
-        <button
-          onClick={() => setShowFilter((prev) => !prev)}
-          className="border border-primary  text-primary px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
-        >
-          <FaFilter /> Filter
-        </button>
+        <div onClick={() => setShowFilter((prev) => !prev)}>
+          <BtnCmn>
+            <FaFilter /> Filter
+          </BtnCmn>
+        </div>
       </div>
       {/* Conditional Filter Section */}
       {showFilter && (
-        <div className="md:flex gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5 justify-center items-center">
+        <div className="md:flex items-center gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
           <div className="relative w-full">
             <input
               type="date"
@@ -213,29 +214,34 @@ const TripReport = () => {
               className="mt-1 w-full text-sm border border-gray-300 px-3 py-2 rounded bg-white outline-none"
             />
           </div>
-          <div className="mt-3 md:mt-0 flex gap-2">
-            <button
-              onClick={() => setCurrentPage(1)}
-              className="bg-primary text-white px-4 py-1 md:py-0 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
+          <div className="w-xs">
+            <div
+              onClick={() => {
+                setStartDate("");
+                setEndDate("");
+                setShowFilter(false);
+              }}
             >
-              <FaFilter /> Filter
-            </button>
+              <BtnCmn>
+                <IoIosRemoveCircle /> Clear Filter
+              </BtnCmn>
+            </div>
           </div>
         </div>
       )}
       <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
         <table id="trip-table" className="min-w-full text-sm text-left">
-          <thead className="bg-[#11375B] text-white capitalize text-xs">
-            <tr className="px-2 py-3">
-              <th className="px-2 py-3">SL</th>
-              <th className="px-2 py-3">Date</th>
-              <th className="px-2 py-3">Vehicle</th>
-              <th className="px-2 py-3">Driver</th>
-              <th className="px-2 py-3">Load</th>
-              <th className="px-2 py-3">Unload</th>
-              <th className="px-2 py-3">Rent</th>
-              <th className="px-2 py-3">Expense</th>
-              <th className="px-2 py-3">Profit</th>
+          <thead className="bg-gray-200 text-secondary capitalize">
+            <tr className="">
+              <th className="p-2">SL</th>
+              <th className="p-2">Date</th>
+              <th className="p-2">Vehicle</th>
+              <th className="p-2">Driver</th>
+              <th className="p-2">Load</th>
+              <th className="p-2">Unload</th>
+              <th className="p-2">Rent</th>
+              <th className="p-2">Expense</th>
+              <th className="p-2">Profit</th>
             </tr>
           </thead>
           <tbody>
@@ -265,7 +271,7 @@ const TripReport = () => {
               </tr>
             ) : (
               currentTripsReport.map((t, i) => (
-                <tr key={i} className="text-gray-700">
+                <tr key={i} className="text-secondary bg-gray-100">
                   <td className="px-2 py-3">{i + 1}</td>
                   <td className="px-2 py-3">{t.date}</td>
                   <td className="px-2 py-3">{t.vehicle_no}</td>
@@ -312,7 +318,7 @@ const TripReport = () => {
                 onClick={() => handlePageClick(number + 1)}
                 className={`px-3 py-1 rounded-sm ${
                   currentPage === number + 1
-                    ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                    ? "bg-primary text-white hover:bg-gray-200 hover:text-secondary transition-all duration-300 cursor-pointer"
                     : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
                 }`}
               >

@@ -436,8 +436,8 @@ const Suzuki = () => {
       <Toaster />
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-lg p-2 py-10 md:p-2 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <HiCurrencyBangladeshi className="text-[#11375B] text-2xl" />
+          <h1 className="text-xl font-extrabold text-secondary flex items-center gap-3">
+            <HiCurrencyBangladeshi className="text-2xl" />
             Billing Suzuki
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
@@ -451,7 +451,7 @@ const Suzuki = () => {
         </div>
         {/* export and search */}
         <div className="md:flex justify-between items-center">
-          <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
+          <div className="flex gap-1 md:gap-3 text-secondary font-semibold rounded-md">
             <button
               onClick={exportToExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
@@ -510,43 +510,45 @@ const Suzuki = () => {
           </div>
         )}
         <div className="mt-5 overflow-x-auto">
-          <table className="min-w-full text-sm text-left">
+          <table className="min-w-full text-sm text-left text-secondary">
             <thead className="capitalize text-sm">
               <tr>
-                <th className="border border-gray-700 p-1">SL.</th>
-                <th className="border border-gray-700 p-1">Date</th>
-                <th className="border border-gray-700 p-1">VehicleNo.</th>
-                <th className="border border-gray-700 p-1">DealerName</th>
-                <th className="border border-gray-700 p-1">Do(Si)</th>
-                <th className="border border-gray-700 p-1">Co(U)</th>
-                <th className="border border-gray-700 p-1">Destination</th>
-                <th className="border border-gray-700 p-1">
+                <th className="border border-secondary p-1">SL.</th>
+                <th className="border border-secondary p-1">Date</th>
+                <th className="border border-secondary p-1">VehicleNo.</th>
+                <th className="border border-secondary p-1">DealerName</th>
+                <th className="border border-secondary p-1">Do(Si)</th>
+                <th className="border border-secondary p-1">Co(U)</th>
+                <th className="border border-secondary p-1">Destination</th>
+                <th className="border border-secondary p-1">
                   Bike
                   <br />
                   Qty
                 </th>
-                <th className="border border-gray-700 p-1">Masking</th>
-                <th className="border border-gray-700 p-1">
+                <th className="border border-secondary p-1">Masking</th>
+                <th className="border border-secondary p-1">
                   Unload
                   <br />
                   Charge
                 </th>
-                <th className="border border-gray-700 p-1">
+                <th className="border border-secondary p-1">
                   Extra
                   <br />
                   Fare
                 </th>
-                <th className="border border-gray-700 p-1">
+                <th className="border border-secondary p-1">
                   VehicleRent
                   <br />
                   WithVatTax
                 </th>
-                <th className="border border-gray-700 p-1">
+                <th className="border border-secondary p-1">
                   Total
                   <br />
                   Amount
                 </th>
-                <th className="border border-gray-700 px-2 py-1">BillStatus</th>
+                <th className="border border-secondary px-2 py-1">
+                  BillStatus
+                </th>
               </tr>
             </thead>
             <tbody className="font-semibold">
@@ -563,36 +565,38 @@ const Suzuki = () => {
 
                 return (
                   <tr key={index} className="hover:bg-gray-50 transition-all">
-                    <td className="border border-gray-700 p-1 font-bold">
+                    <td className="border border-secondary p-1 font-bold">
                       {index + 1}
                     </td>
-                    <td className="border border-gray-700 p-1">{dt.date}</td>
-                    <td className="border border-gray-700 p-1">
+                    <td className="border border-secondary p-1">{dt.date}</td>
+                    <td className="border border-secondary p-1">
                       {dt.vehicle_no}
                     </td>
-                    <td className="border border-gray-700 p-1">
+                    <td className="border border-secondary p-1">
                       {dt.dealer_name}
                     </td>
-                    <td className="border border-gray-700 p-1">{dt.do_si}</td>
-                    <td className="border border-gray-700 p-1">{dt.co_u}</td>
-                    <td className="border border-gray-700 p-1">
+                    <td className="border border-secondary p-1">{dt.do_si}</td>
+                    <td className="border border-secondary p-1">{dt.co_u}</td>
+                    <td className="border border-secondary p-1">
                       {dt.unload_point}
                     </td>
-                    <td className="border border-gray-700 p-1">
+                    <td className="border border-secondary p-1">
                       {dt.quantity}
                     </td>
-                    <td className="border border-gray-700 p-1">{dt.masking}</td>
-                    <td className="border border-gray-700 p-1">
+                    <td className="border border-secondary p-1">
+                      {dt.masking}
+                    </td>
+                    <td className="border border-secondary p-1">
                       {dt.unload_charge}
                     </td>
-                    <td className="border border-gray-700 p-1">
+                    <td className="border border-secondary p-1">
                       {dt.extra_fare}
                     </td>
-                    <td className="border border-gray-700 p-1">{totalCost}</td>
-                    <td className="border border-gray-700 p-1">
+                    <td className="border border-secondary p-1">{totalCost}</td>
+                    <td className="border border-secondary p-1">
                       {totalAmount}
                     </td>
-                    <td className="border border-gray-700 p-1 text-center">
+                    <td className="border border-secondary p-1 text-center">
                       {dt.status === "Pending" ? (
                         <input
                           type="checkbox"

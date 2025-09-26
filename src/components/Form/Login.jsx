@@ -14,7 +14,7 @@ const Login = () => {
     const result = await login(email, password);
 
     if (result.success) {
-      navigate("");
+      navigate("/");
     } else {
       alert(result.message || "Login failed");
     }
@@ -38,7 +38,7 @@ const Login = () => {
               Admin{" "}
               <span className="font-semibold text-red-500">MS Trading</span>
             </h2>
-            <p className="text-sm text-center text-primary mb-6">
+            <p className="text-sm text-center text-secondary mb-6">
               Please Login!
             </p>
 

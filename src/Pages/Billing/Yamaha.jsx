@@ -349,8 +349,8 @@ const Yamaha = () => {
       <Toaster />
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <HiCurrencyBangladeshi className="text-[#11375B] text-2xl" />
+          <h1 className="text-xl font-extrabold text-secondary flex items-center gap-3">
+            <HiCurrencyBangladeshi className="text-2xl" />
             Billing Yamaha
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
@@ -364,7 +364,7 @@ const Yamaha = () => {
         </div>
         {/* export and search */}
         <div className="md:flex justify-between items-center">
-          <div className="flex gap-1 md:gap-3 text-primary font-semibold rounded-md">
+          <div className="flex gap-1 md:gap-3 text-secondary font-semibold rounded-md">
             <button
               onClick={exportToExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
@@ -424,50 +424,56 @@ const Yamaha = () => {
         )}
 
         <div className="mt-5 overflow-x-auto">
-          <table className="min-w-full text-sm text-left text-gray-900">
+          <table className="min-w-full text-sm text-left text-secondary">
             <thead className="capitalize text-sm">
               <tr>
-                <th className="border border-gray-700 px-2 py-1">SL.</th>
-                <th className="border border-gray-700 px-2 py-1">Date</th>
-                <th className="border border-gray-700 px-2 py-1">Product</th>
-                <th className="border border-gray-700 px-2 py-1">Portfolio</th>
-                <th className="border border-gray-700 px-2 py-1">Vehicle</th>
-                <th className="border border-gray-700 px-2 py-1">Chalan</th>
-                <th className="border border-gray-700 px-2 py-1">From</th>
-                <th className="border border-gray-700 px-2 py-1">
+                <th className="border border-secondary px-2 py-1">SL.</th>
+                <th className="border border-secondary px-2 py-1">Date</th>
+                <th className="border border-secondary px-2 py-1">Product</th>
+                <th className="border border-secondary px-2 py-1">Portfolio</th>
+                <th className="border border-secondary px-2 py-1">Vehicle</th>
+                <th className="border border-secondary px-2 py-1">Chalan</th>
+                <th className="border border-secondary px-2 py-1">From</th>
+                <th className="border border-secondary px-2 py-1">
                   Destination
                 </th>
-                <th className="border border-gray-700 px-2 py-1">Quantity</th>
-                <th className="border border-gray-700 px-2 py-1">BodyFare</th>
-                <th className="border border-gray-700 px-2 py-1">Dropping</th>
-                <th className="border border-gray-700 px-2 py-1">FuelCost</th>
-                <th className="border border-gray-700 px-2 py-1">BillStatus</th>
+                <th className="border border-secondary px-2 py-1">Quantity</th>
+                <th className="border border-secondary px-2 py-1">BodyFare</th>
+                <th className="border border-secondary px-2 py-1">Dropping</th>
+                <th className="border border-secondary px-2 py-1">FuelCost</th>
+                <th className="border border-secondary px-2 py-1">
+                  BillStatus
+                </th>
               </tr>
             </thead>
             <tbody className="font-semibold">
               {filteredTrips.map((dt, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-all">
-                  <td className="border border-gray-700 p-1 font-bold">
+                  <td className="border border-secondary p-1 font-bold">
                     {index + 1}.
                   </td>
-                  <td className="border border-gray-700 p-1">{dt.date}</td>
-                  <td className="border border-gray-700 p-1">Motorcycle</td>
-                  <td className="border border-gray-700 p-1">{dt.customer}</td>
-                  <td className="border border-gray-700 p-1">
+                  <td className="border border-secondary p-1">{dt.date}</td>
+                  <td className="border border-secondary p-1">Motorcycle</td>
+                  <td className="border border-secondary p-1">{dt.customer}</td>
+                  <td className="border border-secondary p-1">
                     {dt.vehicle_no}
                   </td>
-                  <td className="border border-gray-700 p-1">{dt.challan}</td>
-                  <td className="border border-gray-700 p-1">
+                  <td className="border border-secondary p-1">{dt.challan}</td>
+                  <td className="border border-secondary p-1">
                     {dt.load_point}
                   </td>
-                  <td className="border border-gray-700 p-1">
+                  <td className="border border-secondary p-1">
                     {dt.unload_point}
                   </td>
-                  <td className="border border-gray-700 p-1">{dt.quantity}</td>
-                  <td className="border border-gray-700 p-1">{dt.body_fare}</td>
-                  <td className="border border-gray-700 p-1"></td>
-                  <td className="border border-gray-700 p-1">{dt.fuel_cost}</td>
-                  <td className="border border-gray-700 p-1 text-center">
+                  <td className="border border-secondary p-1">{dt.quantity}</td>
+                  <td className="border border-secondary p-1">
+                    {dt.body_fare}
+                  </td>
+                  <td className="border border-secondary p-1"></td>
+                  <td className="border border-secondary p-1">
+                    {dt.fuel_cost}
+                  </td>
+                  <td className="border border-secondary p-1 text-center">
                     {dt.status === "Pending" ? (
                       <input
                         type="checkbox"

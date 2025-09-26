@@ -14,7 +14,7 @@ const CustomerLedger = () => {
       <div className="w-xs md:w-full overflow-hidden max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10">
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-bold text-[#11375B] capitalize flex items-center gap-3">
+          <h1 className="text-xl font-bold text-secondary capitalize flex items-center gap-3">
             Customer ledger : {selectedCustomer}
           </h1>
         </div>
@@ -25,7 +25,7 @@ const CustomerLedger = () => {
 
           <div className="mt-3 md:mt-0">
             <div className="relative w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Select Customer Ledger
               </label>
               <select

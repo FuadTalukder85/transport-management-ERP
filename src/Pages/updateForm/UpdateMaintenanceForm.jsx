@@ -124,7 +124,7 @@ const UpdateMaintenanceForm = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Maintenance Date
               </label>
               <div className="relative">
@@ -147,7 +147,7 @@ const UpdateMaintenanceForm = () => {
               </div>
             </div>
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Service Type
               </label>
               <select
@@ -164,7 +164,7 @@ const UpdateMaintenanceForm = () => {
 
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Parts & Spares
               </label>
               <select
@@ -180,7 +180,7 @@ const UpdateMaintenanceForm = () => {
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Maintenance Category
               </label>
               <select
@@ -199,7 +199,9 @@ const UpdateMaintenanceForm = () => {
 
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">Cost</label>
+              <label className="text-secondary text-sm font-semibold">
+                Cost
+              </label>
               <input
                 {...register("cost")}
                 type="number"
@@ -209,7 +211,7 @@ const UpdateMaintenanceForm = () => {
               />
             </div>
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Vehicle Number
               </label>
               <Controller
@@ -235,7 +237,7 @@ const UpdateMaintenanceForm = () => {
 
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Charged By
               </label>
               <input
@@ -246,7 +248,7 @@ const UpdateMaintenanceForm = () => {
               />
             </div>
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Total Cost
               </label>
               <input
@@ -260,7 +262,7 @@ const UpdateMaintenanceForm = () => {
 
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Priority
               </label>
               <select
@@ -275,7 +277,7 @@ const UpdateMaintenanceForm = () => {
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Service For
               </label>
               <Controller
@@ -296,7 +298,7 @@ const UpdateMaintenanceForm = () => {
               />
             </div>
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Cash Memo / Document Image
               </label>
               <div className="relative mt-1">

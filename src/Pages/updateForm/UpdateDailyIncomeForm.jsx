@@ -92,14 +92,14 @@ const UpdateDailyIncomeForm = () => {
           <Toaster position="top-center" reverseOrder={false} />
           {/* Trip & Destination Section */}
           <div className="border border-gray-300 p-3 md:p-5 rounded-md">
-            <h5 className="text-primary font-semibold text-center md:pb-5">
+            <h5 className="text-secondary font-semibold text-center md:pb-5">
               <span className="py-2 border-b-2 border-primary">
                 Trip and Destination Section
               </span>
             </h5>
             <div className="mt-5 md:mt-0 md:flex justify-between gap-3">
               <div className="w-full">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Date *
                 </label>
                 <div className="relative">
@@ -122,7 +122,7 @@ const UpdateDailyIncomeForm = () => {
                 </div>
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Vehicle Number
                 </label>
                 <select
@@ -139,7 +139,7 @@ const UpdateDailyIncomeForm = () => {
             {/* Load/Unload Points */}
             <div className="md:flex justify-between gap-3">
               <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Load Point
                 </label>
                 <input
@@ -151,7 +151,7 @@ const UpdateDailyIncomeForm = () => {
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Unload Point
                 </label>
                 <input
@@ -167,14 +167,14 @@ const UpdateDailyIncomeForm = () => {
 
           {/* Expense Section */}
           <div className="mt-3 border border-gray-300 p-5 rounded-md">
-            <h5 className="text-primary font-semibold text-center pb-5">
+            <h5 className="text-secondary font-semibold text-center pb-5">
               <span className="py-2 border-b-2 border-primary">
                 Current Expenses
               </span>
             </h5>
             <div className="md:flex justify-between gap-3">
               <div className="w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Fuel Price
                 </label>
                 <input
@@ -186,7 +186,7 @@ const UpdateDailyIncomeForm = () => {
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Gas Price
                 </label>
                 <input
@@ -200,7 +200,7 @@ const UpdateDailyIncomeForm = () => {
             </div>
             <div className="md:flex justify-between gap-3">
               <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Other Expenses
                 </label>
                 <input
@@ -213,7 +213,7 @@ const UpdateDailyIncomeForm = () => {
               </div>
 
               <div className="w-full">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Trip Cost
                 </label>
                 <input
@@ -224,7 +224,7 @@ const UpdateDailyIncomeForm = () => {
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Trip Fare
                 </label>
                 <input

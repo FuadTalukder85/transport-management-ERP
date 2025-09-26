@@ -26,7 +26,7 @@ const PaymentReceive = () => {
     <div className="bg-gradient-to-br from-gray-100 to-white md:p-4">
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
+          <h1 className="text-xl font-extrabold text-secondary flex items-center gap-3">
             Payment Receive
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
@@ -39,7 +39,7 @@ const PaymentReceive = () => {
         </div>
         <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white capitalize text-sm">
+            <thead className="bg-gray-200 text-secondary capitalize">
               <tr>
                 <th className="p-2">SL.</th>
                 <th className="p-2">Date</th>
@@ -54,7 +54,7 @@ const PaymentReceive = () => {
                 <th className="p-2">Action</th>
               </tr>
             </thead>
-            <tbody className="text-[#11375B] font-semibold bg-gray-100">
+            <tbody className="text-secondary font-semibold bg-gray-100">
               {payment?.map((dt, index) => (
                 <tr className="hover:bg-gray-50 transition-all border border-gray-200">
                   <td className="px-2 py-1 font-bold">{index + 1}.</td>
@@ -70,7 +70,7 @@ const PaymentReceive = () => {
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
                       <Link to={`/UpdatepaymentForm/${dt.id}`}>
-                        <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>

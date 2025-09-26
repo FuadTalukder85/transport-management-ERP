@@ -88,7 +88,7 @@ const MaintenanceForm = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Maintenance Date
               </label>
               <div className="relative">
@@ -115,7 +115,7 @@ const MaintenanceForm = () => {
               </div>
             </div>
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Service Type
               </label>
               <select
@@ -136,7 +136,7 @@ const MaintenanceForm = () => {
           </div>
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Parts and Spares
               </label>
               <select
@@ -157,7 +157,7 @@ const MaintenanceForm = () => {
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Maintenance Type
               </label>
               <select
@@ -181,7 +181,9 @@ const MaintenanceForm = () => {
 
           <div className="md:flex justify-between gap-3">
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">Cost</label>
+              <label className="text-secondary text-sm font-semibold">
+                Cost
+              </label>
               <input
                 {...register("cost", { required: true })}
                 type="number"
@@ -195,7 +197,7 @@ const MaintenanceForm = () => {
               )}
             </div>
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Vehicle Number
               </label>
               <Controller
@@ -233,7 +235,7 @@ const MaintenanceForm = () => {
 
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Charged By
               </label>
               <input
@@ -249,7 +251,7 @@ const MaintenanceForm = () => {
               )}
             </div>
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Total Cost
               </label>
               <input
@@ -268,7 +270,7 @@ const MaintenanceForm = () => {
 
           <div className="md:flex justify-between gap-3">
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Priority
               </label>
               <select
@@ -288,7 +290,7 @@ const MaintenanceForm = () => {
               <MdOutlineArrowDropDown className="absolute top-[35px] right-2 pointer-events-none text-xl text-gray-500" />
             </div>
             <div className="w-full relative">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Service For
               </label>
               <Controller
@@ -315,7 +317,7 @@ const MaintenanceForm = () => {
               )}
             </div>
             <div className="w-full">
-              <label className="text-primary text-sm font-semibold">
+              <label className="text-secondary text-sm font-semibold">
                 Cash Memo / Receipt Image
               </label>
               <div className="relative mt-1">

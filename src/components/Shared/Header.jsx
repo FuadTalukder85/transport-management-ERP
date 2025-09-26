@@ -22,20 +22,20 @@ const Header = ({ setMobileSidebarOpen }) => {
       <div className="flex items-center gap-3 cursor-pointer">
         {/* Toggle sidebar on mobile */}
         <h3
-          className="text-primary md:hidden"
+          className="text-secondary md:hidden"
           onClick={() => setMobileSidebarOpen(true)}
         >
           <FaBars />
         </h3>
         <div>
-          <h1 className="text-xl font-bold text-primary">
+          <h1 className="text-xl font-bold text-secondary">
             Transport Management Software
           </h1>
           <p className="text-xs text-gray-600">
             Smart solutions in a changing world
           </p>
         </div>
-        {/* <Link to="" className="font-semibold text-primary">
+        {/* <Link to="" className="font-semibold text-secondary">
             Home
           </Link> */}
       </div>
@@ -63,13 +63,13 @@ const Header = ({ setMobileSidebarOpen }) => {
             alt="Admin"
             className="w-8 rounded-2xl drop-shadow"
           />
-          <h3 className="font-semibold text-primary">
+          <h3 className="font-semibold text-secondary">
             {user?.data?.user?.role}
           </h3>
         </div>
         {isAdminOpen && (
           <div className="absolute right-0 top-14 w-52 bg-white drop-shadow p-5 rounded-md shadow-lg z-50">
-            <p className="font-semibold text-primary">
+            <p className="font-semibold text-secondary">
               {user?.data?.user?.role}
             </p>
             <span className="text-sm text-gray-600">

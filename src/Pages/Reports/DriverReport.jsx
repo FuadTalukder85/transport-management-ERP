@@ -11,6 +11,7 @@ import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import BtnCmn from "../../components/Button/BtnCmn";
 
 const DriverReport = () => {
   const [drivers, setDrivers] = useState([]);
@@ -181,7 +182,7 @@ const DriverReport = () => {
 
   return (
     <div className="p-4 max-w-7xl mx-auto bg-white shadow rounded-lg border border-gray-200">
-      <h2 className="text-xl font-bold text-primary flex items-center gap-2 ">
+      <h2 className="text-xl font-bold text-secondary flex items-center gap-2 ">
         <FaUser className="text-lg" />
         Driver Performance Report
       </h2>
@@ -211,12 +212,11 @@ const DriverReport = () => {
             Print
           </button>
         </div>
-        <button
-          onClick={() => setShowFilter((prev) => !prev)}
-          className="border border-primary  text-primary px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
-        >
-          <FaFilter /> Filter
-        </button>
+        <div onClick={() => setShowFilter((prev) => !prev)}>
+          <BtnCmn>
+            <FaFilter /> Filter
+          </BtnCmn>
+        </div>
       </div>
 
       {/* Filter UI */}
@@ -246,18 +246,18 @@ const DriverReport = () => {
       {/* Report Table */}
       <div className="mt-5 overflow-x-auto rounded-xl border border-gray-200">
         <table id="driver-report" className="min-w-full text-sm text-left">
-          <thead className="bg-[#11375B] text-white capitalize text-xs">
+          <thead className="bg-gray-200 text-secondary capitalize">
             <tr>
-              <th className="px-2 py-3">SL</th>
-              <th className="px-2 py-3">Driver</th>
-              <th className="px-2 py-3">Mobile</th>
-              <th className="px-2 py-3">Trips</th>
-              <th className="px-2 py-3">Rent</th>
-              <th className="px-2 py-3">Expense</th>
-              <th className="px-2 py-3">Profit</th>
+              <th className="p-2">SL</th>
+              <th className="p-2">Driver</th>
+              <th className="p-2">Mobile</th>
+              <th className="p-2">Trips</th>
+              <th className="p-2">Rent</th>
+              <th className="p-2">Expense</th>
+              <th className="p-2">Profit</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-secondary bg-gray-100">
             {currentDriverReport.length === 0 ? (
               <tr>
                 <td
@@ -285,7 +285,7 @@ const DriverReport = () => {
             ) : (
               currentDriverReport.map((d, i) => (
                 <tr key={i} className="hover:bg-gray-50">
-                  <td className="px-2 py-3">{i + 1 + indexOfFirstItem}</td>
+                  <td className="px-2 py-3">{i + 1 + indexOfFirstItem}.</td>
                   <td className="px-2 py-3">{d.name}</td>
                   <td className="px-2 py-3">{d.mobile}</td>
                   <td className="px-2 py-3">{d.totalTrips}</td>

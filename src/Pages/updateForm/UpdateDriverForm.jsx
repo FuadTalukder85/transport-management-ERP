@@ -169,7 +169,7 @@ const UpdateDriverForm = () => {
               </div>
 
               <div className="mt-3 md:mt-0 w-full">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Upload License Image
                 </label>
                 <div className="relative">

@@ -7,6 +7,7 @@ import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { IoMdClose } from "react-icons/io";
 import { MdShop } from "react-icons/md";
 import { Link } from "react-router-dom";
+import BtnCmn from "../../components/Button/BtnCmn";
 
 const SupplierList = () => {
   const [supply, setSupply] = useState([]);
@@ -103,21 +104,21 @@ const SupplierList = () => {
       <Toaster />
       <div className="w-xs md:w-full overflow-hidden overflow-x-auto max-w-7xl mx-auto bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-2 py-10 md:p-6 border border-gray-200">
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-extrabold text-[#11375B] flex items-center gap-3">
-            <MdShop className="text-[#11375B] text-2xl" />
+          <h1 className="text-xl font-extrabold text-secondary flex items-center gap-3">
+            <MdShop className="text-2xl" />
             Supplier List
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/Purchase/AddSupply">
-              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
+              <BtnCmn>
                 <FaPlus /> Supplier
-              </button>
+              </BtnCmn>
             </Link>
           </div>
         </div>
         <div className="mt-5 overflow-x-auto rounded-xl">
           <table className="min-w-full text-sm text-left">
-            <thead className="bg-[#11375B] text-white capitalize text-sm">
+            <thead className="bg-gray-200 text-secondary capitalize">
               <tr>
                 <th className="p-2">SL.</th>
                 <th className="p-2">Date</th>
@@ -129,7 +130,7 @@ const SupplierList = () => {
                 <th className="p-2">Action</th>
               </tr>
             </thead>
-            <tbody className="text-[#11375B] font-semibold bg-gray-100">
+            <tbody className="text-secondary font-semibold bg-gray-100">
               {currentSupplier?.map((dt, index) => (
                 <tr
                   key={index}
@@ -147,13 +148,13 @@ const SupplierList = () => {
                   <td className="px-2 action_column">
                     <div className="flex gap-1">
                       <Link to={`/UpdateSupplyForm/${dt.id}`}>
-                        <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
                       <button
                         onClick={() => handleView(dt.id)}
-                        className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
+                        className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer"
                       >
                         <FaEye className="text-[12px]" />
                       </button>
@@ -191,7 +192,7 @@ const SupplierList = () => {
                 onClick={() => handlePageClick(number + 1)}
                 className={`px-3 py-1 rounded-sm ${
                   currentPage === number + 1
-                    ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                    ? "bg-primary text-white hover:bg-gray-200 hover:text-secondary transition-all duration-300 cursor-pointer"
                     : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
                 }`}
               >
@@ -251,25 +252,25 @@ const SupplierList = () => {
       {viewModalOpen && selectedSupply && (
         <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-[#000000ad] z-50">
           <div className="w-4xl p-5 bg-gray-100 rounded-xl mt-10">
-            <h3 className="text-primary font-semibold text-base">
+            <h3 className="text-secondary font-semibold text-base">
               Supply Information
             </h3>
             <div className="mt-5">
               <ul className="flex border border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Business Name:</p>{" "}
                   <p>{selectedSupply.business_name}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2">
                   <p className="w-48">Phone:</p> <p>{selectedSupply.phone}</p>
                 </li>
               </ul>
               <ul className="flex border-b border-r border-l border-gray-300">
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2 border-r border-gray-300">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2 border-r border-gray-300">
                   <p className="w-48">Address:</p>{" "}
                   <p>{selectedSupply.address}</p>
                 </li>
-                <li className="w-[428px] flex text-primary font-semibold text-sm px-3 py-2">
+                <li className="w-[428px] flex text-secondary font-semibold text-sm px-3 py-2">
                   <p className="w-48">Status:</p> <p>{selectedSupply.status}</p>
                 </li>
               </ul>

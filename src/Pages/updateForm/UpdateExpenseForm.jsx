@@ -92,14 +92,14 @@ const UpdateExpenseForm = () => {
           <Toaster position="top-center" reverseOrder={false} />
           {/* Trip and Destination Section */}
           <div className="border border-gray-300 p-3 md:p-5 rounded-md">
-            <h5 className="text-primary font-semibold text-center md:pb-5">
+            <h5 className="text-secondary font-semibold text-center md:pb-5">
               <span className="py-2 border-b-2 border-primary">
                 Trip and Destination Section
               </span>
             </h5>
             <div className="mt-5 md:mt-0 md:flex justify-between gap-3">
               <div className="w-full">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Date *
                 </label>
                 <div className="relative">
@@ -122,7 +122,7 @@ const UpdateExpenseForm = () => {
                 </div>
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Vehicle Number
                 </label>
                 <select
@@ -139,14 +139,14 @@ const UpdateExpenseForm = () => {
           </div>
           {/* Ongoing Expenses */}
           <div className="mt-3 border border-gray-300 p-5 rounded-md">
-            <h5 className="text-primary font-semibold text-center pb-5">
+            <h5 className="text-secondary font-semibold text-center pb-5">
               <span className="py-2 border-b-2 border-primary">
                 Ongoing Expenses
               </span>
             </h5>
             <div className="md:flex justify-between gap-3">
               <div className="w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Fuel Cost
                 </label>
                 <input
@@ -158,7 +158,7 @@ const UpdateExpenseForm = () => {
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Gas Cost
                 </label>
                 <input
@@ -172,7 +172,7 @@ const UpdateExpenseForm = () => {
             </div>
             <div className="md:flex justify-between gap-3">
               <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Other Expenses
                 </label>
                 <input
@@ -185,7 +185,7 @@ const UpdateExpenseForm = () => {
               </div>
 
               <div className="w-full">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Total Trip Cost
                 </label>
                 <input
@@ -196,7 +196,7 @@ const UpdateExpenseForm = () => {
                 />
               </div>
               <div className="mt-2 md:mt-0 w-full relative">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Trip Fare
                 </label>
                 <input

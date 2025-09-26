@@ -217,25 +217,25 @@ const Maintenance = () => {
           <div className="flex gap-1 md:gap-3 flex-wrap">
             <button
               onClick={exportExcel}
-              className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
+              className="py-2 px-5 bg-gray-200 text-secondary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
             >
               Excel
             </button>
             <button
               onClick={exportPDF}
-              className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
+              className="py-2 px-5 bg-gray-200 text-secondary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
             >
               PDF
             </button>
             <button
               onClick={printTable}
-              className="py-2 px-5 bg-gray-200 text-primary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
+              className="py-2 px-5 bg-gray-200 text-secondary font-semibold rounded-md hover:bg-primary hover:text-white transition-all cursor-pointer"
             >
               Print
             </button>
           </div>
           <div className="mt-3 md:mt-0">
-            <span className="text-primary font-semibold pr-3">Search: </span>
+            <span className="text-secondary font-semibold pr-3">Search: </span>
             <input
               type="text"
               value={searchTerm}
@@ -308,7 +308,7 @@ const Maintenance = () => {
                   <td className="action_column">
                     <div className="flex gap-2">
                       <Link to={`/UpdateMaintenanceForm/${dt.id}`}>
-                        <button className="text-primary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
+                        <button className="text-secondary hover:bg-primary hover:text-white px-2 py-1 rounded shadow-md transition-all cursor-pointer">
                           <FaPen className="text-[12px]" />
                         </button>
                       </Link>
@@ -346,7 +346,7 @@ const Maintenance = () => {
                 onClick={() => handlePageClick(number + 1)}
                 className={`px-3 py-1 rounded-sm ${
                   currentPage === number + 1
-                    ? "bg-primary text-white hover:bg-gray-200 hover:text-primary transition-all duration-300 cursor-pointer"
+                    ? "bg-primary text-white hover:bg-gray-200 hover:text-secondary transition-all duration-300 cursor-pointer"
                     : "bg-gray-200 hover:bg-primary hover:text-white transition-all cursor-pointer"
                 }`}
               >

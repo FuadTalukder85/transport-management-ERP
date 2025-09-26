@@ -366,7 +366,7 @@ const DriverLedger = () => {
       <div className="overflow-hidden overflow-x-auto max-w-5xl mx-auto">
         {/* Header */}
         <div className="md:flex items-center justify-between mb-6">
-          <h1 className="text-xl font-bold text-[#11375B] capitalize flex items-center gap-3">
+          <h1 className="text-xl font-bold text-secondary capitalize flex items-center gap-3">
             Driver ledger : {selectedDriver || "All Drivers"}{" "}
             {selectedMonth && `(${selectedMonth})`}
           </h1>
@@ -382,7 +382,7 @@ const DriverLedger = () => {
 
         {/* Export and Driver Dropdown */}
         <div className="md:flex items-center justify-between mb-4">
-          <div className="flex gap-1 md:gap-3 flex-wrap font-semibold text-primary">
+          <div className="flex gap-1 md:gap-3 flex-wrap font-semibold text-secondary">
             <button
               onClick={exportDriversToExcel}
               className="py-2 px-5 hover:bg-primary bg-gray-200 hover:text-white rounded-md transition-all duration-300 cursor-pointer"
@@ -409,7 +409,7 @@ const DriverLedger = () => {
           <div className="md:flex gap-5 border border-gray-300 rounded-md p-5 my-5 transition-all duration-300 pb-5">
             <div className="w-[50%]">
               <div className="relative w-full">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Select Month
                 </label>
                 <select
@@ -429,7 +429,7 @@ const DriverLedger = () => {
             {/* Driver dropdown */}
             <div className="w-[50%]">
               <div className="relative w-full">
-                <label className="text-primary text-sm font-semibold">
+                <label className="text-secondary text-sm font-semibold">
                   Select Driver
                 </label>
                 <select
@@ -453,7 +453,7 @@ const DriverLedger = () => {
         {/* TADA Summary */}
         {selectedDriver && tadaAmounts[selectedDriver] && (
           <div className="mb-4 p-3 bg-blue-50 rounded-md">
-            <h3 className="font-semibold text-primary">
+            <h3 className="font-semibold text-secondary">
               TADA Summary for {selectedDriver}
             </h3>
             <p>Total Days Present: {tadaAmounts[selectedDriver].days}</p>
@@ -468,7 +468,7 @@ const DriverLedger = () => {
         <div id="driver-ledger-table" className="overflow-x-auto">
           <table className="min-w-full text-sm text-left text-gray-900">
             <thead>
-              <tr>
+              <tr className="text-secondary">
                 <th rowSpan="2" className="border px-2 py-1">
                   Date
                 </th>
@@ -491,7 +491,7 @@ const DriverLedger = () => {
                   Balance
                 </th>
               </tr>
-              <tr>
+              <tr className="text-secondary">
                 <th className="border px-2 py-1">Load</th>
                 <th className="border px-2 py-1">Unload</th>
                 <th className="border px-2 py-1">Commission</th>
