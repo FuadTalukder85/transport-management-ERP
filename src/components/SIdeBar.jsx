@@ -43,7 +43,7 @@ const Sidebar = () => {
     <div className="overflow-y-scroll hide-scrollbar">
       <main>
         {/* Logo */}
-        <div className="py-[15px] flex justify-center border-b border-gray-300">
+        <div className="py-[6px] flex justify-center border-b border-gray-300">
           <Link to="/">
             <img src={logo} alt="Logo" className="w-28" />
           </Link>

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaPen, FaPlus, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import BtnCmn from "../../components/Button/BtnCmn";
 
 const PaymentReceive = () => {
   const [payment, setPayment] = useState([]);
@@ -31,9 +32,9 @@ const PaymentReceive = () => {
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
             <Link to="/account/PaymentReceiveForm">
-              <button className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer">
+              <BtnCmn>
                 <FaPlus /> payment
-              </button>
+              </BtnCmn>
             </Link>
           </div>
         </div>

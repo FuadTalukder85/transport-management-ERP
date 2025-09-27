@@ -5,6 +5,7 @@ import { FaFilter } from "react-icons/fa6";
 import { HiCurrencyBangladeshi } from "react-icons/hi2";
 import { toWords } from "number-to-words";
 import { IoIosRemoveCircle } from "react-icons/io";
+import BtnCmn from "../../components/Button/BtnCmn";
 
 const Hatim = () => {
   const [hatim, setHatim] = useState([]);
@@ -126,12 +127,11 @@ const Hatim = () => {
             Billing Hatim Rupgonj
           </h1>
           <div className="mt-3 md:mt-0 flex gap-2">
-            <button
-              onClick={() => setShowFilter((prev) => !prev)}
-              className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
-            >
-              <FaFilter /> Filter
-            </button>
+            <div onClick={() => setShowFilter((prev) => !prev)}>
+              <BtnCmn>
+                <FaFilter /> Filter
+              </BtnCmn>
+            </div>
           </div>
         </div>
 
@@ -159,16 +159,17 @@ const Hatim = () => {
               />
             </div>
             <div className="w-xs mt-5">
-              <button
+              <div
                 onClick={() => {
                   setStartDate("");
                   setEndDate("");
                   setShowFilter(false);
                 }}
-                className="bg-gradient-to-r from-[#11375B] to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-4 py-1.5 rounded-md shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 cursor-pointer"
               >
-                <IoIosRemoveCircle /> Clear Filter
-              </button>
+                <BtnCmn>
+                  <IoIosRemoveCircle /> Clear Filter
+                </BtnCmn>
+              </div>
             </div>
           </div>
         )}

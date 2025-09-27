@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { FaBars } from "react-icons/fa6";
-import avatar from "../../assets/ms.png";
+import avatar from "../../assets/fuad.jpeg";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 
@@ -28,11 +28,11 @@ const Header = ({ setMobileSidebarOpen }) => {
           <FaBars />
         </h3>
         <div>
-          <h1 className="text-xl font-bold text-secondary">
-            Transport Management Software
+          <h1 className="text-xl font-bold text-primary">
+            Integrated ERP. Seamless Transport.
           </h1>
-          <p className="text-xs text-gray-600">
-            Smart solutions in a changing world
+          <p className="text-sm text-gray-600">
+            Smarter Transport for a Faster World.
           </p>
         </div>
         {/* <Link to="" className="font-semibold text-secondary">
@@ -63,9 +63,7 @@ const Header = ({ setMobileSidebarOpen }) => {
             alt="Admin"
             className="w-8 rounded-2xl drop-shadow"
           />
-          <h3 className="font-semibold text-secondary">
-            {user?.data?.user?.role}
-          </h3>
+          <h3 className="font-bold text-primary">{user?.data?.user?.role}</h3>
         </div>
         {isAdminOpen && (
           <div className="absolute right-0 top-14 w-52 bg-white drop-shadow p-5 rounded-md shadow-lg z-50">
