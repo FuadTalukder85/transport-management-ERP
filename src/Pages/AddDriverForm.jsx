@@ -22,7 +22,7 @@ const AddDriverForm = () => {
         }
       }
       const response = await axios.post(
-        "https://api.tramessy.com/mstrading/api/driver/create",
+        `${import.meta.env.VITE_BASE_API}/driver/create`,
         formData
       );
       const resData = response.data;

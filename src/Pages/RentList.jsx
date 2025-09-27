@@ -33,7 +33,7 @@ const RentList = () => {
   // Fetch rent vehicle data
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/rent/list")
+      .get(`${import.meta.env.VITE_BASE_API}/rent/list`)
       .then((response) => {
         if (response.data.status === "Success") {
           setFuel(response.data.data);
@@ -120,7 +120,7 @@ const RentList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.tramessy.com/mstrading/api/rent/delete/${id}`,
+        `${import.meta.env.VITE_BASE_API}/rent/delete/${id}`,
         {
           method: "DELETE",
         }

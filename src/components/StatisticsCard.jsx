@@ -10,7 +10,7 @@ const StatisticsCard = () => {
     const fetchVehicles = async () => {
       try {
         const response = await axios.get(
-          "https://api.tramessy.com/mstrading/api/vehicle/list"
+          `${import.meta.env.VITE_BASE_API}/vehicle/list`
         );
         const vehicles = response.data?.data || [];
         const today = dayjs();

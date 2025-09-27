@@ -18,7 +18,7 @@ const AddVendorForm = () => {
         formData.append(key, data[key]);
       }
       const response = await axios.post(
-        "https://api.tramessy.com/mstrading/api/vendor/create",
+        `${import.meta.env.VITE_BASE_API}/vendor/create`,
         formData
       );
       const resData = response.data;

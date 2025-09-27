@@ -23,7 +23,7 @@ const Office = () => {
   // Fetch office data
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/office/list")
+      .get(`${import.meta.env.VITE_BASE_API}/office/list`)
       .then((response) => {
         if (response.data.status === "Success") {
           const data = response.data.data;
@@ -40,7 +40,7 @@ const Office = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.tramessy.com/mstrading/api/office/delete/${id}`,
+        `${import.meta.env.VITE_BASE_API}/office/delete/${id}`,
         {
           method: "DELETE",
         }

@@ -11,7 +11,7 @@ const StockOut = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/stockOutProduct/list")
+      .get(`${import.meta.env.VITE_BASE_API}/stockOutProduct/list`)
       .then((response) => {
         if (response.data.status === "Success") {
           setStock(response.data.data);

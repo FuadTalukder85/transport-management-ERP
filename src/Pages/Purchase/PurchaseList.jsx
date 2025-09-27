@@ -20,7 +20,7 @@ const PurchaseList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/purchase/list")
+      .get(`${import.meta.env.VITE_BASE_API}/purchase/list`)
       .then((response) => {
         if (response.data.status === "Success") {
           setPurchase(response.data.data);

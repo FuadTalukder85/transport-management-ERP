@@ -32,7 +32,7 @@ const UpdateVendorForm = () => {
         formData.append(key, data[key]);
       }
       const response = await axios.post(
-        `https://api.tramessy.com/mstrading/api/vendor/update/${id}`,
+        `${import.meta.env.VITE_BASE_API}/vendor/update/${id}`,
         formData
       );
       const resData = response.data;

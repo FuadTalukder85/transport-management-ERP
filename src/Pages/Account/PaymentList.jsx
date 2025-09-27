@@ -29,7 +29,7 @@ const PaymentList = () => {
   // fetch data
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/payment/list")
+      .get(`${import.meta.env.VITE_BASE_API}/payment/list`)
       .then((response) => {
         if (response.data.status === "Success") {
           setPayment(response.data.data);
@@ -267,7 +267,7 @@ const PaymentList = () => {
 
       // 1. Update Payment
       const response = await axios.post(
-        `https://api.tramessy.com/mstrading/api/payment/update/${selectedPayment.id}`,
+        `${import.meta.env.VITE_BASE_API}/payment/update/${selectedPayment.id}`,
         paymentPayload
       );
 
@@ -282,7 +282,7 @@ const PaymentList = () => {
         };
 
         await axios.post(
-          `https://api.tramessy.com/mstrading/api/supplierLedger/create`,
+          `${import.meta.env.VITE_BASE_API}/supplierLedger/create`,
           supplierLedgerPayload
         );
 
@@ -296,7 +296,7 @@ const PaymentList = () => {
         };
 
         await axios.post(
-          `https://api.tramessy.com/mstrading/api/branch/create`,
+          `${import.meta.env.VITE_BASE_API}/branch/create`,
           branchLedgerPayload
         );
 
@@ -321,7 +321,7 @@ const PaymentList = () => {
 
         // Refresh payment list
         const refreshResponse = await axios.get(
-          `https://api.tramessy.com/mstrading/api/payment/list`
+          `${import.meta.env.VITE_BASE_API}/payment/list`
         );
         if (refreshResponse.data.status === "Success") {
           setPayment(refreshResponse.data.data);

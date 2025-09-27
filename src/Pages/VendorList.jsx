@@ -31,7 +31,7 @@ const VendorList = () => {
   // Fetch vendor data
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/vendor/list")
+      .get(`${import.meta.env.VITE_BASE_API}/vendor/list`)
       .then((response) => {
         if (response.data.status === "Success") {
           setVendor(response.data.data);
@@ -174,7 +174,7 @@ const VendorList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.tramessy.com/mstrading/api/vendor/delete/${id}`,
+        `${import.meta.env.VITE_BASE_API}/vendor/delete/${id}`,
         {
           method: "DELETE",
         }

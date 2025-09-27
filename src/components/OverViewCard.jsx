@@ -15,22 +15,20 @@ const OverViewCard = () => {
   const [todayTripCount, setTodayTripCount] = useState(0);
   // daily trip
   useEffect(() => {
-    axios
-      .get("https://api.tramessy.com/mstrading/api/trip/list")
-      .then((res) => {
-        const allTrips = res.data.data;
-        // Get today's date in YYYY-MM-DD format
-        const today = new Date().toISOString().split("T")[0];
-        // Filter trips matching today's date
-        const todayTrips = allTrips.filter((trip) => trip.date === today);
-        // Set today's trip count
-        setTodayTripCount(todayTrips.length);
-      });
+    axios.get(`${import.meta.env.VITE_BASE_API}/trip/list`).then((res) => {
+      const allTrips = res.data.data;
+      // Get today's date in YYYY-MM-DD format
+      const today = new Date().toISOString().split("T")[0];
+      // Filter trips matching today's date
+      const todayTrips = allTrips.filter((trip) => trip.date === today);
+      // Set today's trip count
+      setTodayTripCount(todayTrips.length);
+    });
   }, []);
   // daily sales
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/trip/list")
+      .get(`${import.meta.env.VITE_BASE_API}/trip/list`)
       .then((response) => {
         const data = response.data.data;
         const today = new Date().toISOString().split("T")[0];
@@ -50,7 +48,7 @@ const OverViewCard = () => {
       try {
         // Fetch Purchase
         const purchaseRes = await axios.get(
-          "https://api.tramessy.com/mstrading/api/purchase/list"
+          `${import.meta.env.VITE_BASE_API}/purchase/list`
         );
         const purchases = purchaseRes.data?.data || [];
         const todayPurchases = purchases.filter((item) => item.date === today);
@@ -62,7 +60,7 @@ const OverViewCard = () => {
 
         // Fetch Trips
         const tripRes = await axios.get(
-          "https://api.tramessy.com/mstrading/api/trip/list"
+          `${import.meta.env.VITE_BASE_API}/trip/list`
         );
         const trips = tripRes.data?.data || [];
         const todayTrips = trips.filter((item) => item.date === today);
@@ -124,7 +122,7 @@ const OverViewCard = () => {
     const fetchDispatch = async () => {
       try {
         const response = await axios.get(
-          "https://api.tramessy.com/mstrading/api/account/list"
+          `${import.meta.env.VITE_BASE_API}/account/list`
         );
         const data = response.data?.data || [];
         const total = data
@@ -142,7 +140,7 @@ const OverViewCard = () => {
     const fetchAmount = async () => {
       try {
         const response = await axios.get(
-          "https://api.tramessy.com/mstrading/api/paymentRecived/list"
+          `${import.meta.env.VITE_BASE_API}/paymentRecived/list`
         );
         const data = response.data?.data || [];
         const total = data

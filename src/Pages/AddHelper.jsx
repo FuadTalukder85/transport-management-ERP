@@ -18,7 +18,7 @@ const AddHelper = () => {
         }
       }
       const response = await axios.post(
-        "https://api.tramessy.com/mstrading/api/helper/create",
+        `${import.meta.env.VITE_BASE_API}/helper/create`,
         formData
       );
       const resData = response.data;

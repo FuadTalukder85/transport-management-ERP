@@ -31,11 +31,9 @@ const DriverReport = () => {
   useEffect(() => {
     setLoading(true);
     const fetchDrivers = axios.get(
-      `https://api.tramessy.com/mstrading/api/driver/list`
+      `${import.meta.env.VITE_BASE_API}/driver/list`
     );
-    const fetchTrips = axios.get(
-      `https://api.tramessy.com/mstrading/api/trip/list`
-    );
+    const fetchTrips = axios.get(`${import.meta.env.VITE_BASE_API}/trip/list`);
 
     Promise.all([fetchDrivers, fetchTrips])
       .then(([driverRes, tripRes]) => {

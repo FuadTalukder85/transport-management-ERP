@@ -73,7 +73,7 @@ const AddTripForm = () => {
   // select customer from api
   const [customers, setCustomers] = useState([]);
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/customer/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/customer/list`)
       .then((response) => response.json())
       .then((data) => setCustomers(data.data))
       .catch((error) => console.error("Error fetching customer data:", error));
@@ -87,7 +87,7 @@ const AddTripForm = () => {
   const [vehicle, setVehicle] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/vehicle/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/vehicle/list`)
       .then((response) => response.json())
       .then((data) => {
         const options = data.data.map((dt) => ({
@@ -107,7 +107,7 @@ const AddTripForm = () => {
   // select driver from api
   const [drivers, setDrivers] = useState([]);
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/driver/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/driver/list`)
       .then((response) => response.json())
       .then((data) => setDrivers(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -190,7 +190,7 @@ const AddTripForm = () => {
       // Additional fields
       tripFormData.append("ref_id", refId);
       await axios.post(
-        `https://api.tramessy.com/mstrading/api/trip/update/${id}`,
+        `${import.meta.env.VITE_BASE_API}/trip/update/${id}`,
         tripFormData,
         {
           headers: {

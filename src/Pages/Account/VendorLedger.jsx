@@ -13,7 +13,7 @@ const VendorLedger = () => {
 
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/vendorLedger/list")
+      .get(`${import.meta.env.VITE_BASE_API}/vendorLedger/list`)
       .then((res) => {
         if (res.data.status === "Success") {
           const onlyVendorRows = res.data.data.filter((v) => !!v.vendor_name);

@@ -13,7 +13,7 @@ const CashDispatchForm = () => {
   const methods = useForm();
   // select branch from api
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/office/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/office/list`)
       .then((response) => response.json())
       .then((data) => setBranch(data.data))
       .catch((error) => console.error("Error fetching branch name:", error));
@@ -24,7 +24,7 @@ const CashDispatchForm = () => {
   }));
   // select branch from api
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/employee/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/employee/list`)
       .then((response) => response.json())
       .then((data) => setEmployee(data.data))
       .catch((error) => console.error("Error fetching employee name:", error));
@@ -53,7 +53,7 @@ const CashDispatchForm = () => {
       }
       tripFormData.append("ref_id", refId);
       const tripResponse = await axios.post(
-        "https://api.tramessy.com/mstrading/api/account/create",
+        `${import.meta.env.VITE_BASE_API}/account/create`,
         tripFormData
       );
 
@@ -74,7 +74,7 @@ const CashDispatchForm = () => {
         branchFormData.append("ref_id", refId);
 
         await axios.post(
-          "https://api.tramessy.com/mstrading/api/branch/create",
+          `${import.meta.env.VITE_BASE_API}/branch/create`,
           branchFormData
         );
 

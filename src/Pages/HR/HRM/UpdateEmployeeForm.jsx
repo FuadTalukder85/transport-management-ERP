@@ -34,7 +34,7 @@ const UpdateEmployeeForm = () => {
   // select branch name from api
   const [branch, setBranch] = useState([]);
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/office/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/office/list`)
       .then((response) => response.json())
       .then((data) => setBranch(data.data))
       .catch((error) => console.error("Error fetching branch data:", error));
@@ -62,7 +62,7 @@ const UpdateEmployeeForm = () => {
         }
       }
       const response = await axios.post(
-        `https://api.tramessy.com/mstrading/api/employee/update/${id}`,
+        `${import.meta.env.VITE_BASE_API}/employee/update/${id}`,
         formData
       );
       const resData = response.data;

@@ -11,7 +11,7 @@ const Leave = () => {
   // Fetch leave data
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/leave/list")
+      .get(`${import.meta.env.VITE_BASE_API}/leave/list`)
       .then((response) => {
         if (response.data.status === "Success") {
           setLeave(response.data.data);

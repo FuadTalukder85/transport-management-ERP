@@ -14,12 +14,12 @@ const AttendanceList = () => {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
 
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/employee/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/employee/list`)
       .then((response) => response.json())
       .then((data) => setEmployee(data.data))
       .catch((error) => console.error("Error fetching employee data:", error));
 
-    fetch("https://api.tramessy.com/mstrading/api/attendance/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/attendance/list`)
       .then((response) => response.json())
       .then((data) => setAttendanceList(data.data))
       .catch((error) =>

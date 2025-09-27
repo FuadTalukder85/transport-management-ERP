@@ -125,9 +125,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/vehicle/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/vehicle/show/${params.id}`),
       },
       {
         path: "/DriverList",
@@ -169,9 +167,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/driver/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/driver/show/${params.id}`),
       },
       {
         path: "/TripList",
@@ -197,9 +193,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/trip/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/trip/show/${params.id}`),
       },
       {
         path: "/Fuel",
@@ -295,9 +289,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/vendor/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/vendor/show/${params.id}`),
       },
       {
         path: "/RentList",
@@ -323,9 +315,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/rent/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/rent/show/${params.id}`),
       },
       {
         path: "/DailyIncome",
@@ -419,9 +409,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/office/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/office/show/${params.id}`),
       },
       {
         path: "/HR/HRM/AddEmployee",
@@ -435,9 +423,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/employee/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/employee/show/${params.id}`),
       },
       {
         path: "/HR/Attendance/AttendanceList",
@@ -481,9 +467,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/leave/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/leave/show/${params.id}`),
       },
       {
         path: "/Purchase/PurchaseList",
@@ -497,9 +481,7 @@ export const router = createBrowserRouter([
         path: "/Purchase/UpdatePurchaseForm/:id",
         element: <UpdatePurchaseForm />,
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/purchase/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/purchase/show/${params.id}`),
       },
       {
         path: "/Purchase/SupplierList",
@@ -517,9 +499,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/supply/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/supply/show/${params.id}`),
       },
       // Inventory
       {
@@ -559,9 +539,7 @@ export const router = createBrowserRouter([
         path: "/UpdateCustomerForm/:id",
         element: <UpdateCustomerForm />,
         loader: ({ params }) =>
-          fetch(
-            `https://api.tramessy.com/mstrading/api/customer/show/${params.id}`
-          ),
+          fetch(`${import.meta.env.VITE_BASE_API}/customer/show/${params.id}`),
       },
       // Reports
       {

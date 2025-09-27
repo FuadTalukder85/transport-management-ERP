@@ -26,7 +26,7 @@ const AllUsers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/users")
+      .get(`${import.meta.env.VITE_BASE_API}/users`)
       .then((response) => {
         if (response.data.status === "success") {
           setUsers(response.data.data);

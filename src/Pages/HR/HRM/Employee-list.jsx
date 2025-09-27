@@ -23,7 +23,7 @@ const EmployeeList = () => {
   // Fetch trips data
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/employee/list")
+      .get(`${import.meta.env.VITE_BASE_API}/employee/list`)
       .then((response) => {
         if (response.data.status === "Success") {
           setEmployee(response.data.data);
@@ -39,7 +39,7 @@ const EmployeeList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.tramessy.com/mstrading/api/employee/delete/${id}`,
+        `${import.meta.env.VITE_BASE_API}/employee/delete/${id}`,
         {
           method: "DELETE",
         }

@@ -27,7 +27,7 @@ const HelperList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/helper/list")
+      .get(`${import.meta.env.VITE_BASE_API}/helper/list`)
       .then((response) => {
         if (response.data.status === "Success") {
           setHelper(response.data.data);
@@ -47,7 +47,7 @@ const HelperList = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://api.tramessy.com/mstrading/api/helper/delete/${id}`,
+        `${import.meta.env.VITE_BASE_API}/helper/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -77,7 +77,7 @@ const HelperList = () => {
   const handleView = async (id) => {
     try {
       const response = await axios.get(
-        `https://api.tramessy.com/mstrading/api/helper/show/${id}`
+        `${import.meta.env.VITE_BASE_API}/helper/show/${id}`
       );
       if (response.data.status === "Success") {
         setSelectedHelper(response.data.data);

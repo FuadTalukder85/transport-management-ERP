@@ -17,7 +17,7 @@ const StockOutForm = () => {
   const generateRefId = useRefId();
   // select vehicle from api
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/vehicle/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/vehicle/list`)
       .then((response) => response.json())
       .then((data) => setVehicle(data.data))
       .catch((error) => console.error("Error fetching vehicle data:", error));
@@ -28,7 +28,7 @@ const StockOutForm = () => {
   }));
   // select driver from api
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/driver/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/driver/list`)
       .then((response) => response.json())
       .then((data) => setDriver(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -39,7 +39,7 @@ const StockOutForm = () => {
   }));
   // get total stock
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/stockOutProduct/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/stockOutProduct/list`)
       .then((response) => response.json())
       .then((data) => {
         const stockData = data.data;
@@ -67,7 +67,7 @@ const StockOutForm = () => {
       }
       formData.append("ref_id", generateRefId());
       const response = await axios.post(
-        "https://api.tramessy.com/mstrading/api/stockOutProduct/create",
+        `${import.meta.env.VITE_BASE_API}/stockOutProduct/create`,
         formData
       );
       const resData = response.data;

@@ -21,7 +21,7 @@ const DriverLedger = () => {
   // driver
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/driver/list")
+      .get(`${import.meta.env.VITE_BASE_API}/driver/list`)
       .then((res) => {
         if (res.data.status === "Success") {
           const driverList = res.data.data;
@@ -44,7 +44,7 @@ const DriverLedger = () => {
   // Fetch driver ledger data
   useEffect(() => {
     axios
-      .get("https://api.tramessy.com/mstrading/api/driverLedger/list")
+      .get(`${import.meta.env.VITE_BASE_API}/driverLedger/list`)
       .then((response) => {
         if (response.data.status === "Success") {
           setDriver(response.data.data);

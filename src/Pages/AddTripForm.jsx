@@ -17,7 +17,7 @@ const AddTripForm = () => {
   // select customer from api
   const [customers, setCustomers] = useState([]);
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/customer/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/customer/list`)
       .then((response) => response.json())
       .then((data) => setCustomers(data.data))
       .catch((error) => console.error("Error fetching customer data:", error));
@@ -30,7 +30,7 @@ const AddTripForm = () => {
   // select Vehicle No. from api
   const [vehicle, setVehicle] = useState([]);
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/vehicle/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/vehicle/list`)
       .then((response) => response.json())
       .then((data) => setVehicle(data.data))
       .catch((error) => console.error("Error fetching vehicle data:", error));
@@ -42,7 +42,7 @@ const AddTripForm = () => {
   // select vendor Vehicle No. from api
   const [vendorVehicle, setVendorVehicle] = useState([]);
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/rent/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/rent/list`)
       .then((response) => response.json())
       .then((data) => setVendorVehicle(data.data))
       .catch((error) => console.error("Error fetching vehicle data:", error));
@@ -54,7 +54,7 @@ const AddTripForm = () => {
   // select own driver from api
   const [drivers, setDrivers] = useState([]);
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/driver/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/driver/list`)
       .then((response) => response.json())
       .then((data) => setDrivers(data.data))
       .catch((error) => console.error("Error fetching driver data:", error));
@@ -67,7 +67,7 @@ const AddTripForm = () => {
   // select vendor from api
   const [vendor, setVendor] = useState([]);
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/vendor/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/vendor/list`)
       .then((response) => response.json())
       .then((data) => setVendor(data.data))
       .catch((error) => console.error("Error fetching vendor data:", error));
@@ -79,7 +79,7 @@ const AddTripForm = () => {
   // select vendor driver from api
   const [vendorDriver, setVendorDrivers] = useState([]);
   useEffect(() => {
-    fetch("https://api.tramessy.com/mstrading/api/rent/list")
+    fetch(`${import.meta.env.VITE_BASE_API}/rent/list`)
       .then((response) => response.json())
       .then((data) => setVendorDrivers(data.data))
       .catch((error) =>
@@ -161,7 +161,7 @@ const AddTripForm = () => {
   //     tripFormData.append("ref_id", refId);
   //     tripFormData.append("status", "Pending");
   //     const tripResponse = await axios.post(
-  //       "https://api.tramessy.com/mstrading/api/trip/create",
+  //       `${import.meta.env.VITE_BASE_API}/trip/create`,
   //       tripFormData
   //     );
   //     const tripData = tripResponse.data;
@@ -180,7 +180,7 @@ const AddTripForm = () => {
   //         // branchFormData.append("due", data.due_amount);
   //         branchFormData.append("ref_id", refId);
   //         await axios.post(
-  //           "https://api.tramessy.com/mstrading/api/branch/create",
+  //           `${import.meta.env.VITE_BASE_API}/branch/create`,
   //           branchFormData
   //         );
 
@@ -204,7 +204,7 @@ const AddTripForm = () => {
   //         driverLedgerFormData.append("due_amount", data.due_amount);
   //         driverLedgerFormData.append("ref_id", refId);
   //         await axios.post(
-  //           "https://api.tramessy.com/mstrading/api/driverLedger/create",
+  //           `${import.meta.env.VITE_BASE_API}/driverLedger/create`,
   //           driverLedgerFormData
   //         );
   //       }
@@ -236,7 +236,7 @@ const AddTripForm = () => {
       tripFormData.append("ref_id", refId);
       // tripFormData.append("status", "Pending");
       await axios.post(
-        "https://api.tramessy.com/mstrading/api/trip/create",
+        `${import.meta.env.VITE_BASE_API}/trip/create`,
         tripFormData,
         {
           headers: {

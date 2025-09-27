@@ -36,7 +36,7 @@ const UpdateRentVehicleForm = () => {
         formData.append(key, data[key]);
       }
       const response = await axios.post(
-        `https://api.tramessy.com/mstrading/api/rent/update/${id}`,
+        `${import.meta.env.VITE_BASE_API}/rent/update/${id}`,
         formData
       );
       const resData = response.data;

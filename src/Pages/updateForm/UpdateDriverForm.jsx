@@ -48,7 +48,7 @@ const UpdateDriverForm = () => {
         }
       }
       const response = await axios.post(
-        `https://api.tramessy.com/mstrading/api/driver/edit/${id}`,
+        `${import.meta.env.VITE_BASE_API}/driver/edit/${id}`,
         formData
       );
       const resData = response.data;
