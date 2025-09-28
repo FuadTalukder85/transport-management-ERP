@@ -12,7 +12,6 @@ import {
 import { FaUsersCog } from "react-icons/fa";
 import { MdShop } from "react-icons/md";
 import logo from "../assets/logo.png";
-// import avatar from "../assets/ms.png";
 import { Link, useLocation } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
 import { FaUsers } from "react-icons/fa";
@@ -49,18 +48,6 @@ const Sidebar = () => {
           </Link>
         </div>
 
-        {/* Admin Info */}
-        {/* <div className="p-3 border-b border-gray-300">
-          <div className="bg-white p-2 rounded-md flex gap-2 items-center">
-            <img
-              src={avatar}
-              alt="Admin Avatar"
-              className="w-8 rounded-2xl drop-shadow"
-            />
-            <h3 className="text-gray-700 font-semibold">Admin</h3>
-          </div>
-        </div> */}
-
         {/* Navigation */}
         <div className="mt-3 px-2">
           <ul className="space-y-3">
@@ -78,6 +65,105 @@ const Sidebar = () => {
 
             {isAdmin ? (
               <>
+                {/* Customer management */}
+                <li className="text-gray-700 font-medium rounded-sm">
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => toggleMenu("customer")}
+                    onKeyDown={(e) =>
+                      (e.key === "Enter" || e.key === " ") &&
+                      toggleMenu("customer")
+                    }
+                    className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300 outline-none"
+                  >
+                    <span className="flex items-center gap-2">
+                      <PiUsersFour />
+                      <span>Customer Management</span>
+                    </span>
+                    <span
+                      className={`transform transition-transform duration-500 ${
+                        openMenu.customer ? "rotate-180" : ""
+                      }`}
+                    >
+                      <FaChevronDown />
+                    </span>
+                  </div>
+
+                  {/* Dropdown container with smooth expand/collapse */}
+                  <div
+                    className={`transition-all duration-700 ease-in-out overflow-hidden ${
+                      openMenu.customer ? "max-h-[500px]" : "max-h-0"
+                    }`}
+                  >
+                    <ul className="space-y-3 px-2 text-sm mt-2">
+                      <li>
+                        <Link
+                          to="/Customer"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/Customer")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full ${
+                              isActive("/Customer") ? "bg-white" : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Customer List</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                {/* Vendor management */}
+                <li className="text-gray-700 font-medium rounded-sm">
+                  <div
+                    onClick={() => toggleMenu("vendor")}
+                    className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
+                  >
+                    <span className="flex items-center gap-2">
+                      <FaUsers />
+                      <span>Vendor Management</span>
+                    </span>
+                    <span
+                      className={`transform transition-transform duration-900 ${
+                        openMenu.vendor ? "rotate-180" : ""
+                      }`}
+                    >
+                      <FaChevronDown />
+                    </span>
+                  </div>
+
+                  <div
+                    className={`transition-all duration-900 ease-in-out overflow-hidden ${
+                      openMenu.vendor ? "max-h-[100px]" : "max-h-0"
+                    }`}
+                  >
+                    <ul className="space-y-3 px-2 text-sm mt-2">
+                      <li>
+                        <Link
+                          to="/VendorList"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/VendorList")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/VendorList")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>All Vendor List</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
                 {/* Fleet Management */}
                 <li className="text-gray-700 font-medium rounded-sm">
                   <div
@@ -124,6 +210,25 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
+                          to="/DriverList"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/DriverList")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/DriverList")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Driver List</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
                           to="/TripList"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
                             isActive("/TripList")
@@ -137,72 +242,6 @@ const Sidebar = () => {
                             }`}
                           ></div>
                           <span>Trip List</span>
-                        </Link>
-                      </li>
-                      {/* <li>
-                        <Link
-                          to="/Maintenance"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/Maintenance")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/Maintenance")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Maintenance</span>
-                        </Link>
-                      </li> */}
-                    </ul>
-                  </div>
-                </li>
-                {/* Vendor management */}
-                <li className="text-gray-700 font-medium rounded-sm">
-                  <div
-                    onClick={() => toggleMenu("vendor")}
-                    className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
-                  >
-                    <span className="flex items-center gap-2">
-                      <FaUsers />
-                      <span>Vendor Management</span>
-                    </span>
-                    <span
-                      className={`transform transition-transform duration-900 ${
-                        openMenu.vendor ? "rotate-180" : ""
-                      }`}
-                    >
-                      <FaChevronDown />
-                    </span>
-                  </div>
-
-                  <div
-                    className={`transition-all duration-900 ease-in-out overflow-hidden ${
-                      openMenu.vendor ? "max-h-[100px]" : "max-h-0"
-                    }`}
-                  >
-                    <ul className="space-y-3 px-2 text-sm mt-2">
-                      <li>
-                        <Link
-                          to="/VendorList"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/VendorList")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/VendorList")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>All Vendor List</span>
                         </Link>
                       </li>
                     </ul>
@@ -262,7 +301,7 @@ const Sidebar = () => {
                   >
                     <span className="flex items-center gap-2">
                       <FaUsersCog />
-                      <span>HR</span>
+                      <span>HR Management</span>
                     </span>
                     <span
                       className={`transform transition-transform duration-900 ${
@@ -312,7 +351,7 @@ const Sidebar = () => {
                             <li>
                               <Link
                                 to="/HR/HRM/employee-list"
-                                className={`flex gap-2 items-center block p-2 rounded-sm ${
+                                className={`flex gap-2 items-center p-2 rounded-sm ${
                                   isActive("/HR/HRM/employee-list")
                                     ? "text-white bg-primary"
                                     : "text-gray-700 hover:text-gray-700"
@@ -326,25 +365,6 @@ const Sidebar = () => {
                                   }`}
                                 ></div>
                                 Employee List
-                              </Link>
-                            </li>
-                            <li>
-                              <Link
-                                to="/DriverList"
-                                className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                                  isActive("/DriverList")
-                                    ? "text-white bg-primary"
-                                    : "text-gray-700 hover:text-gray-700"
-                                }`}
-                              >
-                                <div
-                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive("/DriverList")
-                                      ? "bg-white"
-                                      : "bg-primary"
-                                  }`}
-                                ></div>
-                                <span>Driver List</span>
                               </Link>
                             </li>
                             <li>
@@ -487,25 +507,6 @@ const Sidebar = () => {
                               <span>Leave Request</span>
                             </Link>
                           </li>
-                          {/* <li>
-                            <Link
-                              to="/HR/HRM/MonthAttendance"
-                              className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                                isActive("/HR/HRM/MonthAttendance")
-                                  ? "text-white bg-primary"
-                                  : "text-gray-700 hover:text-gray-700"
-                              }`}
-                            >
-                              <div
-                                className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                  isActive("/HR/HRM/MonthAttendance")
-                                    ? "bg-white"
-                                    : "bg-primary"
-                                }`}
-                              ></div>
-                              <span>Month Attendance</span>
-                            </Link>
-                          </li> */}
                         </div>
                       </li>
                     </ul>
@@ -595,7 +596,6 @@ const Sidebar = () => {
                     </ul>
                   </div>
                 </li>
-
                 {/* Inventory management */}
                 <li className="text-gray-700 font-medium rounded-sm">
                   <div
@@ -620,25 +620,6 @@ const Sidebar = () => {
                     }`}
                   >
                     <ul className="space-y-3 px-2 text-sm mt-2">
-                      {/* <li>
-                        <Link
-                          to="/Inventory/Stockin"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/Inventory/Stockin")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/Inventory/Stockin")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Stock in</span>
-                        </Link>
-                      </li> */}
                       <li>
                         <Link
                           to="/Inventory/StockOut"
@@ -658,25 +639,6 @@ const Sidebar = () => {
                           <span>Stock Out</span>
                         </Link>
                       </li>
-                      {/* <li>
-                        <Link
-                          to="/Inventory/Inventory-supplier"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/Inventory/Inventory-supplier")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/Inventory/Inventory-supplier")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Inventory Supplier</span>
-                        </Link>
-                      </li> */}
                     </ul>
                   </div>
                 </li>
@@ -747,53 +709,337 @@ const Sidebar = () => {
                     </ul>
                   </div>
                 </li>
-                {/* Customer */}
+                {/* Accounts */}
                 <li className="text-gray-700 font-medium rounded-sm">
                   <div
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => toggleMenu("customer")}
-                    onKeyDown={(e) =>
-                      (e.key === "Enter" || e.key === " ") &&
-                      toggleMenu("customer")
-                    }
-                    className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300 outline-none"
+                    onClick={() => toggleMenu("accounts")}
+                    className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
                   >
                     <span className="flex items-center gap-2">
-                      <PiUsersFour />
-                      <span>Customer</span>
+                      <FaBriefcase />
+                      <span>Accounts / Finance</span>
                     </span>
                     <span
-                      className={`transform transition-transform duration-500 ${
-                        openMenu.customer ? "rotate-180" : ""
+                      className={`transform transition-transform duration-900 ${
+                        openMenu.accounts ? "rotate-180" : ""
                       }`}
                     >
                       <FaChevronDown />
                     </span>
                   </div>
-
-                  {/* Dropdown container with smooth expand/collapse */}
                   <div
-                    className={`transition-all duration-700 ease-in-out overflow-hidden ${
-                      openMenu.customer ? "max-h-[500px]" : "max-h-0"
+                    className={`transition-all duration-900 ease-in-out overflow-hidden ${
+                      openMenu.accounts ? "max-h-[500px]" : "max-h-0"
                     }`}
                   >
+                    {" "}
                     <ul className="space-y-3 px-2 text-sm mt-2">
                       <li>
                         <Link
-                          to="/Customer"
+                          to="/account/CashDispatch"
                           className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/Customer")
+                            isActive("/account/CashDispatch")
                               ? "text-white bg-primary"
                               : "text-gray-700 hover:text-gray-700"
                           }`}
                         >
                           <div
-                            className={`w-[6px] h-[6px] rounded-full ${
-                              isActive("/Customer") ? "bg-white" : "bg-primary"
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/account/CashDispatch")
+                                ? "bg-white"
+                                : "bg-primary"
                             }`}
                           ></div>
-                          <span>Customer List</span>
+                          <span>Fund Transfer</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/account/PaymentList"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/account/PaymentList")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/account/PaymentList")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Payment List</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/account/PaymentReceive"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/account/PaymentReceive")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/account/PaymentReceive")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Payment Receive</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/account/SupplierLedger"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/account/SupplierLedger")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/account/SupplierLedger")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Supplier Ledger</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/account/DriverLedger"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/account/DriverLedger")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/account/DriverLedger")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Driver Ledger</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/account/VendorLedger"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/account/VendorLedger")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/account/VendorLedger")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Vendor Ledger</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/account/CustomerLedger"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/account/CustomerLedger")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/account/CustomerLedger")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Customer Ledger</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/account/OfficeLedger"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/account/OfficeLedger")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/account/OfficeLedger")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Office Ledger</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                {/* Billing Control */}
+                <li className="text-gray-700 font-medium rounded-sm">
+                  <div
+                    onClick={() => toggleMenu("billing")}
+                    className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
+                  >
+                    <span className="flex items-center gap-2">
+                      <HiCurrencyBangladeshi className="text-xl" />
+                      <span>Billing & Invoicing</span>
+                    </span>
+                    <span
+                      className={`transform transition-transform duration-900 ${
+                        openMenu.billing ? "rotate-180" : ""
+                      }`}
+                    >
+                      <FaChevronDown />
+                    </span>
+                  </div>
+                  <div
+                    className={`transition-all duration-900 ease-in-out overflow-hidden ${
+                      openMenu.billing ? "max-h-[300px]" : "max-h-0"
+                    }`}
+                  >
+                    <ul className="space-y-3 px-2 text-sm mt-2">
+                      <li>
+                        <Link
+                          to="/billing/Yamaha"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/billing/Yamaha")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/billing/Yamaha")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Yamaha</span>
+                        </Link>
+                      </li>
+                      <li>
+                        {/* hatim toggle inside billing */}
+                        <div
+                          onClick={() => toggleMenu("hatimMenu")}
+                          className="flex justify-between items-center p-2 cursor-pointer hover:text-gray-700 rounded-sm"
+                        >
+                          <span className="flex gap-2 items-center">
+                            <div
+                              className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                isActive("/hatimMenu")
+                                  ? "bg-white"
+                                  : "bg-primary"
+                              }`}
+                            ></div>
+                            <span>Hatim</span>
+                          </span>
+                          <span
+                            className={`transform transition-transform duration-900 ${
+                              openMenu.hatimMenu ? "rotate-180" : ""
+                            }`}
+                          >
+                            <FaChevronDown />
+                          </span>
+                        </div>
+                        {/* hatim submenu */}
+                        <div
+                          className={`transition-all duration-900 overflow-hidden ${
+                            openMenu.hatimMenu ? "max-h-[500px]" : "max-h-0"
+                          }`}
+                        >
+                          <ul className="pl-6 space-y-2 mt-1">
+                            <li>
+                              <Link
+                                to="/billing/Hatim"
+                                className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                                  isActive("/billing/Hatim")
+                                    ? "text-white bg-primary"
+                                    : "text-gray-700 hover:text-gray-700"
+                                }`}
+                              >
+                                <div
+                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                    isActive("/billing/Hatim")
+                                      ? "bg-white"
+                                      : "bg-primary"
+                                  }`}
+                                ></div>
+                                <span>Hatim Rupgonj</span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                to="/billing/HatimPubail"
+                                className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                                  isActive("/billing/HatimPubail")
+                                    ? "text-white bg-primary"
+                                    : "text-gray-700 hover:text-gray-700"
+                                }`}
+                              >
+                                <div
+                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                                    isActive("/billing/HatimPubail")
+                                      ? "bg-white"
+                                      : "bg-primary"
+                                  }`}
+                                ></div>
+                                <span>Hatim Pubail</span>
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <Link
+                          to="/billing/Suzuki"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/billing/Suzuki")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/billing/Suzuki")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Suzuki</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/billing/Honda"
+                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
+                            isActive("/billing/Honda")
+                              ? "text-white bg-primary"
+                              : "text-gray-700 hover:text-gray-700"
+                          }`}
+                        >
+                          <div
+                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
+                              isActive("/billing/Honda")
+                                ? "bg-white"
+                                : "bg-primary"
+                            }`}
+                          ></div>
+                          <span>Honda</span>
                         </Link>
                       </li>
                     </ul>
@@ -1021,380 +1267,7 @@ const Sidebar = () => {
                     </ul>
                   </div>
                 </li>
-                {/* Accounts */}
-                <li className="text-gray-700 font-medium rounded-sm">
-                  <div
-                    onClick={() => toggleMenu("accounts")}
-                    className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
-                  >
-                    <span className="flex items-center gap-2">
-                      <FaBriefcase />
-                      <span>Accounts</span>
-                    </span>
-                    <span
-                      className={`transform transition-transform duration-900 ${
-                        openMenu.accounts ? "rotate-180" : ""
-                      }`}
-                    >
-                      <FaChevronDown />
-                    </span>
-                  </div>
-                  <div
-                    className={`transition-all duration-900 ease-in-out overflow-hidden ${
-                      openMenu.accounts ? "max-h-[500px]" : "max-h-0"
-                    }`}
-                  >
-                    {" "}
-                    <ul className="space-y-3 px-2 text-sm mt-2">
-                      <li>
-                        <Link
-                          to="/account/CashDispatch"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/account/CashDispatch")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/account/CashDispatch")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Fund Transfer</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/account/PaymentList"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/account/PaymentList")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/account/PaymentList")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Payment List</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/account/PaymentReceive"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/account/PaymentReceive")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/account/PaymentReceive")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Payment Receive</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/account/SupplierLedger"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/account/SupplierLedger")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/account/SupplierLedger")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Supplier Ledger</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/account/DriverLedger"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/account/DriverLedger")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/account/DriverLedger")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Driver Ledger</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/account/VendorLedger"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/account/VendorLedger")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/account/VendorLedger")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Vendor Ledger</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/account/CustomerLedger"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/account/CustomerLedger")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/account/CustomerLedger")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Customer Ledger</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/account/OfficeLedger"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/account/OfficeLedger")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/account/OfficeLedger")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Office Ledger</span>
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                {/* Billing Control */}
-                <li className="text-gray-700 font-medium rounded-sm">
-                  <div
-                    onClick={() => toggleMenu("billing")}
-                    className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
-                  >
-                    <span className="flex items-center gap-2">
-                      <HiCurrencyBangladeshi className="text-xl" />
-                      <span>Billing</span>
-                    </span>
-                    <span
-                      className={`transform transition-transform duration-900 ${
-                        openMenu.billing ? "rotate-180" : ""
-                      }`}
-                    >
-                      <FaChevronDown />
-                    </span>
-                  </div>
-                  <div
-                    className={`transition-all duration-900 ease-in-out overflow-hidden ${
-                      openMenu.billing ? "max-h-[300px]" : "max-h-0"
-                    }`}
-                  >
-                    <ul className="space-y-3 px-2 text-sm mt-2">
-                      <li>
-                        <Link
-                          to="/billing/Yamaha"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/billing/Yamaha")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/billing/Yamaha")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Yamaha</span>
-                        </Link>
-                      </li>
-                      <li>
-                        {/* hatim toggle inside billing */}
-                        <div
-                          onClick={() => toggleMenu("hatimMenu")}
-                          className="flex justify-between items-center p-2 cursor-pointer hover:text-gray-700 rounded-sm"
-                        >
-                          <span className="flex gap-2 items-center">
-                            <div
-                              className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                isActive("/hatimMenu")
-                                  ? "bg-white"
-                                  : "bg-primary"
-                              }`}
-                            ></div>
-                            <span>Hatim</span>
-                          </span>
-                          <span
-                            className={`transform transition-transform duration-900 ${
-                              openMenu.hatimMenu ? "rotate-180" : ""
-                            }`}
-                          >
-                            <FaChevronDown />
-                          </span>
-                        </div>
-                        {/* hatim submenu */}
-                        <div
-                          className={`transition-all duration-900 overflow-hidden ${
-                            openMenu.hatimMenu ? "max-h-[500px]" : "max-h-0"
-                          }`}
-                        >
-                          <ul className="pl-6 space-y-2 mt-1">
-                            <li>
-                              <Link
-                                to="/billing/Hatim"
-                                className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                                  isActive("/billing/Hatim")
-                                    ? "text-white bg-primary"
-                                    : "text-gray-700 hover:text-gray-700"
-                                }`}
-                              >
-                                <div
-                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive("/billing/Hatim")
-                                      ? "bg-white"
-                                      : "bg-primary"
-                                  }`}
-                                ></div>
-                                <span>Hatim Rupgonj</span>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link
-                                to="/billing/HatimPubail"
-                                className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                                  isActive("/billing/HatimPubail")
-                                    ? "text-white bg-primary"
-                                    : "text-gray-700 hover:text-gray-700"
-                                }`}
-                              >
-                                <div
-                                  className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                                    isActive("/billing/HatimPubail")
-                                      ? "bg-white"
-                                      : "bg-primary"
-                                  }`}
-                                ></div>
-                                <span>Hatim Pubail</span>
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                      <li>
-                        <Link
-                          to="/billing/Suzuki"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/billing/Suzuki")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/billing/Suzuki")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Suzuki</span>
-                        </Link>
-                      </li>
-                      {/* <li>
-                        <Link
-                          to="/billing/Sonalika"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/billing/Sonalika")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/billing/Sonalika")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Sonalika</span>
-                        </Link>
-                      </li> */}
-                      <li>
-                        <Link
-                          to="/billing/Honda"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/billing/Honda")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/billing/Honda")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Honda</span>
-                        </Link>
-                      </li>
-                      {/* <li>
-                        <Link
-                          to="/billing/Meghdona"
-                          className={`flex gap-2 items-center p-2 rounded-sm font-medium ${
-                            isActive("/billing/Meghdona")
-                              ? "text-white bg-primary"
-                              : "text-gray-700 hover:text-gray-700"
-                          }`}
-                        >
-                          <div
-                            className={`w-[6px] h-[6px] rounded-full bg-primary ${
-                              isActive("/billing/Meghdona")
-                                ? "bg-white"
-                                : "bg-primary"
-                            }`}
-                          ></div>
-                          <span>Meghdona</span>
-                        </Link>
-                      </li> */}
-                    </ul>
-                  </div>
-                </li>
+
                 {/* User Control */}
                 {/* <li className="text-gray-700 font-medium rounded-sm mb-10">
                   <div

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import bgImage from "../../assets/bannerImg.jpeg";
-import { FaEnvelope, FaLock } from "react-icons/fa";
 import ReusableForm from "./ReusableForm";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -21,10 +20,18 @@ const Login = () => {
   };
 
   return (
-    <div className="md:px-40 h-screen flex items-center justify-center">
+    <div
+      style={{
+        backgroundImage: "url('/banner.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      className="md:px-40 h-screen flex items-center justify-center bg-gray-300"
+    >
       <div className="md:flex justify-between">
         {/* form */}
-        <div className="flex items-center justify-center md:w-1/2 bg-white rounded-xl py-7 md:p-8">
+        <div className="flex items-center justify-center md:w-1/2 bg-white py-7 md:p-8  rounded-l-xl">
           <div className="p-5 md:p-7">
             <h2 className="text-2xl font-semibold text-[#11375B]">
               Transport Management
@@ -70,7 +77,7 @@ const Login = () => {
         </div>
         {/* img */}
         <div className="hidden md:block md:w-1/2 mt-10 md:mt-0">
-          <img src={bgImage} alt="" className="w-full h-full" />
+          <img src={bgImage} alt="" className="w-full h-full rounded-r-xl" />
         </div>
       </div>
     </div>
