@@ -1396,7 +1396,7 @@ const Sidebar = () => {
                   </div>
                 </li>
                 {/* User Control */}
-                <li className="text-gray-700 font-medium rounded-sm mb-10">
+                {/* <li className="text-gray-700 font-medium rounded-sm mb-10">
                   <div
                     onClick={() => toggleMenu("user")}
                     className="flex justify-between items-center py-3 px-2 cursor-pointer hover:bg-primary hover:text-white hover:rounded-sm duration-300"
@@ -1438,7 +1438,7 @@ const Sidebar = () => {
                       </li>
                     </ul>
                   </div>
-                </li>
+                </li> */}
               </>
             ) : (
               <>

@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="md:flex justify-between p-5 border-b border-gray-300">
       <p className="text-gray-500 text-center">
         Copyright © 2025{" "}
-        <span className="text-secondary font-semibold">
+        <span className="text-primary font-semibold">
           <Link to="https://fuad-talukder.vercel.app/" target="__blank">
             Fuad
           </Link>

@@ -22,61 +22,55 @@ const Login = () => {
 
   return (
     <div className="md:px-40 h-screen flex items-center justify-center">
-      <div className="md:border-2 border-primary rounded-xl md:flex justify-between">
-        {/* img */}
-        <div className="hidden md:block md:w-1/2 mt-10 md:mt-0">
-          <img
-            src={bgImage}
-            alt=""
-            className="rounded-lg md:rounded-l-lg w-full h-full"
-          />
-        </div>
+      <div className="md:flex justify-between">
         {/* form */}
         <div className="flex items-center justify-center md:w-1/2 bg-white rounded-xl py-7 md:p-8">
-          <div className="bg-white shadow-lg p-5 md:p-7 rounded-md border md:border-none border-gray-200">
-            <h2 className="text-3xl font-extrabold text-center text-[#11375B] mb-1">
-              Admin
-              <span className="font-semibold text-red-500">TMS</span>
+          <div className="p-5 md:p-7">
+            <h2 className="text-2xl font-semibold text-[#11375B]">
+              Transport Management
             </h2>
-            <p className="text-sm text-center text-secondary mb-6">
-              Please Login!
+            <p className="text-secondary font-medium">
+              Transportation Solution
             </p>
-
             <ReusableForm onSubmit={handleLogin}>
-              <div className="relative">
+              <div className="mt-7">
+                <label htmlFor="" className="text-secondary font-semibold">
+                  Enter Email Address*
+                </label>
                 <input
                   type="text"
                   name="email"
                   placeholder="Email"
-                  className="w-full md:w-80 text-sm px-4 py-2 border border-gray-300 rounded-md outline-none"
+                  className="w-full text-sm px-4 py-2 border border-gray-300 rounded-md outline-none"
                   required
                 />
-                <span className="absolute right-0 bg-primary text-white px-4 py-[11px] rounded-r-md hover:bg-secondary transition-all duration-500 cursor-pointer">
-                  <FaEnvelope />
-                </span>
               </div>
-              <div className="relative">
+              <div className="">
+                <label htmlFor="" className="text-secondary font-semibold">
+                  Enter Email Password*
+                </label>
                 <input
                   type="password"
                   name="password"
                   placeholder="Password"
-                  className="w-full md:w-80 text-sm px-4 py-2 border border-gray-300 rounded-md outline-none"
+                  className="w-full text-sm px-4 py-2 border border-gray-300 rounded-md outline-none"
                   required
                 />
-                <span className="absolute right-0 bg-primary text-white px-4 py-[11px] rounded-r-md hover:bg-secondary transition-all duration-500 cursor-pointer">
-                  <FaLock />
-                </span>
               </div>
             </ReusableForm>
 
-            <div className="mt-4 text-center">
-              <Link to="/ResetPass">
-                <span className="text-sm text-[#11375B] underline hover:text-red-500 transition-all duration-700">
-                  Forget password?
-                </span>
-              </Link>
+            <div className="mt-4 text-right">
+              {/* <Link to="/ResetPass"> */}
+              <span className="font-semibold text-secondary underline hover:text-red-500 transition-all duration-700 cursor-pointer">
+                Forget password?
+              </span>
+              {/* </Link> */}
             </div>
           </div>
+        </div>
+        {/* img */}
+        <div className="hidden md:block md:w-1/2 mt-10 md:mt-0">
+          <img src={bgImage} alt="" className="w-full h-full" />
         </div>
       </div>
     </div>
